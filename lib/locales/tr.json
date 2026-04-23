@@ -380,5 +380,66 @@
             "showAnimation": "Yenileme Animasyonunu Goster",
             "save": "Ayarlari Kaydet"
         }
+    },
+    "donorIntelligence": {
+        "distributionChart": "Bagisci Kategori Dagilimi"
+    },
+    "donors": {
+        "hubTitle": "Bagisci Yonetimi",
+        "tabs": {
+            "pipeline": "Bagisci Hatti",
+            "directory": "Dizin",
+            "analytics": "Analitik"
+        },
+        "directory": {
+            "advancedFilters": "Gelismis Filtreler",
+            "searchPlaceholder": "Bagisci ara..."
+        },
+        "searchPlaceholder": "Bagisci ara...",
+        "allCountries": "Tum Ulkeler",
+        "addDonor": "Bagisci Ekle"
+    },
+    "individual_donors": {
+        "cardView": "Kart Gorunumu",
+        "mapView": "Harita Gorunumu",
+        "listView": "Liste Gorunumu"
+    },
+    "institutional_donors": {
+        "card": {
+            "viewProfile": "Profili Goruntule"
+        },
+        "opportunities": {
+            "title": "Ortaklik Firsatlari",
+            "description": "Her proje icin en uygun bagiscilari bulmak icin akilli eslestirme kullanin.",
+            "selectProject": "Bir proje secin",
+            "findMatches": "Eslestirmeleri Bul",
+            "searching": "Araniyor...",
+            "aiWorking": "YZ eslestirmeleri analiz ediyor...",
+            "alignmentScore": "Uyum Skoru",
+            "matchingCriteria": "Eslestirme Kriterleri",
+            "prepareDraft": "Taslak Hazirla",
+            "selectProjectWarning": "Lutfen once bir proje secin.",
+            "matchError": "Su anda eslestirme bulunamadi.",
+            "draftError": "Su anda taslak olusturulamadi.",
+            "draftCopied": "Taslak kopyalandi.",
+            "draftTitle": "Fon Talebi Taslagi",
+            "generatingDraft": "Taslak olusturuluyor...",
+            "draftDisclaimer": "Bu ilk taslaktir; gondermeden once gozden gecirilmelidir."
+        }
+    },
+    "donorManagement": {
+        "messages": {
+            "saveComingSoon": "Kaydetme ozelligi yakinda gelecek.",
+            "mapUnderConstruction": "Harita gorunumu yapim asamasinda."
+        },
+        "voice": {
+            "notSupported": "Ses tanima bu tarayicida desteklenmiyor.",
+            "permissionDenied": "Mikrofon izni reddedildi. Lutfen tarayici ayarlarindan etkinlestirin.",
+            "startError": "Dinleme baslatilamadi. Lutfen tekrar deneyin."
+        },
+        "views": {
+            "kanban": "Kanban Gorunumu",
+            "funnel": "Huni Gorunumu"
+        }
     }
 }

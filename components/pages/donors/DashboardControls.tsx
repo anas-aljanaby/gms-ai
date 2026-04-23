@@ -65,8 +65,8 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
                     ))}
                 </select>
                 <div className="p-1 bg-gray-100 dark:bg-slate-900 rounded-lg flex items-center">
-                    <button onClick={() => onViewChange('kanban')} title="Kanban View" className={`p-1.5 rounded-md ${view === 'kanban' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}><LayoutDashboard size={20}/></button>
-                    <button onClick={() => onViewChange('funnel')} title="Funnel View" className={`p-1.5 rounded-md ${view === 'funnel' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}><Filter size={20}/></button>
+                    <button onClick={() => onViewChange('kanban')} title={t('donorManagement.views.kanban')} className={`p-1.5 rounded-md ${view === 'kanban' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}><LayoutDashboard size={20}/></button>
+                    <button onClick={() => onViewChange('funnel')} title={t('donorManagement.views.funnel')} className={`p-1.5 rounded-md ${view === 'funnel' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}><Filter size={20}/></button>
                 </div>
                 <button
                     onClick={onAddDonor}

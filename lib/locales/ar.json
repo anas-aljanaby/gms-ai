@@ -594,5 +594,66 @@
     },
     "matrix": {
         "title": "مصفوفة الأداء"
+    },
+    "donorIntelligence": {
+        "distributionChart": "توزيع فئات المانحين"
+    },
+    "donors": {
+        "hubTitle": "إدارة المانحين",
+        "tabs": {
+            "pipeline": "مسار المانحين",
+            "directory": "الدليل",
+            "analytics": "التحليلات"
+        },
+        "directory": {
+            "advancedFilters": "فلاتر متقدمة",
+            "searchPlaceholder": "ابحث عن مانح..."
+        },
+        "searchPlaceholder": "ابحث عن مانح...",
+        "allCountries": "كل الدول",
+        "addDonor": "إضافة مانح"
+    },
+    "individual_donors": {
+        "cardView": "عرض البطاقات",
+        "mapView": "عرض الخريطة",
+        "listView": "عرض القائمة"
+    },
+    "institutional_donors": {
+        "card": {
+            "viewProfile": "عرض الملف"
+        },
+        "opportunities": {
+            "title": "فرص الشراكات",
+            "description": "استخدم المطابقة الذكية لاختيار أفضل المانحين لكل مشروع.",
+            "selectProject": "اختر مشروعًا",
+            "findMatches": "بحث عن تطابقات",
+            "searching": "جارٍ البحث...",
+            "aiWorking": "يقوم الذكاء الاصطناعي بتحليل التطابقات...",
+            "alignmentScore": "درجة التوافق",
+            "matchingCriteria": "معايير التطابق",
+            "prepareDraft": "إعداد مسودة",
+            "selectProjectWarning": "يرجى اختيار مشروع أولاً.",
+            "matchError": "تعذر إيجاد تطابقات حاليًا.",
+            "draftError": "تعذر إنشاء المسودة حاليًا.",
+            "draftCopied": "تم نسخ المسودة.",
+            "draftTitle": "مسودة طلب تمويل",
+            "generatingDraft": "جارٍ إنشاء المسودة...",
+            "draftDisclaimer": "هذه مسودة أولية وتحتاج مراجعة قبل الإرسال."
+        }
+    },
+    "donorManagement": {
+        "messages": {
+            "saveComingSoon": "ميزة الحفظ ستكون متاحة قريبًا.",
+            "mapUnderConstruction": "عرض الخريطة قيد التطوير."
+        },
+        "voice": {
+            "notSupported": "التعرف الصوتي غير مدعوم في هذا المتصفح.",
+            "permissionDenied": "تم رفض إذن الميكروفون. يرجى تفعيله من إعدادات المتصفح.",
+            "startError": "تعذر بدء الاستماع. يرجى المحاولة مرة أخرى."
+        },
+        "views": {
+            "kanban": "عرض كانبان",
+            "funnel": "عرض القمع"
+        }
     }
 }

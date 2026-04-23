@@ -63,7 +63,7 @@ Update this table every time a page is completed.
 | Quick Actions | Done | Verified Quick Actions/ShareMenu keys and refined Arabic recipients placeholder | 2026-04-23 |
 | Bousala | In Progress | Added bousala locale namespace (ar/en/tr) and localized remaining mixed-English labels in active page | 2026-04-23 |
 | Help & Support | Done | Added missing `help.*` locale keys (ar/en/tr) and removed hardcoded English toast/video unit labels | 2026-04-23 |
-| Donor Management | In Progress | Replaced hardcoded listening/voice-search labels with locale-backed keys in donor controls + stakeholder search | 2026-04-23 |
+| Donor Management | In Progress | Replaced hardcoded listening/voice-search labels with locale-backed keys in donor controls + stakeholder search, then localized remaining hardcoded voice errors/map placeholder/save-coming-soon toast and view tooltips; added missing `donors`, `individual_donors`, `institutional_donors.opportunities/card`, and `donorIntelligence.distributionChart` locale keys used by `DonorManagement.tsx` (ar/en/tr) | 2026-04-23 |
 
 ### Status Legend
 - `Pending`: Not started.

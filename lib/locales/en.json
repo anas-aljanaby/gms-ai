@@ -594,5 +594,66 @@
     },
     "matrix": {
         "title": "Performance Matrix"
+    },
+    "donorIntelligence": {
+        "distributionChart": "Donor Category Distribution"
+    },
+    "donors": {
+        "hubTitle": "Donor Management",
+        "tabs": {
+            "pipeline": "Pipeline",
+            "directory": "Directory",
+            "analytics": "Analytics"
+        },
+        "directory": {
+            "advancedFilters": "Advanced Filters",
+            "searchPlaceholder": "Search donors..."
+        },
+        "searchPlaceholder": "Search donors...",
+        "allCountries": "All Countries",
+        "addDonor": "Add Donor"
+    },
+    "individual_donors": {
+        "cardView": "Card View",
+        "mapView": "Map View",
+        "listView": "List View"
+    },
+    "institutional_donors": {
+        "card": {
+            "viewProfile": "View Profile"
+        },
+        "opportunities": {
+            "title": "Partnership Opportunities",
+            "description": "Use smart matching to identify the best donors for each project.",
+            "selectProject": "Select a project",
+            "findMatches": "Find Matches",
+            "searching": "Searching...",
+            "aiWorking": "AI is analyzing matches...",
+            "alignmentScore": "Alignment Score",
+            "matchingCriteria": "Matching Criteria",
+            "prepareDraft": "Prepare Draft",
+            "selectProjectWarning": "Please select a project first.",
+            "matchError": "Unable to find matches right now.",
+            "draftError": "Unable to generate the draft right now.",
+            "draftCopied": "Draft copied.",
+            "draftTitle": "Funding Request Draft",
+            "generatingDraft": "Generating draft...",
+            "draftDisclaimer": "This is an initial draft and should be reviewed before sending."
+        }
+    },
+    "donorManagement": {
+        "messages": {
+            "saveComingSoon": "Save functionality coming soon.",
+            "mapUnderConstruction": "Map view is under construction."
+        },
+        "voice": {
+            "notSupported": "Speech recognition is not supported in this browser.",
+            "permissionDenied": "Microphone permission was denied. Please enable it in your browser settings.",
+            "startError": "Could not start listening. Please try again."
+        },
+        "views": {
+            "kanban": "Kanban View",
+            "funnel": "Funnel View"
+        }
     }
 }
