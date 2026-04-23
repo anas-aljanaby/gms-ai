@@ -1,0 +1,97 @@
+
+{
+  "goals": [
+    {
+      "id": "G1",
+      "title": "تعزيز الاستدامة المالية للمنظمة",
+      "description": "زيادة مصادر التمويل الذاتي بنسبة 20% خلال العام المالي الحالي.",
+      "progress": 45,
+      "linkedProjects": ["P1"],
+      "responsiblePerson": "Fatma Kaya",
+      "kpis": [
+        {
+          "id": "G1-K1",
+          "title": "نسبة التمويل الذاتي",
+          "value": 9,
+          "target": 20,
+          "unit": "%",
+          "trend": "up",
+          "lastUpdated": "2024-07-20T00:00:00Z"
+        },
+        {
+          "id": "G1-K2",
+          "title": "حملات التمويل الجديدة",
+          "value": 2,
+          "target": 5,
+          "unit": "حملة",
+          "trend": "stable",
+          "lastUpdated": "2024-07-18T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "G2",
+      "title": "توسيع نطاق الخدمات التعليمية",
+      "description": "الوصول إلى 500 مستفيد جديد في البرامج التعليمية بنهاية العام.",
+      "progress": 70,
+      "linkedProjects": ["P2"],
+      "responsiblePerson": "Ali Veli",
+      "kpis": [
+        {
+          "id": "G2-K1",
+          "title": "المستفيدون الجدد",
+          "value": 350,
+          "target": 500,
+          "unit": "مستفيد",
+          "trend": "up",
+          "lastUpdated": "2024-07-22T00:00:00Z"
+        },
+        {
+          "id": "G2-K2",
+          "title": "معدل إتمام الدورات",
+          "value": 88,
+          "target": 90,
+          "unit": "%",
+          "trend": "down",
+          "lastUpdated": "2024-07-15T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "P1",
+      "title": "إطلاق حملة الوقف السنوية",
+      "description": "حملة تسويقية لجمع التبرعات لصالح صندوق الوقف.",
+      "progress": 60,
+      "linkedGoal": "G1",
+      "linkedTasks": ["T1"]
+    },
+    {
+      "id": "P2",
+      "title": "تطوير منصة التعليم عن بعد",
+      "description": "إضافة مساقات جديدة وتطوير واجهة المستخدم للمنصة التعليمية.",
+      "progress": 85,
+      "linkedGoal": "G2",
+      "linkedTasks": ["T2"]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "تصميم المواد الإعلانية للحملة",
+      "description": "إنشاء تصاميم وفيديوهات ترويجية لحملة الوقف.",
+      "status": "in-progress",
+      "linkedProject": "P1",
+      "assignee": "فريق التسويق"
+    },
+    {
+      "id": "T2",
+      "title": "برمجة واجهة تسجيل الطلاب الجديدة",
+      "description": "تطوير واجهة مستخدم سهلة لتسجيل الطلاب الجدد في المنصة.",
+      "status": "completed",
+      "linkedProject": "P2",
+      "assignee": "فريق التطوير التقني"
+    }
+  ]
+}

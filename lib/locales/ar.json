@@ -1,0 +1,598 @@
+
+{
+    "common": {
+        "searchPlaceholder": "ابحث في كل شيء...",
+        "close": "إغلاق",
+        "previous": "السابق",
+        "next": "التالي",
+        "pagination_summary": "عرض {start}-{end} من {total}",
+        "dismissAlert": "إغلاق التنبيه",
+        "loading": "جاري التحميل...",
+        "analyzing": "جاري التحليل...",
+        "generating": "جاري الإنشاء...",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد",
+        "date": "التاريخ",
+        "time": "الوقت",
+        "share": "مشاركة",
+        "shareReport": "مشاركة التقرير",
+        "copy": "نسخ",
+        "copied": "تم النسخ!",
+        "validFor7Days": "الرابط صالح لمدة 7 أيام",
+        "showing": "عرض",
+        "of": "من",
+        "preview": "معاينة",
+        "save": "حفظ",
+        "clearFilters": "مسح الفلاتر",
+        "improvement": "تحسن",
+        "listening": "جاري الاستماع...",
+        "voiceSearch": "بحث صوتي"
+    },
+    "sidebar": {
+        "dashboard": "لوحة القيادة",
+        "donors": "إدارة المانحين",
+        "donor_intelligence": "ذكاء المانحين",
+        "individual_donors": "المانحون الأفراد",
+        "institutional_donors": "المؤسسات المانحة",
+        "leadership": "التأهيل القيادي",
+        "sponsorship": "إدارة الكفالات",
+        "projects": "إدارة المشاريع",
+        "beneficiaries": "إدارة المستفيدين",
+        "orphanages": "إدارة دور الأيتام",
+        "stakeholder_management": "إدارة أصحاب المصلحة",
+        "hr": "الموارد البشرية",
+        "financials": "الإدارة المالية",
+        "inventory": "إدارة المخزون",
+        "investments": "إدارة الاستثمار",
+        "loans": "محفظة القروض",
+        "implementing_partners": "الشركاء المنفذون",
+        "partner_evaluations": "تقييم الشركاء",
+        "compliance": "الامتثال",
+        "grc": "الحوكمة والمخاطر والامتثال",
+        "gri_reporting": "تقارير GRI",
+        "sharia_compliance": "الامتثال الشرعي",
+        "sharia_board": "إدارة الهيئة الشرعية",
+        "digital_marketing": "مركز التسويق الرقمي",
+        "ai_automation": "الذكاء الاصطناعي والأتمتة",
+        "bousala": "بوصلة",
+        "optimal_contact_timing": "التوقيت الأمثل للتواصل",
+        "smart_message_campaign": "حملة الرسائل الذكية",
+        "anomaly_detection": "كشف الحالات الشاذة",
+        "educational_materials": "المواد التعليمية",
+        "media_documentation": "توثيق الوسائط",
+        "gamification": "نظام المكافآت",
+        "admin_dashboard": "لوحة تحكم المسؤول",
+        "reports": "التقارير",
+        "settings": "الإعدادات",
+        "help": "المساعدة والدعم",
+        "logout": "تسجيل الخروج",
+        "more": "المزيد",
+        "community_forum": "المنتدى",
+        "community_events": "الفعاليات",
+        "community_founders": "دليل المؤسسين",
+        "community": "المجتمع",
+        "incubation_mentorship": "الإرشاد"
+    },
+    "header": {
+        "greeting": "مرحباً",
+        "profile": {
+            "name": "علي",
+            "email": "ali@example.com"
+        },
+        "role": "الدور"
+    },
+    "leadership": {
+        "title": "التأهيل القيادي",
+        "tabs": {
+            "overview": "نظرة عامة",
+            "calendar": "الرزنامة",
+            "projects": "مشاريع الطلاب",
+            "student_environment": "البيئة الطلابية",
+            "scout": "الوحدة الكشفية",
+            "leadership": "التأهيل القيادي",
+            "educational": "البناء التربوي"
+        },
+        "overview": {
+            "workTeam": "فريق العمل",
+            "totalEvents": "مجموع الفعاليات",
+            "studentProjectImpact": "أثر مشاريع الطلاب",
+            "beneficiaries": "مستفيد",
+            "upcomingEvents": "الفعاليات القادمة"
+        },
+        "projects": {
+            "activeProjects": "المشاريع النشطة",
+            "statuses": {
+                "completed": "مكتمل"
+            }
+        },
+        "metrics": {
+            "performanceDashboard": "لوحة مؤشرات الأداء",
+            "overallCompletion": "نسبة الإنجاز الكلية",
+            "stageCompletion": "إنجاز المراحل",
+            "onTimeCompletion": "الإنجاز في الوقت المحدد",
+            "avgAttendance": "متوسط الحضور",
+            "cancellationRate": "معدل الإلغاء",
+            "teamEngagement": "تفاعل الفريق",
+            "eventsStatusBreakdown": "توزيع حالات الفعاليات"
+        },
+        "noEventsPlanned": "لا توجد فعاليات مخطط لها",
+        "workTeam": "فريق العمل",
+        "teamTypes": {
+            "staff": "موظف",
+            "volunteer": "متطوع"
+        },
+        "stages": {
+            "s1": "الفصل الثاني",
+            "s2": "الفصل الأول",
+            "s3": "العطلة الصيفية"
+        },
+        "eventTypes": {
+            "lecture": "محاضرة",
+            "course": "دورة",
+            "camp": "مخيم",
+            "workshop": "ورشة عمل",
+            "activity": "نشاط",
+            "ceremony": "حفل",
+            "meeting": "اجتماع",
+            "event": "فعالية"
+        },
+        "eventStatuses": {
+            "planned": "مخطط لها",
+            "in-progress": "قيد التنفيذ",
+            "completed": "مكتملة",
+            "cancelled": "ملغاة",
+            "missed": "فائتة"
+        },
+        "eventFacilitator": "الميسّر",
+        "eventLocation": "المكان",
+        "eventTime": "الوقت",
+        "eventParticipants": "المشاركون",
+        "workPlan": "خطة العمل",
+        "confirmCancel": "هل أنت متأكد من إلغاء هذه الفعالية؟",
+        "eventCancelled": "تم إلغاء الفعالية.",
+        "eventCompleted": "تم إكمال الفعالية.",
+        "markCompleted": "تحديد كمكتمل",
+        "cancelEvent": "إلغاء الفعالية",
+        "quranicTimeline": {
+            "title": "المسار القرآني",
+            "progress": "التقدم",
+            "weeks": "أسابيع",
+            "totalDuration": "المدة الإجمالية",
+            "completed": "مكتمل",
+            "inProgress": "قيد التنفيذ",
+            "upcoming": "قادم",
+            "week": "الأسبوع",
+            "dateRange": "الفترة",
+            "content": "المحتوى",
+            "status": "الحالة",
+            "notes": "ملاحظات",
+            "stationDetails": "تفاصيل المحطة",
+            "markAsComplete": "تحديث كمكتمل",
+            "inprogress": "قيد التنفيذ"
+        }
+    },
+    "beneficiaries": {
+        "title": "إدارة المستفيدين",
+        "backToList": "العودة إلى قائمة المستفيدين",
+        "subtitle_at": "{field} في {university}",
+        "kpi": {
+          "gpa": "المعدل التراكمي الحالي",
+          "financialAid": "المساعدات المالية",
+          "communication": "التواصل",
+          "documents": "المستندات",
+          "communication_value": "{count} سجلات"
+        },
+        "overview": {
+          "title": "تفاصيل الملف الشخصي",
+          "id": "المعرّف",
+          "country": "البلد",
+          "email": "البريد الإلكتروني",
+          "phone": "الهاتف",
+          "university": "الجامعة",
+          "major": "التخصص",
+          "gpa": "المعدل التراكمي",
+          "academic_year": "المرحلة الدراسية"
+        },
+        "modal": {
+            "tabs": {
+                "personal": "الملف الشخصي",
+                "journey_impact": "الرحلة والأثر",
+                "academic": "البيانات الأكاديمية",
+                "sponsorship": "بيانات الكفالة",
+                "needs_assessment": "تقييم الاحتياجات",
+                "qualification_journey": "رحلة التأهيل",
+                "aid_log": "المساعدات والخدمات",
+                "calendar": "الرزنامة",
+                "files_and_documents": "الملفات والمستندات",
+                "communication": "التواصل"
+            },
+             "add": {
+                "title": "إضافة مستفيد جديد",
+                "fullName": "الاسم الكامل",
+                "beneficiaryType": "نوع المستفيد",
+                "country": "الدولة",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "addButton": "إضافة"
+            }
+        },
+        "types": {
+            "all": "الكل",
+            "student": "طالب",
+            "orphan": "يتيم",
+            "hafiz": "حافظ",
+            "family": "أسرة",
+            "institution": "مؤسسة",
+            "community": "مجتمع",
+            "incubation_beneficiary": "مستفيدي الاحتضان",
+            "individual-other": "فرد آخر"
+        }
+    },
+    "incubation_investors": {
+        "title": "مستثمرو الحاضنة",
+        "viewDemoDay": "عرض تقييمات يوم العرض",
+        "totalInvestors": "إجمالي المستثمرين",
+        "totalFunds": "إجمالي الصناديق الممثلة",
+        "mostActive": "الأكثر نشاطًا",
+        "table_investor": "المستثمر",
+        "table_fundType": "الصندوق / النوع",
+        "table_focus": "مجال الاستثمار",
+        "table_startups": "الشركات الناشئة المتابعة",
+        "table_lastInteraction": "آخر تفاعل",
+        "fundTypes": {
+            "vc_firm": "شركة رأس مال مخاطر",
+            "angel_network": "شبكة مستثمرين ملائكيين"
+        }
+    },
+    "incubation_stakeholders": {
+        "title": "أصحاب المصلحة في الحاضنة",
+        "kpi_total": "إجمالي أصحاب المصلحة",
+        "kpi_mentors": "المرشدون",
+        "kpi_investors": "المستثمرون",
+        "kpi_partners": "الشركاء",
+        "add_stakeholder": "إضافة صاحب مصلحة",
+        "search_placeholder": "ابحث بالاسم أو الدور...",
+        "table": {
+            "name": "الاسم",
+            "role": "الدور",
+            "relatedProgram": "البرنامج/الشركة الناشئة ذات الصلة",
+            "contact": "جهة الاتصال",
+            "notes": "ملاحظات",
+            "actions": "إجراءات"
+        },
+        "roles": {
+            "Mentor": "مرشد",
+            "Investor": "مستثمر",
+            "CorporatePartner": "شريك مؤسسي",
+            "UniversityPartner": "شريك جامعي",
+            "Expert": "خبير"
+        }
+    },
+    "incubationSuccessMetrics": {
+        "fundingPerDonorTitle": "التمويل لكل منظمة مانحة",
+        "fundingVsImpactTitle": "التمويل مقابل درجة التأثير مع مرور الوقت",
+        "grantDistributionTitle": "توزيع المنح حسب القطاع",
+        "roiVsMentorshipTitle": "عائد الاستثمار مقابل كثافة الإرشاد",
+        "fundingAxisLabel": "التمويل (دولار أمريكي)",
+        "impactScoreAxisLabel": "درجة التأثير",
+        "mentorshipSessionsAxisLabel": "جلسات الإرشاد",
+        "roiAxisLabel": "عائد الاستثمار (x)",
+        "donor": "المانح",
+        "sector": "القطاع"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "activeFilters": "الفلاتر النشطة",
+        "vsLastPeriod": "مقارنة بالفترة السابقة",
+        "favoriteReport": {
+            "title": "التقرير المفضل",
+            "noneSelected": "لم يتم اختيار تقرير مفضل بعد."
+        },
+        "toastDemo": {
+            "title": "تجربة الإشعارات",
+            "successTitle": "نجاح",
+            "successMessage": "تم تنفيذ العملية بنجاح.",
+            "errorTitle": "خطأ",
+            "errorMessage": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+            "warningTitle": "تنبيه",
+            "warningMessage": "يرجى مراجعة المدخلات قبل المتابعة.",
+            "infoTitle": "معلومة",
+            "infoMessage": "هذه رسالة معلوماتية.",
+            "successButton": "نجاح",
+            "errorButton": "خطأ",
+            "warningButton": "تنبيه",
+            "infoButton": "معلومة"
+        },
+        "widgets": {
+            "kpiSponsorships": "الكفالات المنتظرة",
+            "kpiOverdueTasks": "مهام المانحين المتأخرة",
+            "kpiProjectsAtRisk": "المشاريع المعرّضة للخطر",
+            "kpiFundsDisbursed": "الأموال المقرر صرفها",
+            "donationsChart": "مخطط التبرعات",
+            "timelineView": "الجدول الزمني",
+            "matrixView": "عرض المصفوفة",
+            "comparisonBars": "الأداء المقارن",
+            "favoriteReport": "التقرير المفضل",
+            "toastDemo": "تجربة الإشعارات",
+            "gettingStarted": "البدء",
+            "quickActions": "الإجراءات السريعة",
+            "aiInsights": "رؤى الذكاء الاصطناعي"
+        },
+        "controls": {
+            "timePeriod": "الفترة الزمنية",
+            "department": "القسم",
+            "indicators": "المؤشرات",
+            "selected": "تم اختيار {count}",
+            "searchIndicators": "ابحث في المؤشرات...",
+            "autoRefresh": "تحديث تلقائي",
+            "periods": {
+                "d7": "آخر 7 أيام",
+                "d30": "آخر 30 يومًا",
+                "thisMonth": "هذا الشهر",
+                "thisQuarter": "هذا الربع",
+                "thisYear": "هذه السنة"
+            },
+            "departments": {
+                "all": "جميع الأقسام",
+                "programs": "البرامج",
+                "finance": "المالية",
+                "hr": "الموارد البشرية",
+                "marketing": "التسويق"
+            },
+            "kpis": {
+                "donorRetention": "الاحتفاظ بالمانحين",
+                "newDonors": "المانحون الجدد",
+                "avgGift": "متوسط التبرع",
+                "campaignROI": "عائد الحملة",
+                "projectSuccess": "نجاح المشاريع",
+                "volunteerTurnover": "دوران المتطوعين"
+            }
+        },
+        "aiInsights": {
+            "title": "رؤى الذكاء الاصطناعي",
+            "refreshingIn": "تحديث خلال {seconds}ث",
+            "opportunities": "الفرص",
+            "alerts": "التنبيهات",
+            "recommendations": "التوصيات",
+            "forecasts": "التوقعات",
+            "viewMore": "عرض المزيد من الرؤى",
+            "confidence": "الثقة"
+        }
+    },
+    "quick_actions": {
+        "title": "الإجراءات السريعة",
+        "addProject": "إضافة مشروع",
+        "createReport": "إنشاء تقرير",
+        "sendMessage": "إرسال رسالة",
+        "settings": "الإعدادات"
+    },
+    "shareMenu": {
+        "share": "مشاركة",
+        "modalTitle": "مشاركة لوحة البيانات",
+        "copySuccess": "تم نسخ الرابط بنجاح.",
+        "tabs": {
+            "email": "البريد الإلكتروني",
+            "link": "رابط",
+            "schedule": "جدولة"
+        },
+        "email": {
+            "to": "بريد المستلم",
+            "subject": "الموضوع",
+            "message": "الرسالة",
+            "send": "إرسال",
+            "sending": "جارٍ الإرسال...",
+            "sentSuccess": "تم إرسال التقرير بنجاح.",
+            "sentTitle": "تم الإرسال",
+            "invalidAddress": "يرجى إدخال بريد إلكتروني صالح.",
+            "invalidTitle": "بريد غير صالح",
+            "defaultSubject": "تقرير لوحة البيانات",
+            "defaultMessage": "يرجى الاطلاع على تقرير لوحة البيانات المرفق."
+        },
+        "link": {
+            "description": "أنشئ رابطًا آمنًا لمشاركة لوحة البيانات.",
+            "copy": "نسخ"
+        },
+        "schedule": {
+            "description": "جدولة إرسال هذا التقرير تلقائيًا.",
+            "frequency": "التكرار",
+            "time": "الوقت",
+            "recipients": "المستلمون",
+            "recipientsPlaceholder": "example1@email.com، example2@email.com",
+            "scheduleBtn": "جدولة",
+            "scheduling": "جارٍ الجدولة...",
+            "scheduledSuccess": "تمت جدولة التقرير بنجاح.",
+            "scheduledTitle": "تمت الجدولة",
+            "frequencies": {
+                "daily": "يوميًا",
+                "weekly": "أسبوعيًا",
+                "monthly": "شهريًا"
+            }
+        }
+    },
+    "exportMenu": {
+        "export": "تصدير",
+        "exporting": "جارٍ التصدير",
+        "pleaseWait": "يرجى الانتظار قليلًا...",
+        "exportSuccess": "تم التصدير بنجاح.",
+        "exportError": "فشل التصدير. يرجى المحاولة مرة أخرى.",
+        "successTitle": "نجاح",
+        "errorTitle": "خطأ",
+        "imageDownloadedTitle": "تم تنزيل الصورة",
+        "image": "صورة (PNG)",
+        "pdf": "PDF",
+        "excel": "إكسل (XLSX)",
+        "powerpoint": "PowerPoint (صورة)",
+        "pptxPlaceholder": "تصدير PowerPoint قريبًا. تم تنزيله كصورة حاليًا.",
+        "participantsSheetName": "المشاركون"
+    },
+    "layoutCustomizer": {
+        "title": "تخصيص التخطيط",
+        "undo": "تراجع",
+        "redo": "إعادة",
+        "save": "حفظ",
+        "presets": "القوالب الجاهزة",
+        "executive": "تنفيذي",
+        "manager": "مدير",
+        "analyst": "محلل",
+        "myCustomLayout": "تخطيطي المخصص",
+        "widgets": "العناصر",
+        "import": "استيراد",
+        "export": "تصدير",
+        "done": "تم",
+        "alerts": {
+            "saved": "تم حفظ التخطيط المخصص!",
+            "invalidFile": "ملف التخطيط غير صالح.",
+            "readError": "حدث خطأ أثناء قراءة الملف."
+        }
+    },
+    "onboarding": {
+        "startTour": "ابدأ الجولة",
+        "checklist": {
+            "title": "قائمة البدء"
+        },
+        "tour": {
+            "skip": "تخطي",
+            "prev": "السابق",
+            "next": "التالي",
+            "finish": "إنهاء",
+            "step1_title": "الشريط الجانبي",
+            "step1_content": "استخدم الشريط الجانبي للتنقل بسرعة بين الوحدات.",
+            "step2_title": "عناصر التحكم العلوية",
+            "step2_content": "يمكنك تغيير اللغة والدور وخيارات الملف الشخصي من هنا.",
+            "step3_title": "عناصر تحكم Dashboard",
+            "step3_content": "رشّح المؤشرات وشارك وصدّر وخصص تخطيط Dashboard.",
+            "step4_title": "المساعد الذكي",
+            "step4_content": "افتح المساعد الذكي للحصول على دعم ورؤى سياقية."
+        }
+    },
+    "projects": {
+        "reporting": {
+            "overviewReport": "تقرير النظرة العامة",
+            "tasksReport": "تقرير المهام",
+            "budgetReport": "تقرير الميزانية",
+            "timelineReport": "تقرير الجدول الزمني",
+            "viewReport": "عرض التقرير"
+        }
+    },
+    "help": {
+        "title": "المساعدة والدعم",
+        "subtitle": "استعرض الأسئلة الشائعة والدروس المصورة والإرشادات التفاعلية بسرعة.",
+        "contextual": {
+            "indicators": "اختر مؤشرات الأداء التي تريد عرضها في لوحة البيانات."
+        },
+        "faq": {
+            "title": "الأسئلة الشائعة",
+            "noResults": "لا توجد نتائج مطابقة لبحثك.",
+            "categories": {
+                "general": "عام",
+                "donors": "المانحون",
+                "projects": "المشاريع"
+            }
+        },
+        "videos": {
+            "title": "الدروس المصورة",
+            "minutes": "دقيقة"
+        },
+        "interactive": {
+            "title": "الدروس التفاعلية",
+            "description": "اتبع جولات تفاعلية خطوة بخطوة للتعرف على الوحدات الأساسية.",
+            "duration": "{duration} دقيقة",
+            "start": "ابدأ الدرس",
+            "comingSoonMessage": "الدروس التفاعلية ستكون متاحة قريبًا!",
+            "comingSoonTitle": "الميزة قيد التطوير"
+        }
+    },
+    "kpiCard": {
+        "target": "الهدف: {target}",
+        "daysRemaining": "يوم متبقٍ"
+    },
+    "bousala": {
+        "title": "بوصلة",
+        "linkedModules": "منصة إدارة الأهداف والمشاريع الذكية",
+        "reports": {
+            "title": "التقارير"
+        },
+        "presentationMode": "وضع العرض",
+        "projects": "المشاريع",
+        "kpis": "مؤشرات الأداء",
+        "kpisVisualization": "عرض مؤشرات الأداء",
+        "aiSuggestions": "اقتراحات الذكاء الاصطناعي",
+        "kpiUpdateNotification": "تم تحديث التحليل التنبؤي.",
+        "settingsSaved": "تم حفظ الإعدادات بنجاح.",
+        "tabs": {
+            "dashboard": "لوحة المتابعة",
+            "predictive": "تحليل تنبؤي"
+        },
+        "prediction": {
+            "title": "الرؤى التنبؤية",
+            "summary": "متوقع الوصول إلى الهدف بنسبة {percentage}%",
+            "recommendation": "لتحسين الأداء، يُنصح بزيادة الموارد بنسبة {percentage}%."
+        },
+        "analytics": {
+            "title": "لوحة التحليلات",
+            "goalProgress": "تقدم الأهداف",
+            "projectComparison": "مقارنة تقدم المشاريع"
+        },
+        "addTaskModal": {
+            "success": "تمت إضافة المهمة بنجاح."
+        },
+        "aiPanel": {
+            "title": "المساعد الذكي",
+            "recommendations": "التوصيات",
+            "performanceInsights": "تحليلات الأداء",
+            "riskForecast": "توقع المخاطر",
+            "suggestedActions": "الإجراءات المقترحة",
+            "actions": {
+                "addGoal": "إضافة هدف",
+                "addTask": "إضافة مهمة",
+                "linkProject": "ربط مشروع",
+                "viewReports": "عرض التقارير"
+            }
+        },
+        "alerts": {
+            "lowProbability": "انخفاض احتمال تحقيق الهدف إلى {probability}%.",
+            "kpiBelowHalf": "مؤشر \"{kpiTitle}\" أقل من 50% من الهدف.",
+            "kpiDownward": "مؤشر \"{kpiTitle}\" في اتجاه هبوطي.",
+            "smartAlertFor": "تنبيه ذكي للهدف: {title}",
+            "recommendationFailed": "تعذر إنشاء التوصية حالياً. يرجى المحاولة لاحقاً.",
+            "generatingRecommendation": "يقوم الذكاء الاصطناعي بإنشاء توصية..."
+        },
+        "alertsCenter": {
+            "title": "مركز التنبيهات",
+            "filters": {
+                "allGoals": "جميع الأهداف",
+                "allSeverities": "كل مستويات الخطورة",
+                "newest": "الأحدث",
+                "oldest": "الأقدم"
+            },
+            "severity": {
+                "critical": "حرج",
+                "warning": "تحذير"
+            },
+            "status": {
+                "reviewed": "تمت المراجعة"
+            },
+            "actions": {
+                "markReviewed": "وضع كمُراجع",
+                "createTask": "إنشاء مهمة",
+                "correctiveTaskFor": "مهمة تصحيحية للهدف: {title}"
+            }
+        },
+        "settings": {
+            "title": "الإعدادات",
+            "notificationsTitle": "إعدادات الإشعارات",
+            "enableSmartAlerts": "تفعيل التنبيهات الذكية",
+            "severityThreshold": "عتبة الخطورة ({threshold}%)",
+            "alertSound": "صوت التنبيه",
+            "aiAutoRecs": "توصيات آلية بالذكاء الاصطناعي",
+            "kpiTitle": "إعدادات تحديث مؤشرات الأداء",
+            "refreshInterval": "فاصل التحديث",
+            "smartRefresh": "تفعيل التحديث الذكي",
+            "showAnimation": "عرض حركة التحديث",
+            "save": "حفظ الإعدادات"
+        }
+    },
+    "matrix": {
+        "title": "مصفوفة الأداء"
+    }
+}

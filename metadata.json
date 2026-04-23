@@ -1,0 +1,8 @@
+{
+  "name": "GMS-Ai.test2",
+  "description": "A comprehensive, trilingual ERP system designed for non-profit organizations. It features a modern, intuitive UI with modules for donor management, project tracking, financials, and more, all with a focus on user-friendliness and accessibility.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

@@ -1,0 +1,11 @@
+
+{
+  "moduleName": "Bousala",
+  "version": "1.0.0",
+  "enabled": true,
+  "defaultView": "dashboard",
+  "aiIntegration": {
+    "enabled": true,
+    "suggestionModel": "gemini-2.5-flash"
+  }
+}

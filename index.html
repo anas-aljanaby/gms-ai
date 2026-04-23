@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stakeholder Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: 'hsl(210, 40%, 50%)',
+                light: 'hsl(210, 40%, 95%)',
+                dark: 'hsl(210, 40%, 40%)',
+              },
+              secondary: {
+                DEFAULT: 'hsl(145, 63%, 49%)',
+                light: 'hsl(145, 63%, 95%)',
+                dark: 'hsl(145, 63%, 39%)',
+              },
+              'sharia-primary': {
+                DEFAULT: 'hsl(220, 45%, 25%)', // Deep Blue
+                dark: 'hsl(220, 45%, 35%)'
+              },
+              'sharia-secondary': {
+                DEFAULT: 'hsl(35, 80%, 60%)', // Gold/Amber
+                dark: 'hsl(35, 80%, 70%)'
+              },
+              background: 'hsl(210, 30%, 98%)',
+              foreground: 'hsl(210, 20%, 15%)',
+              card: 'hsl(0, 0%, 100%)',
+              'dark-background': 'hsl(220, 20%, 12%)',
+              'dark-foreground': 'hsl(210, 20%, 90%)',
+              'dark-card': 'hsl(220, 20%, 16%)',
+            },
+            boxShadow: {
+              'soft': '0 4px 30px rgba(0, 0, 0, 0.1)',
+            },
+            backdropBlur: {
+              'xl': '24px',
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://aistudiocdn.com/yet-another-react-lightbox@^3.19.0/styles.css" />
+    <link rel="stylesheet" href="https://aistudiocdn.com/yet-another-react-lightbox@^3.19.0/plugins/captions.css" />
+    <link rel="stylesheet" href="https://aistudiocdn.com/yet-another-react-lightbox@^3.19.0/plugins/thumbnails.css" />
+    <link rel="stylesheet" href="https://aistudiocdn.com/react-grid-layout@^1.4.4/css/styles.css" />
+    <link rel="stylesheet" href="https://aistudiocdn.com/react-resizable@^3.0.5/css/styles.css" />
+    <style>
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      @keyframes slideInUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+       @keyframes slideOutDown {
+        from { transform: translateY(0); opacity: 1; }
+        to { transform: translateY(20px); opacity: 0; }
+      }
+      @keyframes scaleIn {
+        from { transform: scale(0); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      @keyframes scale-in-fast {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      @keyframes pulse-glow {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+      @keyframes sparkline-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes progress {
+        from { width: 100%; }
+        to { width: 0%; }
+      }
+      @keyframes pulse-fast {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.4);
+          opacity: 0.7;
+        }
+      }
+      @keyframes fadeInScale {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+      .animate-fade-in-fast { animation: fadeIn 0.2s ease-out forwards; }
+      .animate-slide-in-up { animation: slideInUp 0.3s ease-out forwards; }
+      .animate-fade-out { animation: fadeOut 0.3s ease-in forwards; }
+      .animate-slide-out-down { animation: slideOutDown 0.3s ease-in forwards; }
+      .animate-scale-in-fast { animation: scale-in-fast 0.1s ease-out forwards; }
+      .animate-pulse-glow {
+        animation: pulse-glow 3s infinite ease-in-out;
+      }
+      .animate-pulse-fast {
+        animation: pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      .animate-slide-in-right { animation: slideInRight 0.3s ease-out forwards; }
+      .animate-slide-out-right { animation: slideOutRight 0.3s ease-in forwards; }
+      .animate-progress { animation: progress linear forwards; }
+      .animate-fade-in-scale { animation: fadeInScale 0.8s ease-out forwards; }
+
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        background: hsl(210, 40%, 50%);
+        color: white;
+        padding: 8px 12px;
+        z-index: 1000;
+        transition: top 0.3s ease-in-out;
+        border-bottom-right-radius: 8px;
+        font-weight: bold;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+      .tooltip .tooltip-text {
+        visibility: hidden;
+        width: max-content;
+        background-color: hsl(210, 20%, 15%);
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 10px;
+        position: absolute;
+        z-index: 50;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+        pointer-events: none;
+      }
+      .tooltip .tooltip-text-align-left {
+        left: 0;
+        transform: translateX(0);
+      }
+      .tooltip .tooltip-text-align-right {
+        left: auto;
+        right: 0;
+        transform: translateX(0);
+      }
+       .dark .tooltip .tooltip-text {
+        background-color: hsl(210, 20%, 90%);
+        color: hsl(210, 20%, 15%);
+      }
+      .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+      .ease-bounce-out {
+        transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .favorite-star {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 1.5rem; /* 24px */
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+        z-index: 10;
+      }
+      .favorite-star:hover {
+        transform: scale(1.2);
+      }
+      
+      /* Custom Select Styles */
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1.25em 1.25em;
+        padding-right: 2.5rem;
+      }
+      [dir="rtl"] select {
+        background-position: left 0.5rem center;
+        padding-left: 2.5rem;
+        padding-right: 0.75rem; /* Default padding for the non-arrow side */
+      }
+      .dark select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      }
+      
+      /* Custom Range Slider Styles */
+      input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+        background: transparent;
+        cursor: pointer;
+      }
+      input[type=range]:focus {
+        outline: none;
+      }
+      /* Webkit/Blink */
+      input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        background: hsl(210, 30%, 85%);
+        border-radius: 2px;
+      }
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: hsl(210, 40%, 50%);
+        margin-top: -6px; /* (thumb height - track height) / 2 */
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .dark input[type=range]::-webkit-slider-runnable-track {
+        background: hsl(220, 20%, 30%);
+      }
+      .dark input[type=range]::-webkit-slider-thumb {
+        background: hsl(145, 63%, 49%);
+      }
+
+      /* Firefox */
+      input[type=range]::-moz-range-track {
+        width: 100%;
+        height: 4px;
+        background: hsl(210, 30%, 85%);
+        border-radius: 2px;
+      }
+      input[type=range]::-moz-range-thumb {
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: hsl(210, 40%, 50%);
+        border: none;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .dark input[type=range]::-moz-range-track {
+        background: hsl(220, 20%, 30%);
+      }
+      .dark input[type=range]::-moz-range-thumb {
+        background: hsl(145, 63%, 49%);
+      }
+      
+      [dir="rtl"] .flex-row-reverse-rtl {
+        flex-direction: row-reverse;
+      }
+
+      /* Alerts Ticker Styles */
+      @keyframes scroll-ltr {
+        from { transform: translateX(0%); }
+        to { transform: translateX(-100%); }
+      }
+
+      @keyframes scroll-rtl {
+        from { transform: translateX(0%); }
+        to { transform: translateX(100%); }
+      }
+
+      .alerts-ticker-container {
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .alerts-ticker-content {
+        display: flex;
+        white-space: nowrap;
+        animation-name: scroll-ltr;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      [dir="rtl"] .alerts-ticker-content {
+          animation-name: scroll-rtl;
+      }
+
+      .alerts-ticker-container:hover .alerts-ticker-content {
+        animation-play-state: paused;
+      }
+      
+      /* React Grid Layout Custom Styles */
+      .react-grid-layout {
+        transition: height 0.2s ease;
+      }
+      .react-grid-item {
+        transition: all 0.2s ease;
+      }
+      .react-grid-item.react-grid-placeholder {
+        background-color: hsla(210, 40%, 50%, 0.2);
+        border: 2px dashed hsl(210, 40%, 50%);
+        border-radius: 1rem;
+        transition: all 0.2s ease;
+      }
+      .react-grid-item > .react-resizable-handle {
+        background-image: none;
+        width: 20px;
+        height: 20px;
+      }
+      .react-grid-item > .react-resizable-handle::after {
+        content: '';
+        position: absolute;
+        right: 4px;
+        bottom: 4px;
+        width: 6px;
+        height: 6px;
+        border-right: 2px solid rgba(0, 0, 0, 0.4);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+      }
+      .dark .react-grid-item > .react-resizable-handle::after {
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+      .custom-widget {
+        overflow: hidden;
+      }
+
+      /* Local High Contrast Mode for Incubation Page */
+      body .high-contrast-incubation,
+      body.dark .high-contrast-incubation {
+        background-color: #000 !important;
+        color: #fff !important;
+      }
+      .high-contrast-incubation .bg-card,
+      .high-contrast-incubation .dark\\:bg-dark-card,
+      .high-contrast-incubation .bg-gray-50,
+      .high-contrast-incubation .dark\\:bg-slate-800\\/50 {
+        background-color: #111 !important;
+        border: 1px solid #fff !important;
+        color: #fff !important;
+      }
+      .high-contrast-incubation .text-foreground,
+      .high-contrast-incubation .dark\\:text-dark-foreground,
+      .high-contrast-incubation .text-gray-800,
+      .high-contrast-incubation .dark\\:text-gray-200 {
+        color: #fff !important;
+      }
+      .high-contrast-incubation .text-gray-500,
+      .high-contrast-incubation .dark\\:text-gray-400 {
+        color: #ccc !important;
+      }
+      .high-contrast-incubation button:not(.bg-primary):not(.bg-secondary) {
+        background-color: #222 !important;
+        color: #fff !important;
+        border-color: #fff !important;
+      }
+       .high-contrast-incubation .recharts-text,
+       .high-contrast-incubation .recharts-cartesian-axis-tick-value {
+        fill: #fff !important;
+      }
+       .high-contrast-incubation .recharts-legend-item-text {
+         color: #fff !important;
+       }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      @media print {
+        body.print-mode > *:not(#root),
+        body.print-mode #root > *:not(.printable-section-container),
+        .printable-section-container > *:not(.printable-section) {
+            display: none !important;
+        }
+        body.print-mode .printable-section {
+            display: block !important;
+            position: static !important;
+            box-shadow: none !important;
+            border: none !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body > #root, body > #toast-root, #modal-root > .modal-overlay {
+          display: none;
+        }
+        body.modal-open > #root {
+          display: none;
+        }
+        body.modal-open > #modal-root {
+          display: block !important;
+          position: static !important;
+        }
+        .printable-modal-content {
+          position: static !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          max-height: none !important;
+          box-shadow: none !important;
+          border: none !important;
+          transform: none !important;
+        }
+        .hide-on-print {
+          display: none !important;
+        }
+        
+        /* Admin Dashboard Print Styles */
+        .printable-dashboard {
+            display: block !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        body > #root > div > div > main {
+            overflow: visible !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.2.1",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react-dropzone": "https://aistudiocdn.com/react-dropzone@^14.2.3",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.22.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.545.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.3.18",
+    "qrcode.react": "https://aistudiocdn.com/qrcode.react@^4.0.0",
+    "html2canvas": "https://aistudiocdn.com/html2canvas@^1.4.1",
+    "react-photo-album": "https://aistudiocdn.com/react-photo-album@^2.3.1",
+    "yet-another-react-lightbox": "https://aistudiocdn.com/yet-another-react-lightbox@^3.19.0",
+    "yet-another-react-lightbox/": "https://aistudiocdn.com/yet-another-react-lightbox@^3.19.0/",
+    "canvas-confetti": "https://aistudiocdn.com/canvas-confetti@^1.9.3",
+    "jspdf": "https://aistudiocdn.com/jspdf@^2.5.1",
+    "xlsx": "https://aistudiocdn.com/xlsx@^0.18.5",
+    "react-grid-layout": "https://aistudiocdn.com/react-grid-layout@^1.4.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <div id="toast-root"></div>
+    <div id="modal-root"></div>
+    <div id="search-modal-root"></div>
+    <!-- Consolidated GRC Module Script -->
+    
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

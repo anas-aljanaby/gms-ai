@@ -1,0 +1,35 @@
+
+{
+  "Admin": {
+    "view": true,
+    "create": true,
+    "edit": true,
+    "delete": true,
+    "link_items": true,
+    "view_analytics": true
+  },
+  "Manager": {
+    "view": true,
+    "create": true,
+    "edit": true,
+    "delete": false,
+    "link_items": true,
+    "view_analytics": true
+  },
+  "Staff": {
+    "view": true,
+    "create": false,
+    "edit": "own",
+    "delete": false,
+    "link_items": false,
+    "view_analytics": false
+  },
+  "Volunteer": {
+    "view": "assigned",
+    "create": false,
+    "edit": false,
+    "delete": false,
+    "link_items": false,
+    "view_analytics": false
+  }
+}

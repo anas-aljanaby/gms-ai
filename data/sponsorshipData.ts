@@ -1,0 +1,133 @@
+import type { Student } from '../types';
+
+export const MOCK_FINANCIAL_HEALTH = {
+  paid: { count: 45, percentage: 60, amount: 45000 },
+  overdue: { count: 8, percentage: 10, amount: 8000 },
+  upcoming: { count: 22, percentage: 30, amount: 22000 },
+};
+
+export const MOCK_ALUMNI_IMPACT = {
+  totalGraduates: 127,
+  employed: 98,
+  employmentRate: 77.2,
+};
+
+export const MOCK_STUDENTS: Student[] = [
+  {
+    id: 'stud-001',
+    personalInfo: {
+      name: { en: 'Omar Al-Sayed', native: 'عمر السيد' },
+      dateOfBirth: '2002-05-20',
+      gender: 'Male',
+      country: 'Lebanon',
+      city: 'Beirut',
+      photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=200&auto=format&fit=crop',
+      contact: { email: 'omar.s@example.com', phone: '+961 3 123 456' },
+    },
+    status: 'sponsored',
+    academicInfo: {
+      level: "Master's in Engineering",
+      field: 'Civil Engineering',
+      university: 'American University of Beirut',
+      gpa: 3.8,
+    },
+    story: {
+      short: 'Aspiring civil engineer aiming to rebuild communities with sustainable infrastructure.',
+      full: '...',
+      aspirations: '...',
+    },
+    sponsorship: {
+      sponsorId: 1,
+      sponsorName: 'Aisha Al-Farsi',
+      sponsorType: 'individual',
+      startDate: '2023-09-01',
+      totalAmount: 6000,
+      currency: 'USD',
+      paidInstallments: 8,
+      totalInstallments: 12,
+      installments: [],
+    },
+    academicProgress: [],
+    communicationLog: [],
+    qualificationPrograms: [],
+    communityInitiatives: [],
+    createdAt: '2023-08-15',
+    updatedAt: '2024-07-10',
+  },
+  {
+    id: 'stud-002',
+    personalInfo: {
+      name: { en: 'Aylin Yılmaz', native: 'Aylin Yılmaz' },
+      dateOfBirth: '2003-11-10',
+      gender: 'Female',
+      country: 'Turkey',
+      city: 'Istanbul',
+      photo: 'https://images.unsplash.com/photo-1521119989659-a83eee488004?q=80&w=200&auto=format&fit=crop',
+      contact: { email: 'aylin.y@example.com', phone: '+90 555 987 654' },
+    },
+    status: 'waiting',
+    academicInfo: {
+      level: "Bachelor's in Computer Science",
+      field: 'Computer Science',
+      university: 'Boğaziçi University',
+      gpa: 3.9,
+    },
+    story: {
+      short: 'A talented coder passionate about using AI for social good and accessibility.',
+      full: '...',
+      aspirations: '...',
+    },
+    academicProgress: [],
+    communicationLog: [],
+    qualificationPrograms: [],
+    communityInitiatives: [],
+    createdAt: '2024-06-01',
+    updatedAt: '2024-06-01',
+  },
+  {
+    id: 'stud-003',
+    personalInfo: {
+      name: { en: 'Khaled Ibrahim', native: 'خالد إبراهيم' },
+      dateOfBirth: '1999-01-30',
+      gender: 'Male',
+      country: 'Jordan',
+      city: 'Amman',
+      photo: 'https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?q=80&w=200&auto=format&fit=crop',
+      contact: { email: 'khaled.i@example.com', phone: '+962 79 555 123' },
+    },
+    status: 'graduate',
+    academicInfo: {
+      level: 'PhD in Pharmacy',
+      field: 'Pharmaceutical Sciences',
+      university: 'University of Jordan',
+    },
+    story: {
+      short: 'Dedicated researcher who developed a new method for affordable medicine production.',
+      full: '...',
+      aspirations: '...',
+    },
+    sponsorship: {
+      sponsorId: 4,
+      sponsorName: 'David Chen',
+      sponsorType: 'individual',
+      startDate: '2020-09-01',
+      totalAmount: 24000,
+      currency: 'USD',
+      paidInstallments: 48,
+      totalInstallments: 48,
+      installments: [],
+    },
+    graduateInfo: {
+      graduationDate: '2024-06-15',
+      employmentStatus: 'employed',
+      currentPosition: 'Lead Researcher',
+      employer: 'Hikma Pharmaceuticals',
+    },
+    academicProgress: [],
+    communicationLog: [],
+    qualificationPrograms: [],
+    communityInitiatives: [],
+    createdAt: '2020-08-10',
+    updatedAt: '2024-07-01',
+  },
+];

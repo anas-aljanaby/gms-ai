@@ -1,0 +1,598 @@
+
+{
+    "common": {
+        "searchPlaceholder": "Search everything...",
+        "close": "Close",
+        "previous": "Previous",
+        "next": "Next",
+        "pagination_summary": "Showing {start}-{end} of {total}",
+        "dismissAlert": "Dismiss alert",
+        "loading": "Loading...",
+        "analyzing": "Analyzing...",
+        "generating": "Generating...",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "date": "Date",
+        "time": "Time",
+        "share": "Share",
+        "shareReport": "Share Report",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "validFor7Days": "Link is valid for 7 days",
+        "showing": "Showing",
+        "of": "of",
+        "preview": "Preview",
+        "save": "Save",
+        "clearFilters": "Clear Filters",
+        "improvement": "improvement",
+        "listening": "Listening...",
+        "voiceSearch": "Search by voice"
+    },
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "donors": "Donor Management",
+        "donor_intelligence": "Donor Intelligence",
+        "individual_donors": "Individual Donors",
+        "institutional_donors": "Institutional Donors",
+        "leadership": "Leadership Qualification",
+        "sponsorship": "Sponsorship Management",
+        "projects": "Project Management",
+        "beneficiaries": "Beneficiary Management",
+        "orphanages": "Orphanage Management",
+        "stakeholder_management": "Stakeholder Management",
+        "hr": "Human Resources",
+        "financials": "Financials",
+        "inventory": "Inventory Management",
+        "investments": "Investment Management",
+        "loans": "Loans Portfolio",
+        "implementing_partners": "Implementing Partners",
+        "partner_evaluations": "Partner Evaluations",
+        "compliance": "Compliance",
+        "grc": "GRC",
+        "gri_reporting": "GRI Reporting",
+        "sharia_compliance": "Sharia Compliance",
+        "sharia_board": "Sharia Board Management",
+        "digital_marketing": "Digital Marketing Hub",
+        "ai_automation": "AI & Automation",
+        "bousala": "Bousala",
+        "optimal_contact_timing": "Optimal Contact Timing",
+        "smart_message_campaign": "Smart Message Campaign",
+        "anomaly_detection": "Anomaly Detection",
+        "educational_materials": "Educational Materials",
+        "media_documentation": "Media Documentation",
+        "gamification": "Gamification",
+        "admin_dashboard": "Admin Dashboard",
+        "reports": "Reports",
+        "settings": "Settings",
+        "help": "Help & Support",
+        "logout": "Logout",
+        "more": "More",
+        "community_forum": "Forum",
+        "community_events": "Events",
+        "community_founders": "Founders Directory",
+        "community": "Community",
+        "incubation_mentorship": "Mentorship"
+    },
+    "header": {
+        "greeting": "Welcome",
+        "profile": {
+            "name": "Ali",
+            "email": "ali@example.com"
+        },
+        "role": "Role"
+    },
+    "leadership": {
+        "title": "Leadership Qualification",
+        "tabs": {
+            "overview": "Overview",
+            "calendar": "Calendar",
+            "projects": "Student Projects",
+            "student_environment": "Student Environment",
+            "scout": "Scout Unit",
+            "leadership": "Leadership Qualification",
+            "educational": "Educational Development"
+        },
+        "overview": {
+            "workTeam": "Work Team",
+            "totalEvents": "Total Events",
+            "studentProjectImpact": "Student Project Impact",
+            "beneficiaries": "Beneficiaries",
+            "upcomingEvents": "Upcoming Events"
+        },
+        "projects": {
+            "activeProjects": "Active Projects",
+            "statuses": {
+                "completed": "Completed"
+            }
+        },
+        "metrics": {
+            "performanceDashboard": "Performance Dashboard",
+            "overallCompletion": "Overall Completion",
+            "stageCompletion": "Stage Completion",
+            "onTimeCompletion": "On-Time Completion",
+            "avgAttendance": "Avg. Attendance",
+            "cancellationRate": "Cancellation Rate",
+            "teamEngagement": "Team Engagement",
+            "eventsStatusBreakdown": "Events Status Breakdown"
+        },
+        "noEventsPlanned": "No events planned",
+        "workTeam": "Work Team",
+        "teamTypes": {
+            "staff": "Staff",
+            "volunteer": "Volunteer"
+        },
+        "stages": {
+            "s1": "Second Semester",
+            "s2": "First Semester",
+            "s3": "Summer Break"
+        },
+        "eventTypes": {
+            "lecture": "Lecture",
+            "course": "Course",
+            "camp": "Camp",
+            "workshop": "Workshop",
+            "activity": "Activity",
+            "ceremony": "Ceremony",
+            "meeting": "Meeting",
+            "event": "Event"
+        },
+        "eventStatuses": {
+            "planned": "Planned",
+            "in-progress": "In-progress",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "missed": "Missed"
+        },
+        "eventFacilitator": "Facilitator",
+        "eventLocation": "Location",
+        "eventTime": "Time",
+        "eventParticipants": "Participants",
+        "workPlan": "Work Plan",
+        "confirmCancel": "Are you sure you want to cancel this event?",
+        "eventCancelled": "Event cancelled.",
+        "eventCompleted": "Event marked as completed.",
+        "markCompleted": "Mark as Completed",
+        "cancelEvent": "Cancel Event",
+        "quranicTimeline": {
+            "title": "Quranic Timeline",
+            "progress": "Progress",
+            "weeks": "Weeks",
+            "totalDuration": "Total Duration",
+            "completed": "Completed",
+            "inProgress": "In Progress",
+            "upcoming": "Upcoming",
+            "week": "Week",
+            "dateRange": "Date Range",
+            "content": "Content",
+            "status": "Status",
+            "notes": "Notes",
+            "stationDetails": "Station Details",
+            "markAsComplete": "Mark as Complete",
+            "inprogress": "In Progress"
+        }
+    },
+    "beneficiaries": {
+        "title": "Beneficiary Management",
+        "backToList": "Back to Beneficiaries List",
+        "subtitle_at": "{field} at {university}",
+        "kpi": {
+          "gpa": "Current GPA",
+          "financialAid": "Financial Aid",
+          "communication": "Communication",
+          "documents": "Documents",
+          "communication_value": "{count} logs"
+        },
+        "overview": {
+          "title": "Personal Details",
+          "id": "ID",
+          "country": "Country",
+          "email": "Email",
+          "phone": "Phone",
+          "university": "University",
+          "major": "Major",
+          "gpa": "GPA",
+          "academic_year": "Academic Year"
+        },
+        "modal": {
+            "tabs": {
+                "personal": "Personal",
+                "journey_impact": "Journey & Impact",
+                "academic": "Academic",
+                "sponsorship": "Sponsorship",
+                "needs_assessment": "Needs Assessment",
+                "qualification_journey": "Qualification Journey",
+                "aid_log": "Aid & Services",
+                "calendar": "Calendar",
+                "files_and_documents": "Files & Documents",
+                "communication": "Communication"
+            },
+            "add": {
+                "title": "Add New Beneficiary",
+                "fullName": "Full Name",
+                "beneficiaryType": "Beneficiary Type",
+                "country": "Country",
+                "email": "Email",
+                "phone": "Phone",
+                "addButton": "Add"
+            }
+        },
+        "types": {
+            "all": "All",
+            "student": "Student",
+            "orphan": "Orphan",
+            "hafiz": "Hafiz",
+            "family": "Family",
+            "institution": "Institution",
+            "community": "Community",
+            "incubation_beneficiary": "Incubation Beneficiary",
+            "individual-other": "Individual"
+        }
+    },
+    "incubation_investors": {
+        "title": "Incubation Investors",
+        "viewDemoDay": "View Demo Day Evaluations",
+        "totalInvestors": "Total Investors",
+        "totalFunds": "Total Funds Represented",
+        "mostActive": "Most Active",
+        "table_investor": "Investor",
+        "table_fundType": "Fund / Type",
+        "table_focus": "Investment Focus",
+        "table_startups": "Followed Startups",
+        "table_lastInteraction": "Last Interaction",
+        "fundTypes": {
+            "vc_firm": "VC Firm",
+            "angel_network": "Angel Network"
+        }
+    },
+    "incubation_stakeholders": {
+        "title": "Incubation Stakeholders",
+        "kpi_total": "Total Stakeholders",
+        "kpi_mentors": "Mentors",
+        "kpi_investors": "Investors",
+        "kpi_partners": "Partners",
+        "add_stakeholder": "Add Stakeholder",
+        "search_placeholder": "Search by name or role...",
+        "table": {
+            "name": "Name",
+            "role": "Role",
+            "relatedProgram": "Related Program/Startup",
+            "contact": "Contact",
+            "notes": "Notes",
+            "actions": "Actions"
+        },
+        "roles": {
+            "Mentor": "Mentor",
+            "Investor": "Investor",
+            "CorporatePartner": "Corporate Partner",
+            "UniversityPartner": "University Partner",
+            "Expert": "Expert"
+        }
+    },
+    "incubationSuccessMetrics": {
+        "fundingPerDonorTitle": "Funding Per Donor Organization",
+        "fundingVsImpactTitle": "Funding vs. Impact Score Over Time",
+        "grantDistributionTitle": "Grant Distribution by Sector",
+        "roiVsMentorshipTitle": "ROI vs. Mentorship Intensity",
+        "fundingAxisLabel": "Funding (USD)",
+        "impactScoreAxisLabel": "Impact Score",
+        "mentorshipSessionsAxisLabel": "Mentorship Sessions",
+        "roiAxisLabel": "ROI (x)",
+        "donor": "Donor",
+        "sector": "Sector"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "activeFilters": "Active Filters",
+        "vsLastPeriod": "vs last period",
+        "favoriteReport": {
+            "title": "Favorite Report",
+            "noneSelected": "No favorite report selected."
+        },
+        "toastDemo": {
+            "title": "Notification Demo",
+            "successTitle": "Success",
+            "successMessage": "Operation completed successfully.",
+            "errorTitle": "Error",
+            "errorMessage": "Something went wrong. Please try again.",
+            "warningTitle": "Warning",
+            "warningMessage": "Please review your inputs before continuing.",
+            "infoTitle": "Info",
+            "infoMessage": "Here is an informational update.",
+            "successButton": "Success",
+            "errorButton": "Error",
+            "warningButton": "Warning",
+            "infoButton": "Info"
+        },
+        "widgets": {
+            "kpiSponsorships": "Pending Sponsorships",
+            "kpiOverdueTasks": "Overdue Donor Tasks",
+            "kpiProjectsAtRisk": "Projects at Risk",
+            "kpiFundsDisbursed": "Funds to be Disbursed",
+            "donationsChart": "Donations Chart",
+            "timelineView": "Timeline",
+            "matrixView": "Matrix View",
+            "comparisonBars": "Comparative Performance",
+            "favoriteReport": "Favorite Report",
+            "toastDemo": "Notifications Demo",
+            "gettingStarted": "Getting Started",
+            "quickActions": "Quick Actions",
+            "aiInsights": "AI Insights"
+        },
+        "controls": {
+            "timePeriod": "Time Period",
+            "department": "Department",
+            "indicators": "Indicators",
+            "selected": "{count} selected",
+            "searchIndicators": "Search indicators...",
+            "autoRefresh": "Auto Refresh",
+            "periods": {
+                "d7": "Last 7 days",
+                "d30": "Last 30 days",
+                "thisMonth": "This month",
+                "thisQuarter": "This quarter",
+                "thisYear": "This year"
+            },
+            "departments": {
+                "all": "All departments",
+                "programs": "Programs",
+                "finance": "Finance",
+                "hr": "Human Resources",
+                "marketing": "Marketing"
+            },
+            "kpis": {
+                "donorRetention": "Donor Retention",
+                "newDonors": "New Donors",
+                "avgGift": "Average Gift",
+                "campaignROI": "Campaign ROI",
+                "projectSuccess": "Project Success",
+                "volunteerTurnover": "Volunteer Turnover"
+            }
+        },
+        "aiInsights": {
+            "title": "AI Insights",
+            "refreshingIn": "Refreshing in {seconds}s",
+            "opportunities": "Opportunities",
+            "alerts": "Alerts",
+            "recommendations": "Recommendations",
+            "forecasts": "Forecasts",
+            "viewMore": "View More Insights",
+            "confidence": "Conf"
+        }
+    },
+    "quick_actions": {
+        "title": "Quick Actions",
+        "addProject": "Add Project",
+        "createReport": "Create Report",
+        "sendMessage": "Send Message",
+        "settings": "Settings"
+    },
+    "shareMenu": {
+        "share": "Share",
+        "modalTitle": "Share Dashboard",
+        "copySuccess": "Link copied successfully.",
+        "tabs": {
+            "email": "Email",
+            "link": "Link",
+            "schedule": "Schedule"
+        },
+        "email": {
+            "to": "Recipient Email",
+            "subject": "Subject",
+            "message": "Message",
+            "send": "Send",
+            "sending": "Sending...",
+            "sentSuccess": "Report sent successfully.",
+            "sentTitle": "Email Sent",
+            "invalidAddress": "Please enter a valid email address.",
+            "invalidTitle": "Invalid Email",
+            "defaultSubject": "Dashboard Report",
+            "defaultMessage": "Please find the attached dashboard report."
+        },
+        "link": {
+            "description": "Create a secure shareable link to this dashboard.",
+            "copy": "Copy"
+        },
+        "schedule": {
+            "description": "Schedule this report to be sent automatically.",
+            "frequency": "Frequency",
+            "time": "Time",
+            "recipients": "Recipients",
+            "recipientsPlaceholder": "email1@example.com, email2@example.com",
+            "scheduleBtn": "Schedule",
+            "scheduling": "Scheduling...",
+            "scheduledSuccess": "Report scheduled successfully.",
+            "scheduledTitle": "Scheduled",
+            "frequencies": {
+                "daily": "Daily",
+                "weekly": "Weekly",
+                "monthly": "Monthly"
+            }
+        }
+    },
+    "exportMenu": {
+        "export": "Export",
+        "exporting": "Exporting",
+        "pleaseWait": "Please wait a moment...",
+        "exportSuccess": "Export completed successfully.",
+        "exportError": "Export failed. Please try again.",
+        "successTitle": "Success",
+        "errorTitle": "Error",
+        "imageDownloadedTitle": "Image Downloaded",
+        "image": "Image (PNG)",
+        "pdf": "PDF",
+        "excel": "Excel (XLSX)",
+        "powerpoint": "PowerPoint (image)",
+        "pptxPlaceholder": "PowerPoint export is coming soon. Downloaded as image for now.",
+        "participantsSheetName": "Participants"
+    },
+    "layoutCustomizer": {
+        "title": "Customize Layout",
+        "undo": "Undo",
+        "redo": "Redo",
+        "save": "Save",
+        "presets": "Presets",
+        "executive": "Executive",
+        "manager": "Manager",
+        "analyst": "Analyst",
+        "myCustomLayout": "My Custom Layout",
+        "widgets": "Widgets",
+        "import": "Import",
+        "export": "Export",
+        "done": "Done",
+        "alerts": {
+            "saved": "Custom layout saved!",
+            "invalidFile": "Invalid layout file.",
+            "readError": "Error reading file."
+        }
+    },
+    "onboarding": {
+        "startTour": "Start Tour",
+        "checklist": {
+            "title": "Getting Started Checklist"
+        },
+        "tour": {
+            "skip": "Skip",
+            "prev": "Previous",
+            "next": "Next",
+            "finish": "Finish",
+            "step1_title": "Navigation Sidebar",
+            "step1_content": "Use the sidebar to switch between modules quickly.",
+            "step2_title": "Top Header Controls",
+            "step2_content": "Change language, role, and profile options from here.",
+            "step3_title": "Dashboard Controls",
+            "step3_content": "Filter metrics, share, export, and customize the dashboard layout.",
+            "step4_title": "AI Assistant",
+            "step4_content": "Open the AI assistant for contextual support and insights."
+        }
+    },
+    "projects": {
+        "reporting": {
+            "overviewReport": "Overview Report",
+            "tasksReport": "Tasks Report",
+            "budgetReport": "Budget Report",
+            "timelineReport": "Timeline Report",
+            "viewReport": "View Report"
+        }
+    },
+    "help": {
+        "title": "Help & Support",
+        "subtitle": "Quickly browse FAQs, video tutorials, and interactive guides.",
+        "contextual": {
+            "indicators": "Choose which KPIs are shown on your dashboard."
+        },
+        "faq": {
+            "title": "Frequently Asked Questions",
+            "noResults": "No results match your search.",
+            "categories": {
+                "general": "General",
+                "donors": "Donors",
+                "projects": "Projects"
+            }
+        },
+        "videos": {
+            "title": "Video Tutorials",
+            "minutes": "min"
+        },
+        "interactive": {
+            "title": "Interactive Tutorials",
+            "description": "Follow step-by-step interactive walkthroughs for core modules.",
+            "duration": "{duration} min",
+            "start": "Start tutorial",
+            "comingSoonMessage": "Interactive tutorials are coming soon!",
+            "comingSoonTitle": "Feature in Development"
+        }
+    },
+    "kpiCard": {
+        "target": "Target: {target}",
+        "daysRemaining": "days remaining"
+    },
+    "bousala": {
+        "title": "Bousala",
+        "linkedModules": "Smart goals and projects management platform",
+        "reports": {
+            "title": "Reports"
+        },
+        "presentationMode": "Presentation Mode",
+        "projects": "Projects",
+        "kpis": "KPIs",
+        "kpisVisualization": "KPI Visualization",
+        "aiSuggestions": "AI Suggestions",
+        "kpiUpdateNotification": "Predictive analysis has been updated.",
+        "settingsSaved": "Settings saved successfully.",
+        "tabs": {
+            "dashboard": "Dashboard",
+            "predictive": "Predictive Analysis"
+        },
+        "prediction": {
+            "title": "Predictive Insights",
+            "summary": "Expected to reach target by {percentage}%",
+            "recommendation": "To improve performance, it is recommended to increase resources by {percentage}%."
+        },
+        "analytics": {
+            "title": "Analytics Dashboard",
+            "goalProgress": "Goal Progress",
+            "projectComparison": "Project Progress Comparison"
+        },
+        "addTaskModal": {
+            "success": "Task added successfully."
+        },
+        "aiPanel": {
+            "title": "AI Assistant",
+            "recommendations": "Recommendations",
+            "performanceInsights": "Performance Insights",
+            "riskForecast": "Risk Forecast",
+            "suggestedActions": "Suggested Actions",
+            "actions": {
+                "addGoal": "Add Goal",
+                "addTask": "Add Task",
+                "linkProject": "Link Project",
+                "viewReports": "View Reports"
+            }
+        },
+        "alerts": {
+            "lowProbability": "Goal achievement probability dropped to {probability}%.",
+            "kpiBelowHalf": "\"{kpiTitle}\" is below 50% of target.",
+            "kpiDownward": "\"{kpiTitle}\" is trending downward.",
+            "smartAlertFor": "Smart alert for: {title}",
+            "recommendationFailed": "Failed to generate recommendation. Please try again later.",
+            "generatingRecommendation": "AI is generating a recommendation..."
+        },
+        "alertsCenter": {
+            "title": "Alerts Center",
+            "filters": {
+                "allGoals": "All Goals",
+                "allSeverities": "All Severities",
+                "newest": "Newest",
+                "oldest": "Oldest"
+            },
+            "severity": {
+                "critical": "Critical",
+                "warning": "Warning"
+            },
+            "status": {
+                "reviewed": "Reviewed"
+            },
+            "actions": {
+                "markReviewed": "Mark as reviewed",
+                "createTask": "Create task",
+                "correctiveTaskFor": "Corrective task for: {title}"
+            }
+        },
+        "settings": {
+            "title": "Settings",
+            "notificationsTitle": "Notification Settings",
+            "enableSmartAlerts": "Enable Smart Alerts",
+            "severityThreshold": "Severity Threshold ({threshold}%)",
+            "alertSound": "Alert Sound",
+            "aiAutoRecs": "AI Auto-Recommendations",
+            "kpiTitle": "KPI Update Settings",
+            "refreshInterval": "Refresh Interval",
+            "smartRefresh": "Enable Smart Refresh",
+            "showAnimation": "Show Refresh Animation",
+            "save": "Save Settings"
+        }
+    },
+    "matrix": {
+        "title": "Performance Matrix"
+    }
+}

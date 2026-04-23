@@ -1,0 +1,11 @@
+{
+  "moduleName": "Loans Portfolio",
+  "version": "1.0.0",
+  "enabled": true,
+  "defaultView": "dashboard",
+  "aiIntegration": {
+    "enabled": true,
+    "riskAnalysisModel": "gemini-2.5-flash",
+    "repaymentPredictionModel": "gemini-2.5-pro"
+  }
+}

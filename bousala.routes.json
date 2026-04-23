@@ -1,0 +1,43 @@
+
+[
+  {
+    "path": "/dashboard",
+    "component": "BousalaDashboard",
+    "title": {
+      "en": "Dashboard",
+      "ar": "لوحة القيادة"
+    }
+  },
+  {
+    "path": "/goals",
+    "component": "GoalsManagement",
+    "title": {
+      "en": "Goals",
+      "ar": "الأهداف"
+    }
+  },
+  {
+    "path": "/projects",
+    "component": "ProjectsLink",
+    "title": {
+      "en": "Projects",
+      "ar": "المشاريع"
+    }
+  },
+  {
+    "path": "/tasks",
+    "component": "TasksView",
+    "title": {
+      "en": "Tasks",
+      "ar": "المهام"
+    }
+  },
+  {
+    "path": "/kpis",
+    "component": "KpiTracker",
+    "title": {
+      "en": "KPIs",
+      "ar": "مؤشرات الأداء"
+    }
+  }
+]

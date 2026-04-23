@@ -1,0 +1,34 @@
+{
+  "Admin": {
+    "view": true,
+    "create": true,
+    "edit": true,
+    "delete": true,
+    "approve_reject": true,
+    "view_analytics": true
+  },
+  "Manager": {
+    "view": true,
+    "create": true,
+    "edit": true,
+    "delete": false,
+    "approve_reject": true,
+    "view_analytics": true
+  },
+  "Staff": {
+    "view": true,
+    "create": "own",
+    "edit": "own",
+    "delete": false,
+    "approve_reject": false,
+    "view_analytics": false
+  },
+  "Volunteer": {
+    "view": false,
+    "create": false,
+    "edit": false,
+    "delete": false,
+    "approve_reject": false,
+    "view_analytics": false
+  }
+}

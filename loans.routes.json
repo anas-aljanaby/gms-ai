@@ -1,0 +1,38 @@
+[
+  {
+    "path": "/dashboard",
+    "component": "LoansDashboard",
+    "title": {
+      "en": "Dashboard",
+      "ar": "لوحة القيادة",
+      "tr": "Kontrol Paneli"
+    }
+  },
+  {
+    "path": "/all-loans",
+    "component": "AllLoansList",
+    "title": {
+      "en": "All Loans",
+      "ar": "جميع القروض",
+      "tr": "Tüm Krediler"
+    }
+  },
+  {
+    "path": "/applications",
+    "component": "LoanApplications",
+    "title": {
+      "en": "Applications",
+      "ar": "الطلبات",
+      "tr": "Başvurular"
+    }
+  },
+  {
+    "path": "/analytics",
+    "component": "LoansAnalytics",
+    "title": {
+      "en": "Analytics",
+      "ar": "التحليلات",
+      "tr": "Analitik"
+    }
+  }
+]
