@@ -15,27 +15,27 @@ export const MOCK_MARKETING_METRICS: MarketingMetric[] = [
 export const MOCK_ACTIVITY_FEED: ActivityFeedItem[] = [
     {
         id: 'act-1', type: 'donation', timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-        description: { en: 'New donation received from', ar: 'تم استلام تبرع جديد من', tr: 'Yeni bağış alındı:' },
+        description: { en: 'New donation received from', ar: 'تم استلام تبرع جديد من' },
         subject: 'Aisha Al-Farsi', link: '#'
     },
     {
         id: 'act-2', type: 'emailSent', timestamp: new Date(Date.now() - 1000 * 60 * 22).toISOString(),
-        description: { en: 'Email campaign sent:', ar: 'تم إرسال حملة البريد الإلكتروني:', tr: 'E-posta kampanyası gönderildi:' },
+        description: { en: 'Email campaign sent:', ar: 'تم إرسال حملة البريد الإلكتروني:' },
         subject: 'Q3 Newsletter', link: '#'
     },
     {
         id: 'act-3', type: 'socialPost', timestamp: new Date(Date.now() - 1000 * 60 * 58).toISOString(),
-        description: { en: 'New post scheduled on', ar: 'تمت جدولة منشور جديد على', tr: 'Yeni gönderi planlandı:' },
+        description: { en: 'New post scheduled on', ar: 'تمت جدولة منشور جديد على' },
         subject: 'Facebook', link: '#'
     },
     {
         id: 'act-4', type: 'adStarted', timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
-        description: { en: 'Ad campaign started:', ar: 'بدأت الحملة الإعلانية:', tr: 'Reklam kampanyası başladı:' },
+        description: { en: 'Ad campaign started:', ar: 'بدأت الحملة الإعلانية:' },
         subject: 'Ramadan Giving 2025', link: '#'
     },
     {
         id: 'act-5', type: 'landingPage', timestamp: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
-        description: { en: 'Landing page published:', ar: 'تم نشر الصفحة المقصودة:', tr: 'Açılış sayfası yayınlandı:' },
+        description: { en: 'Landing page published:', ar: 'تم نشر الصفحة المقصودة:' },
         subject: 'Water Well Project', link: '#'
     },
 ];

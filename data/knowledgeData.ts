@@ -8,17 +8,17 @@ export const MOCK_KNOWLEDGE_DATA: KnowledgeData = {
             title: {
                 en: 'Best Practices in Volunteer Management',
                 ar: 'أفضل الممارسات في إدارة المتطوعين',
-                tr: 'Gönüllü Yönetiminde En İyi Uygulamalar',
+
             },
             content: {
                 en: 'From our experience with over 500 volunteers, we found that continuous communication and clear task assignments are key to retention and satisfaction.',
                 ar: 'من خلال تجربتنا مع 500 متطوع، وجدنا أن التواصل المستمر وتحديد المهام بوضوح هما مفتاح الاحتفاظ بالمتطوعين ورضاهم.',
-                tr: '500\'den fazla gönüllü ile olan deneyimlerimize dayanarak, sürekli iletişim ve net görev atamalarının elde tutma ve memnuniyetin anahtarı olduğunu gördük.',
+
             },
             category: {
                 en: 'Volunteer Management',
                 ar: 'إدارة التطوع',
-                tr: 'Gönüllü Yönetimi',
+
             },
             author_id: 'user-ahmed',
             author_name: 'أحمد محمد',
@@ -31,17 +31,17 @@ export const MOCK_KNOWLEDGE_DATA: KnowledgeData = {
             title: {
                 en: 'Guide to Writing Successful Proposals',
                 ar: 'دليل كتابة المقترحات الناجحة',
-                tr: 'Başarılı Teklif Yazma Rehberi',
+
             },
             content: {
                 en: 'The basic steps for writing a successful project proposal include defining the problem, outlining the solution, and detailing the budget.',
                 ar: 'الخطوات الأساسية لكتابة مقترح مشروع ناجح تشمل تحديد المشكلة، وتوضيح الحل، وتفصيل الميزانية.',
-                tr: 'Başarılı bir proje teklifi yazmanın temel adımları; sorunu tanımlamak, çözümü özetlemek ve bütçeyi detaylandırmaktır.',
+
             },
             category: {
                 en: 'Fundraising',
                 ar: 'تطوير الأعمال',
-                tr: 'Bağış Toplama',
+
             },
             author_id: 'user-fatma',
             author_name: 'فاطمة أحمد',
@@ -54,17 +54,17 @@ export const MOCK_KNOWLEDGE_DATA: KnowledgeData = {
             title: {
                 en: 'Effective Communication Strategies',
                 ar: 'استراتيجيات التواصل الفعال',
-                tr: 'Etkili İletişim Stratejileri',
+
             },
             content: {
                 en: 'Communication is the backbone of institutional work. Establishing regular communication channels and being transparent builds trust.',
                 ar: 'التواصل هو عصب العمل المؤسسي. إن إنشاء قنوات اتصال منتظمة والتحلي بالشفافية يبني الثقة.',
-                tr: 'İletişim, kurumsal çalışmanın bel kemiğidir. Düzenli iletişim kanalları kurmak ve şeffaf olmak güven oluşturur.',
+
             },
             category: {
                 en: 'Other',
                 ar: 'أخرى',
-                tr: 'Diğer',
+
             },
             author_id: 'user-mohammed',
             author_name: 'محمد علي',

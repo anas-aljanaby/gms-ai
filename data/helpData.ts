@@ -30,12 +30,12 @@ export const MOCK_FAQS: FaqItem[] = [
     question: {
       en: "How do I change the language?",
       ar: "كيف يمكنني تغيير اللغة؟",
-      tr: "Dili nasıl değiştirebilirim?",
+
     },
     answer: {
       en: "You can change the language at any time by clicking the globe icon in the top-right corner of the header.",
       ar: "يمكنك تغيير اللغة في أي وقت بالنقر على أيقونة الكرة الأرضية في الزاوية العلوية اليمنى من الترويسة.",
-      tr: "Dili istediğiniz zaman başlığın sağ üst köşesindeki dünya simgesine tıklayarak değiştirebilirsiniz.",
+
     },
   },
   {
@@ -44,12 +44,12 @@ export const MOCK_FAQS: FaqItem[] = [
     question: {
       en: "How can I customize my dashboard?",
       ar: "كيف يمكنني تخصيص لوحة القيادة الخاصة بي؟",
-      tr: "Kontrol panelimi nasıl özelleştirebilirim?",
+
     },
     answer: {
       en: "On the Dashboard page, click the 'Customize' button (wrench icon) in the top controls. This will allow you to drag, resize, add, or remove widgets.",
       ar: "في صفحة لوحة القيادة، انقر فوق زر 'تخصيص' (أيقونة مفتاح الربط) في عناصر التحكم العلوية. سيسمح لك ذلك بسحب الأدوات وتغيير حجمها وإضافتها وإزالتها.",
-      tr: "Kontrol Paneli sayfasında, üst kontrollerdeki 'Özelleştir' düğmesine (anahtar simgesi) tıklayın. Bu, widget'ları sürüklemenize, yeniden boyutlandırmanıza, eklemenize veya kaldırmanıza olanak tanır.",
+
     },
   },
    {
@@ -58,12 +58,12 @@ export const MOCK_FAQS: FaqItem[] = [
     question: {
       en: "What is the difference between a 'Prospect' and 'Contacted' donor?",
       ar: "ما الفرق بين المانح 'المحتمل' و'تم التواصل معه'؟",
-      tr: "'Aday' ve 'İletişim Kuruldu' bağışçı arasındaki fark nedir?",
+
     },
     answer: {
       en: "A 'Prospect' is a potential donor who has been identified but not yet contacted. Once you make the first contact (email, call, etc.), you should move them to the 'Contacted' stage.",
       ar: "المانح 'المحتمل' هو مانح تم تحديده ولكن لم يتم التواصل معه بعد. بمجرد إجراء أول اتصال (بريد إلكتروني، مكالمة، إلخ)، يجب عليك نقلهم إلى مرحلة 'تم التواصل معه'.",
-      tr: "'Aday', potansiyel bir bağışçıdır ancak henüz iletişime geçilmemiştir. İlk teması kurduğunuzda (e-posta, arama vb.), onu 'İletişim Kuruldu' aşamasına taşımalısınız.",
+
     },
   },
   {
@@ -72,12 +72,12 @@ export const MOCK_FAQS: FaqItem[] = [
     question: {
       en: "How is project progress calculated?",
       ar: "كيف يتم حساب تقدم المشروع؟",
-      tr: "Proje ilerlemesi nasıl hesaplanır?",
+
     },
     answer: {
       en: "Project progress is an aggregate of the completion status of all tasks within its Work Breakdown Structure (WBS). You can view the detailed schedule in the 'Schedule' tab of any project.",
       ar: "تقدم المشروع هو تجميع لحالة إنجاز جميع المهام ضمن هيكل تقسيم العمل (WBS) الخاص به. يمكنك عرض الجدول الزمني المفصل في علامة التبويب 'الجدول الزمني' لأي مشروع.",
-      tr: "Proje ilerlemesi, İş Kırılım Yapısı (WBS) içindeki tüm görevlerin tamamlanma durumunun bir toplamıdır. Herhangi bir projenin 'Zamanlama' sekmesinde ayrıntılı zamanlamayı görüntüleyebilirsiniz.",
+
     },
   },
   {
@@ -86,12 +86,12 @@ export const MOCK_FAQS: FaqItem[] = [
     question: {
       en: "What is the 'Partnership Opportunities' feature?",
       ar: "ما هي ميزة 'فرص الشراكة'؟",
-      tr: "'Ortaklık Fırsatları' özelliği nedir?",
+
     },
     answer: {
       en: "The 'Partnership Opportunities' feature, found within the 'Institutional Donors' module, uses AI to help you find the best potential funding partners for your projects. Simply select one of your projects, and the AI will analyze institutional donors to identify those whose focus areas and geographic interests align with your project's goals, providing an alignment score for each potential match. You can then use the AI to help draft an initial application.",
       ar: "ميزة 'فرص الشراكة'، الموجودة في وحدة 'المؤسسات المانحة'، تستخدم الذكاء الاصطناعي لمساعدتك في العثور على أفضل شركاء تمويل محتملين لمشاريعك. ما عليك سوى اختيار أحد مشاريعك، وسيقوم الذكاء الاصطناعي بتحليل المؤسسات المانحة لتحديد تلك التي تتوافق مجالات تركيزها واهتماماتها الجغرافية مع أهداف مشروعك، مع تقديم درجة توافق لكل مطابقة محتملة. يمكنك بعد ذلك استخدام الذكاء الاصطناعي للمساعدة في صياغة طلب أولي.",
-      tr: "'Kurumsal Bağışçılar' modülünde bulunan 'Ortaklık Fırsatları' özelliği, projeleriniz için en iyi potansiyel fon sağlayan ortakları bulmanıza yardımcı olmak için yapay zeka kullanır. Sadece projelerinizden birini seçin, yapay zeka, odak alanları ve coğrafi ilgi alanları projenizin hedefleriyle uyumlu olan kurumsal bağışçıları belirlemek için analiz yapacak ve her potansiyel eşleşme için bir uyum puanı sağlayacaktır. Daha sonra ilk başvuruyu hazırlamak için yapay zekayı kullanabilirsiniz.",
+
     },
   },
   {
@@ -100,12 +100,12 @@ export const MOCK_FAQS: FaqItem[] = [
     question: {
       en: "What is the 'AI Insights' panel on the Dashboard?",
       ar: "ما هي لوحة 'رؤى الذكاء الاصطناعي' في لوحة القيادة الرئيسية؟",
-      tr: "Kontrol Panelindeki 'Yapay Zeka Analizleri' paneli nedir?",
+
     },
     answer: {
       en: "The AI Insights panel on your dashboard provides real-time, actionable intelligence about your organization. It automatically analyzes your data to highlight opportunities (like high-potential donors), alerts (like projects going over budget), recommendations (such as launching a new campaign), and forecasts (predicting future trends like donation increases). It helps you make smarter decisions without manually digging through data.",
       ar: "لوحة رؤى الذكاء الاصطناعي في لوحة القيادة الرئيسية توفر لك معلومات استخباراتية قابلة للتنفيذ وفي الوقت الفعلي حول منظمتك. تقوم اللوحة تلقائيًا بتحليل بياناتك لتسليط الضوء على الفرص (مثل المانحين ذوي الإمكانات العالية)، والتنبيهات (مثل المشاريع التي تتجاوز الميزانية)، والتوصيات (مثل إطلاق حملة جديدة)، والتوقعات (مثل التنبؤ بالاتجاهات المستقبلية كزيادة التبرعات). تساعدك على اتخاذ قرارات أكثر ذكاءً دون الحاجة إلى البحث اليدوي في البيانات.",
-      tr: "Kontrol panelinizdeki Yapay Zeka Analizleri paneli, kuruluşunuz hakkında gerçek zamanlı, eyleme geçirilebilir bilgiler sağlar. Fırsatları (yüksek potansiyelli bağışçılar gibi), uyarıları (bütçeyi aşan projeler gibi), önerileri (yeni bir kampanya başlatmak gibi) ve tahminleri (bağış artışları gibi gelecekteki eğilimleri tahmin etme) vurgulamak için verilerinizi otomatik olarak analiz eder. Verileri manuel olarak incelemeden daha akıllı kararlar almanıza yardımcı olur.",
+
     },
   }
 ];
@@ -113,31 +113,31 @@ export const MOCK_FAQS: FaqItem[] = [
 export const MOCK_TUTORIALS: Tutorial[] = [
     { 
         id: 'tut-1',
-        title: { en: 'Creating Your First Project', ar: 'إنشاء مشروعك الأول', tr: 'İlk Projenizi Oluşturma' },
-        description: { en: 'Learn how to set up a new project from scratch, define goals, and add team members.', ar: 'تعلم كيفية إعداد مشروع جديد من البداية وتحديد الأهداف وإضافة أعضاء الفريق.', tr: 'Sıfırdan yeni bir proje oluşturmayı, hedefleri belirlemeyi ve ekip üyelerini eklemeyi öğrenin.' },
+        title: { en: 'Creating Your First Project', ar: 'إنشاء مشروعك الأول' },
+        description: { en: 'Learn how to set up a new project from scratch, define goals, and add team members.', ar: 'تعلم كيفية إعداد مشروع جديد من البداية وتحديد الأهداف وإضافة أعضاء الفريق.' },
         duration: 5,
         type: 'video',
         videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
     },
     { 
         id: 'tut-2',
-        title: { en: 'Interactive: Customize Your Dashboard', ar: 'تفاعلي: خصص لوحة القيادة الخاصة بك', tr: 'İnteraktif: Kontrol Panelinizi Özelleştirin' },
-        description: { en: 'A step-by-step guide to rearranging your dashboard widgets to fit your workflow.', ar: 'دليل تفصيلي خطوة بخطوة لإعادة ترتيب أدوات لوحة القيادة لتناسب سير عملك.', tr: 'İş akışınıza uyacak şekilde kontrol paneli widget\'larınızı yeniden düzenlemek için adım adım bir kılavuz.' },
+        title: { en: 'Interactive: Customize Your Dashboard', ar: 'تفاعلي: خصص لوحة القيادة الخاصة بك' },
+        description: { en: 'A step-by-step guide to rearranging your dashboard widgets to fit your workflow.', ar: 'دليل تفصيلي خطوة بخطوة لإعادة ترتيب أدوات لوحة القيادة لتناسب سير عملك.' },
         duration: 3,
         type: 'interactive'
     },
      { 
         id: 'tut-3',
-        title: { en: 'Understanding Donor Intelligence', ar: 'فهم ذكاء المانحين', tr: 'Bağışçı Zekasını Anlama' },
-        description: { en: 'A deep dive into how the AI classifies donors and what each category means.', ar: 'نظرة عميقة على كيفية تصنيف الذكاء الاصطناعي للمانحين وماذا تعني كل فئة.', tr: 'Yapay zekanın bağışçıları nasıl sınıflandırdığına ve her bir kategorinin ne anlama geldiğine derinlemesine bir bakış.' },
+        title: { en: 'Understanding Donor Intelligence', ar: 'فهم ذكاء المانحين' },
+        description: { en: 'A deep dive into how the AI classifies donors and what each category means.', ar: 'نظرة عميقة على كيفية تصنيف الذكاء الاصطناعي للمانحين وماذا تعني كل فئة.' },
         duration: 4,
         type: 'video',
         videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
     },
      { 
         id: 'tut-4',
-        title: { en: 'Interactive: Running a Smart Message Campaign', ar: 'تفاعلي: تشغيل حملة رسائل ذكية', tr: 'İnteraktif: Akıllı Mesaj Kampanyası Yürütme' },
-        description: { en: 'Be guided through creating and launching your first AI-powered messaging campaign.', ar: 'احصل على إرشادات لإنشاء وإطلاق أول حملة رسائل مدعومة بالذكاء الاصطناعي.', tr: 'İlk yapay zeka destekli mesajlaşma kampanyanızı oluşturma ve başlatma konusunda yönlendirilin.' },
+        title: { en: 'Interactive: Running a Smart Message Campaign', ar: 'تفاعلي: تشغيل حملة رسائل ذكية' },
+        description: { en: 'Be guided through creating and launching your first AI-powered messaging campaign.', ar: 'احصل على إرشادات لإنشاء وإطلاق أول حملة رسائل مدعومة بالذكاء الاصطناعي.' },
         duration: 8,
         type: 'interactive'
     },

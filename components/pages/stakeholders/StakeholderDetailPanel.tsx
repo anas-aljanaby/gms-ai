@@ -171,9 +171,9 @@ const StakeholderDetailPanel: React.FC<StakeholderDetailPanelProps> = ({ stakeho
                             <section>
                                 <h3 className="font-semibold text-gray-500 mb-2">{t('stakeholder_management.detailPanel.contactHistory')}</h3>
                                 <div className="space-y-4">
-                                    <ContactHistoryItem icon={<MessageSquare size={16} />} title={t('stakeholder_management.detailPanel.contact_types.email')} date="2 weeks ago" />
-                                    <ContactHistoryItem icon={<Briefcase size={16} />} title={t('stakeholder_management.detailPanel.contact_types.meeting')} date="1 month ago" />
-                                    <ContactHistoryItem icon={<Phone size={16} />} title={t('stakeholder_management.detailPanel.contact_types.call')} date="3 months ago" />
+                                    <ContactHistoryItem icon={<MessageSquare size={16} />} title={t('stakeholder_management.detailPanel.contact_types.email')} date={t('stakeholder_management.timeAgo.twoWeeks')} />
+                                    <ContactHistoryItem icon={<Briefcase size={16} />} title={t('stakeholder_management.detailPanel.contact_types.meeting')} date={t('stakeholder_management.timeAgo.oneMonth')} />
+                                    <ContactHistoryItem icon={<Phone size={16} />} title={t('stakeholder_management.detailPanel.contact_types.call')} date={t('stakeholder_management.timeAgo.threeMonths')} />
                                 </div>
                             </section>
                             <section>

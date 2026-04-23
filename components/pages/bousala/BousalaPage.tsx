@@ -127,8 +127,7 @@ const localTranslations: Record<Language, Record<string, string>> = {
        "bousala.settings.smartRefresh": "Enable Smart Refresh",
        "bousala.settings.showAnimation": "Show Refresh Animation",
        "bousala.settings.save": "Save Settings",
-    },
-    tr: {
+    }
         "bousala.prediction.title": "Tahminsel Analizler",
         "bousala.prediction.summary": "Hedefe %{percentage} oranında ulaşılması bekleniyor",
         "bousala.prediction.recommendation": "Performansı artırmak için kaynakların %{percentage} oranında artırılması önerilir.",

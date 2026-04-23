@@ -1,4 +1,3 @@
-
 {
     "common": {
         "searchPlaceholder": "ابحث في كل شيء...",
@@ -26,7 +25,9 @@
         "clearFilters": "مسح الفلاتر",
         "improvement": "تحسن",
         "listening": "جاري الاستماع...",
-        "voiceSearch": "بحث صوتي"
+        "voiceSearch": "بحث صوتي",
+        "export": "تصدير",
+        "tabs": "علامات التبويب"
     },
     "sidebar": {
         "dashboard": "لوحة القيادة",
@@ -101,10 +102,33 @@
         },
         "projects": {
             "activeProjects": "المشاريع النشطة",
+            "mentor": "المرشد",
+            "progress": "التقدم",
             "statuses": {
                 "completed": "مكتمل"
             }
         },
+        "calendar": {
+            "addNewEvent": "إضافة فعالية جديدة",
+            "studentProjects": "مشاريع الطلاب",
+            "eventCreatedSuccess": "تم إنشاء الفعالية بنجاح.",
+            "form": {
+                "eventTitle": "عنوان الفعالية",
+                "eventCategory": "فئة الفعالية",
+                "eventType": "نوع الفعالية",
+                "date": "التاريخ",
+                "startTime": "وقت البدء",
+                "facilitator": "الميسّر",
+                "selectFacilitator": "اختر الميسّر",
+                "location": "المكان",
+                "cancel": "إلغاء",
+                "createEvent": "إنشاء فعالية",
+                "requiredFields": "يرجى تعبئة جميع الحقول المطلوبة."
+            }
+        },
+        "today": "اليوم",
+        "previousMonth": "الشهر السابق",
+        "nextMonth": "الشهر التالي",
         "metrics": {
             "performanceDashboard": "لوحة مؤشرات الأداء",
             "overallCompletion": "نسبة الإنجاز الكلية",
@@ -176,22 +200,55 @@
         "backToList": "العودة إلى قائمة المستفيدين",
         "subtitle_at": "{field} في {university}",
         "kpi": {
-          "gpa": "المعدل التراكمي الحالي",
-          "financialAid": "المساعدات المالية",
-          "communication": "التواصل",
-          "documents": "المستندات",
-          "communication_value": "{count} سجلات"
+            "gpa": "المعدل التراكمي الحالي",
+            "financialAid": "المساعدات المالية",
+            "communication": "التواصل",
+            "documents": "المستندات",
+            "communication_value": "{count} سجلات"
+        },
+        "searchPlaceholder": "ابحث عن المستفيدين...",
+        "sponsorships": "الكفالة",
+        "directSupport": "دعم مباشر",
+        "noResults": "لا يوجد مستفيدون",
+        "noResultsDescription": "جرّب تعديل البحث أو الفلاتر.",
+        "filters": {
+            "allTypes": "كل الأنواع",
+            "allProjects": "كل المشاريع",
+            "sponsorshipProjects": "مشاريع الكفالة",
+            "allCountries": "كل الدول"
+        },
+        "aiSearch": {
+            "title": "بحث ذكي",
+            "placeholder": "ابحث بلغة طبيعية...",
+            "search": "بحث"
+        },
+        "card": {
+            "sponsoredStudent": "طالب مكفول",
+            "directSupport": "دعم مباشر"
+        },
+        "documents": {
+            "officialDocuments": "المستندات الرسمية"
+        },
+        "aidLog": {
+            "title": "سجل المساعدات والخدمات",
+            "noItems": "لم يتم تسجيل أي مساعدات أو خدمات لهذا المستفيد بعد.",
+            "value": "القيمة",
+            "status": {
+                "delivered": "تم التسليم",
+                "pending": "قيد الانتظار",
+                "scheduled": "مجدول"
+            }
         },
         "overview": {
-          "title": "تفاصيل الملف الشخصي",
-          "id": "المعرّف",
-          "country": "البلد",
-          "email": "البريد الإلكتروني",
-          "phone": "الهاتف",
-          "university": "الجامعة",
-          "major": "التخصص",
-          "gpa": "المعدل التراكمي",
-          "academic_year": "المرحلة الدراسية"
+            "title": "تفاصيل الملف الشخصي",
+            "id": "المعرّف",
+            "country": "البلد",
+            "email": "البريد الإلكتروني",
+            "phone": "الهاتف",
+            "university": "الجامعة",
+            "major": "التخصص",
+            "gpa": "المعدل التراكمي",
+            "academic_year": "المرحلة الدراسية"
         },
         "modal": {
             "tabs": {
@@ -206,14 +263,24 @@
                 "files_and_documents": "الملفات والمستندات",
                 "communication": "التواصل"
             },
-             "add": {
+            "add": {
                 "title": "إضافة مستفيد جديد",
                 "fullName": "الاسم الكامل",
                 "beneficiaryType": "نوع المستفيد",
                 "country": "الدولة",
                 "email": "البريد الإلكتروني",
                 "phone": "الهاتف",
-                "addButton": "إضافة"
+                "addButton": "إضافة",
+                "validation": {
+                    "nameRequired": "الاسم مطلوب."
+                }
+            },
+            "personalInfo": {
+                "fullName": "الاسم الكامل",
+                "country": "الدولة"
+            },
+            "academic": {
+                "grade": "الدرجة"
             }
         },
         "types": {
@@ -226,6 +293,42 @@
             "community": "مجتمع",
             "incubation_beneficiary": "مستفيدي الاحتضان",
             "individual-other": "فرد آخر"
+        },
+        "linkedBeneficiaries": "المستفيدون المرتبطون",
+        "noLinked": "لا يوجد مستفيدون مرتبطون",
+        "reached": "تم الوصول"
+    },
+    "placeholder": {
+        "underConstruction": "{moduleName} قيد التطوير."
+    },
+    "qualificationJourney": {
+        "programsTitle": "تقدم البرامج",
+        "initiativesTitle": "المبادرات المجتمعية",
+        "completion": "اكتمال"
+    },
+    "toasts": {
+        "featureInDev": "الميزة قيد التطوير",
+        "newFolderComingSoon": "إنشاء مجلد سيكون متاحًا قريبًا.",
+        "uploadComingSoon": "الرفع سيكون متاحًا قريبًا."
+    },
+    "sdg_analytics": {
+        "kpi": {
+            "aligned_projects": "المشاريع المتوافقة",
+            "alignment_score": "درجة المواءمة",
+            "most_targeted": "أكثر هدف مستهدف",
+            "total_budget": "إجمالي الميزانية"
+        },
+        "chart": {
+            "title": "توزيع ميزانية أهداف التنمية المستدامة"
+        },
+        "grid": {
+            "title": "شبكة مواءمة المشاريع مع الأهداف",
+            "clear": "مسح التحديد"
+        },
+        "list": {
+            "title": "المشاريع المتوافقة",
+            "title_all": "جميع المشاريع",
+            "placeholder": "اختر هدفًا لعرض المشاريع المرتبطة."
         }
     },
     "incubation_investors": {
@@ -466,12 +569,273 @@
         }
     },
     "projects": {
+        "title": "إدارة المشاريع",
+        "projectList": "قائمة المشاريع",
+        "createProject": "إنشاء مشروع",
+        "backToList": "العودة إلى قائمة المشاريع",
+        "search_placeholder": "ابحث باسم المشروع أو المعرّف...",
+        "advanced_filters": "فلاتر متقدمة",
+        "tabs": {
+            "overview": "نظرة عامة",
+            "monitoring": "المتابعة",
+            "scope": "النطاق",
+            "schedule": "الجدول الزمني",
+            "cost": "التكلفة",
+            "hr": "الموارد البشرية",
+            "risks": "المخاطر",
+            "quality": "الجودة",
+            "documents": "المستندات",
+            "reports": "التقارير",
+            "changeLog": "سجل التغييرات"
+        },
+        "views": {
+            "list": "قائمة",
+            "card": "بطاقات",
+            "map": "خريطة"
+        },
+        "list": {
+            "name": "المشروع",
+            "stage": "المرحلة",
+            "progress": "نسبة الإنجاز",
+            "budget": "الميزانية",
+            "spent": "المصروف"
+        },
+        "stages": {
+            "design": "التصميم",
+            "planning": "التخطيط",
+            "implementation": "التنفيذ",
+            "monitoring": "المتابعة",
+            "closure": "الإغلاق"
+        },
+        "wizard": {
+            "title": "إنشاء مشروع جديد",
+            "back": "رجوع",
+            "next": "التالي",
+            "finish": "إنهاء",
+            "progressAria": "التقدم",
+            "form": {
+                "name": "اسم المشروع",
+                "code": "رمز المشروع",
+                "type": "نوع المشروع",
+                "stage": "المرحلة الحالية",
+                "startDate": "تاريخ البدء",
+                "endDate": "تاريخ الانتهاء",
+                "country": "الدولة",
+                "city": "المدينة",
+                "region": "المنطقة",
+                "donor": "المانح",
+                "implementingPartner": "الشريك المنفذ",
+                "targetBeneficiaries": "المستفيدون المستهدفون",
+                "primaryContact": "جهة الاتصال الرئيسية",
+                "goal": "هدف المشروع",
+                "objective": "الهدف التفصيلي",
+                "outcome": "المخرج المتوقع",
+                "kpi": "مؤشرات الأداء الرئيسية",
+                "kpiName": "اسم المؤشر",
+                "kpiTarget": "القيمة المستهدفة",
+                "addObjective": "إضافة هدف تفصيلي",
+                "addOutcome": "إضافة مخرج",
+                "addKpi": "إضافة مؤشر",
+                "units": {
+                    "number": "رقم",
+                    "percentage": "نسبة مئوية",
+                    "text": "نص"
+                }
+            }
+        },
+        "countries": {
+            "turkey": "تركيا",
+            "syria": "سوريا",
+            "lebanon": "لبنان",
+            "uganda": "أوغندا"
+        },
+        "monitoring": {
+            "kpis": "مؤشرات المتابعة",
+            "spi": "مؤشر أداء الجدول (SPI)",
+            "cpi": "مؤشر أداء التكلفة (CPI)",
+            "spiGood": "أداء الجدول جيد.",
+            "spiBad": "أداء الجدول يحتاج متابعة.",
+            "cpiGood": "أداء التكلفة جيد.",
+            "cpiBad": "أداء التكلفة يحتاج متابعة.",
+            "overallCompletion": "الإنجاز الكلي",
+            "budgetStatus": "حالة الميزانية",
+            "scheduleStatus": "حالة الجدول",
+            "activeRisks": "المخاطر النشطة",
+            "evmChart": "اتجاه القيمة المكتسبة",
+            "pv": "القيمة المخططة",
+            "ev": "القيمة المكتسبة",
+            "ac": "التكلفة الفعلية",
+            "taskStatus": "توزيع حالة المهام",
+            "tasksUnit": "مهام"
+        },
+        "overview": {
+            "sdgTitle": "مواءمة أهداف التنمية المستدامة"
+        },
+        "scope": {
+            "statement": "بيان النطاق",
+            "inScope": "ضمن النطاق",
+            "outOfScope": "خارج النطاق",
+            "assumptions": "الافتراضات",
+            "constraints": "القيود",
+            "wbs": "هيكل تجزئة العمل (WBS)"
+        },
+        "schedule": {
+            "gantt": "الجدول الزمني (Gantt)"
+        },
+        "cost": {
+            "dashboard": "لوحة التكلفة",
+            "totalBudget": "إجمالي الميزانية",
+            "totalSpent": "إجمالي المصروف",
+            "remaining": "المتبقي",
+            "earnedValue": "القيمة المكتسبة",
+            "plannedVsActual": "المخطط مقابل الفعلي",
+            "burnRate": "معدل الإنفاق",
+            "detailedBudget": "تفاصيل الميزانية",
+            "category": "الفئة",
+            "planned": "المخطط",
+            "actual": "الفعلي",
+            "variance": "الانحراف",
+            "expenseLog": "سجل المصروفات",
+            "date": "التاريخ",
+            "description": "الوصف",
+            "wbs_link": "ربط WBS",
+            "amount": "المبلغ"
+        },
+        "hr": {
+            "effort": "الجهد",
+            "projectTeam": "فريق المشروع",
+            "raciMatrix": "مصفوفة RACI",
+            "task": "المهمة",
+            "timesheet": "سجل الساعات",
+            "member": "العضو",
+            "hours": "الساعات"
+        },
+        "risks": {
+            "dashboard": "لوحة المخاطر",
+            "matrix": "مصفوفة المخاطر",
+            "topRisks": "أهم المخاطر",
+            "register": "سجل المخاطر",
+            "description": "الوصف",
+            "category": "الفئة",
+            "impact": "الأثر",
+            "probability": "الاحتمالية",
+            "response": "الاستجابة",
+            "owner": "المالك",
+            "status": "الحالة"
+        },
+        "quality": {
+            "standards": "معايير الجودة",
+            "deliverableStandards": "معايير المخرجات",
+            "processStandards": "معايير العمليات",
+            "lessonsLearned": "الدروس المستفادة",
+            "positive": "ما تم بشكل جيد",
+            "negative": "ما يحتاج تحسين",
+            "checklist": "قائمة التحقق",
+            "recommendation": "التوصية"
+        },
+        "documents": {
+            "search": {
+                "placeholder": "ابحث في المستندات..."
+            },
+            "uploadFile": "رفع ملف",
+            "newFolder": "مجلد جديد",
+            "name": "الاسم",
+            "uploader": "الرافع",
+            "lastModified": "آخر تعديل",
+            "size": "الحجم",
+            "fileDetails": "تفاصيل الملف",
+            "descriptionLabel": "الوصف",
+            "lastModifiedLabel": "آخر تعديل",
+            "accessLabel": "الوصول",
+            "viewsLabel": "المشاهدات",
+            "versionsLabel": "الإصدارات",
+            "folder": "مجلد",
+            "notAvailable": "غير متوفر",
+            "versionBy": "{version} بواسطة {author}",
+            "accessLevels": {
+                "public": "عام",
+                "team": "الفريق",
+                "private": "خاص"
+            }
+        },
+        "changeLog": {
+            "title": "سجل التغييرات",
+            "requestChange": "طلب تغيير",
+            "id": "المعرّف",
+            "description": "الوصف",
+            "requester": "مقدم الطلب",
+            "date": "التاريخ",
+            "status": "الحالة",
+            "impact": "الأثر"
+        },
         "reporting": {
+            "reportCardsTitle": "تقارير المشروع",
             "overviewReport": "تقرير النظرة العامة",
+            "overviewReportDesc": "ملخص عالي المستوى لتفاصيل المشروع ومؤشرات الأداء.",
             "tasksReport": "تقرير المهام",
+            "tasksReportDesc": "تفصيل تقدم المهام وحالة الإنجاز.",
             "budgetReport": "تقرير الميزانية",
+            "budgetReportDesc": "مقارنة استخدام الميزانية والمصروف الفعلي.",
             "timelineReport": "تقرير الجدول الزمني",
-            "viewReport": "عرض التقرير"
+            "timelineReportDesc": "مقارنة الجدول المخطط بالتقدم الفعلي.",
+            "viewReport": "عرض التقرير",
+            "printReport": "طباعة التقرير",
+            "closeModal": "إغلاق نافذة التقرير",
+            "exportComingSoon": "ميزة التصدير ستكون متاحة قريبًا!",
+            "favorite": {
+                "setAsFavorite": "تعيين كمفضل",
+                "unfavorite": "إزالة من المفضلة"
+            },
+            "modal": {
+                "overview": {
+                    "title": "تقرير النظرة العامة",
+                    "projectInfo": "معلومات المشروع",
+                    "manager": "مدير المشروع",
+                    "dates": "تواريخ المشروع",
+                    "budgetVsSpent": "الميزانية مقابل المصروف"
+                },
+                "tasks": {
+                    "title": "تقرير المهام",
+                    "taskSummary": "ملخص المهام",
+                    "pending": "قيد الانتظار",
+                    "inProgress": "قيد التنفيذ",
+                    "completed": "مكتمل",
+                    "totalTasks": "إجمالي المهام"
+                },
+                "budget": {
+                    "title": "تقرير الميزانية",
+                    "financialSummary": "الملخص المالي",
+                    "totalBudget": "إجمالي الميزانية",
+                    "actualSpent": "المصروف الفعلي",
+                    "remaining": "المتبقي",
+                    "budgetBreakdown": "تفصيل الميزانية",
+                    "spent": "المصروف"
+                },
+                "timeline": {
+                    "title": "تقرير الجدول الزمني",
+                    "startDate": "تاريخ البدء",
+                    "endDate": "تاريخ الانتهاء",
+                    "totalDays": "إجمالي الأيام",
+                    "elapsedDays": "الأيام المنقضية",
+                    "timeElapsed": "الوقت المنقضي",
+                    "completionProgress": "نسبة الإنجاز",
+                    "status": "الحالة",
+                    "statuses": {
+                        "ahead": "متقدم عن الجدول",
+                        "behind": "متأخر عن الجدول",
+                        "onTrack": "ضمن المسار"
+                    }
+                }
+            }
+        }
+    },
+    "reporting": {
+        "tabs": {
+            "create": "إنشاء التقارير",
+            "history": "السجل"
+        },
+        "history": {
+            "comingSoon": "سجل التقارير سيكون متاحًا قريبًا."
         }
     },
     "help": {
@@ -510,7 +874,21 @@
         "title": "بوصلة",
         "linkedModules": "منصة إدارة الأهداف والمشاريع الذكية",
         "reports": {
-            "title": "التقارير"
+            "title": "التقارير",
+            "goal": "الهدف",
+            "project": "المشروع",
+            "description": "الوصف",
+            "progress": "التقدم",
+            "linkedGoal": "الهدف المرتبط",
+            "exporting": "جارٍ تصدير التقرير...",
+            "exportSuccess": "تم تصدير التقرير بنجاح.",
+            "exportError": "فشل تصدير التقرير.",
+            "exportXLSX": "تصدير XLSX",
+            "exportPDF": "تصدير PDF",
+            "itemsDistribution": "توزيع العناصر",
+            "count": "العدد",
+            "taskStatus": "حالة المهام",
+            "goalProgress": "تقدم الأهداف"
         },
         "presentationMode": "وضع العرض",
         "projects": "المشاريع",
@@ -534,7 +912,18 @@
             "projectComparison": "مقارنة تقدم المشاريع"
         },
         "addTaskModal": {
-            "success": "تمت إضافة المهمة بنجاح."
+            "success": "تمت إضافة المهمة بنجاح.",
+            "title": "إضافة مهمة",
+            "taskTitle": "عنوان المهمة",
+            "relatedGoal": "الهدف المرتبط",
+            "dueDate": "تاريخ الاستحقاق",
+            "priority": "الأولوية",
+            "save": "حفظ المهمة",
+            "priorities": {
+                "high": "عالية",
+                "medium": "متوسطة",
+                "low": "منخفضة"
+            }
         },
         "aiPanel": {
             "title": "المساعد الذكي",
@@ -547,7 +936,8 @@
                 "addTask": "إضافة مهمة",
                 "linkProject": "ربط مشروع",
                 "viewReports": "عرض التقارير"
-            }
+            },
+            "predictiveHeading": "تحليل تنبؤي"
         },
         "alerts": {
             "lowProbability": "انخفاض احتمال تحقيق الهدف إلى {probability}%.",
@@ -589,7 +979,93 @@
             "refreshInterval": "فاصل التحديث",
             "smartRefresh": "تفعيل التحديث الذكي",
             "showAnimation": "عرض حركة التحديث",
-            "save": "حفظ الإعدادات"
+            "save": "حفظ الإعدادات",
+            "severityCritical": "حرج <50%",
+            "severityWarning": "تحذير <{threshold}%",
+            "severityInfo": "معلومة <90%",
+            "seconds30": "30 ثانية",
+            "seconds60": "60 ثانية",
+            "seconds120": "120 ثانية"
+        },
+        "goals": "الأهداف",
+        "tasks": "المهام",
+        "visualAnalytics": "التحليلات المرئية",
+        "task_status": {
+            "completed": "مكتمل",
+            "in-progress": "قيد التنفيذ"
+        },
+        "addGoalModal": {
+            "title": "إضافة هدف",
+            "goalTitle": "عنوان الهدف",
+            "description": "الوصف",
+            "target": "الهدف",
+            "responsiblePerson": "المسؤول",
+            "save": "حفظ الهدف"
+        },
+        "common": {
+            "progressLabel": "التقدم",
+            "predictiveAnalysis": "تحليل تنبؤي...",
+            "assigneeLabel": "الفريق المسؤول",
+            "assignTaskTo": "تعيين مهمة لـ",
+            "linkedTasks": "المهام المرتبطة",
+            "suggestTasksAi": "اقتراح مهام (AI)",
+            "predictRiskAi": "توقع المخاطر (AI)",
+            "linkedExecutionProject": "المشروع التنفيذي المرتبط",
+            "budget": "الميزانية",
+            "progress": "التقدم",
+            "kpiIndicators": "مؤشرات الأداء",
+            "addKpi": "إضافة مؤشر أداء",
+            "lastUpdated": "آخر تحديث",
+            "predictionConfidence": "يتوقع الذكاء الاصطناعي نسبة نجاح {percentage}%",
+            "onTrack": "على المسار",
+            "atRisk": "مهدد",
+            "unlikely": "غير مرجح",
+            "goalPredictionSummary": "تحليل تنبؤي: المؤشرات الحالية تُظهر احتمالية نجاح {percentage}% في تحقيق الأهداف المخططة.",
+            "predictionLabel": "التوقع",
+            "goalPredictionsAnalysis": "تحليل توقعات الهدف..."
+        },
+        "messages": {
+            "projectLinkedSuccess": "تم ربط المشروع بنجاح.",
+            "kpiAddedSuccess": "تمت إضافة المؤشر بنجاح.",
+            "goalAddedSuccess": "تمت إضافة الهدف \"{title}\" بنجاح."
+        },
+        "addKpiModal": {
+            "title": "إضافة مؤشر أداء",
+            "kpiTitle": "عنوان المؤشر",
+            "currentValue": "القيمة الحالية",
+            "targetValue": "القيمة المستهدفة",
+            "unit": "الوحدة",
+            "unitPlaceholder": "%, مستفيد, $",
+            "save": "حفظ المؤشر",
+            "requiredFields": "جميع الحقول مطلوبة."
+        },
+        "linkProjectModal": {
+            "title": "ربط مشروع قائم",
+            "description": "اختر مشروعًا واحدًا أو أكثر لربطه بالهدف الحالي.",
+            "noProjects": "لا توجد مشاريع أخرى لربطها.",
+            "linkCta": "ربط ({count})"
+        },
+        "predictive": {
+            "overallSummary": "ملخص التوقعات الإجمالي",
+            "goalSuccessProbability": "احتمالية نجاح الأهداف",
+            "topAtRiskGoals": "أبرز 3 أهداف في خطر",
+            "noAtRiskGoals": "لا توجد أهداف في خطر حالياً.",
+            "forecastOverTime": "تغير التوقعات بمرور الوقت",
+            "avgSuccessProbability": "متوسط احتمال النجاح",
+            "aiRecommendationsSummary": "ملخص توصيات الذكاء الاصطناعي",
+            "noRecommendations": "لا توجد توصيات متاحة حالياً."
+        },
+        "splash": {
+            "title": "🧭 بوصلة - إدارة الأهداف والمهام",
+            "subtitle": "نظام الإدارة الذكية للمنظمات غير الربحية"
+        },
+        "defaultInsights": {
+            "tasksTitle": "اقتراح عام",
+            "tasksContent": "فكّر في تقسيم المهام الكبيرة إلى مهام فرعية أصغر لتتبع التقدم بشكل أفضل.",
+            "kpisTitle": "تحليل الأداء",
+            "kpisContent": "من الأفضل متابعة تقدم الهدف وتقدم المشروع المرتبط به معًا لاتخاذ قرارات أدق.",
+            "risksTitle": "مخاطر محتملة",
+            "risksContent": "راجع المواعيد النهائية الرئيسية بشكل دوري لتقليل مخاطر التأخير."
         }
     },
     "matrix": {
@@ -611,12 +1087,87 @@
         },
         "searchPlaceholder": "ابحث عن مانح...",
         "allCountries": "كل الدول",
-        "addDonor": "إضافة مانح"
+        "addDonor": "إضافة مانح",
+        "modal": {
+            "addDonorTitle": "إضافة مانح",
+            "donorName": "اسم المانح",
+            "email": "البريد الإلكتروني",
+            "country": "الدولة",
+            "potentialGift": "قيمة التبرع المحتملة",
+            "cancel": "إلغاء",
+            "saveDonor": "حفظ المانح",
+            "requiredFields": "الاسم والبريد الإلكتروني مطلوبان."
+        },
+        "card": {
+            "potential": "المحتمل",
+            "donated": "المتبرع به",
+            "openTasks": "المهام المفتوحة",
+            "overdue": "متأخر",
+            "due": "الاستحقاق",
+            "addTask": "إضافة مهمة",
+            "addDonation": "إضافة تبرع",
+            "moreOptions": "خيارات إضافية",
+            "ariaLabel": "بطاقة المانح {name}"
+        },
+        "ai_suggestion": {
+            "title": "اقتراح الذكاء الاصطناعي",
+            "loading": "جارٍ إنشاء الاقتراح...",
+            "start": "إعداد بريد",
+            "error": "تعذر إنشاء الاقتراح حالياً.",
+            "rationale": "المبرر"
+        },
+        "ai_modal": {
+            "title": "مساعد البريد بالذكاء الاصطناعي",
+            "generating": "جارٍ إنشاء مسودة البريد...",
+            "to": "إلى",
+            "subject": "الموضوع",
+            "body": "النص",
+            "send": "إرسال البريد",
+            "generationFailed": "تعذر إنشاء المحتوى بالذكاء الاصطناعي.",
+            "fallbackSubject": "خطأ",
+            "fallbackBody": "تعذر إنشاء المحتوى.",
+            "emailSent": "تم إرسال البريد!"
+        }
     },
     "individual_donors": {
         "cardView": "عرض البطاقات",
         "mapView": "عرض الخريطة",
-        "listView": "عرض القائمة"
+        "listView": "عرض القائمة",
+        "searchPlaceholder": "ابحث عن المانحين...",
+        "filters": "الفلاتر",
+        "addDonor": "إضافة مانح",
+        "backToList": "العودة إلى قائمة المانحين",
+        "recentActivity": "النشاط الأخير",
+        "noResults": "لا يوجد مانحون",
+        "noResultsDescription": "جرّب تعديل البحث أو الفلاتر.",
+        "columns": {
+            "totalDonations": "إجمالي التبرعات",
+            "lastDonationDate": "تاريخ آخر تبرع"
+        },
+        "kpi": {
+            "ltv": "القيمة مدى الحياة",
+            "avgGift": "متوسط التبرع",
+            "totalGifts": "إجمالي الهبات",
+            "donorSince": "مانح منذ"
+        },
+        "modal": {
+            "fullNameEN": "الاسم الكامل (الإنجليزية)",
+            "fullNameAR": "الاسم الكامل (العربية)",
+            "email": "البريد الإلكتروني",
+            "phone": "الهاتف",
+            "country": "الدولة",
+            "saveDonor": "حفظ المانح",
+            "requiredFields": "الاسم الكامل (بالإنجليزية) والبريد الإلكتروني مطلوبان."
+        },
+        "detailView": {
+            "overview": "نظرة عامة",
+            "donations": "التبرعات",
+            "communications": "التواصل",
+            "tasks": "المهام",
+            "profile": "الملف الشخصي",
+            "sendEmail": "إرسال بريد",
+            "logInteraction": "تسجيل تواصل"
+        }
     },
     "institutional_donors": {
         "card": {
@@ -639,6 +1190,529 @@
             "draftTitle": "مسودة طلب تمويل",
             "generatingDraft": "جارٍ إنشاء المسودة...",
             "draftDisclaimer": "هذه مسودة أولية وتحتاج مراجعة قبل الإرسال."
+        },
+        "title": "المؤسسات المانحة",
+        "searchPlaceholder": "ابحث عن مؤسسة...",
+        "filters": "الفلاتر",
+        "listView": "عرض القائمة",
+        "cardView": "عرض البطاقات",
+        "mapView": "عرض الخريطة",
+        "addInstitution": "إضافة مؤسسة",
+        "backToList": "العودة إلى المؤسسات المانحة",
+        "nextDeadline": "الموعد القادم",
+        "columns": {
+            "funding": "التمويل",
+            "focus": "التركيز",
+            "actions": "الإجراءات"
+        },
+        "filter_labels": {
+            "institutionType": "نوع المؤسسة",
+            "relationshipStatus": "حالة العلاقة",
+            "grantFocusArea": "مجال المنح",
+            "priorityLevel": "مستوى الأولوية"
+        },
+        "modal": {
+            "nameEn": "اسم المؤسسة (إنجليزي)",
+            "nameAr": "اسم المؤسسة (عربي)",
+            "country": "الدولة",
+            "city": "المدينة",
+            "registrationNumber": "رقم التسجيل",
+            "establishmentDate": "تاريخ التأسيس",
+            "contactName": "اسم جهة الاتصال",
+            "contactEmail": "بريد جهة الاتصال",
+            "focusAreas": "مجالات الاهتمام",
+            "requiredName": "اسم المؤسسة (بالإنجليزية) مطلوب."
+        },
+        "analytics": {
+            "totalFunding": "إجمالي التمويل",
+            "pipelineValue": "قيمة خط الأنابيب",
+            "highPriority": "أولوية عالية",
+            "upcomingDeadlines": "المواعيد القادمة",
+            "next90days": "خلال 90 يوماً"
+        },
+        "analyticsDashboard": {
+            "title": "لوحة التحليلات",
+            "donationGrowth": "نمو التبرعات",
+            "projectCompletion": "إنجاز المشاريع",
+            "communicationFrequency": "وتيرة التواصل",
+            "satisfactionScore": "مستوى الرضا"
+        },
+        "detail": {
+            "overview": "نظرة عامة",
+            "grants": "المنح",
+            "contacts": "جهات الاتصال",
+            "documents": "المستندات",
+            "donationsTitle": "ملخص التبرعات",
+            "donationsThisYear": "تبرعات هذا العام",
+            "totalDonations": "إجمالي التبرعات",
+            "vsLastYear": "مقارنة بالعام الماضي",
+            "contactInfoTitle": "معلومات الاتصال",
+            "address": "العنوان",
+            "phone": "الهاتف",
+            "email": "البريد الإلكتروني",
+            "website": "الموقع الإلكتروني",
+            "socialMedia": "وسائل التواصل",
+            "addContact": "إضافة جهة اتصال",
+            "addContactTitle": "إضافة جهة اتصال جديدة",
+            "save": "حفظ",
+            "validation": {
+                "required": "هذا الحقل مطلوب.",
+                "email": "يرجى إدخال بريد إلكتروني صحيح."
+            },
+            "placeholders": {
+                "fullName": "الاسم الكامل",
+                "position": "المنصب"
+            },
+            "form": {
+                "fullName": "الاسم الكامل",
+                "position": "المنصب",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "whatsapp": "واتساب",
+                "profilePicture": "رابط صورة الملف",
+                "isPrimary": "جهة اتصال رئيسية",
+                "permissions": "الصلاحيات",
+                "permissionsDesc": "اختر صلاحيات الوصول لجهة الاتصال.",
+                "permViewProjects": "عرض المشاريع",
+                "permManageFinances": "إدارة الشؤون المالية",
+                "permApproveReports": "اعتماد التقارير"
+            }
+        }
+    },
+    "settings": {
+        "title": "الإعدادات",
+        "saveChanges": "حفظ التغييرات",
+        "categories": {
+            "organization": "المنظمة",
+            "users": "المستخدمون والصلاحيات",
+            "translations": "إدارة الترجمة",
+            "financials": "الإعدادات المالية",
+            "hr": "الموارد البشرية",
+            "projects": "إعدادات البرامج",
+            "documents": "المستندات",
+            "system": "النظام",
+            "reporting": "التقارير",
+            "notifications": "الإشعارات",
+            "advanced": "متقدم"
+        },
+        "organization": {
+            "profileTitle": "ملف المنظمة",
+            "profileDesc": "إعدادات الهوية الأساسية والعلامة البصرية.",
+            "orgName": "اسم المنظمة",
+            "mission": "الرسالة",
+            "uploadLogo": "رفع الشعار",
+            "primaryColor": "اللون الأساسي",
+            "fiscalYearStart": "بداية السنة المالية",
+            "fiscalYearEnd": "نهاية السنة المالية",
+            "langTitle": "تفضيلات اللغة",
+            "langDesc": "اللغة الافتراضية واللغات المفعلة.",
+            "defaultLang": "اللغة الافتراضية",
+            "enableEnglish": "تفعيل الإنجليزية",
+            "enableArabic": "تفعيل العربية",
+            "regionTitle": "إعدادات المنطقة",
+            "regionDesc": "الدولة والمنطقة الزمنية والعملة.",
+            "country": "الدولة",
+            "timezone": "المنطقة الزمنية",
+            "primaryCurrency": "العملة الأساسية"
+        },
+        "users": {
+            "tabAccessControl": "التحكم بالوصول",
+            "tabUserProvisioning": "إدارة المستخدمين",
+            "tabAuthentication": "المصادقة",
+            "rolesTitle": "الأدوار والصلاحيات",
+            "rolesDesc": "تعريف الأدوار وصلاحيات الوحدات.",
+            "addRole": "إضافة دور",
+            "roleName": "اسم الدور",
+            "userCount": "عدد المستخدمين",
+            "actions": "الإجراءات",
+            "editPermissions": "تعديل الصلاحيات",
+            "permissionsForRole": "الصلاحيات للدور: {roleName}",
+            "module": "الوحدة",
+            "view": "عرض",
+            "create": "إنشاء",
+            "edit": "تعديل",
+            "delete": "حذف",
+            "usersTitle": "المستخدمون",
+            "usersDesc": "إدارة الوصول ودورة حياة الحسابات.",
+            "inviteUser": "دعوة مستخدم",
+            "userName": "المستخدم",
+            "role": "الدور",
+            "status": "الحالة",
+            "lastLogin": "آخر تسجيل دخول",
+            "deactivate": "تعطيل",
+            "resendInvite": "إعادة إرسال الدعوة",
+            "statuses": {
+                "Active": "نشط",
+                "Invited": "مدعو",
+                "Deactivated": "معطل"
+            },
+            "passwordPolicyTitle": "سياسة كلمة المرور",
+            "passwordPolicyDesc": "إعداد متطلبات قوة وانتهاء كلمة المرور.",
+            "minLength": "الحد الأدنى للطول",
+            "complexity": "متطلبات التعقيد",
+            "requireUppercase": "اشتراط أحرف كبيرة",
+            "requireLowercase": "اشتراط أحرف صغيرة",
+            "requireNumbers": "اشتراط أرقام",
+            "requireSpecial": "اشتراط رموز خاصة",
+            "mfaTitle": "المصادقة متعددة العوامل",
+            "mfaDesc": "فرض MFA حسب السياسة.",
+            "mfaEnforcement": "تطبيق MFA",
+            "mfaOptions": {
+                "disabled": "معطل",
+                "optional": "اختياري",
+                "required": "إلزامي لجميع المستخدمين",
+                "requiredRoles": "إلزامي لأدوار محددة"
+            },
+            "requiredForRoles": "إلزامي للأدوار",
+            "requiredForRolesPlaceholder": "مسؤول، مدير",
+            "sessionTitle": "أمان الجلسات",
+            "sessionDesc": "التحكم في انتهاء الجلسات وتعددها.",
+            "sessionTimeout": "مهلة الجلسة (دقيقة)",
+            "allowConcurrent": "السماح بجلسات متزامنة"
+        },
+        "documents": {
+            "title": "إعدادات المستندات",
+            "tabs": {
+                "types": "أنواع المستندات",
+                "templates": "قوالب المجلدات",
+                "metadata": "البيانات الوصفية",
+                "versioning": "الإصدارات",
+                "retention": "الاحتفاظ"
+            },
+            "types": {
+                "title": "إعداد أنواع المستندات",
+                "desc": "تعريف وإدارة أنواع المستندات.",
+                "placeholder": "محتوى إعداد أنواع المستندات."
+            },
+            "templates": {
+                "title": "إعداد قوالب المجلدات",
+                "desc": "توحيد هياكل المجلدات عبر الوحدات.",
+                "placeholder": "محتوى إعداد قوالب المجلدات."
+            },
+            "metadata": {
+                "title": "وسوم البيانات الوصفية",
+                "desc": "إدارة الوسوم القابلة لإعادة الاستخدام.",
+                "tagName": "اسم الوسم",
+                "addTag": "إضافة وسم"
+            },
+            "versioning": {
+                "title": "الإصدارات والاحتفاظ",
+                "desc": "إعداد قواعد الإصدارات والاحتفاظ.",
+                "placeholder": "محتوى إعداد الإصدارات والاحتفاظ."
+            }
+        },
+        "programSettings": {
+            "title": "إعدادات البرامج",
+            "subCategories": {
+                "structure": "هيكل البرامج",
+                "geography": "الجغرافيا",
+                "beneficiaries": "المستفيدون",
+                "lifecycle": "دورة الحياة",
+                "frameworks": "الأطر",
+                "indicators": "المؤشرات"
+            },
+            "structure": {
+                "categoriesTitle": "فئات البرامج",
+                "categoriesDesc": "إدارة تصنيف فئات البرامج.",
+                "placeholder": "إدارة فئات البرامج..."
+            },
+            "lifecycle": {
+                "title": "دورة حياة المشروع",
+                "desc": "تعريف مراحل الدورة والانتقالات.",
+                "placeholder": "تعريف مراحل دورة حياة المشروع..."
+            },
+            "frameworks": {
+                "sdgTitle": "مواءمة أهداف التنمية المستدامة",
+                "sdgDesc": "ربط مخرجات البرامج بالأهداف."
+            }
+        }
+    },
+    "translations": {
+        "searchKeys": "ابحث في مفاتيح الترجمة...",
+        "allNamespaces": "كل المساحات",
+        "showMissingOnly": "عرض المفاتيح الناقصة فقط",
+        "translateAll": "ترجمة الكل",
+        "loadError": "فشل تحميل ملفات الترجمة.",
+        "onlyStringValues": "يمكن ترجمة القيم النصية فقط.",
+        "noMissingForKey": "لا توجد ترجمات ناقصة لهذا المفتاح.",
+        "autoTranslatedKey": "تمت الترجمة تلقائيًا للمفتاح: {key}",
+        "autoTranslateFailed": "فشلت الترجمة التلقائية.",
+        "noMissingToProcess": "لا توجد ترجمات ناقصة للمعالجة.",
+        "translatedSummary": "تمت ترجمة {successCount} من أصل {total} مفاتيح ناقصة.",
+        "exportedFile": "تم تصدير {lang}.json",
+        "columns": {
+            "key": "المفتاح",
+            "englishSource": "الإنجليزية (المصدر)",
+            "arabic": "العربية"
+        }
+    },
+    "financialSettings": {
+        "title": "الإعدادات المالية",
+        "chartOfAccounts": "دليل الحسابات",
+        "financialPeriods": "الفترات المالية",
+        "approvalWorkflows": "مسارات الاعتماد",
+        "bankingAndPayments": "البنوك والمدفوعات",
+        "taxAndCompliance": "الضرائب والامتثال",
+        "coa": {
+            "title": "إعداد دليل الحسابات",
+            "templatesTitle": "قوالب دليل الحسابات",
+            "templatesDesc": "اختر قالبًا قياسيًا أو استورد دليلك الخاص.",
+            "templateAaoifi": "قالب AAOIFI",
+            "templateAaoifiDesc": "هيكل حسابات متوافق مع التمويل الإسلامي.",
+            "templateIfrs": "قالب IFRS",
+            "templateIfrsDesc": "هيكل وفق معيار التقارير الدولية.",
+            "templateHybrid": "قالب هجين",
+            "templateHybridDesc": "نموذج متوازن لعمليات المنظمات غير الربحية.",
+            "templateCustom": "قالب مخصص",
+            "templateCustomDesc": "ابنِ هيكل حساباتك من الصفر.",
+            "apply": "تطبيق القالب",
+            "preview": "معاينة القالب",
+            "importCoa": "استيراد دليل الحسابات",
+            "previewTitle": "معاينة: {name}",
+            "templateAppliedTitle": "تم تطبيق القالب",
+            "templateAppliedMessage": "تم تطبيق القالب \"{template}\" بنجاح.",
+            "noTemplateSelectedTitle": "لم يتم اختيار قالب",
+            "noTemplateSelectedMessage": "يرجى اختيار قالب أولاً.",
+            "or": "أو"
+        },
+        "periods": {
+            "title": "الفترات المالية",
+            "table": {
+                "period": "الفترة",
+                "startDate": "تاريخ البداية",
+                "endDate": "تاريخ النهاية",
+                "status": "الحالة",
+                "actions": "الإجراءات"
+            },
+            "statuses": {
+                "Future": "قادمة",
+                "Open": "مفتوحة",
+                "Soft-Closed": "إغلاق جزئي",
+                "Hard-Closed": "إغلاق نهائي"
+            },
+            "actions": {
+                "openPeriod": "فتح الفترة",
+                "beginClosing": "بدء الإغلاق",
+                "hardClose": "إغلاق نهائي",
+                "reopenPeriod": "إعادة فتح الفترة"
+            },
+            "dashboard": {
+                "title": "السنة المالية {year}",
+                "currentOpen": "الفترة المفتوحة الحالية",
+                "noOpenPeriod": "لا توجد فترة مفتوحة",
+                "closePeriod": "إغلاق الفترة الحالية"
+            },
+            "calendarUnderConstruction": "عرض الرزنامة قيد التطوير."
+        },
+        "workflows": {
+            "title": "مسارات الاعتماد",
+            "availableWorkflows": "المسارات المتاحة",
+            "availableWorkflowsDesc": "اختر نوع المعاملة للتهيئة.",
+            "configure": "تهيئة",
+            "workflowConfiguration": "تهيئة المسار",
+            "workflowEnabled": "المسار مفعّل",
+            "approvalSteps": "خطوات الاعتماد",
+            "approvalStepsDesc": "عرّف منطق الاعتماد خطوة بخطوة.",
+            "when": "عند",
+            "amount": "المبلغ",
+            "then": "ثم",
+            "anyAmount": "أي مبلغ",
+            "approve": "يعتمد",
+            "approverTypes": {
+                "role": "الدور",
+                "user": "المستخدم",
+                "reportingManager": "المدير المباشر"
+            },
+            "operators": {
+                "gt": "أكبر من",
+                "gte": "أكبر من أو يساوي",
+                "lt": "أقل من",
+                "lte": "أقل من أو يساوي"
+            },
+            "authorizationLimits": "حدود الصلاحية",
+            "authorizationLimitsDesc": "الحد الأقصى للاعتماد حسب الدور.",
+            "role": "الدور",
+            "limitAmount": "حد المبلغ",
+            "actions": "الإجراءات",
+            "addLimit": "إضافة حد صلاحية",
+            "addStep": "إضافة خطوة اعتماد",
+            "noWorkflowSelected": "لم يتم اختيار مسار",
+            "noWorkflowSelectedDesc": "اختر مسارًا من القائمة اليسرى لتهيئته."
+        },
+        "banking": {
+            "title": "البنوك والمدفوعات",
+            "bankAccountsTitle": "الحسابات البنكية",
+            "bankAccountsDesc": "إدارة الحسابات البنكية وربط التغذية البنكية.",
+            "addAccount": "إضافة حساب بنكي",
+            "connectFeed": "ربط التغذية البنكية",
+            "accountName": "اسم الحساب",
+            "accountNumber": "رقم الحساب",
+            "currency": "العملة",
+            "status": "الحالة",
+            "actions": "الإجراءات",
+            "statuses": {
+                "Active": "نشط",
+                "Inactive": "غير نشط",
+                "Pending": "قيد الانتظار"
+            },
+            "gatewaysTitle": "بوابات الدفع",
+            "gatewaysDesc": "تهيئة مزودي الدفع المدعومين.",
+            "connected": "متصل",
+            "notConnected": "غير متصل",
+            "configure": "تهيئة",
+            "termsAndMethodsTitle": "شروط ووسائل الدفع",
+            "termsAndMethodsDesc": "تعريف الشروط ووسائل الدفع المتاحة.",
+            "paymentTerms": "شروط الدفع",
+            "days": "يوم",
+            "addTerm": "إضافة شرط دفع",
+            "paymentMethods": "وسائل الدفع",
+            "addMethod": "إضافة وسيلة دفع"
+        }
+    },
+    "stakeholder_management": {
+        "title": "إدارة أصحاب المصلحة",
+        "subtitle": "متابعة العلاقات وصحة التفاعل والتأثير الاستراتيجي.",
+        "export": "تصدير",
+        "addNew": "إضافة جديد",
+        "totalStakeholders": "إجمالي أصحاب المصلحة",
+        "avgRelationshipHealth": "متوسط صحة العلاقة",
+        "needsAttention": "بحاجة إلى متابعة",
+        "highRisks": "مخاطر عالية",
+        "searchPlaceholder": "ابحث عن صاحب مصلحة...",
+        "filter": "فلترة",
+        "view": {
+            "table": "عرض الجدول",
+            "card": "عرض البطاقات",
+            "matrix": "عرض المصفوفة"
+        },
+        "voice": {
+            "notSupported": "التعرّف الصوتي غير مدعوم في هذا المتصفح.",
+            "permissionDenied": "تم رفض إذن الميكروفون. يرجى تفعيله من إعدادات المتصفح.",
+            "startError": "تعذر بدء الاستماع. يرجى المحاولة مرة أخرى."
+        },
+        "types": {
+            "all": "الكل",
+            "donor": "مانح",
+            "beneficiary": "مستفيد",
+            "partner": "شريك",
+            "volunteer": "متطوع",
+            "mentor": "مرشد",
+            "expert": "خبير/مدرب",
+            "investor": "مستثمر",
+            "board_member": "عضو مجلس إدارة",
+            "government": "جهة حكومية",
+            "supplier": "مورد",
+            "community": "مجتمع",
+            "media": "إعلام"
+        },
+        "table": {
+            "name": "الاسم",
+            "type": "النوع",
+            "relationshipHealth": "صحة العلاقة",
+            "level": "المستوى",
+            "risks": "المخاطر",
+            "lastContact": "آخر تواصل",
+            "aiInsights": "رؤى الذكاء الاصطناعي",
+            "actions": "الإجراءات"
+        },
+        "relationshipLevels": {
+            "strategic": "استراتيجي",
+            "core": "محوري",
+            "important": "مهم"
+        },
+        "risks": {
+            "low": "منخفض",
+            "medium": "متوسط",
+            "high": "مرتفع"
+        },
+        "statuses": {
+            "active": "نشط",
+            "inactive": "غير نشط"
+        },
+        "classificationLabel": "التصنيف",
+        "classification": {
+            "primary": "أساسي",
+            "secondary": "ثانوي"
+        },
+        "riskProfileLabel": "ملف المخاطر",
+        "riskProfile": {
+            "supporter": "داعم",
+            "neutral": "محايد",
+            "blocker": "مُعطِّل"
+        },
+        "card": {
+            "health": "الصحة",
+            "engagement": "التفاعل",
+            "power": "النفوذ",
+            "interest": "الاهتمام",
+            "needs": "الاحتياجات",
+            "viewDetails": "عرض التفاصيل"
+        },
+        "matrix": {
+            "high": "مرتفع",
+            "low": "منخفض",
+            "power": "النفوذ",
+            "interest": "الاهتمام",
+            "keepSatisfied": "الحفاظ على الرضا",
+            "keepSatisfiedDesc": "نفوذ مرتفع واهتمام نشط أقل.",
+            "manageClosely": "إدارة وثيقة",
+            "manageCloselyDesc": "نفوذ مرتفع واهتمام مرتفع.",
+            "monitor": "المراقبة",
+            "monitorDesc": "نفوذ منخفض واهتمام منخفض.",
+            "keepInformed": "إبقاء على اطلاع",
+            "keepInformedDesc": "اهتمام مرتفع ونفوذ أقل."
+        },
+        "add_modal": {
+            "title": "إضافة صاحب مصلحة جديد",
+            "name_ar": "الاسم (عربي)",
+            "name_en": "الاسم (إنجليزي)",
+            "type": "النوع",
+            "category": "الفئة",
+            "country": "الدولة",
+            "email": "البريد الإلكتروني",
+            "phone": "الهاتف",
+            "validation": {
+                "nameRequired": "الاسم مطلوب بلغة واحدة على الأقل."
+            },
+            "categories": {
+                "foundation": "مؤسسة",
+                "family": "عائلة",
+                "company": "شركة"
+            }
+        },
+        "detailPanel": {
+            "summary": "الملخص",
+            "metrics": "مؤشرات العلاقة",
+            "contactHistory": "سجل التواصل",
+            "aiActionCenter": "مركز الإجراءات الذكية",
+            "generateSuggestions": "توليد اقتراحات ذكية",
+            "generating": "جاري توليد الاقتراحات...",
+            "suggestionsError": "تعذر توليد الاقتراحات. يرجى المحاولة مرة أخرى.",
+            "contact_types": {
+                "email": "بريد إلكتروني",
+                "meeting": "اجتماع",
+                "call": "مكالمة"
+            }
+        },
+        "timeAgo": {
+            "twoWeeks": "قبل أسبوعين",
+            "oneMonth": "قبل شهر",
+            "threeMonths": "قبل 3 أشهر"
+        },
+        "insights": {
+            "newly_added": "تمت إضافة صاحب مصلحة جديد؛ يُنصح بجدولة تهيئة وتواصل أولي.",
+            "excellent_relation": "علاقة استراتيجية ممتازة مع تواصل منتظم.",
+            "active_beneficiary": "تفاعل المستفيد مرتفع ونتائج الدعم مستقرة.",
+            "warning_communication": "وتيرة التواصل في انخفاض؛ يُوصى بتواصل استباقي.",
+            "excellent_engagement": "مستوى تفاعل ومشاركة متميز.",
+            "investor_follow_on": "احتمال مرتفع لتمويل لاحق للشركات الناشئة الناجحة.",
+            "investor_early_stage": "مهتم بالشركات الاجتماعية الناشئة في المراحل المبكرة.",
+            "mentor_marketing": "مرشد عالي التقييم ومتخصص في التسويق.",
+            "mentor_finance": "خبير مالي يقدّم ملاحظات قوية على النماذج المالية.",
+            "expert_agritech": "خبير رائد في التقنية الزراعية ومتاح للورش.",
+            "expert_cybersecurity": "يوفّر تدريبًا تطوعيًا على أمن البيانات للمنظمات غير الربحية.",
+            "board_chairman": "رئيس مجلس إدارة ذو تأثير مرتفع وتفاعل قوي.",
+            "board_financial": "عضو مجلس إدارة بخبرة مالية قوية."
         }
     },
     "donorManagement": {

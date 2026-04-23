@@ -3,23 +3,23 @@ import type { ForumCategory, ForumPost } from '../types';
 export const MOCK_FORUM_CATEGORIES: ForumCategory[] = [
     {
         id: 'cat-1',
-        name: { en: 'General Discussion', ar: 'نقاش عام', tr: 'Genel Tartışma' },
-        description: { en: 'Talk about anything and everything.', ar: 'تحدث عن أي شيء وكل شيء.', tr: 'Herhangi bir şey hakkında konuşun.' }
+        name: { en: 'General Discussion', ar: 'نقاش عام' },
+        description: { en: 'Talk about anything and everything.', ar: 'تحدث عن أي شيء وكل شيء.' }
     },
     {
         id: 'cat-2',
-        name: { en: 'Project Ideas', ar: 'أفكار مشاريع', tr: 'Proje Fikirleri' },
-        description: { en: 'Share and collaborate on new project ideas.', ar: 'شارك وتعاون في أفكار مشاريع جديدة.', tr: 'Yeni proje fikirleri üzerinde paylaşın ve işbirliği yapın.' }
+        name: { en: 'Project Ideas', ar: 'أفكار مشاريع' },
+        description: { en: 'Share and collaborate on new project ideas.', ar: 'شارك وتعاون في أفكار مشاريع جديدة.' }
     },
     {
         id: 'cat-3',
-        name: { en: 'Q&A with Leadership', ar: 'سؤال وجواب مع القيادة', tr: 'Liderlikle Soru-Cevap' },
-        description: { en: 'Ask questions directly to the leadership team.', ar: 'اطرح أسئلة مباشرة على فريق القيادة.', tr: 'Liderlik ekibine doğrudan sorular sorun.' }
+        name: { en: 'Q&A with Leadership', ar: 'سؤال وجواب مع القيادة' },
+        description: { en: 'Ask questions directly to the leadership team.', ar: 'اطرح أسئلة مباشرة على فريق القيادة.' }
     },
     {
         id: 'cat-4',
-        name: { en: 'Volunteer Corner', ar: 'ركن المتطوعين', tr: 'Gönüllü Köşesi' },
-        description: { en: 'A space for volunteers to connect and share experiences.', ar: 'مساحة للمتطوعين للتواصل وتبادل الخبرات.', tr: 'Gönüllülerin bağlantı kurması ve deneyimlerini paylaşması için bir alan.' }
+        name: { en: 'Volunteer Corner', ar: 'ركن المتطوعين' },
+        description: { en: 'A space for volunteers to connect and share experiences.', ar: 'مساحة للمتطوعين للتواصل وتبادل الخبرات.' }
     }
 ];
 

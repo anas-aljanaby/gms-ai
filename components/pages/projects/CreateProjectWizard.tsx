@@ -20,7 +20,7 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
     
     // Initialize state for the new project with default values
     const [projectData, setProjectData] = useState<Partial<Omit<Project, 'id'>>>({
-        name: { en: '', ar: '', tr: '' },
+        name: { en: '', ar: '' },
         type: 'humanitarian',
         stage: 'design',
         plannedStartDate: '',
@@ -72,7 +72,7 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
             >
                 <div className="flex items-center justify-between p-4 border-b dark:border-slate-700 flex-shrink-0">
                     <h2 className="text-xl font-bold text-foreground dark:text-dark-foreground">{t('projects.wizard.title')}</h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Close modal">
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}>
                         <XIcon />
                     </button>
                 </div>

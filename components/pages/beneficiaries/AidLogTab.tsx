@@ -10,15 +10,7 @@ interface AidLogTabProps {
 }
 
 const AidLogTab: React.FC<AidLogTabProps> = ({ aidLog }) => {
-    const { language, dir } = useLocalization();
-
-    const hardcodedStrings = {
-        en: { title: "Aid & Services Log", noItems: "No aid or services have been logged for this beneficiary yet.", delivered: "Delivered", pending: "Pending", scheduled: "Scheduled", value: "Value" },
-        ar: { title: "سجل المساعدات والخدمات", noItems: "لم يتم تسجيل أي مساعدات أو خدمات لهذا المستفيد بعد.", delivered: "تم التسليم", pending: "قيد الانتظار", scheduled: "مجدول", value: "القيمة" },
-        tr: { title: "Yardım ve Hizmet Kaydı", noItems: "Bu faydalanıcı için henüz herhangi bir yardım veya hizmet kaydedilmedi.", delivered: "Teslim Edildi", pending: "Beklemede", scheduled: "Planlandı", value: "Değer" }
-    };
-    
-    const t = (key: keyof typeof hardcodedStrings['en']) => hardcodedStrings[language][key] || hardcodedStrings['en'][key];
+    const { language, dir, t } = useLocalization();
 
     const aidTypeConfig: Record<AidItem['type'], { icon: React.FC, color: string }> = {
         financial: { icon: FinancialAidIcon, color: 'text-green-500' },
@@ -35,14 +27,14 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ aidLog }) => {
     if (!aidLog || aidLog.length === 0) {
         return (
             <div className="text-center py-16 px-6 bg-card dark:bg-dark-card rounded-2xl shadow-inner">
-                <h3 className="text-xl font-semibold text-foreground dark:text-dark-foreground mt-4">{t('noItems')}</h3>
+                <h3 className="text-xl font-semibold text-foreground dark:text-dark-foreground mt-4">{t('beneficiaries.aidLog.noItems')}</h3>
             </div>
         );
     }
 
     return (
         <div className="space-y-4">
-            <h2 className="text-xl font-bold">{t('title')}</h2>
+            <h2 className="text-xl font-bold">{t('beneficiaries.aidLog.title')}</h2>
             <div className={`relative border-gray-200 dark:border-slate-700 ${dir === 'rtl' ? 'border-r-2 pr-8' : 'border-l-2 pl-8'}`}>
                 {aidLog.map((item) => {
                     const TypeIcon = aidTypeConfig[item.type].icon;
@@ -62,12 +54,12 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ aidLog }) => {
                                     </div>
                                     <div className={`flex items-center gap-1 text-xs font-semibold ${statusColor}`}>
                                         <StatusIcon className="w-4 h-4" />
-                                        {t(item.status.toLowerCase() as keyof typeof hardcodedStrings['en'])}
+                                        {t(`beneficiaries.aidLog.status.${item.status.toLowerCase()}`)}
                                     </div>
                                 </div>
                                 <div className="mt-2 pt-2 border-t dark:border-slate-600 text-sm">
                                     {item.value !== undefined && (
-                                        <p><strong>{t('value')}:</strong> {
+                                        <p><strong>{t('beneficiaries.aidLog.value')}:</strong> {
                                             item.type === 'financial' && item.unit ? formatCurrency(item.value, language, item.unit)
                                             : `${formatNumber(item.value, language)} ${item.unit || ''}`
                                         }</p>

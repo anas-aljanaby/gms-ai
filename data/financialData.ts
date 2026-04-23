@@ -5,8 +5,7 @@ const generatePeriods = (): FinancialPeriod[] => {
     const periods: FinancialPeriod[] = [];
     const monthNames = {
         en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        ar: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
-        tr: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+        ar: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
     };
 
     for (let i = 0; i < 12; i++) {
@@ -28,8 +27,7 @@ const generatePeriods = (): FinancialPeriod[] => {
             id: `period-${year}-${i + 1}`,
             name: {
                 en: `Period ${i + 1} - ${monthNames.en[i]}`,
-                ar: `الفترة ${i + 1} - ${monthNames.ar[i]}`,
-                tr: `Dönem ${i + 1} - ${monthNames.tr[i]}`
+                ar: `الفترة ${i + 1} - ${monthNames.ar[i]}`
             },
             startDate: startDate.toISOString(),
             endDate: endDate.toISOString(),
@@ -44,8 +42,8 @@ export const MOCK_FISCAL_YEAR_2024: FinancialPeriod[] = generatePeriods();
 export const MOCK_WORKFLOWS: ApprovalWorkflow[] = [
     {
         id: 'purchaseRequisition',
-        name: { en: 'Purchase Requisition', ar: 'طلب شراء', tr: 'Satın Alma Talebi' },
-        description: { en: 'Workflow for approving all purchase requisitions before a PO is created.', ar: 'سير عمل للموافقة على جميع طلبات الشراء قبل إنشاء أمر الشراء.', tr: 'Satın alma siparişi oluşturulmadan önce tüm satın alma taleplerini onaylama iş akışı.' },
+        name: { en: 'Purchase Requisition', ar: 'طلب شراء' },
+        description: { en: 'Workflow for approving all purchase requisitions before a PO is created.', ar: 'سير عمل للموافقة على جميع طلبات الشراء قبل إنشاء أمر الشراء.' },
         isEnabled: true,
         steps: [
             { id: 'pr-s1', stepNumber: 1, approverType: 'reportingManager', approverId: 'Manager', condition: null },
@@ -55,8 +53,8 @@ export const MOCK_WORKFLOWS: ApprovalWorkflow[] = [
     },
     {
         id: 'vendorPayment',
-        name: { en: 'Vendor Payment', ar: 'دفع للمورد', tr: 'Tedarikçi Ödemesi' },
-        description: { en: 'Approval process for initiating payments to registered vendors.', ar: 'عملية الموافقة على بدء المدفوعات للموردين المسجلين.', tr: 'Kayıtlı tedarikçilere ödeme başlatma onay süreci.' },
+        name: { en: 'Vendor Payment', ar: 'دفع للمورد' },
+        description: { en: 'Approval process for initiating payments to registered vendors.', ar: 'عملية الموافقة على بدء المدفوعات للموردين المسجلين.' },
         isEnabled: true,
         steps: [
             { id: 'vp-s1', stepNumber: 1, approverType: 'role', approverId: 'Manager', condition: null },
@@ -65,15 +63,15 @@ export const MOCK_WORKFLOWS: ApprovalWorkflow[] = [
     },
     {
         id: 'expenseClaim',
-        name: { en: 'Expense Claim', ar: 'مطالبة مصروفات', tr: 'Masraf Talebi' },
-        description: { en: 'Process for reviewing and reimbursing employee expense claims.', ar: 'عملية مراجعة وتعويض مطالبات مصروفات الموظفين.', tr: 'Çalışan masraf taleplerini inceleme ve geri ödeme süreci.' },
+        name: { en: 'Expense Claim', ar: 'مطالبة مصروفات' },
+        description: { en: 'Process for reviewing and reimbursing employee expense claims.', ar: 'عملية مراجعة وتعويض مطالبات مصروفات الموظفين.' },
         isEnabled: false,
         steps: []
     },
     {
         id: 'grantDisbursement',
-        name: { en: 'Grant Disbursement', ar: 'صرف منحة', tr: 'Hibe Ödemesi' },
-        description: { en: 'Approval for disbursing funds for approved grants.', ar: 'الموافقة على صرف الأموال للمنح المعتمدة.', tr: 'Onaylanmış hibeler için fonların ödenmesi onayı.' },
+        name: { en: 'Grant Disbursement', ar: 'صرف منحة' },
+        description: { en: 'Approval for disbursing funds for approved grants.', ar: 'الموافقة على صرف الأموال للمنح المعتمدة.' },
         isEnabled: true,
         steps: [
             { id: 'gd-s1', stepNumber: 1, approverType: 'role', approverId: 'Manager', condition: null }

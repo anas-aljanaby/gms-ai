@@ -4,8 +4,7 @@
     "component": "LoansDashboard",
     "title": {
       "en": "Dashboard",
-      "ar": "لوحة القيادة",
-      "tr": "Kontrol Paneli"
+      "ar": "لوحة القيادة"
     }
   },
   {
@@ -13,8 +12,7 @@
     "component": "AllLoansList",
     "title": {
       "en": "All Loans",
-      "ar": "جميع القروض",
-      "tr": "Tüm Krediler"
+      "ar": "جميع القروض"
     }
   },
   {
@@ -22,8 +20,7 @@
     "component": "LoanApplications",
     "title": {
       "en": "Applications",
-      "ar": "الطلبات",
-      "tr": "Başvurular"
+      "ar": "الطلبات"
     }
   },
   {
@@ -31,8 +28,7 @@
     "component": "LoansAnalytics",
     "title": {
       "en": "Analytics",
-      "ar": "التحليلات",
-      "tr": "Analitik"
+      "ar": "التحليلات"
     }
   }
 ]

@@ -4,7 +4,7 @@
  * 
  * This self-contained script handles all client-side logic for the GRC module,
  * including configuration, utilities, notifications, API mocking, data loading,
- * and event handling. It is fully localized for ar, en, and tr.
+ * and event handling. It is fully localized for ar and en.
  */
 
 (function() {
@@ -74,26 +74,6 @@
             viewDetails: 'View details for',
             filterByScore: 'Filtering risks with minimum score: {score}',
             langSwitch: 'Switched to English'
-        },
-        tr: {
-            loading: 'Yükleniyor...',
-            dataLoadedSuccess: 'Veriler başarıyla yüklendi',
-            dataLoadedError: 'Veriler yüklenemedi',
-            validationError: 'Geçersiz veri',
-            formSubmitSuccess: 'Başarıyla gönderildi',
-            formSubmitError: 'Gönderim başarısız',
-            confirm: 'Onayla',
-            cancel: 'İptal',
-            noHighRisks: 'Şu anda yüksek öncelikli risk bulunmuyor',
-            noComplianceDeadlines: 'Yaklaşan uyumluluk son tarihi yok',
-            daysRemaining: 'gün kaldı',
-            overdue: 'Gecikmiş',
-            noRisks: 'Kayıtlı risk yok',
-            noPolicies: 'Kayıtlı politika yok',
-            noCompliance: 'Kayıtlı uyumluluk gereksinimi yok',
-            viewDetails: 'Ayrıntıları görüntüle',
-            filterByScore: 'Minimum risk puanına göre filtreleme: {score}',
-            langSwitch: 'Türkçeye geçildi'
         }
     };
     const t = (key, params = {}) => {

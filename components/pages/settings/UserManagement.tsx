@@ -221,7 +221,7 @@ const AuthenticationTab: React.FC = () => {
                 </FormField>
                 {policy.mfa === 'requiredRoles' && (
                      <FormField label={t('settings.users.requiredForRoles')}>
-                         <input type="text" placeholder="Admin, Manager" />
+                         <input type="text" placeholder={t('settings.users.requiredForRolesPlaceholder')} />
                      </FormField>
                 )}
             </SettingsCard>

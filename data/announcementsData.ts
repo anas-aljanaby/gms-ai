@@ -7,15 +7,15 @@ export const MOCK_ANNOUNCEMENTS: Announcement[] = [
         title: {
             en: 'Welcome to the New MSS.2!',
             ar: 'مرحباً بكم في نظام MSS.2 الجديد!',
-            tr: 'Yeni MSS.2\'ye hoş geldiniz!',
+
         },
         content: {
             en: 'We have completely redesigned the interface for a more intuitive and powerful experience. Explore the new customizable dashboard and AI-powered features.',
             ar: 'لقد أعدنا تصميم الواجهة بالكامل لتجربة أكثر سهولة وقوة. استكشف لوحة القيادة الجديدة القابلة للتخصيص والميزات المدعومة بالذكاء الاصطناعي.',
-            tr: 'Daha sezgisel ve güçlü bir deneyim için arayüzü tamamen yeniden tasarladık. Yeni özelleştirilebilir kontrol panelini ve yapay zeka destekli özellikleri keşfedin.',
+
         },
         isNew: true,
-        tag: { text: { en: 'Major Update', ar: 'تحديث رئيسي', tr: 'Büyük Güncelleme' }, color: 'bg-blue-500' },
+        tag: { text: { en: 'Major Update', ar: 'تحديث رئيسي' }, color: 'bg-blue-500' },
     },
     {
         id: 'ann-2',
@@ -23,15 +23,15 @@ export const MOCK_ANNOUNCEMENTS: Announcement[] = [
         title: {
             en: 'AI-Powered Anomaly Detection is Here',
             ar: 'الكشف عن الحالات الشاذة بالذكاء الاصطناعي متاح الآن',
-            tr: 'Yapay Zeka Destekli Anomali Tespiti Yayında',
+
         },
         content: {
             en: 'Our new Anomaly Detection module helps you spot unusual patterns in your KPIs automatically. Find it under the AI & Automation section.',
             ar: 'وحدة الكشف عن الحالات الشاذة الجديدة تساعدك على اكتشاف الأنماط غير العادية في مؤشرات الأداء الرئيسية تلقائيًا. تجدها في قسم الذكاء الاصطناعي والأتمتة.',
-            tr: 'Yeni Anomali Tespiti modülümüz, KPI\'larınızdaki olağandışı kalıpları otomatik olarak tespit etmenize yardımcı olur. AI ve Otomasyon bölümünde bulabilirsiniz.',
+
         },
         isNew: true,
-        tag: { text: { en: 'New Feature', ar: 'ميزة جديدة', tr: 'Yeni Özellik' }, color: 'bg-green-500' },
+        tag: { text: { en: 'New Feature', ar: 'ميزة جديدة' }, color: 'bg-green-500' },
     },
      {
         id: 'ann-3',
@@ -39,14 +39,14 @@ export const MOCK_ANNOUNCEMENTS: Announcement[] = [
         title: {
             en: 'Improved Reporting Module',
             ar: 'تحسين وحدة التقارير',
-            tr: 'Geliştirilmiş Raporlama Modülü',
+
         },
         content: {
             en: 'Generating reports is now faster and more customizable. You can also export reports in new formats.',
             ar: 'أصبح إنشاء التقارير الآن أسرع وأكثر قابلية للتخصيص. يمكنك أيضًا تصدير التقارير بتنسيقات جديدة.',
-            tr: 'Rapor oluşturma artık daha hızlı ve daha özelleştirilebilir. Raporları yeni formatlarda da dışa aktarabilirsiniz.',
+
         },
         isNew: false,
-        tag: { text: { en: 'Improvement', ar: 'تحسين', tr: 'İyileştirme' }, color: 'bg-purple-500' },
+        tag: { text: { en: 'Improvement', ar: 'تحسين' }, color: 'bg-purple-500' },
     },
 ];

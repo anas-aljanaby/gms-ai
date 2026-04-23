@@ -9,7 +9,7 @@
 const GRC_CONFIG = {
     // Language and localization settings
     language: {
-        default: 'ar', // Default language: 'ar', 'en', 'tr'
+        default: 'ar', // Default language: 'ar', 'en'
         rtl: true,     // Set to true for Right-to-Left languages like Arabic
     },
     

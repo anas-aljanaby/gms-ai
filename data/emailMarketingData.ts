@@ -12,8 +12,8 @@ export const MOCK_EMAIL_METRICS: Omit<MarketingMetric, 'id'>[] = [
 export const MOCK_RECENT_EMAILS: Email[] = [
   {
     id: 'EMAIL-001',
-    name: { en: 'Q2 Newsletter', ar: 'النشرة الإخبارية للربع الثاني', tr: '2. Çeyrek Bülteni' },
-    subject: { en: 'See your impact this quarter!', ar: 'شاهد تأثيرك هذا الربع!', tr: 'Bu çeyrekteki etkinizi görün!' },
+    name: { en: 'Q2 Newsletter', ar: 'النشرة الإخبارية للربع الثاني' },
+    subject: { en: 'See your impact this quarter!', ar: 'شاهد تأثيرك هذا الربع!' },
     status: 'Sent',
     audience: { name: 'All Subscribers', size: 15200 },
     sentDate: '2024-07-15T10:00:00Z',
@@ -23,8 +23,8 @@ export const MOCK_RECENT_EMAILS: Email[] = [
   },
   {
     id: 'EMAIL-002',
-    name: { en: 'Urgent Appeal: Clean Water', ar: 'نداء عاجل: مياه نظيفة', tr: 'Acil Çağrı: Temiz Su' },
-    subject: { en: 'Provide clean water to a family today', ar: 'وفر المياه النظيفة لأسرة اليوم', tr: 'Bugün bir aileye temiz su sağlayın' },
+    name: { en: 'Urgent Appeal: Clean Water', ar: 'نداء عاجل: مياه نظيفة' },
+    subject: { en: 'Provide clean water to a family today', ar: 'وفر المياه النظيفة لأسرة اليوم' },
     status: 'Sent',
     audience: { name: 'Active Donors (Last 6m)', size: 4500 },
     sentDate: '2024-07-10T14:00:00Z',
@@ -34,8 +34,8 @@ export const MOCK_RECENT_EMAILS: Email[] = [
   },
    {
     id: 'EMAIL-003',
-    name: { en: 'Event Reminder: Annual Gala', ar: 'تذكير بالحدث: الحفل السنوي', tr: 'Etkinlik Hatırlatıcısı: Yıllık Gala' },
-    subject: { en: 'Just one week until our Annual Gala!', ar: 'أسبوع واحد فقط على حفلنا السنوي!', tr: 'Yıllık Gala\'ya sadece bir hafta kaldı!' },
+    name: { en: 'Event Reminder: Annual Gala', ar: 'تذكير بالحدث: الحفل السنوي' },
+    subject: { en: 'Just one week until our Annual Gala!', ar: 'أسبوع واحد فقط على حفلنا السنوي!' },
     status: 'Scheduled',
     audience: { name: 'Gala Attendees List', size: 350 },
     scheduledDate: '2024-08-01T09:00:00Z',
@@ -45,8 +45,8 @@ export const MOCK_RECENT_EMAILS: Email[] = [
   },
    {
     id: 'EMAIL-004',
-    name: { en: 'Welcome Email #1', ar: 'البريد الترحيبي #1', tr: 'Hoş Geldiniz E-postası #1' },
-    subject: { en: 'Welcome to the Global Relief Family!', ar: 'أهلاً بك في عائلة العطاء العالمي!', tr: 'Küresel Yardım Ailesine hoş geldiniz!' },
+    name: { en: 'Welcome Email #1', ar: 'البريد الترحيبي #1' },
+    subject: { en: 'Welcome to the Global Relief Family!', ar: 'أهلاً بك في عائلة العطاء العالمي!' },
     status: 'Sending',
     audience: { name: 'Automation: New Subscribers', size: 1250 },
     stats: { sent: 800, delivered: 795, openRate: 45.2, clickRate: 10.1, conversions: 15 },
@@ -55,8 +55,8 @@ export const MOCK_RECENT_EMAILS: Email[] = [
   },
    {
     id: 'EMAIL-005',
-    name: { en: 'August Newsletter Draft', ar: 'مسودة النشرة الإخبارية لأغسطس', tr: 'Ağustos Bülteni Taslağı' },
-    subject: { en: '[DRAFT] August Highlights', ar: '[مسودة] أبرز أحداث أغسطس', tr: '[TASLAK] Ağustos Öne Çıkanlar' },
+    name: { en: 'August Newsletter Draft', ar: 'مسودة النشرة الإخبارية لأغسطس' },
+    subject: { en: '[DRAFT] August Highlights', ar: '[مسودة] أبرز أحداث أغسطس' },
     status: 'Draft',
     audience: { name: 'All Subscribers', size: 15500 },
     stats: { sent: 0, delivered: 0, openRate: 0, clickRate: 0, conversions: 0 },

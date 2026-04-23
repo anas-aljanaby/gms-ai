@@ -90,7 +90,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, title, child
                     >
                         <header className="flex items-center justify-between p-4 border-b dark:border-slate-700 flex-shrink-0 hide-on-print">
                             <h2 className="text-xl font-bold">{title}</h2>
-                            <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Close modal">
+                            <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('projects.reporting.closeModal')}>
                                 <XIcon />
                             </button>
                         </header>
@@ -99,7 +99,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, title, child
                         </main>
                         <footer className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-2xl flex justify-end gap-3 flex-shrink-0 hide-on-print">
                             <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.close')}</button>
-                            <button onClick={() => alert('Export functionality coming soon!')} className="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold">{t('common.export')}</button>
+                            <button onClick={() => alert(t('projects.reporting.exportComingSoon'))} className="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold">{t('common.export')}</button>
                             <button onClick={handleShare} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold hover:bg-secondary-dark transition-colors">
                                 📤 {t('common.share')}
                             </button>

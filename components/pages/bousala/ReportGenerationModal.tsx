@@ -136,14 +136,14 @@ const ReportGenerationModal: React.FC<ReportGenerationModalProps> = ({ isOpen, o
                         <h4 className="font-bold text-lg text-center">{t('bousala.visualAnalytics')}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
-                                <h5 className="font-semibold text-center mb-2">توزيع العناصر</h5>
+                                <h5 className="font-semibold text-center mb-2">{t('bousala.reports.itemsDistribution')}</h5>
                                 <ResponsiveContainer width="100%" height={250}>
                                     <BarChart data={chartData.countsData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                                         <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
                                         <XAxis dataKey="name" tick={{ fill: textColor, fontSize: 12 }} />
                                         <YAxis tick={{ fill: textColor }} />
                                         <RechartsTooltip />
-                                        <Bar dataKey="count" name="العدد">
+                                        <Bar dataKey="count" name={t('bousala.reports.count')}>
                                              {chartData.countsData.map((entry, index) => (
                                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                             ))}
@@ -152,7 +152,7 @@ const ReportGenerationModal: React.FC<ReportGenerationModalProps> = ({ isOpen, o
                                 </ResponsiveContainer>
                             </div>
                             <div>
-                                <h5 className="font-semibold text-center mb-2">حالة المهام</h5>
+                                <h5 className="font-semibold text-center mb-2">{t('bousala.reports.taskStatus')}</h5>
                                 <ResponsiveContainer width="100%" height={250}>
                                     <PieChart>
                                         <Pie data={chartData.taskStatusData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
@@ -167,14 +167,14 @@ const ReportGenerationModal: React.FC<ReportGenerationModalProps> = ({ isOpen, o
                             </div>
                         </div>
                         <div>
-                            <h5 className="font-semibold text-center mb-2">تقدم الأهداف</h5>
+                            <h5 className="font-semibold text-center mb-2">{t('bousala.reports.goalProgress')}</h5>
                             <ResponsiveContainer width="100%" height={200}>
                                 <BarChart data={chartData.goalProgressData} layout="vertical" margin={{ right: 40 }}>
                                     <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
                                     <XAxis type="number" domain={[0, 100]} tick={{ fill: textColor }} />
                                     <YAxis type="category" dataKey="name" width={150} tick={{ fill: textColor, fontSize: 10 }} />
                                     <RechartsTooltip formatter={(value) => `${value}%`} />
-                                    <Bar dataKey="progress" name="التقدم" fill="hsl(210, 40%, 50%)" background={{ fill: isDark ? '#334155' : '#e5e7eb' }} />
+                                    <Bar dataKey="progress" name={t('bousala.reports.progress')} fill="hsl(210, 40%, 50%)" background={{ fill: isDark ? '#334155' : '#e5e7eb' }} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>

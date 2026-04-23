@@ -71,11 +71,11 @@ export const MOCK_ORPHAN_DATA: Beneficiary[] = [
         { date: '2024-07-22', title: 'المركز الأول في مسابقة القراءة', description: 'فاز بالمركز الأول على مستوى المدرسة في مسابقة القراءة السنوية.'},
       ],
       aidLog: [
-        { id: 'aid-o1-1', type: 'financial', date: '2024-07-01T00:00:00Z', description: { en: 'July Sponsorship Payment', ar: 'دفعة كفالة يوليو', tr: 'Temmuz Sponsorluk Ödemesi' }, value: 150, unit: 'USD', status: 'Delivered' },
-        { id: 'aid-o1-2', type: 'in-kind', date: '2024-07-10T00:00:00Z', description: { en: 'Eid Clothing', ar: 'ملابس العيد', tr: 'Bayramlık Giyim' }, value: 1, unit: 'package', status: 'Delivered', inventoryItemId: 'CL-KID-01' },
-        { id: 'aid-o1-3', type: 'service', date: '2024-06-05T00:00:00Z', description: { en: 'Psychological Support Session', ar: 'جلسة دعم نفسي', tr: 'Psikolojik Destek Seansı' }, value: 1, unit: 'session', status: 'Delivered' },
-        { id: 'aid-o1-4', type: 'financial', date: '2024-08-01T00:00:00Z', description: { en: 'August Sponsorship Payment', ar: 'دفعة كفالة أغسطس', tr: 'Ağustos Sponsorluk Ödemesi' }, value: 150, unit: 'USD', status: 'Scheduled' },
-        { id: 'aid-o1-5', type: 'in-kind', date: '2024-08-15T00:00:00Z', description: { en: 'School Supplies', ar: 'لوازم مدرسية', tr: 'Okul Malzemeleri' }, value: 1, unit: 'kit', status: 'Pending' }
+        { id: 'aid-o1-1', type: 'financial', date: '2024-07-01T00:00:00Z', description: { en: 'July Sponsorship Payment', ar: 'دفعة كفالة يوليو' }, value: 150, unit: 'USD', status: 'Delivered' },
+        { id: 'aid-o1-2', type: 'in-kind', date: '2024-07-10T00:00:00Z', description: { en: 'Eid Clothing', ar: 'ملابس العيد' }, value: 1, unit: 'package', status: 'Delivered', inventoryItemId: 'CL-KID-01' },
+        { id: 'aid-o1-3', type: 'service', date: '2024-06-05T00:00:00Z', description: { en: 'Psychological Support Session', ar: 'جلسة دعم نفسي' }, value: 1, unit: 'session', status: 'Delivered' },
+        { id: 'aid-o1-4', type: 'financial', date: '2024-08-01T00:00:00Z', description: { en: 'August Sponsorship Payment', ar: 'دفعة كفالة أغسطس' }, value: 150, unit: 'USD', status: 'Scheduled' },
+        { id: 'aid-o1-5', type: 'in-kind', date: '2024-08-15T00:00:00Z', description: { en: 'School Supplies', ar: 'لوازم مدرسية' }, value: 1, unit: 'kit', status: 'Pending' }
       ]
     },
   },

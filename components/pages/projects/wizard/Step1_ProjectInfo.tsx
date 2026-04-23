@@ -87,10 +87,10 @@ const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData }) => {
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                  <FormField label={t('projects.wizard.form.country')}>
                     <select name="location.country" value={data.location?.country} onChange={handleInputChange} className="w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700">
-                        <option>Turkey</option>
-                        <option>Syria</option>
-                        <option>Lebanon</option>
-                        <option>Uganda</option>
+                        <option value="Turkey">{t('projects.countries.turkey')}</option>
+                        <option value="Syria">{t('projects.countries.syria')}</option>
+                        <option value="Lebanon">{t('projects.countries.lebanon')}</option>
+                        <option value="Uganda">{t('projects.countries.uganda')}</option>
                     </select>
                 </FormField>
                 <FormField label={t('projects.wizard.form.city')}>

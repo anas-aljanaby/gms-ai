@@ -85,7 +85,7 @@ const KanbanCard: React.FC<KanbanCardProps> = ({ donor, dispatch }) => {
                 draggable
                 onDragStart={handleDragStart}
                 className={`flex flex-col space-y-3 bg-card dark:bg-dark-card rounded-lg p-3 shadow-md hover:shadow-lg transition-shadow cursor-grab border-s-4 ${healthColors[donor.relationshipHealth]}`}
-                aria-label={`Donor card for ${donor.name}`}
+                aria-label={t('donors.card.ariaLabel', { name: donor.name })}
             >
                 {/* Header */}
                 <div className="flex justify-between items-start gap-2">
@@ -96,7 +96,7 @@ const KanbanCard: React.FC<KanbanCardProps> = ({ donor, dispatch }) => {
                             <p className="text-xs text-gray-500">{donor.country}</p>
                         </div>
                     </div>
-                    <button className="p-1 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 flex-shrink-0" aria-label="More options">
+                    <button className="p-1 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 flex-shrink-0" aria-label={t('donors.card.moreOptions')}>
                         <MoreHorizontalIcon />
                     </button>
                 </div>
@@ -123,7 +123,7 @@ const KanbanCard: React.FC<KanbanCardProps> = ({ donor, dispatch }) => {
                     ) : aiSuggestion ? (
                         <div>
                             <p className="font-bold text-sm text-primary-dark dark:text-white">💡 {aiSuggestion.action}</p>
-                            <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">Rationale: {aiSuggestion.rationale}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">{t('donors.ai_suggestion.rationale')}: {aiSuggestion.rationale}</p>
                              <button onClick={() => setIsActionModalOpen(true)} className="mt-2 text-xs font-bold text-white bg-primary dark:bg-secondary px-3 py-1 rounded-full hover:bg-primary-dark">
                                 {t('donors.ai_suggestion.start')}
                             </button>

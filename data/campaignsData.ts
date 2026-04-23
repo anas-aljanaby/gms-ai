@@ -3,7 +3,7 @@ import type { Campaign, CampaignSegment } from '../types';
 export const MOCK_CAMPAIGNS: Campaign[] = [
   {
     id: 'CAMP-2024-001',
-    name: { en: 'Ramadan Giving 2024', ar: 'حملة عطاء رمضان 2024', tr: 'Ramazan Bağış 2024' },
+    name: { en: 'Ramadan Giving 2024', ar: 'حملة عطاء رمضان 2024' },
     type: 'Seasonal',
     status: 'Completed',
     startDate: '2024-03-10T00:00:00Z',
@@ -18,7 +18,7 @@ export const MOCK_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'CAMP-2024-002',
-    name: { en: 'Education for All Initiative', ar: 'مبادرة التعليم للجميع', tr: 'Herkes İçin Eğitim Girişimi' },
+    name: { en: 'Education for All Initiative', ar: 'مبادرة التعليم للجميع' },
     type: 'Fundraising',
     status: 'Active',
     startDate: '2024-06-01T00:00:00Z',
@@ -33,7 +33,7 @@ export const MOCK_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'CAMP-2024-003',
-    name: { en: 'Clean Water Project Launch', ar: 'إطلاق مشروع المياه النظيفة', tr: 'Temiz Su Projesi Lansmanı' },
+    name: { en: 'Clean Water Project Launch', ar: 'إطلاق مشروع المياه النظيفة' },
     type: 'Awareness',
     status: 'Active',
     startDate: '2024-07-15T00:00:00Z',
@@ -48,7 +48,7 @@ export const MOCK_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'CAMP-2024-004',
-    name: { en: 'Volunteer Drive - Summer 2024', ar: 'حملة المتطوعين - صيف 2024', tr: 'Gönüllü Kampanyası - Yaz 2024' },
+    name: { en: 'Volunteer Drive - Summer 2024', ar: 'حملة المتطوعين - صيف 2024' },
     type: 'Volunteer',
     status: 'Paused',
     startDate: '2024-05-15T00:00:00Z',
@@ -63,7 +63,7 @@ export const MOCK_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'CAMP-2024-005',
-    name: { en: 'Year-End Giving Campaign 2024', ar: 'حملة نهاية العام 2024', tr: 'Yıl Sonu Bağış Kampanyası 2024' },
+    name: { en: 'Year-End Giving Campaign 2024', ar: 'حملة نهاية العام 2024' },
     type: 'Seasonal',
     status: 'Scheduled',
     startDate: '2024-11-01T00:00:00Z',
@@ -78,7 +78,7 @@ export const MOCK_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'CAMP-2024-006',
-    name: { en: 'Gala Dinner 2024 Promotion', ar: 'الترويج لحفل العشاء السنوي 2024', tr: 'Gala Yemeği 2024 Tanıtımı' },
+    name: { en: 'Gala Dinner 2024 Promotion', ar: 'الترويج لحفل العشاء السنوي 2024' },
     type: 'Event',
     status: 'Draft',
     startDate: '2024-09-01T00:00:00Z',

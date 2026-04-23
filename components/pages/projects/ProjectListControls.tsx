@@ -47,9 +47,9 @@ const ProjectListControls: React.FC<ProjectListControlsProps> = ({ view, onViewC
                         {t('projects.advanced_filters')}
                     </button>
                     <div className="p-1 bg-gray-100 dark:bg-slate-900 rounded-lg flex items-center">
-                        <ViewButton label="List" icon={<List size={20} />} isActive={view === 'list'} onClick={() => onViewChange('list')} />
-                        <ViewButton label="Card" icon={<LayoutGrid size={20} />} isActive={view === 'card'} onClick={() => onViewChange('card')} />
-                        <ViewButton label="Map" icon={<MapIcon size={20} />} isActive={view === 'map'} onClick={() => onViewChange('map')} />
+                        <ViewButton label={t('projects.views.list')} icon={<List size={20} />} isActive={view === 'list'} onClick={() => onViewChange('list')} />
+                        <ViewButton label={t('projects.views.card')} icon={<LayoutGrid size={20} />} isActive={view === 'card'} onClick={() => onViewChange('card')} />
+                        <ViewButton label={t('projects.views.map')} icon={<MapIcon size={20} />} isActive={view === 'map'} onClick={() => onViewChange('map')} />
                     </div>
                 </div>
             </div>

@@ -83,7 +83,7 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
                  return {
                     grant,
                     project: {
-                        name: { en: 'Education for All', ar: 'التعليم للجميع', tr: 'Herkes İçin Eğitim' },
+                        name: { en: 'Education for All', ar: 'التعليم للجميع' },
                         goal: 'Supporting primary education for 500 children in conflict zones.',
                         stage: 'closure',
                         type: 'education'

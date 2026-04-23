@@ -31,9 +31,9 @@ export const MOCK_SHARIA_KPI_DATA: ShariaKpiData = {
 };
 
 export const MOCK_SHARIA_ALERTS: ShariaAlert[] = [
-    { id: 'sa-1', priority: 'critical', text: { en: 'Interest-bearing transaction detected in account ****1234', ar: 'تم كشف معاملة ربوية في حساب ****1234', tr: '****1234 nolu hesapta faizli işlem tespit edildi' }, timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
-    { id: 'sa-2', priority: 'warning', text: { en: 'Contract C-456 with "Global Tech" includes a penalty clause needing review', ar: 'العقد C-456 مع "Global Tech" يتضمن شرط جزائي يحتاج للمراجعة', tr: '"Global Tech" ile yapılan C-456 sözleşmesi, incelenmesi gereken bir ceza maddesi içeriyor' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
-    { id: 'sa-3', priority: 'warning', text: { en: 'Zakat distribution to "Education" category nearing its 30% limit', ar: 'توزيع الزكاة على فئة "التعليم" يقترب من حده الأقصى 30%', tr: '"Eğitim" kategorisine yapılan zekat dağıtımı %30 sınırına yaklaşıyor' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() },
+    { id: 'sa-1', priority: 'critical', text: { en: 'Interest-bearing transaction detected in account ****1234', ar: 'تم كشف معاملة ربوية في حساب ****1234' }, timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
+    { id: 'sa-2', priority: 'warning', text: { en: 'Contract C-456 with "Global Tech" includes a penalty clause needing review', ar: 'العقد C-456 مع "Global Tech" يتضمن شرط جزائي يحتاج للمراجعة' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
+    { id: 'sa-3', priority: 'warning', text: { en: 'Zakat distribution to "Education" category nearing its 30% limit', ar: 'توزيع الزكاة على فئة "التعليم" يقترب من حده الأقصى 30%' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() },
 ];
 
 export const MOCK_COMPLIANCE_TREND_DATA = [
@@ -46,8 +46,8 @@ export const MOCK_COMPLIANCE_TREND_DATA = [
 ];
 
 export const MOCK_SHARIA_ACTIVITIES: ShariaActivity[] = [
-    { id: 'act-1', icon: '⚖️', text: { en: 'Fatwa #123 regarding cryptocurrency was issued', ar: 'تم إصدار الفتوى رقم 123 بخصوص العملات الرقمية', tr: 'Kripto para birimiyle ilgili 123 numaralı fetva yayınlandı' }, timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString() },
-    { id: 'act-2', icon: '📄', text: { en: 'Contract #C-45 approved by Sharia board', ar: 'تمت الموافقة على العقد رقم C-45 من قبل الهيئة الشرعية', tr: 'C-45 numaralı sözleşme Şeriat kurulu tarafından onaylandı' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString() },
-    { id: 'act-3', icon: '💰', text: { en: 'New Zakat expenditure of $5,000 logged', ar: 'تم تسجيل نفقة زكاة جديدة بقيمة 5,000 دولار', tr: '5.000 dolarlık yeni zekat harcaması kaydedildi' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() },
-    { id: 'act-4', icon: '👥', text: { en: 'Sharia board meeting scheduled for Jul 30, 2024', ar: 'تم تحديد اجتماع الهيئة الشرعية في 30 يوليو 2024', tr: 'Şeriat kurulu toplantısı 30 Temmuz 2024 olarak planlandı' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
+    { id: 'act-1', icon: '⚖️', text: { en: 'Fatwa #123 regarding cryptocurrency was issued', ar: 'تم إصدار الفتوى رقم 123 بخصوص العملات الرقمية' }, timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString() },
+    { id: 'act-2', icon: '📄', text: { en: 'Contract #C-45 approved by Sharia board', ar: 'تمت الموافقة على العقد رقم C-45 من قبل الهيئة الشرعية' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString() },
+    { id: 'act-3', icon: '💰', text: { en: 'New Zakat expenditure of $5,000 logged', ar: 'تم تسجيل نفقة زكاة جديدة بقيمة 5,000 دولار' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() },
+    { id: 'act-4', icon: '👥', text: { en: 'Sharia board meeting scheduled for Jul 30, 2024', ar: 'تم تحديد اجتماع الهيئة الشرعية في 30 يوليو 2024' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
 ];

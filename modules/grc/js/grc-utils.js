@@ -75,43 +75,43 @@ const GRC_Utils = {
 
     translateStatus(status, lang) {
         const map = {
-            'active': { ar: 'نشط', en: 'Active', tr: 'Aktif' },
-            'draft': { ar: 'مسودة', en: 'Draft', tr: 'Taslak' },
-            'archived': { ar: 'مؤرشف', en: 'Archived', tr: 'Arşivlenmiş' },
-            'pending': { ar: 'معلق', en: 'Pending', tr: 'Beklemede' },
-            'implemented': { ar: 'منفذ', en: 'Implemented', tr: 'Uygulandı' },
-            'approved': { ar: 'موافق عليه', en: 'Approved', tr: 'Onaylandı' },
-            'rejected': { ar: 'مرفوض', en: 'Rejected', tr: 'Reddedildi' },
-            'identified': { ar: 'محدد', en: 'Identified', tr: 'Tanımlandı' },
-            'mitigating': { ar: 'قيد التخفيف', en: 'Mitigating', tr: 'Azaltılıyor' },
-            'monitored': { ar: 'مراقب', en: 'Monitored', tr: 'İzleniyor' },
-            'closed': { ar: 'مغلق', en: 'Closed', tr: 'Kapalı' },
-            'internal': { ar: 'داخلي', en: 'Internal', tr: 'İç' },
-            'regulatory': { ar: 'تنظيمي', en: 'Regulatory', tr: 'Yasal' },
-            'donor': { ar: 'مانح', en: 'Donor', tr: 'Bağışçı' },
-            'governance': { ar: 'حوكمة', en: 'Governance', tr: 'Yönetişim' },
-            'financial': { ar: 'مالي', en: 'Financial', tr: 'Finansal' },
-            'operational': { ar: 'تشغيلي', en: 'Operational', tr: 'Operasyonel' },
+            'active': { ar: 'نشط', en: 'Active' },
+            'draft': { ar: 'مسودة', en: 'Draft' },
+            'archived': { ar: 'مؤرشف', en: 'Archived' },
+            'pending': { ar: 'معلق', en: 'Pending' },
+            'implemented': { ar: 'منفذ', en: 'Implemented' },
+            'approved': { ar: 'موافق عليه', en: 'Approved' },
+            'rejected': { ar: 'مرفوض', en: 'Rejected' },
+            'identified': { ar: 'محدد', en: 'Identified' },
+            'mitigating': { ar: 'قيد التخفيف', en: 'Mitigating' },
+            'monitored': { ar: 'مراقب', en: 'Monitored' },
+            'closed': { ar: 'مغلق', en: 'Closed' },
+            'internal': { ar: 'داخلي', en: 'Internal' },
+            'regulatory': { ar: 'تنظيمي', en: 'Regulatory' },
+            'donor': { ar: 'مانح', en: 'Donor' },
+            'governance': { ar: 'حوكمة', en: 'Governance' },
+            'financial': { ar: 'مالي', en: 'Financial' },
+            'operational': { ar: 'تشغيلي', en: 'Operational' },
         };
         return (map[status] && map[status][lang]) ? map[status][lang] : status;
     },
     
     translateRiskLevel(level, lang) {
         const map = {
-            'very_low': { ar: 'منخفض جداً', en: 'Very Low', tr: 'Çok Düşük' },
-            'low': { ar: 'منخفض', en: 'Low', tr: 'Düşük' },
-            'medium': { ar: 'متوسط', en: 'Medium', tr: 'Orta' },
-            'high': { ar: 'مرتفع', en: 'High', tr: 'Yüksek' },
-            'very_high': { ar: 'مرتفع جداً', en: 'Very High', tr: 'Çok Yüksek' }
+            'very_low': { ar: 'منخفض جداً', en: 'Very Low' },
+            'low': { ar: 'منخفض', en: 'Low' },
+            'medium': { ar: 'متوسط', en: 'Medium' },
+            'high': { ar: 'مرتفع', en: 'High' },
+            'very_high': { ar: 'مرتفع جداً', en: 'Very High' }
         };
         return (map[level] && map[level][lang]) ? map[level][lang] : level;
     },
     
     translatePriority(priority, lang) {
         const map = {
-            'high': { ar: 'عالية', en: 'High', tr: 'Yüksek' },
-            'medium': { ar: 'متوسطة', en: 'Medium', tr: 'Orta' },
-            'low': { ar: 'منخفضة', en: 'Low', tr: 'Düşük' }
+            'high': { ar: 'عالية', en: 'High' },
+            'medium': { ar: 'متوسطة', en: 'Medium' },
+            'low': { ar: 'منخفضة', en: 'Low' }
         };
         return (map[priority] && map[priority][lang]) ? map[priority][lang] : priority;
     },

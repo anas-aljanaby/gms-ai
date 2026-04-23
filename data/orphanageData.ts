@@ -5,8 +5,7 @@ export const MOCK_ORPHANAGES: Orphanage[] = [
     id: 'ORPH-003',
     name: {
       en: 'Al-Noor Center for Orphans',
-      ar: 'مركز النور للأيتام',
-      tr: 'El-Nur Yetim Merkezi'
+      ar: 'مركز النور للأيتام'
     },
     country: 'Saudi Arabia',
     city: 'Riyadh',
@@ -21,8 +20,7 @@ export const MOCK_ORPHANAGES: Orphanage[] = [
     id: 'ORPH-002',
     name: {
       en: 'Future Generation Home',
-      ar: 'بيت جيل المستقبل',
-      tr: 'Gelecek Nesil Evi'
+      ar: 'بيت جيل المستقبل'
     },
     country: 'Jordan',
     city: 'Amman',
@@ -37,8 +35,7 @@ export const MOCK_ORPHANAGES: Orphanage[] = [
     id: 'ORPH-001',
     name: {
       en: 'Hope Shelter Orphanage',
-      ar: 'دار أيتام ملجأ الأمل',
-      tr: 'Umut Barınağı Yetimhanesi'
+      ar: 'دار أيتام ملجأ الأمل'
     },
     country: 'Turkey',
     city: 'Istanbul',
@@ -53,8 +50,7 @@ export const MOCK_ORPHANAGES: Orphanage[] = [
     id: 'ORPH-005',
     name: {
       en: 'Anatolian Children Village',
-      ar: 'قرية أطفال الأناضول',
-      tr: 'Anadolu Çocuk Köyü'
+      ar: 'قرية أطفال الأناضول'
     },
     country: 'Turkey',
     city: 'Ankara',
@@ -69,8 +65,7 @@ export const MOCK_ORPHANAGES: Orphanage[] = [
     id: 'ORPH-004',
     name: {
       en: 'Peace & Smile Orphanage',
-      ar: 'دار السلام والابتسامة',
-      tr: 'Barış ve Gülümseme Yetimhanesi'
+      ar: 'دار السلام والابتسامة'
     },
     country: 'Lebanon',
     city: 'Beirut',

@@ -20,7 +20,7 @@ const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClo
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim()) {
-            alert('Name is required.');
+            alert(t('beneficiaries.modal.add.validation.nameRequired'));
             return;
         }
         onAdd({
@@ -57,7 +57,7 @@ const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClo
             >
                 <div className="flex items-center justify-between p-4 border-b dark:border-slate-700">
                     <h2 className="text-xl font-bold">{t('beneficiaries.modal.add.title')}</h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Close modal">
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}>
                         <XIcon />
                     </button>
                 </div>

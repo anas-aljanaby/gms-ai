@@ -39,7 +39,7 @@ const ApprovalWorkflowsConfiguration: React.FC = () => {
 
             <div className="flex flex-col lg:flex-row gap-6">
                 <aside className="lg:w-1/3">
-                    <SettingsCard title={t('financialSettings.workflows.availableWorkflows')} description="">
+                    <SettingsCard title={t('financialSettings.workflows.availableWorkflows')} description={t('financialSettings.workflows.availableWorkflowsDesc')}>
                         <div className="p-0 space-y-2">
                            {workflows.map(wf => (
                                 <div key={wf.id} className={`p-3 rounded-lg border-l-4 transition-colors ${selectedWorkflowId === wf.id ? 'bg-primary-light/50 border-primary' : 'hover:bg-gray-100 dark:hover:bg-slate-800/50 border-transparent'}`}>
@@ -72,7 +72,7 @@ const ApprovalWorkflowsConfiguration: React.FC = () => {
                                 />
                             </SettingsCard>
 
-                            <SettingsCard title={t('financialSettings.workflows.approvalSteps')} description="">
+                            <SettingsCard title={t('financialSettings.workflows.approvalSteps')} description={t('financialSettings.workflows.approvalStepsDesc')}>
                                 <div className="space-y-2">
                                    {selectedWorkflow.steps.map((step, index) => (
                                        <React.Fragment key={step.id}>
@@ -85,7 +85,7 @@ const ApprovalWorkflowsConfiguration: React.FC = () => {
                                                         <div className="text-sm">
                                                             <p className="font-semibold text-gray-500 dark:text-gray-400">{t('financialSettings.workflows.when')}</p>
                                                              <p className="font-bold text-foreground dark:text-dark-foreground">
-                                                                {step.condition ? `${t('financialSettings.workflows.amount')} ${t(`financialSettings.workflows.operators.${step.condition.operator}`)} ${formatCurrency(step.condition.value, language)}` : 'Any Amount'}
+                                                                {step.condition ? `${t('financialSettings.workflows.amount')} ${t(`financialSettings.workflows.operators.${step.condition.operator}`)} ${formatCurrency(step.condition.value, language)}` : t('financialSettings.workflows.anyAmount')}
                                                             </p>
                                                             <p className="mt-2 font-semibold text-gray-500 dark:text-gray-400">{t('financialSettings.workflows.then')}</p>
                                                             <div className="flex items-center gap-2 font-bold text-foreground dark:text-dark-foreground">

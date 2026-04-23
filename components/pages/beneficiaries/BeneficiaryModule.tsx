@@ -98,7 +98,7 @@ const BeneficiariesModule: React.FC = () => {
             return;
         }
         setMicError(null); // Reset error on new attempt
-        const langCode = { en: 'en-US', ar: 'ar-SA', tr: 'tr-TR' }[language];
+        const langCode = { en: 'en-US', ar: 'ar-SA' }[language];
         recognitionRef.current.lang = langCode;
         try {
             recognitionRef.current.start();

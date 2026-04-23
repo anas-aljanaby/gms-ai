@@ -65,7 +65,7 @@ const TranslationManagement: React.FC = () => {
                 ]);
                 setTranslations({ en, ar });
             } catch (e) {
-                toast.showError('Failed to load translation files.');
+                toast.showError(t('translations.loadError'));
                 console.error(e);
             } finally {
                 setIsLoading(false);
@@ -104,13 +104,13 @@ const TranslationManagement: React.FC = () => {
         try {
             const enValue = getNestedValue(translations.en, key);
             if (!enValue || typeof enValue !== 'string') {
-                if (!isBatch) toast.showWarning("Can only translate string values.");
+                if (!isBatch) toast.showWarning(t('translations.onlyStringValues'));
                 return false;
             }
     
             const needsAr = !getNestedValue(translations.ar, key);
             if (!needsAr) {
-                if (!isBatch) toast.showInfo("No missing translations for this key.");
+                if (!isBatch) toast.showInfo(t('translations.noMissingForKey'));
                 return false;
             }
     
@@ -142,12 +142,12 @@ const TranslationManagement: React.FC = () => {
                 return newTranslations;
             });
             
-            if (!isBatch) toast.showSuccess(`Auto-translated key: ${key}`);
+            if (!isBatch) toast.showSuccess(t('translations.autoTranslatedKey', { key }));
             return true;
     
         } catch (err) {
             console.error("Auto-translation error:", err);
-            if (!isBatch) toast.showError("Failed to auto-translate.");
+            if (!isBatch) toast.showError(t('translations.autoTranslateFailed'));
             return false;
         } finally {
             setTranslating(prev => ({ ...prev, [key]: false }));
@@ -164,7 +164,7 @@ const TranslationManagement: React.FC = () => {
         });
         
         if (keysToTranslate.length === 0) {
-            toast.showInfo("No missing translations to process.");
+            toast.showInfo(t('translations.noMissingToProcess'));
             setTranslatingAll(false);
             return;
         }
@@ -176,7 +176,7 @@ const TranslationManagement: React.FC = () => {
         }
         
         setTranslatingAll(false);
-        toast.showSuccess(`Translated ${successCount} of ${keysToTranslate.length} missing keys.`);
+        toast.showSuccess(t('translations.translatedSummary', { successCount, total: keysToTranslate.length }));
     };
 
     const handleExport = (lang: Language) => {
@@ -187,7 +187,7 @@ const TranslationManagement: React.FC = () => {
         linkElement.setAttribute('href', dataUri);
         linkElement.setAttribute('download', exportFileDefaultName);
         linkElement.click();
-        toast.showSuccess(`Exported ${lang}.json`);
+        toast.showSuccess(t('translations.exportedFile', { lang }));
     };
 
     if (isLoading) {
@@ -227,9 +227,9 @@ const TranslationManagement: React.FC = () => {
                     <table className="w-full text-sm">
                         <thead className="text-left text-xs uppercase text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-dark-card/50">
                             <tr>
-                                <th className="p-2 w-1/3">Key</th>
-                                <th className="p-2 w-1/3">English (Source)</th>
-                                <th className="p-2 w-1/3">Arabic</th>
+                                <th className="p-2 w-1/3">{t('translations.columns.key')}</th>
+                                <th className="p-2 w-1/3">{t('translations.columns.englishSource')}</th>
+                                <th className="p-2 w-1/3">{t('translations.columns.arabic')}</th>
                             </tr>
                         </thead>
                         <tbody>

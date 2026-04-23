@@ -61,11 +61,57 @@ Update this table every time a page is completed.
 |---|---|---|---|
 | Dashboard | Done | Added missing locale keys + replaced hardcoded English in dashboard components | 2026-04-23 |
 | Quick Actions | Done | Verified Quick Actions/ShareMenu keys and refined Arabic recipients placeholder | 2026-04-23 |
-| Bousala | In Progress | Added bousala locale namespace (ar/en/tr) and localized remaining mixed-English labels in active page | 2026-04-23 |
-| Help & Support | Done | Added missing `help.*` locale keys (ar/en/tr) and removed hardcoded English toast/video unit labels | 2026-04-23 |
-| Donor Management | In Progress | Replaced hardcoded listening/voice-search labels with locale-backed keys in donor controls + stakeholder search, then localized remaining hardcoded voice errors/map placeholder/save-coming-soon toast and view tooltips; added missing `donors`, `individual_donors`, `institutional_donors.opportunities/card`, and `donorIntelligence.distributionChart` locale keys used by `DonorManagement.tsx` (ar/en/tr) | 2026-04-23 |
+| Bousala | In Progress (Locked) | LOCKED by current chat while localizing `BousalaPage` + `components/pages/bousala/*`; adding missing `bousala.*` keys across ar/en and replacing remaining hardcoded UI strings | 2026-04-23 |
+| Help & Support | Done | Added missing `help.*` locale keys (ar/en) and removed hardcoded English toast/video unit labels | 2026-04-23 |
+| Donor Management | Done | Completed donor locale coverage by adding all missing `donors`, `individual_donors`, and `institutional_donors` keys referenced by donor pages (ar/en), and replaced remaining hardcoded donor modal/AI/toast/accessibility strings with locale-backed values | 2026-04-23 |
 
 ### Status Legend
 - `Pending`: Not started.
 - `In Progress`: Currently being localized.
 - `Done`: Localization completed and verified.
+
+## Continuation Plan (Next Workstream)
+
+### Phase 1 - Finish Active Scope (Immediate)
+1. Complete `Bousala` localization pass for all remaining dialogs/tabs/modals.
+2. Run a key-leak sweep to ensure no `namespace.key` strings render in UI.
+3. Mark `Bousala` as `Done` only after Arabic UX QA checklist passes.
+
+### Phase 2 - High Impact User Journeys
+Localize the most frequently used operational pages next:
+- `Project Management`
+- `Beneficiaries`
+- `Stakeholders`
+- `Settings` (including translation/financial sub-sections)
+
+Execution order for each page:
+1. Add missing locale keys in all supported locale files.
+2. Replace hardcoded English in components with `t(...)`.
+3. Verify Arabic readability and RTL alignment in forms/tables/modals.
+4. Confirm no raw keys are visible.
+5. Update tracker status + notes.
+
+### Phase 3 - Navigation and Shell Consistency
+After page modules, do a shell-wide consistency pass:
+- Header / sidebar / mobile sidebar
+- Global menus, tooltips, export labels, announcements
+- Empty/loading/error states reused across modules
+
+Goal: remove mixed-language artifacts while preserving intentionally English structural labels.
+
+## Completion Criteria for AR Localization
+- Zero visible raw translation keys in the app.
+- All user-facing actions/messages/forms are Arabic.
+- Intentional English structural labels are consistent and human-readable.
+- Arabic mode has correct RTL direction and no clipped or broken UI text.
+
+## Tracker Backlog (To Fill During Execution)
+Add rows below as each area starts:
+
+| Page | Status | Notes | Last Update |
+|---|---|---|---|
+| Project Management | Done | Completed full `components/pages/projects/*` localization sweep: removed hardcoded labels, added missing `projects.*`/related keys across ar/en, and verified no remaining key leaks in project module | 2026-04-23 |
+| Beneficiaries | In Progress (Locked) | LOCKED by current chat while localizing `BeneficiariesModule` + `components/pages/beneficiaries/*`; fixed hardcoded validation/alert strings, localized aid-log strings via `beneficiaries.aidLog.*`, and added missing `beneficiaries.*`, `qualificationJourney.*`, `toasts.*`, and `leadership.calendar.*` keys used by beneficiary subviews across ar/en (module key audit now clean) | 2026-04-23 |
+| Stakeholders | Done | Started with explicit lock on `StakeholderManagement` + `components/pages/stakeholders/*`; localized all Stakeholder UI strings, added full `stakeholder_management.*` namespace to ar/en, and replaced remaining hardcoded stakeholder insights with translation-backed values | 2026-04-23 |
+| Settings | In Progress (Locked) | LOCKED by current chat while localizing `SettingsPage` + `components/pages/settings/*`; replacing remaining hardcoded settings UI text and adding missing `settings.*` keys across ar/en | 2026-04-23 |
+| Layout (Header/Sidebar/Mobile Sidebar) | Pending |  |  |

@@ -25,7 +25,7 @@ const OrphanProfile: React.FC<{ orphanId: string; onBack: () => void }> = ({ orp
             const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
             setAiContent(response.text);
         } catch (e) {
-            setAiContent("Error generating summary.");
+            setAiContent("تعذر إنشاء الملخص حالياً.");
         } finally {
             setIsGeneratingAi(false);
         }
@@ -41,7 +41,7 @@ const OrphanProfile: React.FC<{ orphanId: string; onBack: () => void }> = ({ orp
             const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
             setAiContent(response.text);
         } catch (e) {
-            setAiContent("Error generating report.");
+            setAiContent("تعذر إنشاء التقرير حالياً.");
         } finally {
             setIsGeneratingAi(false);
         }

@@ -20,11 +20,11 @@ const iconMap: { [key: string]: React.FC } = {
 
 const DocumentTypesConfig: React.FC = () => {
     const { t } = useLocalization();
-    return <SettingsCard title={t('settings.documents.types.title')} description={t('settings.documents.types.desc')}><p>Content for Document Types</p></SettingsCard>
+    return <SettingsCard title={t('settings.documents.types.title')} description={t('settings.documents.types.desc')}><p>{t('settings.documents.types.placeholder')}</p></SettingsCard>
 };
 const FolderTemplatesConfig: React.FC = () => {
     const { t } = useLocalization();
-    return <SettingsCard title={t('settings.documents.templates.title')} description={t('settings.documents.templates.desc')}><p>Content for Folder Templates</p></SettingsCard>
+    return <SettingsCard title={t('settings.documents.templates.title')} description={t('settings.documents.templates.desc')}><p>{t('settings.documents.templates.placeholder')}</p></SettingsCard>
 };
 
 const MetadataConfig: React.FC = () => {
@@ -77,7 +77,7 @@ const MetadataConfig: React.FC = () => {
 
 const VersioningRetentionConfig: React.FC = () => {
     const { t } = useLocalization();
-    return <SettingsCard title={t('settings.documents.versioning.title')} description={t('settings.documents.versioning.desc')}><p>Content for Versioning & Retention</p></SettingsCard>
+    return <SettingsCard title={t('settings.documents.versioning.title')} description={t('settings.documents.versioning.desc')}><p>{t('settings.documents.versioning.placeholder')}</p></SettingsCard>
 };
 
 const DocumentSettings: React.FC = () => {

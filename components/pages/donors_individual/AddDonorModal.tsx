@@ -11,7 +11,7 @@ interface AddDonorModalProps {
 
 const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd }) => {
     const { t } = useLocalization();
-    const [fullName, setFullName] = useState({ en: '', ar: '', tr: '' });
+    const [fullName, setFullName] = useState({ en: '', ar: '' });
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('');
@@ -19,21 +19,21 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd })
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!fullName.en || !email) {
-            alert('Full Name (English) and Email are required.');
+            alert(t('individual_donors.modal.requiredFields'));
             return;
         }
         onAdd({
             fullName: {
                 en: fullName.en,
                 ar: fullName.ar || fullName.en,
-                tr: fullName.tr || fullName.en,
+
             },
             email,
             phone,
             country,
         });
         // Reset form and close
-        setFullName({ en: '', ar: '', tr: '' });
+        setFullName({ en: '', ar: '' });
         setEmail('');
         setPhone('');
         setCountry('');
@@ -58,7 +58,7 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd })
                     <h2 id="add-donor-title" className="text-xl font-bold text-foreground dark:text-dark-foreground">
                         {t('individual_donors.addDonor')}
                     </h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Close modal">
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}>
                         <XIcon />
                     </button>
                 </div>
@@ -71,10 +71,6 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd })
                          <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.fullNameAR')}</label>
                             <input type="text" value={fullName.ar} onChange={e => setFullName(f => ({...f, ar: e.target.value}))} dir="rtl" className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
-                        </div>
-                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.fullNameTR')}</label>
-                            <input type="text" value={fullName.tr} onChange={e => setFullName(f => ({...f, tr: e.target.value}))} className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.email')}</label>

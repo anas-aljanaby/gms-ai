@@ -42,11 +42,11 @@ const AddEventModal: React.FC<{
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!title || !category || !type || !facilitator) {
-            alert('Please fill all required fields');
+            alert(t('leadership.calendar.form.requiredFields'));
             return;
         }
         onSubmit({
-            title: { en: title, ar: title, tr: title }, // Simple title for all langs
+            title: { en: title, ar: title}, // Simple title for all langs
             category,
             type,
             facilitator,

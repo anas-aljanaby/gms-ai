@@ -3,7 +3,7 @@ import type { InstitutionalDonor } from '../types';
 export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   {
     id: 'G-00123',
-    organizationName: { en: 'Global Philanthropy Foundation', ar: 'مؤسسة العطاء العالمي', tr: 'Küresel Hayırseverlik Vakfı' },
+    organizationName: { en: 'Global Philanthropy Foundation', ar: 'مؤسسة العطاء العالمي' },
     logo: 'https://picsum.photos/seed/GPF/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Dr. Elena Rodriguez', email: 'e.rodriguez@gpf.org' },
@@ -32,7 +32,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'G-00245',
-    organizationName: { en: 'Innovate Corp Social Impact', ar: 'إينوفيت كورب للتأثير الاجتماعي', tr: 'Innovate Corp Sosyal Etki' },
+    organizationName: { en: 'Innovate Corp Social Impact', ar: 'إينوفيت كورب للتأثير الاجتماعي' },
     logo: 'https://picsum.photos/seed/Innovate/100/100',
     type: 'Corporate',
     primaryContact: { name: 'David Lee', email: 'd.lee@innovate.com' },
@@ -60,7 +60,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
     {
     id: 'QA-001',
-    organizationName: { en: 'Qatar Charity', ar: 'قطر الخيرية', tr: 'Katar Hayır Kurumu' },
+    organizationName: { en: 'Qatar Charity', ar: 'قطر الخيرية' },
     logo: 'https://picsum.photos/seed/QC/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Yousef Al-Kuwari', email: 'info@qcharity.org' },
@@ -89,7 +89,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'KW-001',
-    organizationName: { en: 'Kuwait Red Crescent Society', ar: 'جمعية الهلال الأحمر الكويتي', tr: 'Kuveyt Kızılayı' },
+    organizationName: { en: 'Kuwait Red Crescent Society', ar: 'جمعية الهلال الأحمر الكويتي' },
     logo: 'https://picsum.photos/seed/KRCS/100/100',
     type: 'Government',
     primaryContact: { name: 'Dr. Hilal Al-Sayer', email: 'info@krcs.org.kw' },
@@ -110,7 +110,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'QA-002',
-    organizationName: { en: 'Qatar Foundation', ar: 'مؤسسة قطر', tr: 'Katar Vakfı' },
+    organizationName: { en: 'Qatar Foundation', ar: 'مؤسسة قطر' },
     logo: 'https://picsum.photos/seed/QF/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Sheikha Hind bint Hamad Al Thani', email: 'info@qf.org.qa' },
@@ -131,7 +131,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'KW-002',
-    organizationName: { en: 'Kuwait Foundation for the Advancement of Sciences (KFAS)', ar: 'مؤسسة الكويت للتقدم العلمي', tr: 'Kuveyt Bilimsel Gelişim Vakfı' },
+    organizationName: { en: 'Kuwait Foundation for the Advancement of Sciences (KFAS)', ar: 'مؤسسة الكويت للتقدم العلمي' },
     logo: 'https://picsum.photos/seed/KFAS/100/100',
     type: 'Government',
     primaryContact: { name: 'Director General', email: 'info@kfas.org.kw' },
@@ -152,7 +152,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'QA-003',
-    organizationName: { en: 'Education Above All Foundation', ar: 'مؤسسة التعليم فوق الجميع', tr: 'Her Şeyden Önce Eğitim Vakfı' },
+    organizationName: { en: 'Education Above All Foundation', ar: 'مؤسسة التعليم فوق الجميع' },
     logo: 'https://picsum.photos/seed/EAA/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Fahad Al-Sulaiti', email: 'info@eaa.org.qa' },
@@ -173,7 +173,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'KW-003',
-    organizationName: { en: 'Direct Aid (Al-Oun Al-Mubasher)', ar: 'العون المباشر', tr: 'Doğrudan Yardım' },
+    organizationName: { en: 'Direct Aid (Al-Oun Al-Mubasher)', ar: 'العون المباشر' },
     logo: 'https://picsum.photos/seed/DA/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Dr. Abdullah Al-Sumait', email: 'info@direct-aid.org' },
@@ -194,7 +194,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'UN-001',
-    organizationName: { en: 'UNICEF', ar: 'اليونيسف', tr: 'UNICEF' },
+    organizationName: { en: 'UNICEF', ar: 'اليونيسف' },
     logo: 'https://picsum.photos/seed/UNICEF/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'Grants Division', email: 'grants@unicef.org' },
@@ -214,7 +214,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'UN-002',
-    organizationName: { en: 'World Food Programme (WFP)', ar: 'برنامج الأغذية العالمي', tr: 'Dünya Gıda Programı (WFP)' },
+    organizationName: { en: 'World Food Programme (WFP)', ar: 'برنامج الأغذية العالمي' },
     logo: 'https://picsum.photos/seed/WFP/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'Partnerships Office', email: 'partnerships@wfp.org' },
@@ -234,7 +234,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'UN-003',
-    organizationName: { en: 'UNDP', ar: 'برنامج الأمم المتحدة الإنمائي', tr: 'UNDP' },
+    organizationName: { en: 'UNDP', ar: 'برنامج الأمم المتحدة الإنمائي' },
     logo: 'https://picsum.photos/seed/UNDP/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'Funding Department', email: 'funding@undp.org' },
@@ -254,7 +254,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'UN-004',
-    organizationName: { en: 'UNHCR', ar: 'المفوضية السامية للأمم المتحدة لشؤون اللاجئين', tr: 'UNHCR' },
+    organizationName: { en: 'UNHCR', ar: 'المفوضية السامية للأمم المتحدة لشؤون اللاجئين' },
     logo: 'https://picsum.photos/seed/UNHCR/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'Donor Relations', email: 'donors@unhcr.org' },
@@ -274,7 +274,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'UN-005',
-    organizationName: { en: 'OCHA', ar: 'مكتب الأمم المتحدة لتنسيق الشؤون الإنسانية', tr: 'OCHA' },
+    organizationName: { en: 'OCHA', ar: 'مكتب الأمم المتحدة لتنسيق الشؤون الإنسانية' },
     logo: 'https://picsum.photos/seed/OCHA/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'CBPF Section', email: 'cbpf@un.org' },
@@ -294,7 +294,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'G-00301',
-    organizationName: { en: 'European Development Agency', ar: 'وكالة التنمية الأوروبية', tr: 'Avrupa Kalkınma Ajansı' },
+    organizationName: { en: 'European Development Agency', ar: 'وكالة التنمية الأوروبية' },
     logo: 'https://picsum.photos/seed/EDA/100/100',
     type: 'Government',
     primaryContact: { name: 'Sophie Dubois', email: 's.dubois@eda.eu' },
@@ -315,7 +315,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'G-00456',
-    organizationName: { en: 'The Solidarity Fund', ar: 'صندوق التضامن', tr: 'Dayanışma Fonu' },
+    organizationName: { en: 'The Solidarity Fund', ar: 'صندوق التضامن' },
     logo: 'https://picsum.photos/seed/Solidarity/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Ahmed Al-Mansoori', email: 'a.mansoori@solidarity.org' },
@@ -336,7 +336,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'G-00500',
-    organizationName: { en: 'World Health Bank', ar: 'بنك الصحة العالمي', tr: 'Dünya Sağlık Bankası' },
+    organizationName: { en: 'World Health Bank', ar: 'بنك الصحة العالمي' },
     logo: 'https://picsum.photos/seed/WHB/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'Dr. Kenji Tanaka', email: 'k.tanaka@whb.org' },
@@ -357,7 +357,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'G-00601',
-    organizationName: { en: 'Islamic Development Bank', ar: 'البنك الإسلامي للتنمية', tr: 'İslam Kalkınma Bankası' },
+    organizationName: { en: 'Islamic Development Bank', ar: 'البنك الإسلامي للتنمية' },
     logo: 'https://picsum.photos/seed/IsDB/100/100',
     type: 'Multilateral',
     primaryContact: { name: 'President Office', email: 'info@isdb.org' },
@@ -378,7 +378,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'QA-004',
-    organizationName: { en: 'Qatar Red Crescent', ar: 'الهلال الأحمر القطري', tr: 'Katar Kızılayı' },
+    organizationName: { en: 'Qatar Red Crescent', ar: 'الهلال الأحمر القطري' },
     logo: 'https://picsum.photos/seed/QRC/100/100',
     type: 'Government',
     primaryContact: { name: 'Secretary General', email: 'info@qrcs.org.qa' },
@@ -399,7 +399,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'KW-004',
-    organizationName: { en: 'Al Rahma International Society', ar: 'جمعية الرحمة العالمية', tr: 'Uluslararası Rahmet Derneği' },
+    organizationName: { en: 'Al Rahma International Society', ar: 'جمعية الرحمة العالمية' },
     logo: 'https://picsum.photos/seed/Rahma/100/100',
     type: 'Foundation',
     primaryContact: { name: 'General Manager', email: 'info@alrahma.org' },
@@ -420,7 +420,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'KW-005',
-    organizationName: { en: 'International Islamic Charity Organization', ar: 'الهيئة الخيرية الإسلامية العالمية', tr: 'Uluslararası İslami Hayır Kurumu' },
+    organizationName: { en: 'International Islamic Charity Organization', ar: 'الهيئة الخيرية الإسلامية العالمية' },
     logo: 'https://picsum.photos/seed/IICO/100/100',
     type: 'Foundation',
     primaryContact: { name: 'Chairman Office', email: 'info@iico.org' },
@@ -441,7 +441,7 @@ export const MOCK_INSTITUTIONAL_DONORS: InstitutionalDonor[] = [
   },
   {
     id: 'KW-006',
-    organizationName: { en: 'Al-Najat Charity Society', ar: 'جمعية النجاة الخيرية', tr: 'Necat Hayır Cemiyeti' },
+    organizationName: { en: 'Al-Najat Charity Society', ar: 'جمعية النجاة الخيرية' },
     logo: 'https://picsum.photos/seed/Najat/100/100',
     type: 'Foundation',
     primaryContact: { name: 'General Manager', email: 'info@alnajat.com.kw' },

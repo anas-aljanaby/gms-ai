@@ -21,7 +21,7 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAddDon
         e.preventDefault();
         if (!name || !email) {
             // Basic validation
-            alert('Name and Email are required.');
+            alert(t('donors.modal.requiredFields'));
             return;
         }
         onAddDonor({
@@ -58,7 +58,7 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAddDon
                     <h2 id="add-donor-title" className="text-xl font-bold text-foreground dark:text-dark-foreground">
                         {t('donors.modal.addDonorTitle')}
                     </h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Close modal">
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}>
                         <XIcon />
                     </button>
                 </div>

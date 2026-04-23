@@ -90,7 +90,7 @@ const ReportsTab: React.FC<{ project: Project }> = ({ project }) => {
     return (
         <>
             <div className="border-b border-gray-200 dark:border-slate-700 mb-6">
-                <nav className="-mb-px flex space-x-6 rtl:space-x-reverse" aria-label="Tabs">
+                <nav className="-mb-px flex space-x-6 rtl:space-x-reverse" aria-label={t('common.tabs')}>
                     <button
                         onClick={() => setActiveTab('create')}
                         className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors ${getTabClass('create')}`}
@@ -121,7 +121,7 @@ const ReportsTab: React.FC<{ project: Project }> = ({ project }) => {
                                             window.dispatchEvent(new Event('storage'));
                                         }}
                                         className="favorite-star"
-                                        title={favorite === card.id ? "Unfavorite" : "Set as favorite"}
+                                        title={favorite === card.id ? t('projects.reporting.favorite.unfavorite') : t('projects.reporting.favorite.setAsFavorite')}
                                         style={{color: favorite === card.id ? '#fbbf24' : '#d1d5db'}}
                                     >
                                         ★

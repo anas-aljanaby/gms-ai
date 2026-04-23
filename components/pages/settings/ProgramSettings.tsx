@@ -62,10 +62,10 @@ const ProgramSettings: React.FC = () => {
                 <main className="flex-1 space-y-6">
                    {/* This is a simplified version. A full implementation would have separate components */}
                     <SettingsCard title={t('settings.programSettings.structure.categoriesTitle')} description={t('settings.programSettings.structure.categoriesDesc')}>
-                        <p className="text-sm">Manage program categories...</p>
+                        <p className="text-sm">{t('settings.programSettings.structure.placeholder')}</p>
                     </SettingsCard>
                     <SettingsCard title={t('settings.programSettings.lifecycle.title')} description={t('settings.programSettings.lifecycle.desc')}>
-                         <p className="text-sm">Define project lifecycle stages...</p>
+                         <p className="text-sm">{t('settings.programSettings.lifecycle.placeholder')}</p>
                     </SettingsCard>
                     <SettingsCard title={t('settings.programSettings.frameworks.sdgTitle')} description={t('settings.programSettings.frameworks.sdgDesc')}>
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">

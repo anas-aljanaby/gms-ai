@@ -18,39 +18,33 @@ const MOCK_CURRICULUM: CurriculumModule[] = [
     week: 1,
     title: {
         en: 'Module 1: Business Model Canvas',
-        ar: 'الوحدة 1: نموذج العمل التجاري',
-        tr: 'Modül 1: İş Modeli Kanvası'
+        ar: 'الوحدة 1: نموذج العمل التجاري'
     },
     description: {
         en: 'Understand and map out your business model using the Business Model Canvas framework.',
-        ar: 'فهم وتخطيط نموذج عملك باستخدام إطار نموذج العمل التجاري.',
-        tr: 'İş Modeli Kanvası çerçevesini kullanarak iş modelinizi anlayın ve haritalandırın.'
+        ar: 'فهم وتخطيط نموذج عملك باستخدام إطار نموذج العمل التجاري.'
     },
     milestones: [
       { 
         id: 'm1-1', 
         title: {
             en: 'Complete first draft of Business Model Canvas',
-            ar: 'إكمال المسودة الأولى لنموذج العمل التجاري',
-            tr: 'İş Modeli Kanvasının ilk taslağını tamamlayın'
+            ar: 'إكمال المسودة الأولى لنموذج العمل التجاري'
         },
         description: {
             en: 'Fill all 9 blocks of the canvas.',
-            ar: 'املأ جميع الكتل التسعة في النموذج.',
-            tr: 'Kanvasın 9 bloğunu da doldurun.'
+            ar: 'املأ جميع الكتل التسعة في النموذج.'
         }
       },
       { 
         id: 'm1-2', 
         title: {
             en: 'Identify Key Customer Segments',
-            ar: 'تحديد شرائح العملاء الرئيسية',
-            tr: 'Anahtar Müşteri Segmentlerini Belirleyin'
+            ar: 'تحديد شرائح العملاء الرئيسية'
         },
         description: {
             en: 'Define at least two distinct customer segments.',
-            ar: 'حدد شريحتين مميزتين على الأقل من العملاء.',
-            tr: 'En az iki farklı müşteri segmenti tanımlayın.'
+            ar: 'حدد شريحتين مميزتين على الأقل من العملاء.'
         }
       },
     ],
@@ -59,39 +53,33 @@ const MOCK_CURRICULUM: CurriculumModule[] = [
     week: 2,
     title: {
         en: 'Module 2: Market Validation',
-        ar: 'الوحدة 2: التحقق من السوق',
-        tr: 'Modül 2: Pazar Doğrulaması'
+        ar: 'الوحدة 2: التحقق من السوق'
     },
     description: {
         en: 'Validate your assumptions about the market and customer needs.',
-        ar: 'تحقق من افتراضاتك حول السوق واحتياجات العملاء.',
-        tr: 'Pazar ve müşteri ihtiyaçları hakkındaki varsayımlarınızı doğrulayın.'
+        ar: 'تحقق من افتراضاتك حول السوق واحتياجات العملاء.'
     },
     milestones: [
       { 
         id: 'm2-1', 
         title: {
             en: 'Conduct 10 customer interviews',
-            ar: 'إجراء 10 مقابلات مع العملاء',
-            tr: '10 müşteri görüşmesi yapın'
+            ar: 'إجراء 10 مقابلات مع العملاء'
         },
         description: {
             en: 'Gather feedback from potential customers.',
-            ar: 'اجمع التعليقات من العملاء المحتملين.',
-            tr: 'Potansiyel müşterilerden geri bildirim toplayın.'
+            ar: 'اجمع التعليقات من العملاء المحتملين.'
         }
       },
       { 
         id: 'm2-2', 
         title: {
             en: 'Analyze interview feedback and summarize findings',
-            ar: 'تحليل ملاحظات المقابلة وتلخيص النتائج',
-            tr: 'Görüşme geri bildirimlerini analiz edin ve bulguları özetleyin'
+            ar: 'تحليل ملاحظات المقابلة وتلخيص النتائج'
         },
         description: {
             en: 'Create a report on key insights.',
-            ar: 'أنشئ تقريرًا عن الرؤى الرئيسية.',
-            tr: 'Önemli içgörüler hakkında bir rapor oluşturun.'
+            ar: 'أنشئ تقريرًا عن الرؤى الرئيسية.'
         }
       },
     ],
@@ -100,26 +88,22 @@ const MOCK_CURRICULUM: CurriculumModule[] = [
     week: 3,
     title: {
         en: 'Module 3: Financial Planning',
-        ar: 'الوحدة 3: التخطيط المالي',
-        tr: 'Modül 3: Finansal Planlama'
+        ar: 'الوحدة 3: التخطيط المالي'
     },
     description: {
         en: 'Develop initial financial projections for your startup.',
-        ar: 'طور التوقعات المالية الأولية لشركتك الناشئة.',
-        tr: 'Girişiminiz için ilk finansal projeksiyonları geliştirin.'
+        ar: 'طور التوقعات المالية الأولية لشركتك الناشئة.'
     },
     milestones: [
       { 
         id: 'm3-1', 
         title: {
             en: 'Create a 12-month financial projection sheet',
-            ar: 'إنشاء ورقة توقعات مالية لمدة 12 شهرًا',
-            tr: '12 aylık bir finansal projeksiyon tablosu oluşturun'
+            ar: 'إنشاء ورقة توقعات مالية لمدة 12 شهرًا'
         },
         description: {
             en: 'Include revenue, costs, and profit projections.',
-            ar: 'قم بتضمين توقعات الإيرادات والتكاليف والأرباح.',
-            tr: 'Gelir, maliyet ve kar projeksiyonlarını dahil edin.'
+            ar: 'قم بتضمين توقعات الإيرادات والتكاليف والأرباح.'
         }
       },
     ],
@@ -128,26 +112,22 @@ const MOCK_CURRICULUM: CurriculumModule[] = [
     week: 4, 
     title: {
         en: 'Module 4: MVP Definition',
-        ar: 'الوحدة 4: تعريف المنتج الأولي القابل للتطبيق',
-        tr: 'Modül 4: MVP Tanımı'
+        ar: 'الوحدة 4: تعريف المنتج الأولي القابل للتطبيق'
     }, 
     description: {
         en: 'Define the core features of your Minimum Viable Product.',
-        ar: 'حدد الميزات الأساسية لمنتجك الأولي القابل للتطبيق.',
-        tr: 'Minimum Uygulanabilir Ürününüzün temel özelliklerini tanımlayın.'
+        ar: 'حدد الميزات الأساسية لمنتجك الأولي القابل للتطبيق.'
     }, 
     milestones: [
         { 
             id: 'm4-1', 
             title: {
                 en: 'List and prioritize MVP features',
-                ar: 'سرد وتحديد أولويات ميزات المنتج الأولي',
-                tr: 'MVP özelliklerini listeleyin ve önceliklendirin'
+                ar: 'سرد وتحديد أولويات ميزات المنتج الأولي'
             }, 
             description: {
                 en: 'Use a framework like MoSCoW.',
-                ar: 'استخدم إطار عمل مثل MoSCoW.',
-                tr: 'MoSCoW gibi bir çerçeve kullanın.'
+                ar: 'استخدم إطار عمل مثل MoSCoW.'
             } 
         }
     ] 

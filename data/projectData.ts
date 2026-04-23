@@ -30,8 +30,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2024-004',
     name: {
       en: 'Islamic Center - Albania',
-      ar: 'بناء مركز إسلامي - ألبانيا',
-      tr: 'Arnavutluk İslam Merkezi İnşaatı'
+      ar: 'بناء مركز إسلامي - ألبانيا'
     },
     type: 'development',
     stage: 'planning',
@@ -124,8 +123,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2024-002',
     name: {
       en: 'Vocational Training Institute - Istanbul',
-      ar: 'معهد التدريب المهني - اسطنبول',
-      tr: 'Mesleki Eğitim Enstitüsü - İstanbul'
+      ar: 'معهد التدريب المهني - اسطنبول'
     },
     type: 'development',
     stage: 'planning',
@@ -140,7 +138,7 @@ export const MOCK_PROJECTS: Project[] = [
     stakeholders: {
       donor: 'Sheikh Abdullah Al Nouri Charity & other partners',
       implementingPartner: 'Core Istanbul for Entrepreneurship',
-      targetBeneficiaries: 'Over 1000 Arab, Turkish, and refugee youth (18-35), university graduates, and aspiring entrepreneurs in the first year.',
+      targetBeneficiaries: 'Over 1000 Arab and refugee youth (18-35), university graduates, and aspiring entrepreneurs in the first year.',
       primaryContact: 'Core Istanbul PM'
     },
     goal: 'To rehabilitate and renovate a new headquarters for the Vocational Training Institute to be an integrated space that combines technical training, entrepreneurship, co-working, and content production.',
@@ -220,8 +218,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2020-003',
     name: {
       en: 'Technical and Vocational Training Center',
-      ar: 'مركز التدريب الفني والتأهيل المهني',
-      tr: 'Teknik ve Mesleki Eğitim Merkezi'
+      ar: 'مركز التدريب الفني والتأهيل المهني'
     },
     type: 'education',
     stage: 'implementation',
@@ -314,8 +311,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2020-001',
     name: {
       en: 'Clinic Construction in Niger',
-      ar: 'بناء مستوصف في النيجر',
-      tr: 'Nijer\'de Klinik İnşaatı'
+      ar: 'بناء مستوصف في النيجر'
     },
     type: 'health',
     stage: 'closure', // Assuming a 2020 project is complete
@@ -421,8 +417,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2020-002',
     name: {
       en: 'Vocational Training Center',
-      ar: 'مركز تدريب مهني',
-      tr: 'Mesleki Eğitim Merkezi'
+      ar: 'مركز تدريب مهني'
     },
     type: 'education',
     stage: 'planning',
@@ -512,7 +507,7 @@ export const MOCK_PROJECTS: Project[] = [
     riskManagement: {
       riskRegister: [
         { id: 'risk-vtc-1', description: 'Project sustainability after initial phase', category: 'financial', probability: 'medium', impact: 'high', responseStrategy: 'mitigate', contingencyPlan: 'Renting out 12 commercial shops to cover operational expenses.', owner: 'Project Manager', status: 'in-progress' },
-        { id: 'risk-vtc-2', description: 'Security issues in the region affecting construction', category: 'security', probability: 'medium', impact: 'high', responseStrategy: 'mitigate', contingencyPlan: 'Selecting a location under Turkish supervision for better security.', owner: 'Project Manager', status: 'open' }
+        { id: 'risk-vtc-2', description: 'Security issues in the region affecting construction', category: 'security', probability: 'medium', impact: 'high', responseStrategy: 'mitigate', contingencyPlan: 'Selecting a location under trusted oversight for better security.', owner: 'Project Manager', status: 'open' }
       ]
     },
     qualityManagement: { standards: [], lessonsLearned: [] },
@@ -528,8 +523,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2025-003',
     name: {
       en: "Rise Aleppo: Women's Empowerment through Vocational Training, Entrepreneurship and Traditional Crafts",
-      ar: 'انهضي يا حلب: تمكين المرأة عبر التدريب المهني، ريادة الأعمال والحرف التقليدية',
-      tr: 'Yüksel Halep: Mesleki Eğitim, Girişimcilik ve Geleneksel El Sanatları ile Kadınların Güçlendirilmesi'
+      ar: 'انهضي يا حلب: تمكين المرأة عبر التدريب المهني، ريادة الأعمال والحرف التقليدية'
     },
     type: 'development',
     stage: 'planning',
@@ -663,8 +657,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2024-001',
     name: {
       en: 'Clean Water Initiative for Rural Villages',
-      ar: 'مبادرة المياه النظيفة للقرى الريفية',
-      tr: 'Kırsal Köyler İçin Temiz Su Girişimi'
+      ar: 'مبادرة المياه النظيفة للقرى الريفية'
     },
     type: 'development',
     stage: 'implementation',
@@ -806,8 +799,7 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'PROJ-2024-002',
     name: {
       en: 'Emergency Food Aid for Conflict Zones',
-      ar: 'مساعدات غذائية طارئة لمناطق النزاع',
-      tr: 'Çatışma Bölgeleri İçin Acil Gıda Yardımı'
+      ar: 'مساعدات غذائية طارئة لمناطق النزاع'
     },
     type: 'humanitarian',
     stage: 'monitoring',

@@ -16,7 +16,7 @@ const Quadrant: React.FC<{ title: string; description: string; children: React.R
     </div>
 );
 
-const StakeholderDot: React.FC<{ stakeholder: Stakeholder; onSelect: () => void; quadrant: 'monitor' | 'keepInformed' | 'keepSatisfied' | 'manageClosely' }> = ({ stakeholder, onSelect, quadrant }) => {
+const StakeholderDot: React.FC<{ stakeholder: Stakeholder; onSelect: () => void; quadrant: 'monitor' | 'keepInformed' | 'keepSatisfied' | 'manageClosely'; language: 'en' | 'ar' }> = ({ stakeholder, onSelect, quadrant, language }) => {
     let x, y;
     switch (quadrant) {
         case 'monitor': // low power, low interest
@@ -53,14 +53,14 @@ const StakeholderDot: React.FC<{ stakeholder: Stakeholder; onSelect: () => void;
         >
             <div className={`w-4 h-4 rounded-full border-2 border-white dark:border-dark-card ${healthColor} transition-transform group-hover:scale-150`}></div>
             <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max px-2 py-1 bg-gray-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                {stakeholder.name.en}
+                {stakeholder.name[language] || stakeholder.name.en}
             </div>
         </motion.div>
     );
 };
 
 const StakeholderMatrix: React.FC<StakeholderMatrixProps> = ({ stakeholders, onSelect }) => {
-    const { t } = useLocalization();
+    const { t, language } = useLocalization();
 
     const quadrants = useMemo(() => {
         return {
@@ -87,16 +87,16 @@ const StakeholderMatrix: React.FC<StakeholderMatrixProps> = ({ stakeholders, onS
                 {/* Main Grid */}
                 <div className="grid grid-cols-2 grid-rows-2 border dark:border-slate-600">
                     <Quadrant title={t('stakeholder_management.matrix.keepSatisfied')} description={t('stakeholder_management.matrix.keepSatisfiedDesc')} className="border-b dark:border-slate-600 border-r dark:border-slate-600">
-                        {quadrants.keepSatisfied.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="keepSatisfied" />)}
+                        {quadrants.keepSatisfied.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="keepSatisfied" language={language} />)}
                     </Quadrant>
                     <Quadrant title={t('stakeholder_management.matrix.manageClosely')} description={t('stakeholder_management.matrix.manageCloselyDesc')} className="border-b dark:border-slate-600">
-                         {quadrants.manageClosely.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="manageClosely" />)}
+                         {quadrants.manageClosely.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="manageClosely" language={language} />)}
                     </Quadrant>
                     <Quadrant title={t('stakeholder_management.matrix.monitor')} description={t('stakeholder_management.matrix.monitorDesc')} className="border-r dark:border-slate-600">
-                         {quadrants.monitor.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="monitor"/>)}
+                         {quadrants.monitor.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="monitor" language={language} />)}
                     </Quadrant>
                     <Quadrant title={t('stakeholder_management.matrix.keepInformed')} description={t('stakeholder_management.matrix.keepInformedDesc')}>
-                         {quadrants.keepInformed.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="keepInformed"/>)}
+                         {quadrants.keepInformed.map(s => <StakeholderDot key={s.id} stakeholder={s} onSelect={() => onSelect(s)} quadrant="keepInformed" language={language} />)}
                     </Quadrant>
                 </div>
                 

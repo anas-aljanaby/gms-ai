@@ -13,7 +13,7 @@ interface AddStakeholderModalProps {
 
 const AddStakeholderModal: React.FC<AddStakeholderModalProps> = ({ isOpen, onClose, onAdd }) => {
     const { t } = useLocalization();
-    const [name, setName] = useState({ en: '', ar: '', tr: '' });
+    const [name, setName] = useState({ en: '', ar: '' });
     const [type, setType] = useState<StakeholderType>('donor');
     const [category, setCategory] = useState<StakeholderCategoryKey>('foundation');
     const [country, setCountry] = useState('');
@@ -23,14 +23,14 @@ const AddStakeholderModal: React.FC<AddStakeholderModalProps> = ({ isOpen, onClo
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.en && !name.ar) {
-            alert('Name is required in at least one language.');
+            alert(t('stakeholder_management.add_modal.validation.nameRequired'));
             return;
         }
         onAdd({
             name: {
                 en: name.en || name.ar,
                 ar: name.ar || name.en,
-                tr: name.tr || name.en,
+
             },
             type,
             category,
@@ -54,23 +54,22 @@ const AddStakeholderModal: React.FC<AddStakeholderModalProps> = ({ isOpen, onClo
                     <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
                         <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.name_ar')}</label><input dir="rtl" type="text" value={name.ar} onChange={e => setName(n => ({...n, ar: e.target.value}))} className="w-full p-2 mt-1 border rounded-md"/></div>
                         <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.name_en')}</label><input type="text" value={name.en} onChange={e => setName(n => ({...n, en: e.target.value}))} className="w-full p-2 mt-1 border rounded-md"/></div>
-                        <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.name_tr')}</label><input type="text" value={name.tr} onChange={e => setName(n => ({...n, tr: e.target.value}))} className="w-full p-2 mt-1 border rounded-md"/></div>
                         <div className="grid grid-cols-2 gap-4">
                             <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.type')}</label><select value={type} onChange={e => setType(e.target.value as StakeholderType)} className="w-full p-2 mt-1 border rounded-md">
-                                <option value="donor">Donor</option>
-                                <option value="beneficiary">Beneficiary</option>
-                                <option value="partner">Partner</option>
-                                <option value="volunteer">Volunteer</option>
-                                <option value="mentor">Mentor</option>
-                                <option value="expert">Expert/Trainer</option>
-                                <option value="investor">Investor</option>
-                                <option value="board_member">Board Member</option>
-                                <option value="government">Government</option>
-                                <option value="supplier">Supplier</option>
-                                <option value="community">Community</option>
-                                <option value="media">Media</option>
+                                <option value="donor">{t('stakeholder_management.types.donor')}</option>
+                                <option value="beneficiary">{t('stakeholder_management.types.beneficiary')}</option>
+                                <option value="partner">{t('stakeholder_management.types.partner')}</option>
+                                <option value="volunteer">{t('stakeholder_management.types.volunteer')}</option>
+                                <option value="mentor">{t('stakeholder_management.types.mentor')}</option>
+                                <option value="expert">{t('stakeholder_management.types.expert')}</option>
+                                <option value="investor">{t('stakeholder_management.types.investor')}</option>
+                                <option value="board_member">{t('stakeholder_management.types.board_member')}</option>
+                                <option value="government">{t('stakeholder_management.types.government')}</option>
+                                <option value="supplier">{t('stakeholder_management.types.supplier')}</option>
+                                <option value="community">{t('stakeholder_management.types.community')}</option>
+                                <option value="media">{t('stakeholder_management.types.media')}</option>
                             </select></div>
-                            <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.category')}</label><select value={category} onChange={e => setCategory(e.target.value as StakeholderCategoryKey)} className="w-full p-2 mt-1 border rounded-md"><option value="foundation">Foundation</option><option value="family">Family</option><option value="company">Company</option></select></div>
+                            <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.category')}</label><select value={category} onChange={e => setCategory(e.target.value as StakeholderCategoryKey)} className="w-full p-2 mt-1 border rounded-md"><option value="foundation">{t('stakeholder_management.add_modal.categories.foundation')}</option><option value="family">{t('stakeholder_management.add_modal.categories.family')}</option><option value="company">{t('stakeholder_management.add_modal.categories.company')}</option></select></div>
                         </div>
                         <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.country')}</label><input type="text" value={country} onChange={e => setCountry(e.target.value)} className="w-full p-2 mt-1 border rounded-md"/></div>
                         <div><label className="block text-sm font-medium">{t('stakeholder_management.add_modal.email')}</label><input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full p-2 mt-1 border rounded-md"/></div>

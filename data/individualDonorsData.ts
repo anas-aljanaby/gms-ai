@@ -3,7 +3,7 @@ import type { IndividualDonor } from '../types';
 export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
   {
     id: 'DN-001',
-    fullName: { en: 'Aisha Al-Farsi', ar: 'عائشة الفارسي', tr: 'Ayşe Al-Farsi' },
+    fullName: { en: 'Aisha Al-Farsi', ar: 'عائشة الفارسي' },
     email: 'aisha.f@example.com',
     phone: '+971 50 123 4567',
     totalDonations: 15250,
@@ -19,7 +19,7 @@ export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
   },
   {
     id: 'DN-002',
-    fullName: { en: 'John Smith', ar: 'جون سميث', tr: 'John Smith' },
+    fullName: { en: 'John Smith', ar: 'جون سميث' },
     email: 'john.smith@example.com',
     phone: '+1 202 555 0191',
     totalDonations: 7800,
@@ -35,7 +35,7 @@ export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
   },
   {
     id: 'DN-003',
-    fullName: { en: 'Fatma Yılmaz', ar: 'فاطمة يلماز', tr: 'Fatma Yılmaz' },
+    fullName: { en: 'Fatma Yılmaz', ar: 'فاطمة يلماز' },
     email: 'fatma.y@example.com',
     phone: '+90 532 123 45 67',
     totalDonations: 3200,
@@ -47,11 +47,11 @@ export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
     assignedManager: 'Ali Veli',
     avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop',
     donorSince: '2021-11-22T10:00:00Z',
-    preferred_language: 'tr',
+    preferred_language: 'en',
   },
   {
     id: 'DN-004',
-    fullName: { en: 'David Chen', ar: 'ديفيد تشين', tr: 'David Chen' },
+    fullName: { en: 'David Chen', ar: 'ديفيد تشين' },
     email: 'david.chen@example.com',
     phone: '+1 604 555 0123',
     totalDonations: 125000,
@@ -67,7 +67,7 @@ export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
   },
   {
     id: 'DN-005',
-    fullName: { en: 'Maria Garcia', ar: 'ماريا غارسيا', tr: 'Maria Garcia' },
+    fullName: { en: 'Maria Garcia', ar: 'ماريا غارسيا' },
     email: 'maria.g@example.com',
     phone: '+34 912 345 678',
     totalDonations: 500,
@@ -83,7 +83,7 @@ export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
   },
   {
     id: 'DN-006',
-    fullName: { en: 'Kenji Tanaka', ar: 'كينجي تاناكا', tr: 'Kenji Tanaka' },
+    fullName: { en: 'Kenji Tanaka', ar: 'كينجي تاناكا' },
     email: 'kenji.t@example.com',
     phone: '+81 3-1234-5678',
     totalDonations: 1200,
@@ -99,7 +99,7 @@ export const MOCK_INDIVIDUAL_DONORS: IndividualDonor[] = [
   },
   {
     id: 'DN-007',
-    fullName: { en: 'Omar Hassan', ar: 'عمر حسن', tr: 'Ömer Hassan' },
+    fullName: { en: 'Omar Hassan', ar: 'عمر حسن' },
     email: 'omar.h@example.com',
     phone: '+20 100 123 4567',
     totalDonations: 0,

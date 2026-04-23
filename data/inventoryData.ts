@@ -4,40 +4,40 @@ export const MOCK_INVENTORY_DATA: InventoryData = {
     items: [
         { 
             id: 'ITEM-001', 
-            name: { en: 'Winter Blankets', ar: 'بطانيات شتوية', tr: 'Kışlık Battaniyeler' }, 
+            name: { en: 'Winter Blankets', ar: 'بطانيات شتوية' }, 
             category: 'clothing', 
             sku: 'CL-BLK-01', 
-            description: { en: 'High-quality thermal blankets for winter aid.', ar: 'بطانيات حرارية عالية الجودة للمساعدات الشتوية.', tr: 'Kış yardımı için yüksek kaliteli termal battaniyeler.' }, 
+            description: { en: 'High-quality thermal blankets for winter aid.', ar: 'بطانيات حرارية عالية الجودة للمساعدات الشتوية.' }, 
             imageUrl: 'https://picsum.photos/seed/blanket/200/200',
             unitOfMeasure: 'pcs',
             valuePerUnit: 15.50
         },
         { 
             id: 'ITEM-002', 
-            name: { en: 'Canned Food Mix', ar: 'معلبات غذائية مشكلة', tr: 'Karışık Konserve Gıda' }, 
+            name: { en: 'Canned Food Mix', ar: 'معلبات غذائية مشكلة' }, 
             category: 'food', 
             sku: 'FD-CAN-MX', 
-            description: { en: 'Assorted canned goods (beans, vegetables).', ar: 'معلبات متنوعة (فول، خضروات).', tr: 'Çeşitli konserve ürünler (fasulye, sebze).' }, 
+            description: { en: 'Assorted canned goods (beans, vegetables).', ar: 'معلبات متنوعة (فول، خضروات).' }, 
             imageUrl: 'https://picsum.photos/seed/cannedfood/200/200',
             unitOfMeasure: 'box',
             valuePerUnit: 25.00
         },
         { 
             id: 'ITEM-003', 
-            name: { en: 'Basic Medical Kit', ar: 'عدة طبية أساسية', tr: 'Temel Tıbbi Kiti' }, 
+            name: { en: 'Basic Medical Kit', ar: 'عدة طبية أساسية' }, 
             category: 'medical', 
             sku: 'MED-KIT-B', 
-            description: { en: 'First-aid kit with essential supplies.', ar: 'عدة إسعافات أولية مع لوازم أساسية.', tr: 'Temel malzemelerle ilk yardım kiti.' }, 
+            description: { en: 'First-aid kit with essential supplies.', ar: 'عدة إسعافات أولية مع لوازم أساسية.' }, 
             imageUrl: 'https://picsum.photos/seed/medkit/200/200',
             unitOfMeasure: 'kit',
             valuePerUnit: 35.75
         },
         { 
             id: 'ITEM-004', 
-            name: { en: 'School Notebooks', ar: 'دفاتر مدرسية', tr: 'Okul Defterleri' }, 
+            name: { en: 'School Notebooks', ar: 'دفاتر مدرسية' }, 
             category: 'education', 
             sku: 'EDU-NB-A5', 
-            description: { en: 'A5 size notebooks for students.', ar: 'دفاتر حجم A5 للطلاب.', tr: 'Öğrenciler için A5 boyutunda defterler.' }, 
+            description: { en: 'A5 size notebooks for students.', ar: 'دفاتر حجم A5 للطلاب.' }, 
             imageUrl: 'https://picsum.photos/seed/notebooks/200/200',
             unitOfMeasure: 'pcs',
             valuePerUnit: 1.20

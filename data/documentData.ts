@@ -3,39 +3,39 @@ import type { DocumentType, FolderTemplate, MetadataTag, RetentionPolicy } from 
 export const MOCK_DOCUMENT_TYPES: DocumentType[] = [
     { 
         id: 'dt-1', 
-        name: { en: 'Contract', ar: 'عقد', tr: 'Sözleşme' }, 
+        name: { en: 'Contract', ar: 'عقد' }, 
         icon: 'ContractIcon', 
         color: 'blue',
-        description: { en: 'Legal agreements with donors, vendors, or partners.', ar: 'اتفاقيات قانونية مع المانحين أو البائعين أو الشركاء.', tr: 'Bağışçılar, satıcılar veya ortaklarla yapılan yasal anlaşmalar.' }
+        description: { en: 'Legal agreements with donors, vendors, or partners.', ar: 'اتفاقيات قانونية مع المانحين أو البائعين أو الشركاء.' }
     },
     { 
         id: 'dt-2', 
-        name: { en: 'Invoice', ar: 'فاتورة', tr: 'Fatura' }, 
+        name: { en: 'Invoice', ar: 'فاتورة' }, 
         icon: 'InvoiceIcon', 
         color: 'green',
-        description: { en: 'Invoices from vendors or for services rendered.', ar: 'فواتير من البائعين أو للخدمات المقدمة.', tr: 'Satıcılardan veya sunulan hizmetler için faturalar.' }
+        description: { en: 'Invoices from vendors or for services rendered.', ar: 'فواتير من البائعين أو للخدمات المقدمة.' }
     },
     { 
         id: 'dt-3', 
-        name: { en: 'Policy', ar: 'سياسة', tr: 'Politika' }, 
+        name: { en: 'Policy', ar: 'سياسة' }, 
         icon: 'PolicyIcon', 
         color: 'purple',
-        description: { en: 'Internal organizational policies and procedures.', ar: 'السياسات والإجراءات التنظيمية الداخلية.', tr: 'İç organizasyonel politikalar ve prosedürler.' }
+        description: { en: 'Internal organizational policies and procedures.', ar: 'السياسات والإجراءات التنظيمية الداخلية.' }
     },
     { 
         id: 'dt-4', 
-        name: { en: 'Grant Report', ar: 'تقرير منحة', tr: 'Hibe Raporu' }, 
+        name: { en: 'Grant Report', ar: 'تقرير منحة' }, 
         icon: 'ReportIcon', 
         color: 'yellow',
-        description: { en: 'Progress and final reports for grant-funded projects.', ar: 'تقارير مرحلية ونهائية للمشاريع الممولة بمنح.', tr: 'Hibe tarafından finanse edilen projeler için ilerleme ve nihai raporlar.' }
+        description: { en: 'Progress and final reports for grant-funded projects.', ar: 'تقارير مرحلية ونهائية للمشاريع الممولة بمنح.' }
     },
 ];
 
 export const MOCK_FOLDER_TEMPLATES: FolderTemplate[] = [
     {
         id: 'ft-1',
-        name: { en: 'Standard Project Template', ar: 'قالب المشروع القياسي', tr: 'Standart Proje Şablonu' },
-        description: { en: 'Default folder structure for all new projects.', ar: 'هيكل المجلد الافتراضي لجميع المشاريع الجديدة.', tr: 'Tüm yeni projeler için varsayılan klasör yapısı.' },
+        name: { en: 'Standard Project Template', ar: 'قالب المشروع القياسي' },
+        description: { en: 'Default folder structure for all new projects.', ar: 'هيكل المجلد الافتراضي لجميع المشاريع الجديدة.' },
         structure: {
             id: 'root',
             name: '[Project Name]',

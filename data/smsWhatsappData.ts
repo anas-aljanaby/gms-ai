@@ -28,7 +28,7 @@ export const MOCK_WHATSAPP_CHANNEL_STATS = {
 export const MOCK_SMS_WHATSAPP_CAMPAIGNS: MessagingCampaign[] = [
   {
     id: 'MSG-001',
-    name: { en: 'Ramadan Impact Update - SMS', ar: 'تحديث أثر رمضان - رسائل قصيرة', tr: 'Ramazan Etki Güncellemesi - SMS' },
+    name: { en: 'Ramadan Impact Update - SMS', ar: 'تحديث أثر رمضان - رسائل قصيرة' },
     channel: 'sms',
     status: 'Sent',
     sentDate: '2024-07-15T10:30:00Z',
@@ -40,7 +40,7 @@ export const MOCK_SMS_WHATSAPP_CAMPAIGNS: MessagingCampaign[] = [
   },
   {
     id: 'MSG-002',
-    name: { en: 'Event Reminder - WhatsApp', ar: 'تذكير بالفعالية - واتساب', tr: 'Etkinlik Hatırlatıcısı - WhatsApp' },
+    name: { en: 'Event Reminder - WhatsApp', ar: 'تذكير بالفعالية - واتساب' },
     channel: 'whatsapp',
     status: 'Sent',
     sentDate: '2024-07-18T14:00:00Z',
@@ -53,7 +53,7 @@ export const MOCK_SMS_WHATSAPP_CAMPAIGNS: MessagingCampaign[] = [
   },
   {
     id: 'MSG-003',
-    name: { en: 'Education Appeal - SMS', ar: 'نداء التعليم - رسائل قصيرة', tr: 'Eğitim Çağrısı - SMS' },
+    name: { en: 'Education Appeal - SMS', ar: 'نداء التعليم - رسائل قصيرة' },
     channel: 'sms',
     status: 'Scheduled',
     scheduledDate: '2024-08-01T09:00:00Z',

@@ -12,7 +12,7 @@ interface AddInstitutionModalProps {
 
 const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClose, onAdd }) => {
     const { t } = useLocalization();
-    const [organizationName, setOrganizationName] = useState({ en: '', ar: '', tr: '' });
+    const [organizationName, setOrganizationName] = useState({ en: '', ar: '' });
     const [type, setType] = useState<InstitutionType>('Foundation');
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
@@ -28,14 +28,14 @@ const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClo
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!organizationName.en) {
-            alert('Organization Name (English) is required.');
+            alert(t('institutional_donors.modal.requiredName'));
             return;
         }
         onAdd({
             organizationName: {
                 en: organizationName.en,
                 ar: organizationName.ar || organizationName.en,
-                tr: organizationName.tr || organizationName.en,
+
             },
             type,
             primaryContact: {
@@ -71,7 +71,7 @@ const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClo
                     <h2 className="text-xl font-bold text-foreground dark:text-dark-foreground">
                         {t('institutional_donors.addInstitution')}
                     </h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Close modal">
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}>
                         <XIcon />
                     </button>
                 </div>
@@ -84,10 +84,6 @@ const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClo
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.modal.nameAr')}</label>
                             <input type="text" value={organizationName.ar} dir="rtl" onChange={e => setOrganizationName(f => ({...f, ar: e.target.value}))} className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
-                        </div>
-                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.modal.nameTr')}</label>
-                            <input type="text" value={organizationName.tr} onChange={e => setOrganizationName(f => ({...f, tr: e.target.value}))} className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>

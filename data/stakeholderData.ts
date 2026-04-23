@@ -5,8 +5,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     id: 1,
     name: {
       en: 'Global Charity Foundation',
-      ar: 'مؤسسة الخير العالمية',
-      tr: 'Küresel Hayırseverlik Vakfı'
+      ar: 'مؤسسة الخير العالمية'
     },
     type: 'donor',
     category: 'foundation',
@@ -31,8 +30,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     id: 2,
     name: {
       en: 'Ahmed Al-Kareem Family',
-      ar: 'عائلة أحمد الكريم',
-      tr: 'Ahmed Al-Kareem Ailesi'
+      ar: 'عائلة أحمد الكريم'
     },
     type: 'beneficiary',
     category: 'family',
@@ -57,8 +55,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     id: 3,
     name: {
       en: 'Advanced Tech Company',
-      ar: 'شركة التقنية المتطورة',
-      tr: 'Gelişmiş Teknoloji Şirketi'
+      ar: 'شركة التقنية المتطورة'
     },
     type: 'partner',
     category: 'company',
@@ -83,8 +80,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     id: 4,
     name: {
       en: 'Volunteers Association',
-      ar: 'جمعية المتطوعين',
-      tr: 'Gönüllüler Derneği'
+      ar: 'جمعية المتطوعين'
     },
     type: 'volunteer',
     category: 'foundation',
@@ -106,7 +102,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 5,
-    name: { en: 'Ministry of Foreign Affairs', ar: 'وزارة الخارجية', tr: 'Dışişleri Bakanlığı' },
+    name: { en: 'Ministry of Foreign Affairs', ar: 'وزارة الخارجية' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -127,7 +123,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 6,
-    name: { en: 'Local News Outlet', ar: 'وسيلة إعلام محلية', tr: 'Yerel Haber Ajansı' },
+    name: { en: 'Local News Outlet', ar: 'وسيلة إعلام محلية' },
     type: 'media',
     category: 'company',
     status: 'active',
@@ -148,7 +144,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 7,
-    name: { en: 'Ministry of Social Affairs', ar: 'وزارة الشئون الاجتماعية', tr: 'Sosyal İşler Bakanlığı' },
+    name: { en: 'Ministry of Social Affairs', ar: 'وزارة الشئون الاجتماعية' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -169,7 +165,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 8,
-    name: { en: 'Ministry of Awqaf and Islamic Affairs', ar: 'وزارة الأوقاف والشئون الإسلامية', tr: 'Evkaf ve İslam İşleri Bakanlığı' },
+    name: { en: 'Ministry of Awqaf and Islamic Affairs', ar: 'وزارة الأوقاف والشئون الإسلامية' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -190,7 +186,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 9,
-    name: { en: 'General Secretariat of the Supreme Council for Planning and Development', ar: 'الأمانة العامة للتخطيط', tr: 'Planlama Yüksek Konseyi Genel Sekreterliği' },
+    name: { en: 'General Secretariat of the Supreme Council for Planning and Development', ar: 'الأمانة العامة للتخطيط' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -211,7 +207,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 10,
-    name: { en: 'Ministry of Information', ar: 'وزارة الإعلام', tr: 'Enformasyon Bakanlığı' },
+    name: { en: 'Ministry of Information', ar: 'وزارة الإعلام' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -232,7 +228,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 11,
-    name: { en: 'Central Bank of Kuwait', ar: 'بنك الكويت المركزي', tr: 'Kuveyt Merkez Bankası' },
+    name: { en: 'Central Bank of Kuwait', ar: 'بنك الكويت المركزي' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -253,7 +249,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 12,
-    name: { en: 'Central Apparatus for Illegal Residents\' Affairs', ar: 'الجهاز المركزي لمعالجة أوضاع المقيمين بصورة غير قانونية', tr: 'Yasadışı İkamet Edenlerin Durumunu Ele Alma Merkezi Ajansı' },
+    name: { en: 'Central Apparatus for Illegal Residents\' Affairs', ar: 'الجهاز المركزي لمعالجة أوضاع المقيمين بصورة غير قانونية' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -274,7 +270,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 13,
-    name: { en: 'National Committee for Combating Money Laundering and Terrorist Financing', ar: 'اللجنة الوطنية لمكافحة غسل الأموال وتمويل الإرهاب', tr: 'Kara Para Aklamayı ve Terör Finansmanını Önleme Ulusal Komitesi' },
+    name: { en: 'National Committee for Combating Money Laundering and Terrorist Financing', ar: 'اللجنة الوطنية لمكافحة غسل الأموال وتمويل الإرهاب' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -295,7 +291,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 14,
-    name: { en: 'Ministry of Education', ar: 'وزارة التربية', tr: 'Eğitim Bakanlığı' },
+    name: { en: 'Ministry of Education', ar: 'وزارة التربية' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -316,7 +312,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 15,
-    name: { en: 'Ministry of Interior', ar: 'وزارة الداخلية', tr: 'İçişleri Bakanlığı' },
+    name: { en: 'Ministry of Interior', ar: 'وزارة الداخلية' },
     type: 'government',
     category: 'company',
     status: 'active',
@@ -337,7 +333,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 16,
-    name: { en: 'Al-Khair Fund', ar: 'صندوق الخير', tr: 'Al-Khair Fonu' },
+    name: { en: 'Al-Khair Fund', ar: 'صندوق الخير' },
     type: 'investor',
     category: 'foundation',
     status: 'active',
@@ -345,7 +341,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'strategic',
     riskLevel: 'low',
     lastContact: '2024-07-21T10:00:00Z',
-    aiInsights: 'High potential for follow-on funding for successful startups.',
+    aiInsights: 'stakeholder_management.insights.investor_follow_on',
     email: 'contact@alkhair.vc',
     phone: '+971 4 555 0101',
     country: 'UAE',
@@ -359,7 +355,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 17,
-    name: { en: 'Future Angels', ar: 'ملائكة المستقبل', tr: 'Gelecek Melekleri' },
+    name: { en: 'Future Angels', ar: 'ملائكة المستقبل' },
     type: 'investor',
     category: 'company',
     status: 'active',
@@ -367,7 +363,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'core',
     riskLevel: 'low',
     lastContact: '2024-07-18T11:00:00Z',
-    aiInsights: 'Interested in early-stage social impact startups.',
+    aiInsights: 'stakeholder_management.insights.investor_early_stage',
     email: 'pitch@futureangels.net',
     phone: '+1-415-555-0102',
     country: 'USA',
@@ -381,7 +377,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 18,
-    name: { en: 'Layla Ahmed', ar: 'ليلى أحمد', tr: 'Layla Ahmed' },
+    name: { en: 'Layla Ahmed', ar: 'ليلى أحمد' },
     type: 'mentor',
     category: 'family',
     status: 'active',
@@ -389,7 +385,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'core',
     riskLevel: 'low',
     lastContact: '2024-07-22T15:00:00Z',
-    aiInsights: 'Highly rated mentor, specializing in Marketing.',
+    aiInsights: 'stakeholder_management.insights.mentor_marketing',
     email: 'layla.mentor@example.com',
     phone: '+44 20 7946 0958',
     country: 'UK',
@@ -402,7 +398,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 19,
-    name: { en: 'Omar Hassan', ar: 'عمر حسن', tr: 'Ömer Hassan' },
+    name: { en: 'Omar Hassan', ar: 'عمر حسن' },
     type: 'mentor',
     category: 'family',
     status: 'active',
@@ -410,7 +406,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'core',
     riskLevel: 'low',
     lastContact: '2024-07-21T13:00:00Z',
-    aiInsights: 'Expert in finance, provides excellent feedback on financial models.',
+    aiInsights: 'stakeholder_management.insights.mentor_finance',
     email: 'omar.mentor@example.com',
     phone: '+20 100 123 4567',
     country: 'Egypt',
@@ -423,7 +419,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 20,
-    name: { en: 'Dr. Kenan Yilmaz', ar: 'د. كنان يلماز', tr: 'Dr. Kenan Yılmaz' },
+    name: { en: 'Dr. Kenan Yilmaz', ar: 'د. كنان يلماز' },
     type: 'expert',
     category: 'family',
     status: 'active',
@@ -431,8 +427,8 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'important',
     riskLevel: 'low',
     lastContact: '2024-06-30T10:00:00Z',
-    aiInsights: 'Leading expert in AgriTech, available for workshops.',
-    email: 'kenan.y@university.edu.tr',
+    aiInsights: 'stakeholder_management.insights.expert_agritech',
+    email: 'kenan.y@university.edu',
     phone: '+90 532 111 2233',
     country: 'Turkey',
     engagementScore: 70,
@@ -444,7 +440,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 21,
-    name: { en: 'Cybersecurity Experts Group', ar: 'مجموعة خبراء الأمن السيبراني', tr: 'Siber Güvenlik Uzmanları Grubu' },
+    name: { en: 'Cybersecurity Experts Group', ar: 'مجموعة خبراء الأمن السيبراني' },
     type: 'expert',
     category: 'company',
     status: 'active',
@@ -452,7 +448,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'important',
     riskLevel: 'low',
     lastContact: '2024-07-05T12:00:00Z',
-    aiInsights: 'Provides pro-bono training on data security for non-profits.',
+    aiInsights: 'stakeholder_management.insights.expert_cybersecurity',
     email: 'probono@cyberexperts.com',
     phone: '+1-800-555-0199',
     country: 'USA',
@@ -465,7 +461,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 22,
-    name: { en: 'Mr. Abdullah Al-Jaber', ar: 'السيد عبد الله الجابر', tr: 'Bay Abdullah Al-Jaber' },
+    name: { en: 'Mr. Abdullah Al-Jaber', ar: 'السيد عبد الله الجابر' },
     type: 'board_member',
     category: 'family',
     status: 'active',
@@ -473,7 +469,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'strategic',
     riskLevel: 'low',
     lastContact: '2024-07-23T18:00:00Z',
-    aiInsights: 'Board Chairman. Highly influential and engaged.',
+    aiInsights: 'stakeholder_management.insights.board_chairman',
     email: 'a.aljaber@board.org',
     phone: '+965 9988 7766',
     country: 'Kuwait',
@@ -486,7 +482,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
   },
   {
     id: 23,
-    name: { en: 'Ms. Fatima Al-Saleh', ar: 'السيدة فاطمة الصالح', tr: 'Bayan Fatma Al-Saleh' },
+    name: { en: 'Ms. Fatima Al-Saleh', ar: 'السيدة فاطمة الصالح' },
     type: 'board_member',
     category: 'family',
     status: 'active',
@@ -494,7 +490,7 @@ export const MOCK_STAKEHOLDERS: Stakeholder[] = [
     relationshipLevel: 'strategic',
     riskLevel: 'low',
     lastContact: '2024-07-23T18:00:00Z',
-    aiInsights: 'Board member with strong financial expertise.',
+    aiInsights: 'stakeholder_management.insights.board_financial',
     email: 'f.alsaleh@board.org',
     phone: '+965 9988 7755',
     country: 'Kuwait',

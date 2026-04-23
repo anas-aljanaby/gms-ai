@@ -54,15 +54,15 @@ const students: Beneficiary[] = [
       country: 'Turkey',
       assessments: [MOCK_ASSESSMENTS[0]],
       milestones: [
-        { id: 'm1', title: { en: 'Enrolled in University', ar: 'الالتحاق بالجامعة', tr: 'Üniversiteye Kayıt Oldu' }, status: 'achieved', date: '2023-09-01' },
-        { id: 'm2', title: { en: 'Completed First Year', ar: 'إكمال السنة الأولى', tr: 'Birinci Yılı Tamamladı' }, status: 'achieved', date: '2024-06-15' },
-        { id: 'm3', title: { en: 'Joined Leadership Program', ar: 'الانضمام لبرنامج التأهيل القيادي', tr: 'Liderlik Programına Katıldı' }, status: 'in-progress', date: '2024-09-01' },
-        { id: 'm4', title: { en: 'Internship', ar: 'تدريب عملي', tr: 'Staj' }, status: 'pending' },
-        { id: 'm5', title: { en: 'Graduation', ar: 'التخرج', tr: 'Mezuniyet' }, status: 'pending' },
+        { id: 'm1', title: { en: 'Enrolled in University', ar: 'الالتحاق بالجامعة' }, status: 'achieved', date: '2023-09-01' },
+        { id: 'm2', title: { en: 'Completed First Year', ar: 'إكمال السنة الأولى' }, status: 'achieved', date: '2024-06-15' },
+        { id: 'm3', title: { en: 'Joined Leadership Program', ar: 'الانضمام لبرنامج التأهيل القيادي' }, status: 'in-progress', date: '2024-09-01' },
+        { id: 'm4', title: { en: 'Internship', ar: 'تدريب عملي' }, status: 'pending' },
+        { id: 'm5', title: { en: 'Graduation', ar: 'التخرج' }, status: 'pending' },
       ],
       profile: {
         academicInfo: {
-            level: { en: 'University - 2nd Year', ar: 'جامعة - سنة ثانية', tr: 'Üniversite - 2. Yıl' },
+            level: { en: 'University - 2nd Year', ar: 'جامعة - سنة ثانية' },
             field: 'Computer Engineering',
             university: 'Istanbul University',
             gpa: 3.4
@@ -80,11 +80,11 @@ const students: Beneficiary[] = [
         financialAid: { supportAmount: 250, lastPaymentDate: '2024-07-01', paymentHistory: [{ date: '2024-07-01', amount: 250 }, { date: '2024-06-01', amount: 250 }, { date: '2024-05-01', amount: 250 }] },
         communicationLog: [{ date: '2024-05-20', type: 'Email', notes: 'Checked in on exam preparations.' }],
         qualificationPrograms: [
-          { programId: 'leadership', name: { en: 'Leadership Qualification', ar: 'التأهيل القيادي', tr: 'Liderlik Yeterliliği' }, status: 'In Progress' },
-          { programId: 'educational', name: { en: 'Educational Development', ar: 'البناء التربوي', tr: 'Eğitim Geliştirme' }, status: 'Completed' }
+          { programId: 'leadership', name: { en: 'Leadership Qualification', ar: 'التأهيل القيادي' }, status: 'In Progress' },
+          { programId: 'educational', name: { en: 'Educational Development', ar: 'البناء التربوي' }, status: 'Completed' }
         ],
         communityInitiatives: [
-            { initiativeId: 'proj-1', name: { en: 'Ramadan Iftar Initiative', ar: 'مبادرة إفطار صائم', tr: 'Ramazan İftar Girişimi' }, role: 'Volunteer' }
+            { initiativeId: 'proj-1', name: { en: 'Ramadan Iftar Initiative', ar: 'مبادرة إفطار صائم' }, role: 'Volunteer' }
         ],
         documents: [
             {
@@ -110,10 +110,10 @@ const students: Beneficiary[] = [
             }
         ],
         aidLog: [
-            { id: 'aid-b1-1', type: 'financial', date: new Date().toISOString(), description: { en: 'Monthly Stipend', ar: 'مخصص شهري', tr: 'Aylık Burs' }, value: 250, unit: 'USD', status: 'Delivered', relatedProjectId: 'proj-educ' },
-            { id: 'aid-b1-2', type: 'in-kind', date: '2024-06-15T00:00:00Z', description: { en: 'Laptop for Studies', ar: 'جهاز كمبيوتر محمول للدراسة', tr: 'Eğitim için Dizüstü Bilgisayar' }, value: 1, unit: 'pcs', status: 'Delivered', inventoryItemId: 'ELEC-LAP-01' },
-            { id: 'aid-b1-3', type: 'service', date: '2024-05-20T00:00:00Z', description: { en: 'Leadership Workshop Attendance', ar: 'حضور ورشة عمل القيادة', tr: 'Liderlik Atölyesine Katılım' }, value: 8, unit: 'hours', status: 'Delivered' },
-            { id: 'aid-b1-4', type: 'financial', date: '2024-08-01T00:00:00Z', description: { en: 'August Stipend', ar: 'مخصص أغسطس', tr: 'Ağustos Bursu' }, value: 250, unit: 'USD', status: 'Scheduled' }
+            { id: 'aid-b1-1', type: 'financial', date: new Date().toISOString(), description: { en: 'Monthly Stipend', ar: 'مخصص شهري' }, value: 250, unit: 'USD', status: 'Delivered', relatedProjectId: 'proj-educ' },
+            { id: 'aid-b1-2', type: 'in-kind', date: '2024-06-15T00:00:00Z', description: { en: 'Laptop for Studies', ar: 'جهاز كمبيوتر محمول للدراسة' }, value: 1, unit: 'pcs', status: 'Delivered', inventoryItemId: 'ELEC-LAP-01' },
+            { id: 'aid-b1-3', type: 'service', date: '2024-05-20T00:00:00Z', description: { en: 'Leadership Workshop Attendance', ar: 'حضور ورشة عمل القيادة' }, value: 8, unit: 'hours', status: 'Delivered' },
+            { id: 'aid-b1-4', type: 'financial', date: '2024-08-01T00:00:00Z', description: { en: 'August Stipend', ar: 'مخصص أغسطس' }, value: 250, unit: 'USD', status: 'Scheduled' }
         ]
       },
     },
@@ -128,7 +128,7 @@ const students: Beneficiary[] = [
       assessments: [MOCK_ASSESSMENTS[2]],
       profile: {
         academicInfo: {
-            level: { en: 'High School - 11th Grade', ar: 'ثانوية - صف حادي عشر', tr: 'Lise - 11. Sınıf' },
+            level: { en: 'High School - 11th Grade', ar: 'ثانوية - صف حادي عشر' },
             field: 'Science Stream',
             university: 'Beirut International School',
             gpa: 3.8
@@ -139,7 +139,7 @@ const students: Beneficiary[] = [
         sponsorshipDetails: { status: 'Active', startDate: '2024-01-15' },
         financialAid: { supportAmount: 100, lastPaymentDate: '2024-07-05', paymentHistory: [] },
         aidLog: [
-            { id: 'aid-b2-1', type: 'financial', date: new Date().toISOString(), description: { en: 'School Fees', ar: 'رسوم مدرسية', tr: 'Okul Ücretleri' }, value: 100, unit: 'USD', status: 'Delivered', relatedProjectId: 'proj-educ' },
+            { id: 'aid-b2-1', type: 'financial', date: new Date().toISOString(), description: { en: 'School Fees', ar: 'رسوم مدرسية' }, value: 100, unit: 'USD', status: 'Delivered', relatedProjectId: 'proj-educ' },
         ]
       },
     },
@@ -154,7 +154,7 @@ const students: Beneficiary[] = [
       assessments: [MOCK_ASSESSMENTS[3]],
       profile: {
         academicInfo: {
-            level: { en: 'University - 4th Year', ar: 'جامعة - سنة رابعة', tr: 'Üniversite - 4. Yıl' },
+            level: { en: 'University - 4th Year', ar: 'جامعة - سنة رابعة' },
             field: 'Business Administration',
             university: 'METU',
             gpa: 3.1
@@ -186,7 +186,7 @@ const others: Beneficiary[] = [
                 'متوسط الدخل الشهري': '150 USD',
             },
             aidLog: [
-                { id: 'aid-f1-1', type: 'in-kind', date: new Date().toISOString(), description: { en: 'Monthly Food Basket', ar: 'سلة غذائية شهرية', tr: 'Aylık Gıda Paketi' }, value: 75, unit: 'USD', status: 'Delivered', relatedProjectId: 'proj-comm' },
+                { id: 'aid-f1-1', type: 'in-kind', date: new Date().toISOString(), description: { en: 'Monthly Food Basket', ar: 'سلة غذائية شهرية' }, value: 75, unit: 'USD', status: 'Delivered', relatedProjectId: 'proj-comm' },
             ]
         }
     },
@@ -200,7 +200,7 @@ const others: Beneficiary[] = [
         country: 'Egypt',
         profile: {
              academicInfo: {
-                 level: { en: 'Quran Memorization Circle', ar: 'حلقة تحفيظ قرآن', tr: 'Kuran Ezberleme Halkası' },
+                 level: { en: 'Quran Memorization Circle', ar: 'حلقة تحفيظ قرآن' },
              }
         }
     },
@@ -242,9 +242,9 @@ const others: Beneficiary[] = [
         type: 'direct-support',
         country: 'Turkey',
         projectId: 'proj-incubation', // A new project ID, just for show.
-        academicLevel: { en: 'Startup', ar: 'شركة ناشئة', tr: 'Girişim' },
+        academicLevel: { en: 'Startup', ar: 'شركة ناشئة' },
         profile: {
-            academicLevel: { en: 'Startup', ar: 'شركة ناشئة', tr: 'Girişim' },
+            academicLevel: { en: 'Startup', ar: 'شركة ناشئة' },
         },
         assessments: [],
         milestones: [],
@@ -253,9 +253,9 @@ const others: Beneficiary[] = [
 
 export const INITIAL_BENEFICIARY_DATA: BeneficiaryData = {
   projects: [
-    { id: 'proj-lead', name: { en: 'Leadership Building Project', ar: 'مشروع البناء القيادي', tr: 'Liderlik Geliştirme Projesi' } },
-    { id: 'proj-educ', name: { en: 'Educational Support Initiative', ar: 'مبادرة الدعم التعليمي', tr: 'Eğitim Desteği Girişimi' } },
-    { id: 'proj-comm', name: { en: 'Community Service Program', ar: 'برنامج خدمة المجتمع', tr: 'Toplum Hizmeti Programı' } },
+    { id: 'proj-lead', name: { en: 'Leadership Building Project', ar: 'مشروع البناء القيادي' } },
+    { id: 'proj-educ', name: { en: 'Educational Support Initiative', ar: 'مبادرة الدعم التعليمي' } },
+    { id: 'proj-comm', name: { en: 'Community Service Program', ar: 'برنامج خدمة المجتمع' } },
   ],
   beneficiaries: [...students, ...others]
 };

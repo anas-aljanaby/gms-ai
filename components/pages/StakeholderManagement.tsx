@@ -53,7 +53,7 @@ const StakeholderManagement: React.FC = () => {
     useEffect(() => {
         const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognitionAPI) {
-            setMicError("Speech recognition is not supported in this browser.");
+            setMicError(t('stakeholder_management.voice.notSupported'));
             return;
         }
         
@@ -65,7 +65,7 @@ const StakeholderManagement: React.FC = () => {
         recognition.onend = () => setIsListening(false);
         recognition.onerror = (event) => {
             if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-                const errorMsg = "Microphone permission was denied. Please enable it in your browser settings.";
+                const errorMsg = t('stakeholder_management.voice.permissionDenied');
                 setMicError(errorMsg);
                 toast.showError(errorMsg);
             }
@@ -80,7 +80,7 @@ const StakeholderManagement: React.FC = () => {
         };
         
         recognitionRef.current = recognition;
-    }, [toast]);
+    }, [toast, t]);
 
     const handleListen = useCallback(() => {
         if (!recognitionRef.current) return;
@@ -89,13 +89,13 @@ const StakeholderManagement: React.FC = () => {
             return;
         }
         setMicError(null); // Reset error on new attempt
-        const langCode = { en: 'en-US', ar: 'ar-SA' }[language];
+        const langCode = { en: 'en-US', ar: 'ar-SA' }[language] || 'en-US';
         recognitionRef.current.lang = langCode;
         try {
             recognitionRef.current.start();
         } catch (e) {
             console.error("Speech recognition start error:", e);
-            const errorMsg = "Could not start listening. Please try again.";
+            const errorMsg = t('stakeholder_management.voice.startError');
             setMicError(errorMsg);
             toast.showError(errorMsg);
         }

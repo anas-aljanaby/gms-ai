@@ -56,7 +56,7 @@ const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
                      <div className="bg-card dark:bg-dark-card/50 p-4 rounded-xl shadow-soft">
                         <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400">{t('projects.monitoring.budgetStatus')}</h4>
                         <p className="text-3xl font-bold">{formatCurrency(project.spent, language)}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">of {formatCurrency(project.budget, language)}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{t('common.of')} {formatCurrency(project.budget, language)}</p>
                     </div>
                 </div>
             </AiCard>
@@ -91,7 +91,7 @@ const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
                                     <Cell key={`cell-${index}`} fill={TASK_COLORS[index % TASK_COLORS.length]} />
                                 ))}
                             </Pie>
-                            <Tooltip formatter={(value: number) => `${value} tasks`} />
+                            <Tooltip formatter={(value: number) => `${value} ${t('projects.monitoring.tasksUnit')}`} />
                             <Legend />
                         </PieChart>
                     </ResponsiveContainer>

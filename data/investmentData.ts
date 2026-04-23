@@ -2,8 +2,8 @@ import type { Portfolio, InvestmentKpi, InvestmentTransaction } from '../types';
 
 export const MOCK_PORTFOLIO: Portfolio = {
     id: 'P001',
-    name: { en: 'Endowment Fund', ar: 'صندوق الوقف', tr: 'Vakıf Fonu' },
-    description: { en: 'Long-term growth portfolio for operational sustainability.', ar: 'محفظة نمو طويلة الأجل للاستدامة التشغيلية.', tr: 'Operasyonel sürdürülebilirlik için uzun vadeli büyüme portföyü.' },
+    name: { en: 'Endowment Fund', ar: 'صندوق الوقف' },
+    description: { en: 'Long-term growth portfolio for operational sustainability.', ar: 'محفظة نمو طويلة الأجل للاستدامة التشغيلية.' },
     investments: [
         { id: 'INV-001', name: 'Apple Inc.', ticker: 'AAPL', assetClass: 'stocks', shariahCompliant: true, quantity: 100, purchasePrice: 150.00, currentPrice: 190.50, purchaseDate: '2023-01-15T00:00:00Z', currency: 'USD' },
         { id: 'INV-002', name: 'US Treasury Bond', ticker: 'US10Y', assetClass: 'bonds', shariahCompliant: false, quantity: 50, purchasePrice: 980.00, currentPrice: 1020.00, purchaseDate: '2022-06-20T00:00:00Z', currency: 'USD' },

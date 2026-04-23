@@ -1,4 +1,3 @@
-
 {
     "common": {
         "searchPlaceholder": "Search everything...",
@@ -26,7 +25,9 @@
         "clearFilters": "Clear Filters",
         "improvement": "improvement",
         "listening": "Listening...",
-        "voiceSearch": "Search by voice"
+        "voiceSearch": "Search by voice",
+        "export": "Export",
+        "tabs": "Tabs"
     },
     "sidebar": {
         "dashboard": "Dashboard",
@@ -101,10 +102,33 @@
         },
         "projects": {
             "activeProjects": "Active Projects",
+            "mentor": "Mentor",
+            "progress": "Progress",
             "statuses": {
                 "completed": "Completed"
             }
         },
+        "calendar": {
+            "addNewEvent": "Add New Event",
+            "studentProjects": "Student Projects",
+            "eventCreatedSuccess": "Event created successfully.",
+            "form": {
+                "eventTitle": "Event Title",
+                "eventCategory": "Event Category",
+                "eventType": "Event Type",
+                "date": "Date",
+                "startTime": "Start Time",
+                "facilitator": "Facilitator",
+                "selectFacilitator": "Select Facilitator",
+                "location": "Location",
+                "cancel": "Cancel",
+                "createEvent": "Create Event",
+                "requiredFields": "Please fill all required fields."
+            }
+        },
+        "today": "Today",
+        "previousMonth": "Previous month",
+        "nextMonth": "Next month",
         "metrics": {
             "performanceDashboard": "Performance Dashboard",
             "overallCompletion": "Overall Completion",
@@ -176,22 +200,55 @@
         "backToList": "Back to Beneficiaries List",
         "subtitle_at": "{field} at {university}",
         "kpi": {
-          "gpa": "Current GPA",
-          "financialAid": "Financial Aid",
-          "communication": "Communication",
-          "documents": "Documents",
-          "communication_value": "{count} logs"
+            "gpa": "Current GPA",
+            "financialAid": "Financial Aid",
+            "communication": "Communication",
+            "documents": "Documents",
+            "communication_value": "{count} logs"
+        },
+        "searchPlaceholder": "Search beneficiaries...",
+        "sponsorships": "Sponsorship",
+        "directSupport": "Direct Support",
+        "noResults": "No beneficiaries found",
+        "noResultsDescription": "Try adjusting search or filters.",
+        "filters": {
+            "allTypes": "All Types",
+            "allProjects": "All Projects",
+            "sponsorshipProjects": "Sponsorship Projects",
+            "allCountries": "All Countries"
+        },
+        "aiSearch": {
+            "title": "AI Search",
+            "placeholder": "Search with natural language...",
+            "search": "Search"
+        },
+        "card": {
+            "sponsoredStudent": "Sponsored Student",
+            "directSupport": "Direct Support"
+        },
+        "documents": {
+            "officialDocuments": "Official Documents"
+        },
+        "aidLog": {
+            "title": "Aid & Services Log",
+            "noItems": "No aid or services have been logged for this beneficiary yet.",
+            "value": "Value",
+            "status": {
+                "delivered": "Delivered",
+                "pending": "Pending",
+                "scheduled": "Scheduled"
+            }
         },
         "overview": {
-          "title": "Personal Details",
-          "id": "ID",
-          "country": "Country",
-          "email": "Email",
-          "phone": "Phone",
-          "university": "University",
-          "major": "Major",
-          "gpa": "GPA",
-          "academic_year": "Academic Year"
+            "title": "Personal Details",
+            "id": "ID",
+            "country": "Country",
+            "email": "Email",
+            "phone": "Phone",
+            "university": "University",
+            "major": "Major",
+            "gpa": "GPA",
+            "academic_year": "Academic Year"
         },
         "modal": {
             "tabs": {
@@ -213,7 +270,17 @@
                 "country": "Country",
                 "email": "Email",
                 "phone": "Phone",
-                "addButton": "Add"
+                "addButton": "Add",
+                "validation": {
+                    "nameRequired": "Name is required."
+                }
+            },
+            "personalInfo": {
+                "fullName": "Full Name",
+                "country": "Country"
+            },
+            "academic": {
+                "grade": "Grade"
             }
         },
         "types": {
@@ -226,6 +293,42 @@
             "community": "Community",
             "incubation_beneficiary": "Incubation Beneficiary",
             "individual-other": "Individual"
+        },
+        "linkedBeneficiaries": "Linked Beneficiaries",
+        "noLinked": "No linked beneficiaries",
+        "reached": "reached"
+    },
+    "placeholder": {
+        "underConstruction": "{moduleName} is under construction."
+    },
+    "qualificationJourney": {
+        "programsTitle": "Programs Progress",
+        "initiativesTitle": "Community Initiatives",
+        "completion": "completion"
+    },
+    "toasts": {
+        "featureInDev": "Feature in Development",
+        "newFolderComingSoon": "Create folder is coming soon.",
+        "uploadComingSoon": "Upload is coming soon."
+    },
+    "sdg_analytics": {
+        "kpi": {
+            "aligned_projects": "Aligned Projects",
+            "alignment_score": "Alignment Score",
+            "most_targeted": "Most Targeted SDG",
+            "total_budget": "Total Budget"
+        },
+        "chart": {
+            "title": "SDG Budget Distribution"
+        },
+        "grid": {
+            "title": "Project-SDG Alignment Grid",
+            "clear": "Clear Selection"
+        },
+        "list": {
+            "title": "Aligned Projects",
+            "title_all": "All Projects",
+            "placeholder": "Select an SDG to view related projects."
         }
     },
     "incubation_investors": {
@@ -466,12 +569,273 @@
         }
     },
     "projects": {
+        "title": "Project Management",
+        "projectList": "Project List",
+        "createProject": "Create Project",
+        "backToList": "Back to project list",
+        "search_placeholder": "Search by project name or ID...",
+        "advanced_filters": "Advanced Filters",
+        "tabs": {
+            "overview": "Overview",
+            "monitoring": "Monitoring",
+            "scope": "Scope",
+            "schedule": "Schedule",
+            "cost": "Cost",
+            "hr": "Human Resources",
+            "risks": "Risks",
+            "quality": "Quality",
+            "documents": "Documents",
+            "reports": "Reports",
+            "changeLog": "Change Log"
+        },
+        "views": {
+            "list": "List",
+            "card": "Card",
+            "map": "Map"
+        },
+        "list": {
+            "name": "Project",
+            "stage": "Stage",
+            "progress": "Progress",
+            "budget": "Budget",
+            "spent": "Spent"
+        },
+        "stages": {
+            "design": "Design",
+            "planning": "Planning",
+            "implementation": "Implementation",
+            "monitoring": "Monitoring",
+            "closure": "Closure"
+        },
+        "wizard": {
+            "title": "Create New Project",
+            "back": "Back",
+            "next": "Next",
+            "finish": "Finish",
+            "progressAria": "Progress",
+            "form": {
+                "name": "Project Name",
+                "code": "Project Code",
+                "type": "Project Type",
+                "stage": "Current Stage",
+                "startDate": "Start Date",
+                "endDate": "End Date",
+                "country": "Country",
+                "city": "City",
+                "region": "Region",
+                "donor": "Donor",
+                "implementingPartner": "Implementing Partner",
+                "targetBeneficiaries": "Target Beneficiaries",
+                "primaryContact": "Primary Contact",
+                "goal": "Project Goal",
+                "objective": "Objective",
+                "outcome": "Expected Outcome",
+                "kpi": "Key Performance Indicators",
+                "kpiName": "KPI Name",
+                "kpiTarget": "Target Value",
+                "addObjective": "Add Objective",
+                "addOutcome": "Add Outcome",
+                "addKpi": "Add KPI",
+                "units": {
+                    "number": "Number",
+                    "percentage": "Percentage",
+                    "text": "Text"
+                }
+            }
+        },
+        "countries": {
+            "turkey": "Turkey",
+            "syria": "Syria",
+            "lebanon": "Lebanon",
+            "uganda": "Uganda"
+        },
+        "monitoring": {
+            "kpis": "Monitoring KPIs",
+            "spi": "Schedule Performance Index (SPI)",
+            "cpi": "Cost Performance Index (CPI)",
+            "spiGood": "Schedule is healthy.",
+            "spiBad": "Schedule needs attention.",
+            "cpiGood": "Cost performance is healthy.",
+            "cpiBad": "Cost performance needs attention.",
+            "overallCompletion": "Overall Completion",
+            "budgetStatus": "Budget Status",
+            "scheduleStatus": "Schedule Status",
+            "activeRisks": "Active Risks",
+            "evmChart": "Earned Value Trend",
+            "pv": "Planned Value",
+            "ev": "Earned Value",
+            "ac": "Actual Cost",
+            "taskStatus": "Task Status Distribution",
+            "tasksUnit": "tasks"
+        },
+        "overview": {
+            "sdgTitle": "SDG Alignment"
+        },
+        "scope": {
+            "statement": "Scope Statement",
+            "inScope": "In Scope",
+            "outOfScope": "Out of Scope",
+            "assumptions": "Assumptions",
+            "constraints": "Constraints",
+            "wbs": "Work Breakdown Structure (WBS)"
+        },
+        "schedule": {
+            "gantt": "Gantt Timeline"
+        },
+        "cost": {
+            "dashboard": "Cost Dashboard",
+            "totalBudget": "Total Budget",
+            "totalSpent": "Total Spent",
+            "remaining": "Remaining",
+            "earnedValue": "Earned Value",
+            "plannedVsActual": "Planned vs Actual",
+            "burnRate": "Burn Rate",
+            "detailedBudget": "Detailed Budget",
+            "category": "Category",
+            "planned": "Planned",
+            "actual": "Actual",
+            "variance": "Variance",
+            "expenseLog": "Expense Log",
+            "date": "Date",
+            "description": "Description",
+            "wbs_link": "WBS Link",
+            "amount": "Amount"
+        },
+        "hr": {
+            "effort": "Effort",
+            "projectTeam": "Project Team",
+            "raciMatrix": "RACI Matrix",
+            "task": "Task",
+            "timesheet": "Timesheet",
+            "member": "Member",
+            "hours": "Hours"
+        },
+        "risks": {
+            "dashboard": "Risk Dashboard",
+            "matrix": "Risk Matrix",
+            "topRisks": "Top Risks",
+            "register": "Risk Register",
+            "description": "Description",
+            "category": "Category",
+            "impact": "Impact",
+            "probability": "Probability",
+            "response": "Response",
+            "owner": "Owner",
+            "status": "Status"
+        },
+        "quality": {
+            "standards": "Quality Standards",
+            "deliverableStandards": "Deliverable Standards",
+            "processStandards": "Process Standards",
+            "lessonsLearned": "Lessons Learned",
+            "positive": "What Went Well",
+            "negative": "What Needs Improvement",
+            "checklist": "Checklist",
+            "recommendation": "Recommendation"
+        },
+        "documents": {
+            "search": {
+                "placeholder": "Search documents..."
+            },
+            "uploadFile": "Upload File",
+            "newFolder": "New Folder",
+            "name": "Name",
+            "uploader": "Uploader",
+            "lastModified": "Last Modified",
+            "size": "Size",
+            "fileDetails": "File Details",
+            "descriptionLabel": "Description",
+            "lastModifiedLabel": "Last Modified",
+            "accessLabel": "Access",
+            "viewsLabel": "Views",
+            "versionsLabel": "Versions",
+            "folder": "Folder",
+            "notAvailable": "N/A",
+            "versionBy": "{version} by {author}",
+            "accessLevels": {
+                "public": "Public",
+                "team": "Team",
+                "private": "Private"
+            }
+        },
+        "changeLog": {
+            "title": "Change Log",
+            "requestChange": "Request Change",
+            "id": "ID",
+            "description": "Description",
+            "requester": "Requester",
+            "date": "Date",
+            "status": "Status",
+            "impact": "Impact"
+        },
         "reporting": {
+            "reportCardsTitle": "Project Reports",
             "overviewReport": "Overview Report",
+            "overviewReportDesc": "High-level summary of project details and KPIs.",
             "tasksReport": "Tasks Report",
+            "tasksReportDesc": "Task progress and completion status breakdown.",
             "budgetReport": "Budget Report",
+            "budgetReportDesc": "Budget utilization and spending comparison.",
             "timelineReport": "Timeline Report",
-            "viewReport": "View Report"
+            "timelineReportDesc": "Planned schedule versus actual progress.",
+            "viewReport": "View Report",
+            "printReport": "Print Report",
+            "closeModal": "Close report modal",
+            "exportComingSoon": "Export functionality coming soon!",
+            "favorite": {
+                "setAsFavorite": "Set as favorite",
+                "unfavorite": "Remove favorite"
+            },
+            "modal": {
+                "overview": {
+                    "title": "Overview Report",
+                    "projectInfo": "Project Information",
+                    "manager": "Project Manager",
+                    "dates": "Project Dates",
+                    "budgetVsSpent": "Budget vs Spent"
+                },
+                "tasks": {
+                    "title": "Tasks Report",
+                    "taskSummary": "Task Summary",
+                    "pending": "Pending",
+                    "inProgress": "In Progress",
+                    "completed": "Completed",
+                    "totalTasks": "Total Tasks"
+                },
+                "budget": {
+                    "title": "Budget Report",
+                    "financialSummary": "Financial Summary",
+                    "totalBudget": "Total Budget",
+                    "actualSpent": "Actual Spent",
+                    "remaining": "Remaining",
+                    "budgetBreakdown": "Budget Breakdown",
+                    "spent": "Spent"
+                },
+                "timeline": {
+                    "title": "Timeline Report",
+                    "startDate": "Start Date",
+                    "endDate": "End Date",
+                    "totalDays": "Total Days",
+                    "elapsedDays": "Elapsed Days",
+                    "timeElapsed": "Time Elapsed",
+                    "completionProgress": "Completion Progress",
+                    "status": "Status",
+                    "statuses": {
+                        "ahead": "Ahead of schedule",
+                        "behind": "Behind schedule",
+                        "onTrack": "On track"
+                    }
+                }
+            }
+        }
+    },
+    "reporting": {
+        "tabs": {
+            "create": "Create Reports",
+            "history": "History"
+        },
+        "history": {
+            "comingSoon": "Report history coming soon."
         }
     },
     "help": {
@@ -510,7 +874,21 @@
         "title": "Bousala",
         "linkedModules": "Smart goals and projects management platform",
         "reports": {
-            "title": "Reports"
+            "title": "Reports",
+            "goal": "Goal",
+            "project": "Project",
+            "description": "Description",
+            "progress": "Progress",
+            "linkedGoal": "Linked Goal",
+            "exporting": "Exporting report...",
+            "exportSuccess": "Report exported successfully.",
+            "exportError": "Failed to export report.",
+            "exportXLSX": "Export XLSX",
+            "exportPDF": "Export PDF",
+            "itemsDistribution": "Items Distribution",
+            "count": "Count",
+            "taskStatus": "Task Status",
+            "goalProgress": "Goal Progress"
         },
         "presentationMode": "Presentation Mode",
         "projects": "Projects",
@@ -534,7 +912,18 @@
             "projectComparison": "Project Progress Comparison"
         },
         "addTaskModal": {
-            "success": "Task added successfully."
+            "success": "Task added successfully.",
+            "title": "Add Task",
+            "taskTitle": "Task Title",
+            "relatedGoal": "Related Goal",
+            "dueDate": "Due Date",
+            "priority": "Priority",
+            "save": "Save Task",
+            "priorities": {
+                "high": "High",
+                "medium": "Medium",
+                "low": "Low"
+            }
         },
         "aiPanel": {
             "title": "AI Assistant",
@@ -547,7 +936,8 @@
                 "addTask": "Add Task",
                 "linkProject": "Link Project",
                 "viewReports": "View Reports"
-            }
+            },
+            "predictiveHeading": "Predictive Analysis"
         },
         "alerts": {
             "lowProbability": "Goal achievement probability dropped to {probability}%.",
@@ -589,7 +979,93 @@
             "refreshInterval": "Refresh Interval",
             "smartRefresh": "Enable Smart Refresh",
             "showAnimation": "Show Refresh Animation",
-            "save": "Save Settings"
+            "save": "Save Settings",
+            "severityCritical": "Critical <50%",
+            "severityWarning": "Warning <{threshold}%",
+            "severityInfo": "Info <90%",
+            "seconds30": "30 seconds",
+            "seconds60": "60 seconds",
+            "seconds120": "120 seconds"
+        },
+        "goals": "Goals",
+        "tasks": "Tasks",
+        "visualAnalytics": "Visual Analytics",
+        "task_status": {
+            "completed": "Completed",
+            "in-progress": "In Progress"
+        },
+        "addGoalModal": {
+            "title": "Add Goal",
+            "goalTitle": "Goal Title",
+            "description": "Description",
+            "target": "Target",
+            "responsiblePerson": "Responsible Person",
+            "save": "Save Goal"
+        },
+        "common": {
+            "progressLabel": "Progress",
+            "predictiveAnalysis": "Predictive analysis...",
+            "assigneeLabel": "Assignee team",
+            "assignTaskTo": "Assign task to",
+            "linkedTasks": "Linked Tasks",
+            "suggestTasksAi": "Suggest Tasks (AI)",
+            "predictRiskAi": "Predict Risk (AI)",
+            "linkedExecutionProject": "Linked Execution Project",
+            "budget": "Budget",
+            "progress": "Progress",
+            "kpiIndicators": "KPIs",
+            "addKpi": "Add KPI",
+            "lastUpdated": "Last updated",
+            "predictionConfidence": "AI predicts {percentage}% success probability",
+            "onTrack": "On Track",
+            "atRisk": "At Risk",
+            "unlikely": "Unlikely",
+            "goalPredictionSummary": "Predictive analysis: current indicators show a {percentage}% probability of achieving planned goals.",
+            "predictionLabel": "Prediction",
+            "goalPredictionsAnalysis": "Analyzing goal predictions..."
+        },
+        "messages": {
+            "projectLinkedSuccess": "Project linked successfully.",
+            "kpiAddedSuccess": "KPI added successfully.",
+            "goalAddedSuccess": "Goal \"{title}\" was added successfully."
+        },
+        "addKpiModal": {
+            "title": "Add KPI",
+            "kpiTitle": "KPI Title",
+            "currentValue": "Current Value",
+            "targetValue": "Target Value",
+            "unit": "Unit",
+            "unitPlaceholder": "%, beneficiary, $",
+            "save": "Save KPI",
+            "requiredFields": "All fields are required."
+        },
+        "linkProjectModal": {
+            "title": "Link Existing Project",
+            "description": "Select one or more projects to link to the current goal.",
+            "noProjects": "No other projects available to link.",
+            "linkCta": "Link ({count})"
+        },
+        "predictive": {
+            "overallSummary": "Overall Forecast Summary",
+            "goalSuccessProbability": "Goal success probability",
+            "topAtRiskGoals": "Top 3 At-Risk Goals",
+            "noAtRiskGoals": "No goals currently at risk.",
+            "forecastOverTime": "Forecast Change Over Time",
+            "avgSuccessProbability": "Average success probability",
+            "aiRecommendationsSummary": "AI Recommendations Summary",
+            "noRecommendations": "No recommendations available right now."
+        },
+        "splash": {
+            "title": "🧭 Bousala - Goals & Tasks Management",
+            "subtitle": "Smart management system for non-profit organizations"
+        },
+        "defaultInsights": {
+            "tasksTitle": "General Suggestion",
+            "tasksContent": "Consider splitting larger tasks into smaller ones to track progress better.",
+            "kpisTitle": "Performance Analysis",
+            "kpisContent": "Goal progress and linked project progress should be monitored together for better decisions.",
+            "risksTitle": "Potential Risks",
+            "risksContent": "Review key deadlines regularly to reduce the risk of delays."
         }
     },
     "matrix": {
@@ -611,12 +1087,87 @@
         },
         "searchPlaceholder": "Search donors...",
         "allCountries": "All Countries",
-        "addDonor": "Add Donor"
+        "addDonor": "Add Donor",
+        "modal": {
+            "addDonorTitle": "Add Donor",
+            "donorName": "Donor Name",
+            "email": "Email",
+            "country": "Country",
+            "potentialGift": "Potential Gift",
+            "cancel": "Cancel",
+            "saveDonor": "Save Donor",
+            "requiredFields": "Name and Email are required."
+        },
+        "card": {
+            "potential": "Potential",
+            "donated": "Donated",
+            "openTasks": "Open Tasks",
+            "overdue": "Overdue",
+            "due": "Due",
+            "addTask": "Add Task",
+            "addDonation": "Add Donation",
+            "moreOptions": "More options",
+            "ariaLabel": "Donor card for {name}"
+        },
+        "ai_suggestion": {
+            "title": "AI Suggestion",
+            "loading": "Generating suggestion...",
+            "start": "Draft Email",
+            "error": "Could not generate a suggestion right now.",
+            "rationale": "Rationale"
+        },
+        "ai_modal": {
+            "title": "AI Email Assistant",
+            "generating": "Generating email draft...",
+            "to": "To",
+            "subject": "Subject",
+            "body": "Body",
+            "send": "Send Email",
+            "generationFailed": "Failed to generate AI content.",
+            "fallbackSubject": "Error",
+            "fallbackBody": "Could not generate content.",
+            "emailSent": "Email sent!"
+        }
     },
     "individual_donors": {
         "cardView": "Card View",
         "mapView": "Map View",
-        "listView": "List View"
+        "listView": "List View",
+        "searchPlaceholder": "Search donors...",
+        "filters": "Filters",
+        "addDonor": "Add Donor",
+        "backToList": "Back to Donors List",
+        "recentActivity": "Recent Activity",
+        "noResults": "No donors found",
+        "noResultsDescription": "Try adjusting search or filters.",
+        "columns": {
+            "totalDonations": "Total Donations",
+            "lastDonationDate": "Last Donation Date"
+        },
+        "kpi": {
+            "ltv": "Lifetime Value",
+            "avgGift": "Average Gift",
+            "totalGifts": "Total Gifts",
+            "donorSince": "Donor Since"
+        },
+        "modal": {
+            "fullNameEN": "Full Name (English)",
+            "fullNameAR": "Full Name (Arabic)",
+            "email": "Email",
+            "phone": "Phone",
+            "country": "Country",
+            "saveDonor": "Save Donor",
+            "requiredFields": "Full Name (English) and Email are required."
+        },
+        "detailView": {
+            "overview": "Overview",
+            "donations": "Donations",
+            "communications": "Communications",
+            "tasks": "Tasks",
+            "profile": "Profile",
+            "sendEmail": "Send Email",
+            "logInteraction": "Log Interaction"
+        }
     },
     "institutional_donors": {
         "card": {
@@ -639,6 +1190,529 @@
             "draftTitle": "Funding Request Draft",
             "generatingDraft": "Generating draft...",
             "draftDisclaimer": "This is an initial draft and should be reviewed before sending."
+        },
+        "title": "Institutional Donors",
+        "searchPlaceholder": "Search institutions...",
+        "filters": "Filters",
+        "listView": "List View",
+        "cardView": "Card View",
+        "mapView": "Map View",
+        "addInstitution": "Add Institution",
+        "backToList": "Back to Institutional Donors",
+        "nextDeadline": "Next Deadline",
+        "columns": {
+            "funding": "Funding",
+            "focus": "Focus",
+            "actions": "Actions"
+        },
+        "filter_labels": {
+            "institutionType": "Institution Type",
+            "relationshipStatus": "Relationship Status",
+            "grantFocusArea": "Grant Focus Area",
+            "priorityLevel": "Priority Level"
+        },
+        "modal": {
+            "nameEn": "Organization Name (English)",
+            "nameAr": "Organization Name (Arabic)",
+            "country": "Country",
+            "city": "City",
+            "registrationNumber": "Registration Number",
+            "establishmentDate": "Establishment Date",
+            "contactName": "Contact Name",
+            "contactEmail": "Contact Email",
+            "focusAreas": "Focus Areas",
+            "requiredName": "Organization Name (English) is required."
+        },
+        "analytics": {
+            "totalFunding": "Total Funding",
+            "pipelineValue": "Pipeline Value",
+            "highPriority": "High Priority",
+            "upcomingDeadlines": "Upcoming Deadlines",
+            "next90days": "Next 90 Days"
+        },
+        "analyticsDashboard": {
+            "title": "Analytics Dashboard",
+            "donationGrowth": "Donation Growth",
+            "projectCompletion": "Project Completion",
+            "communicationFrequency": "Communication Frequency",
+            "satisfactionScore": "Satisfaction Score"
+        },
+        "detail": {
+            "overview": "Overview",
+            "grants": "Grants",
+            "contacts": "Contacts",
+            "documents": "Documents",
+            "donationsTitle": "Donations Overview",
+            "donationsThisYear": "Donations This Year",
+            "totalDonations": "Total Donations",
+            "vsLastYear": "vs last year",
+            "contactInfoTitle": "Contact Information",
+            "address": "Address",
+            "phone": "Phone",
+            "email": "Email",
+            "website": "Website",
+            "socialMedia": "Social Media",
+            "addContact": "Add Contact",
+            "addContactTitle": "Add New Contact",
+            "save": "Save",
+            "validation": {
+                "required": "This field is required.",
+                "email": "Please enter a valid email address."
+            },
+            "placeholders": {
+                "fullName": "Full Name",
+                "position": "Position"
+            },
+            "form": {
+                "fullName": "Full Name",
+                "position": "Position",
+                "email": "Email",
+                "phone": "Phone",
+                "whatsapp": "WhatsApp",
+                "profilePicture": "Profile Picture URL",
+                "isPrimary": "Primary Contact",
+                "permissions": "Permissions",
+                "permissionsDesc": "Select access rights for this contact.",
+                "permViewProjects": "View Projects",
+                "permManageFinances": "Manage Finances",
+                "permApproveReports": "Approve Reports"
+            }
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "saveChanges": "Save Changes",
+        "categories": {
+            "organization": "Organization",
+            "users": "Users & Access",
+            "translations": "Translation Management",
+            "financials": "Financial Settings",
+            "hr": "HR",
+            "projects": "Program Settings",
+            "documents": "Documents",
+            "system": "System",
+            "reporting": "Reporting",
+            "notifications": "Notifications",
+            "advanced": "Advanced"
+        },
+        "organization": {
+            "profileTitle": "Organization Profile",
+            "profileDesc": "Core organization identity and branding settings.",
+            "orgName": "Organization Name",
+            "mission": "Mission",
+            "uploadLogo": "Upload Logo",
+            "primaryColor": "Primary Color",
+            "fiscalYearStart": "Fiscal Year Start",
+            "fiscalYearEnd": "Fiscal Year End",
+            "langTitle": "Language Preferences",
+            "langDesc": "Default language and enabled interface languages.",
+            "defaultLang": "Default Language",
+            "enableEnglish": "Enable English",
+            "enableArabic": "Enable Arabic",
+            "regionTitle": "Regional Settings",
+            "regionDesc": "Country, timezone, and currency preferences.",
+            "country": "Country",
+            "timezone": "Timezone",
+            "primaryCurrency": "Primary Currency"
+        },
+        "users": {
+            "tabAccessControl": "Access Control",
+            "tabUserProvisioning": "User Provisioning",
+            "tabAuthentication": "Authentication",
+            "rolesTitle": "Roles and Permissions",
+            "rolesDesc": "Define roles and permission sets for each module.",
+            "addRole": "Add Role",
+            "roleName": "Role Name",
+            "userCount": "Users",
+            "actions": "Actions",
+            "editPermissions": "Edit Permissions",
+            "permissionsForRole": "Permissions for {roleName}",
+            "module": "Module",
+            "view": "View",
+            "create": "Create",
+            "edit": "Edit",
+            "delete": "Delete",
+            "usersTitle": "Users",
+            "usersDesc": "Manage user access and account lifecycle.",
+            "inviteUser": "Invite User",
+            "userName": "User",
+            "role": "Role",
+            "status": "Status",
+            "lastLogin": "Last Login",
+            "deactivate": "Deactivate",
+            "resendInvite": "Resend Invite",
+            "statuses": {
+                "Active": "Active",
+                "Invited": "Invited",
+                "Deactivated": "Deactivated"
+            },
+            "passwordPolicyTitle": "Password Policy",
+            "passwordPolicyDesc": "Set password strength and expiry requirements.",
+            "minLength": "Minimum Length",
+            "complexity": "Complexity Requirements",
+            "requireUppercase": "Require uppercase letters",
+            "requireLowercase": "Require lowercase letters",
+            "requireNumbers": "Require numbers",
+            "requireSpecial": "Require special characters",
+            "mfaTitle": "Multi-Factor Authentication",
+            "mfaDesc": "Enforce MFA by policy.",
+            "mfaEnforcement": "MFA Enforcement",
+            "mfaOptions": {
+                "disabled": "Disabled",
+                "optional": "Optional",
+                "required": "Required for all users",
+                "requiredRoles": "Required for selected roles"
+            },
+            "requiredForRoles": "Required for Roles",
+            "requiredForRolesPlaceholder": "Admin, Manager",
+            "sessionTitle": "Session Security",
+            "sessionDesc": "Control session timeout and concurrent logins.",
+            "sessionTimeout": "Session Timeout (minutes)",
+            "allowConcurrent": "Allow concurrent sessions"
+        },
+        "documents": {
+            "title": "Document Settings",
+            "tabs": {
+                "types": "Document Types",
+                "templates": "Folder Templates",
+                "metadata": "Metadata",
+                "versioning": "Versioning",
+                "retention": "Retention"
+            },
+            "types": {
+                "title": "Document Type Configuration",
+                "desc": "Define and manage document types.",
+                "placeholder": "Document type configuration content."
+            },
+            "templates": {
+                "title": "Folder Template Configuration",
+                "desc": "Standardize folder structures across modules.",
+                "placeholder": "Folder template configuration content."
+            },
+            "metadata": {
+                "title": "Metadata Tags",
+                "desc": "Manage reusable metadata tags.",
+                "tagName": "Tag name",
+                "addTag": "Add Tag"
+            },
+            "versioning": {
+                "title": "Versioning and Retention",
+                "desc": "Configure version and retention rules.",
+                "placeholder": "Versioning and retention configuration content."
+            }
+        },
+        "programSettings": {
+            "title": "Program Settings",
+            "subCategories": {
+                "structure": "Program Structure",
+                "geography": "Geography",
+                "beneficiaries": "Beneficiaries",
+                "lifecycle": "Lifecycle",
+                "frameworks": "Frameworks",
+                "indicators": "Indicators"
+            },
+            "structure": {
+                "categoriesTitle": "Program Categories",
+                "categoriesDesc": "Manage program category taxonomy.",
+                "placeholder": "Manage program categories..."
+            },
+            "lifecycle": {
+                "title": "Project Lifecycle",
+                "desc": "Define lifecycle stages and transitions.",
+                "placeholder": "Define project lifecycle stages..."
+            },
+            "frameworks": {
+                "sdgTitle": "SDG Mapping",
+                "sdgDesc": "Map program outcomes to SDGs."
+            }
+        }
+    },
+    "translations": {
+        "searchKeys": "Search translation keys...",
+        "allNamespaces": "All namespaces",
+        "showMissingOnly": "Show missing translations only",
+        "translateAll": "Translate All",
+        "loadError": "Failed to load translation files.",
+        "onlyStringValues": "Can only translate string values.",
+        "noMissingForKey": "No missing translations for this key.",
+        "autoTranslatedKey": "Auto-translated key: {key}",
+        "autoTranslateFailed": "Failed to auto-translate.",
+        "noMissingToProcess": "No missing translations to process.",
+        "translatedSummary": "Translated {successCount} of {total} missing keys.",
+        "exportedFile": "Exported {lang}.json",
+        "columns": {
+            "key": "Key",
+            "englishSource": "English (Source)",
+            "arabic": "Arabic"
+        }
+    },
+    "financialSettings": {
+        "title": "Financial Settings",
+        "chartOfAccounts": "Chart of Accounts",
+        "financialPeriods": "Financial Periods",
+        "approvalWorkflows": "Approval Workflows",
+        "bankingAndPayments": "Banking and Payments",
+        "taxAndCompliance": "Tax and Compliance",
+        "coa": {
+            "title": "Chart of Accounts Configuration",
+            "templatesTitle": "COA Templates",
+            "templatesDesc": "Select a standard template or import your own chart.",
+            "templateAaoifi": "AAOIFI Template",
+            "templateAaoifiDesc": "Islamic finance-aligned account structure.",
+            "templateIfrs": "IFRS Template",
+            "templateIfrsDesc": "International reporting standard structure.",
+            "templateHybrid": "Hybrid Template",
+            "templateHybridDesc": "Balanced model for nonprofit operations.",
+            "templateCustom": "Custom Template",
+            "templateCustomDesc": "Build your own account structure from scratch.",
+            "apply": "Apply Template",
+            "preview": "Preview Template",
+            "importCoa": "Import Chart of Accounts",
+            "previewTitle": "Preview: {name}",
+            "templateAppliedTitle": "Template Applied",
+            "templateAppliedMessage": "Template \"{template}\" applied successfully.",
+            "noTemplateSelectedTitle": "No Template Selected",
+            "noTemplateSelectedMessage": "Please select a template first.",
+            "or": "Or"
+        },
+        "periods": {
+            "title": "Financial Periods",
+            "table": {
+                "period": "Period",
+                "startDate": "Start Date",
+                "endDate": "End Date",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "statuses": {
+                "Future": "Future",
+                "Open": "Open",
+                "Soft-Closed": "Soft-Closed",
+                "Hard-Closed": "Hard-Closed"
+            },
+            "actions": {
+                "openPeriod": "Open Period",
+                "beginClosing": "Begin Closing",
+                "hardClose": "Hard Close",
+                "reopenPeriod": "Reopen Period"
+            },
+            "dashboard": {
+                "title": "Fiscal Year {year}",
+                "currentOpen": "Current open period",
+                "noOpenPeriod": "No open period",
+                "closePeriod": "Close Current Period"
+            },
+            "calendarUnderConstruction": "Calendar view is under construction."
+        },
+        "workflows": {
+            "title": "Approval Workflows",
+            "availableWorkflows": "Available Workflows",
+            "availableWorkflowsDesc": "Select a transaction type to configure.",
+            "configure": "Configure",
+            "workflowConfiguration": "Workflow Configuration",
+            "workflowEnabled": "Workflow Enabled",
+            "approvalSteps": "Approval Steps",
+            "approvalStepsDesc": "Define step-by-step approval logic.",
+            "when": "When",
+            "amount": "Amount",
+            "then": "Then",
+            "anyAmount": "Any Amount",
+            "approve": "approves",
+            "approverTypes": {
+                "role": "Role",
+                "user": "User",
+                "reportingManager": "Reporting Manager"
+            },
+            "operators": {
+                "gt": "is greater than",
+                "gte": "is greater than or equal to",
+                "lt": "is less than",
+                "lte": "is less than or equal to"
+            },
+            "authorizationLimits": "Authorization Limits",
+            "authorizationLimitsDesc": "Maximum approval amount by role.",
+            "role": "Role",
+            "limitAmount": "Limit Amount",
+            "actions": "Actions",
+            "addLimit": "Add Authorization Limit",
+            "addStep": "Add Approval Step",
+            "noWorkflowSelected": "No Workflow Selected",
+            "noWorkflowSelectedDesc": "Select a workflow from the left to configure it."
+        },
+        "banking": {
+            "title": "Banking and Payments",
+            "bankAccountsTitle": "Bank Accounts",
+            "bankAccountsDesc": "Manage linked bank accounts and feeds.",
+            "addAccount": "Add Bank Account",
+            "connectFeed": "Connect Bank Feed",
+            "accountName": "Account Name",
+            "accountNumber": "Account Number",
+            "currency": "Currency",
+            "status": "Status",
+            "actions": "Actions",
+            "statuses": {
+                "Active": "Active",
+                "Inactive": "Inactive",
+                "Pending": "Pending"
+            },
+            "gatewaysTitle": "Payment Gateways",
+            "gatewaysDesc": "Configure supported payment providers.",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "configure": "Configure",
+            "termsAndMethodsTitle": "Payment Terms and Methods",
+            "termsAndMethodsDesc": "Define terms and available payment methods.",
+            "paymentTerms": "Payment Terms",
+            "days": "days",
+            "addTerm": "Add Payment Term",
+            "paymentMethods": "Payment Methods",
+            "addMethod": "Add Payment Method"
+        }
+    },
+    "stakeholder_management": {
+        "title": "Stakeholder Management",
+        "subtitle": "Track relationships, engagement health, and strategic influence.",
+        "export": "Export",
+        "addNew": "Add New",
+        "totalStakeholders": "Total Stakeholders",
+        "avgRelationshipHealth": "Average Relationship Health",
+        "needsAttention": "Needs Attention",
+        "highRisks": "High Risks",
+        "searchPlaceholder": "Search stakeholders...",
+        "filter": "Filter",
+        "view": {
+            "table": "Table view",
+            "card": "Card view",
+            "matrix": "Matrix view"
+        },
+        "voice": {
+            "notSupported": "Speech recognition is not supported in this browser.",
+            "permissionDenied": "Microphone permission was denied. Please enable it in your browser settings.",
+            "startError": "Could not start listening. Please try again."
+        },
+        "types": {
+            "all": "All",
+            "donor": "Donor",
+            "beneficiary": "Beneficiary",
+            "partner": "Partner",
+            "volunteer": "Volunteer",
+            "mentor": "Mentor",
+            "expert": "Expert/Trainer",
+            "investor": "Investor",
+            "board_member": "Board Member",
+            "government": "Government",
+            "supplier": "Supplier",
+            "community": "Community",
+            "media": "Media"
+        },
+        "table": {
+            "name": "Name",
+            "type": "Type",
+            "relationshipHealth": "Relationship Health",
+            "level": "Level",
+            "risks": "Risks",
+            "lastContact": "Last Contact",
+            "aiInsights": "AI Insights",
+            "actions": "Actions"
+        },
+        "relationshipLevels": {
+            "strategic": "Strategic",
+            "core": "Core",
+            "important": "Important"
+        },
+        "risks": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        },
+        "statuses": {
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "classificationLabel": "Classification",
+        "classification": {
+            "primary": "Primary",
+            "secondary": "Secondary"
+        },
+        "riskProfileLabel": "Risk Profile",
+        "riskProfile": {
+            "supporter": "Supporter",
+            "neutral": "Neutral",
+            "blocker": "Blocker"
+        },
+        "card": {
+            "health": "Health",
+            "engagement": "Engagement",
+            "power": "Power",
+            "interest": "Interest",
+            "needs": "Needs",
+            "viewDetails": "View Details"
+        },
+        "matrix": {
+            "high": "High",
+            "low": "Low",
+            "power": "Power",
+            "interest": "Interest",
+            "keepSatisfied": "Keep Satisfied",
+            "keepSatisfiedDesc": "High influence, lower active interest.",
+            "manageClosely": "Manage Closely",
+            "manageCloselyDesc": "High influence and high interest.",
+            "monitor": "Monitor",
+            "monitorDesc": "Low influence and low interest.",
+            "keepInformed": "Keep Informed",
+            "keepInformedDesc": "High interest, lower influence."
+        },
+        "add_modal": {
+            "title": "Add New Stakeholder",
+            "name_ar": "Name (Arabic)",
+            "name_en": "Name (English)",
+            "type": "Type",
+            "category": "Category",
+            "country": "Country",
+            "email": "Email",
+            "phone": "Phone",
+            "validation": {
+                "nameRequired": "Name is required in at least one language."
+            },
+            "categories": {
+                "foundation": "Foundation",
+                "family": "Family",
+                "company": "Company"
+            }
+        },
+        "detailPanel": {
+            "summary": "Summary",
+            "metrics": "Relationship Metrics",
+            "contactHistory": "Contact History",
+            "aiActionCenter": "AI Action Center",
+            "generateSuggestions": "Generate Smart Suggestions",
+            "generating": "Generating suggestions...",
+            "suggestionsError": "Failed to generate suggestions. Please try again.",
+            "contact_types": {
+                "email": "Email",
+                "meeting": "Meeting",
+                "call": "Phone Call"
+            }
+        },
+        "timeAgo": {
+            "twoWeeks": "2 weeks ago",
+            "oneMonth": "1 month ago",
+            "threeMonths": "3 months ago"
+        },
+        "insights": {
+            "newly_added": "New stakeholder added; schedule onboarding and first engagement.",
+            "excellent_relation": "Excellent strategic relationship with consistent communication.",
+            "active_beneficiary": "High beneficiary engagement with stable support outcomes.",
+            "warning_communication": "Communication frequency is declining; proactive outreach is recommended.",
+            "excellent_engagement": "Outstanding engagement and participation level.",
+            "investor_follow_on": "High potential for follow-on funding for successful startups.",
+            "investor_early_stage": "Interested in early-stage social impact startups.",
+            "mentor_marketing": "Highly rated mentor specializing in marketing.",
+            "mentor_finance": "Finance expert providing strong feedback on financial models.",
+            "expert_agritech": "Leading AgriTech expert available for workshops.",
+            "expert_cybersecurity": "Provides pro-bono data security training for nonprofits.",
+            "board_chairman": "Board chairman with very high influence and engagement.",
+            "board_financial": "Board member with strong financial expertise."
         }
     },
     "donorManagement": {

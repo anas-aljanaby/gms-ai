@@ -11,7 +11,7 @@ export const MOCK_HR_DATA: HrData = {
         {
             volunteer_id: 'VOL-002', full_name: 'Fatma Ali', email: 'fatma.ali@email.com', phone: '+90 532 987 6543',
             date_of_birth: '1998-08-22', gender: 'female', volunteer_type: 'volunteer', join_date: '2023-11-20',
-            status: 'active', preferred_language: 'tr', emergency_contact_name: 'Hassan Ali', emergency_contact_phone: '+90 533 111 2222',
+            status: 'active', preferred_language: 'en', emergency_contact_name: 'Hassan Ali', emergency_contact_phone: '+90 533 111 2222',
             address: '456 Oak Ave', city: 'Istanbul', country: 'Turkey', photo_url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop',
         },
         {

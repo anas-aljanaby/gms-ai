@@ -60,8 +60,8 @@ const AiActionModal: React.FC<AiActionModalProps> = ({ isOpen, onClose, donor, s
                     setContent(result);
                 } catch (error) {
                     console.error("Error generating AI content:", error);
-                    toast.showError("Failed to generate AI content.");
-                    setContent({ subject: "Error", body: "Could not generate content." });
+                    toast.showError(t('donors.ai_modal.generationFailed'));
+                    setContent({ subject: t('donors.ai_modal.fallbackSubject'), body: t('donors.ai_modal.fallbackBody') });
                 } finally {
                     setIsLoading(false);
                 }
@@ -79,7 +79,7 @@ const AiActionModal: React.FC<AiActionModalProps> = ({ isOpen, onClose, donor, s
                     <h2 className="text-xl font-bold flex items-center gap-2">
                         <SparklesIcon className="text-primary" /> {t('donors.ai_modal.title')}
                     </h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"><XIcon /></button>
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}><XIcon /></button>
                 </div>
 
                 <div className="p-6 overflow-y-auto">
@@ -107,7 +107,7 @@ const AiActionModal: React.FC<AiActionModalProps> = ({ isOpen, onClose, donor, s
 
                 <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-xl flex justify-end gap-3">
                     <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.cancel')}</button>
-                    <button type="button" onClick={() => toast.showSuccess("Email sent!")} className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold">{t('donors.ai_modal.send')}</button>
+                    <button type="button" onClick={() => toast.showSuccess(t('donors.ai_modal.emailSent'))} className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold">{t('donors.ai_modal.send')}</button>
                 </div>
             </div>
         </div>

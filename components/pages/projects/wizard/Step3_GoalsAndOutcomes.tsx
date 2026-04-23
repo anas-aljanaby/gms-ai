@@ -134,9 +134,9 @@ const Step3_GoalsAndOutcomes: React.FC<Step3Props> = ({ data, updateData, setPro
                                 onChange={e => handleKpiChange(index, 'unit', e.target.value)}
                                 className="w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"
                             >
-                                <option value="number">Number</option>
-                                <option value="percentage">Percentage</option>
-                                <option value="text">Text</option>
+                                <option value="number">{t('projects.wizard.form.units.number')}</option>
+                                <option value="percentage">{t('projects.wizard.form.units.percentage')}</option>
+                                <option value="text">{t('projects.wizard.form.units.text')}</option>
                             </select>
                         </div>
                         <div className="col-span-6 md:col-span-3">

@@ -118,7 +118,7 @@ const FinancialPeriodsConfiguration: React.FC = () => {
 
             {viewMode === 'list' ? renderPeriodList() : (
                 <div className="text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-soft">
-                    <p>Calendar view is under construction.</p>
+                    <p>{t('financialSettings.periods.calendarUnderConstruction')}</p>
                 </div>
             )}
 

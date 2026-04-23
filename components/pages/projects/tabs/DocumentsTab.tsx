@@ -132,7 +132,7 @@ const DocumentsTab: React.FC<DocumentsTabProps> = ({ project }) => {
                     >
                         <div className="bg-card dark:bg-dark-card rounded-xl shadow-soft border dark:border-slate-700/50 h-full flex flex-col">
                             <div className="p-4 border-b dark:border-slate-700 flex justify-between items-center">
-                                <h3 className="font-bold">File Details</h3>
+                                <h3 className="font-bold">{t('projects.documents.fileDetails')}</h3>
                                 <button onClick={() => setSelectedItem(null)}><XIcon /></button>
                             </div>
                             <div className="p-4 text-center">
@@ -143,15 +143,15 @@ const DocumentsTab: React.FC<DocumentsTabProps> = ({ project }) => {
                                 {selectedItem.type === 'file' && <p className="text-sm text-gray-500">{(selectedItem as DocumentFile).size} KB</p>}
                             </div>
                             <div className="p-4 space-y-2 text-sm border-t dark:border-slate-700">
-                                <p><strong>Description:</strong> {selectedItem.type === 'file' ? (selectedItem as DocumentFile).description || 'N/A' : 'Folder'}</p>
-                                <p><strong>Last Modified:</strong> {formatDate(selectedItem.lastModified, language)}</p>
-                                <p><strong>Access:</strong> {selectedItem.accessLevel}</p>
-                                {selectedItem.type === 'file' && <p><strong>Views:</strong> {(selectedItem as DocumentFile).viewCount}</p>}
+                                <p><strong>{t('projects.documents.descriptionLabel')}:</strong> {selectedItem.type === 'file' ? (selectedItem as DocumentFile).description || t('projects.documents.notAvailable') : t('projects.documents.folder')}</p>
+                                <p><strong>{t('projects.documents.lastModifiedLabel')}:</strong> {formatDate(selectedItem.lastModified, language)}</p>
+                                <p><strong>{t('projects.documents.accessLabel')}:</strong> {t(`projects.documents.accessLevels.${selectedItem.accessLevel}` as const) || selectedItem.accessLevel}</p>
+                                {selectedItem.type === 'file' && <p><strong>{t('projects.documents.viewsLabel')}:</strong> {(selectedItem as DocumentFile).viewCount}</p>}
                                 {selectedItem.type === 'file' && (selectedItem as DocumentFile).versions && (
                                     <div>
-                                        <strong>Versions:</strong>
+                                        <strong>{t('projects.documents.versionsLabel')}:</strong>
                                         <ul className="text-xs list-disc list-inside">
-                                            {(selectedItem as DocumentFile).versions.map(v => <li key={v.version}>{v.version} by {v.author}</li>)}
+                                            {(selectedItem as DocumentFile).versions.map(v => <li key={v.version}>{t('projects.documents.versionBy', { version: v.version, author: v.author })}</li>)}
                                         </ul>
                                     </div>
                                 )}

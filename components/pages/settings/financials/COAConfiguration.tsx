@@ -70,6 +70,7 @@ const AccountTree: React.FC<{ accounts: any[], level?: number }> = ({ accounts, 
 };
 
 const PreviewModal: React.FC<{ isOpen: boolean; onClose: () => void; template: COATemplate | null }> = ({ isOpen, onClose, template }) => {
+    const { t } = useLocalization();
     if (!isOpen || !template || template === 'custom') return null;
 
     const templateData = coaTemplatesData[template as keyof typeof coaTemplatesData];
@@ -78,14 +79,14 @@ const PreviewModal: React.FC<{ isOpen: boolean; onClose: () => void; template: C
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-in" onClick={onClose}>
             <div className="bg-card dark:bg-dark-card rounded-2xl shadow-xl w-full max-w-2xl m-4 flex flex-col max-h-[80vh]" onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between p-4 border-b dark:border-slate-700">
-                    <h2 className="text-xl font-bold">Preview: {templateData.name}</h2>
+                    <h2 className="text-xl font-bold">{t('financialSettings.coa.previewTitle', { name: templateData.name })}</h2>
                     <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"><XIcon /></button>
                 </div>
                 <div className="p-6 overflow-y-auto">
                     <AccountTree accounts={templateData.accounts} />
                 </div>
                 <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-xl flex justify-end">
-                    <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">Close</button>
+                    <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.close')}</button>
                 </div>
             </div>
         </div>
@@ -108,9 +109,9 @@ const COAConfiguration: React.FC = () => {
     
     const handleApply = () => {
         if (selectedTemplate) {
-            toast.showSuccess(`Template "${selectedTemplate.toUpperCase()}" applied successfully.`, { title: 'Template Applied' });
+            toast.showSuccess(t('financialSettings.coa.templateAppliedMessage', { template: selectedTemplate.toUpperCase() }), { title: t('financialSettings.coa.templateAppliedTitle') });
         } else {
-            toast.showWarning('Please select a template first.', { title: 'No Template Selected' });
+            toast.showWarning(t('financialSettings.coa.noTemplateSelectedMessage'), { title: t('financialSettings.coa.noTemplateSelectedTitle') });
         }
     };
 
@@ -159,7 +160,7 @@ const COAConfiguration: React.FC = () => {
                         <div className="w-full border-t border-gray-300 dark:border-slate-600" />
                     </div>
                     <div className="relative flex justify-center">
-                        <span className="bg-gray-50/50 dark:bg-dark-background/20 px-2 text-sm text-gray-500">Or</span>
+                        <span className="bg-gray-50/50 dark:bg-dark-background/20 px-2 text-sm text-gray-500">{t('financialSettings.coa.or')}</span>
                     </div>
                 </div>
                 <button className="w-full flex items-center justify-center gap-2 px-4 py-4 text-sm font-medium border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700/50 transition-colors">

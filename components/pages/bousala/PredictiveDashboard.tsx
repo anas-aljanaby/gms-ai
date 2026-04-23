@@ -54,13 +54,13 @@ const PredictiveDashboard: React.FC<PredictiveDashboardProps> = ({ goals }) => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Overall Forecast */}
                 <div className="lg:col-span-1 bg-card dark:bg-dark-card/50 p-6 rounded-2xl shadow-soft border dark:border-slate-700 flex flex-col items-center justify-center">
-                    <h3 className="font-bold text-lg mb-2">ملخص التوقعات الإجمالي</h3>
-                    <GaugeChart value={overallForecast} label="احتمالية نجاح الأهداف" size={250} />
+                    <h3 className="font-bold text-lg mb-2">{t('bousala.predictive.overallSummary')}</h3>
+                    <GaugeChart value={overallForecast} label={t('bousala.predictive.goalSuccessProbability')} size={250} />
                 </div>
                 
                 {/* Top At-Risk Goals */}
                 <div className="lg:col-span-2 bg-card dark:bg-dark-card/50 p-6 rounded-2xl shadow-soft border dark:border-slate-700/50">
-                     <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><AlertCircle className="text-red-500" /> أبرز 3 أهداف في خطر</h3>
+                     <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><AlertCircle className="text-red-500" /> {t('bousala.predictive.topAtRiskGoals')}</h3>
                      <div className="space-y-4">
                         {atRiskGoals.length > 0 ? atRiskGoals.map(goal => (
                              <div key={goal.id} className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border-l-4 border-red-500">
@@ -70,7 +70,7 @@ const PredictiveDashboard: React.FC<PredictiveDashboardProps> = ({ goals }) => {
                                 </div>
                                  <p className="text-xs text-gray-500 mt-1" dir="auto">{goal.description}</p>
                             </div>
-                        )) : <p className="text-center text-gray-500 py-10">لا توجد أهداف في خطر حالياً.</p>}
+                        )) : <p className="text-center text-gray-500 py-10">{t('bousala.predictive.noAtRiskGoals')}</p>}
                      </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@ const PredictiveDashboard: React.FC<PredictiveDashboardProps> = ({ goals }) => {
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                  {/* Forecast Change Over Time */}
                 <div className="lg:col-span-3 bg-card dark:bg-dark-card/50 p-6 rounded-2xl shadow-soft border dark:border-slate-700/50">
-                    <h3 className="font-bold text-lg mb-4">تغير التوقعات بمرور الوقت</h3>
+                    <h3 className="font-bold text-lg mb-4">{t('bousala.predictive.forecastOverTime')}</h3>
                     <ResponsiveContainer width="100%" height={300}>
                          <LineChart data={mockForecastHistory}>
                             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -86,20 +86,20 @@ const PredictiveDashboard: React.FC<PredictiveDashboardProps> = ({ goals }) => {
                             <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} tick={{ fill: textColor }} />
                             <RechartsTooltip formatter={(value) => `${value}%`} />
                             <Legend />
-                            <Line type="monotone" dataKey="forecast" name="متوسط احتمال النجاح" stroke="#8884d8" strokeWidth={2} activeDot={{ r: 8 }} />
+                            <Line type="monotone" dataKey="forecast" name={t('bousala.predictive.avgSuccessProbability')} stroke="#8884d8" strokeWidth={2} activeDot={{ r: 8 }} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
                 
                 {/* AI Recommendation Summary */}
                 <div className="lg:col-span-2 bg-card dark:bg-dark-card/50 p-6 rounded-2xl shadow-soft border dark:border-slate-700/50">
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><Bot className="text-primary"/> ملخص توصيات الذكاء الاصطناعي</h3>
+                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><Bot className="text-primary"/> {t('bousala.predictive.aiRecommendationsSummary')}</h3>
                     <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
                         {recommendations.length > 0 ? recommendations.map((rec, i) => (
                             <div key={i} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm text-blue-800 dark:text-blue-200">
                                 <p dir="auto">{rec}</p>
                             </div>
-                        )) : <p className="text-center text-gray-500 py-10">لا توجد توصيات متاحة حالياً.</p>}
+                        )) : <p className="text-center text-gray-500 py-10">{t('bousala.predictive.noRecommendations')}</p>}
                     </div>
                 </div>
             </div>

@@ -5,14 +5,14 @@
 
 ## 1. نظرة عامة
 
-**MSS.2** هو نظام تخطيط موارد مؤسسات (ERP) شامل ومتقدم، مصمم خصيصًا لتلبية الاحتياجات الفريدة للمنظمات غير الربحية. يتميز النظام بواجهة مستخدم حديثة وبديهية تدعم ثلاث لغات (العربية، الإنجليزية، التركية)، مع التركيز على سهولة الوصول والاستخدام.
+**MSS.2** هو نظام تخطيط موارد مؤسسات (ERP) شامل ومتقدم، مصمم خصيصًا لتلبية الاحتياجات الفريدة للمنظمات غير الربحية. يتميز النظام بواجهة مستخدم حديثة وبديهية تدعم لغتين (العربية والإنجليزية)، مع التركيز على سهولة الوصول والاستخدام.
 
 ### ✨ المميزات الرئيسية
 
 - **لوحة قيادة ذكية وقابلة للتخصيص:** عرض مؤشرات الأداء الرئيسية (KPIs) ورؤى مدعومة بالذكاء الاصطناعي.
 - **إدارة شاملة:** وحدات متكاملة لإدارة المانحين، الكفالات، المشاريع، المستفيدين، الموارد البشرية، والمالية.
 - **ذكاء اصطناعي متقدم:** يشمل تصنيف المانحين، التنبؤ بأفضل أوقات التواصل، حملات الرسائل الذكية، والبحث الدلالي.
-- **دعم متعدد اللغات:** واجهة مستخدم كاملة باللغات العربية والإنجليزية والتركية مع دعم اتجاه النص (RTL).
+- **دعم متعدد اللغات:** واجهة مستخدم كاملة باللغتين العربية والإنجليزية مع دعم اتجاه النص (RTL).
 - **تصميم متجاوب:** تجربة مستخدم سلسة على جميع الأجهزة، من سطح المكتب إلى الهواتف المحمولة.
 - **إمكانية الوصول (Accessibility):** مصمم مع مراعاة معايير الوصول لتسهيل الاستخدام للجميع.
 
@@ -123,14 +123,14 @@
 
 ## 1. Overview
 
-**MSS.2** is a comprehensive, advanced Enterprise Resource Planning (ERP) system specifically designed to meet the unique needs of non-profit organizations. The system features a modern, intuitive user interface that supports three languages (Arabic, English, Turkish), with a focus on accessibility and ease of use.
+**MSS.2** is a comprehensive, advanced Enterprise Resource Planning (ERP) system specifically designed to meet the unique needs of non-profit organizations. The system features a modern, intuitive user interface that supports two languages (Arabic and English), with a focus on accessibility and ease of use.
 
 ### ✨ Key Features
 
 - **Smart & Customizable Dashboard:** Display Key Performance Indicators (KPIs) and AI-powered insights.
 - **Comprehensive Management:** Integrated modules for managing donors, sponsorships, projects, beneficiaries, HR, and financials.
 - **Advanced AI:** Includes donor classification, optimal contact timing prediction, smart message campaigns, and semantic search.
-- **Multilingual Support:** Full UI in Arabic, English, and Turkish with Right-to-Left (RTL) support.
+- **Multilingual Support:** Full UI in Arabic and English with Right-to-Left (RTL) support.
 - **Responsive Design:** Seamless user experience across all devices, from desktops to mobile phones.
 - **Accessibility:** Designed with accessibility standards in mind to ensure usability for everyone.
 

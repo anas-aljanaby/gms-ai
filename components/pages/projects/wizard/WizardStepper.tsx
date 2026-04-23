@@ -12,7 +12,7 @@ const WizardStepper: React.FC<WizardStepperProps> = ({ currentStep }) => {
     const steps = ['info', 'stakeholders', 'goals'];
 
     return (
-        <nav aria-label="Progress">
+        <nav aria-label={t('projects.wizard.progressAria')}>
             <ol role="list" className="flex items-center">
                 {steps.map((stepKey, stepIdx) => {
                     const stepNumber = stepIdx + 1;

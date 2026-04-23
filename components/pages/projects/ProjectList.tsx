@@ -92,7 +92,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) 
                     {view === 'card' && renderCardView()}
                     {view === 'map' && (
                         <div className="flex items-center justify-center h-96 bg-gray-100 dark:bg-slate-800 rounded-lg">
-                            <p className="text-gray-500">{t('placeholder.underConstruction', { moduleName: 'Map View' })}</p>
+                            <p className="text-gray-500">{t('placeholder.underConstruction', { moduleName: t('projects.views.map') })}</p>
                         </div>
                     )}
                 </>
