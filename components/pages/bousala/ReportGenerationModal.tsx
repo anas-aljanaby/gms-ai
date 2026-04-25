@@ -74,7 +74,7 @@ const ReportGenerationModal: React.FC<ReportGenerationModalProps> = ({ isOpen, o
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`Bousala_Dashboard_Report.pdf`);
+            pdf.save(t('bousala.reports.dashboardReportFileName'));
             toast.showSuccess(t('bousala.reports.exportSuccess'));
         } catch (error) {
             console.error("PDF Export Error:", error);
@@ -95,7 +95,7 @@ const ReportGenerationModal: React.FC<ReportGenerationModalProps> = ({ isOpen, o
                 [t('bousala.reports.progress')]: g.progress,
             }));
             const wsGoals = XLSX.utils.json_to_sheet(goalsData);
-            XLSX.utils.book_append_sheet(wb, wsGoals, "Goals Summary");
+            XLSX.utils.book_append_sheet(wb, wsGoals, t('bousala.reports.sheetGoals'));
 
             const projectsData = bousalaData.projects.map((p: any) => ({
                 [t('bousala.reports.project')]: p.title,
@@ -103,15 +103,18 @@ const ReportGenerationModal: React.FC<ReportGenerationModalProps> = ({ isOpen, o
                 [t('bousala.reports.linkedGoal')]: p.linkedGoal,
             }));
             const wsProjects = XLSX.utils.json_to_sheet(projectsData);
-            XLSX.utils.book_append_sheet(wb, wsProjects, "Projects Summary");
+            XLSX.utils.book_append_sheet(wb, wsProjects, t('bousala.reports.sheetProjects'));
 
             const tasksData = bousalaData.tasks.map((task: any) => ({
-                'Task': task.title, 'Status': task.status, 'Assignee': task.assignee, 'Linked Project': task.linkedProject,
+                [t('bousala.reports.task')]: task.title,
+                [t('bousala.reports.status')]: task.status,
+                [t('bousala.reports.assignee')]: task.assignee,
+                [t('bousala.reports.linkedProject')]: task.linkedProject,
             }));
             const wsTasks = XLSX.utils.json_to_sheet(tasksData);
-            XLSX.utils.book_append_sheet(wb, wsTasks, "Tasks Summary");
+            XLSX.utils.book_append_sheet(wb, wsTasks, t('bousala.reports.sheetTasks'));
 
-            XLSX.writeFile(wb, 'Bousala_Full_Report.xlsx');
+            XLSX.writeFile(wb, t('bousala.reports.fullReportFileName'));
             toast.showSuccess(t('bousala.reports.exportSuccess'));
         } catch (error) {
             console.error("XLSX Export Error:", error);

@@ -207,6 +207,10 @@
             "communication_value": "{count} logs"
         },
         "searchPlaceholder": "Search beneficiaries...",
+        "categorySelectLabel": "Beneficiary categories",
+        "advancedFiltersPlaceholder": "Advanced filters panel is under construction.",
+        "viewUnderConstruction": "{view} view is under construction.",
+        "addedSuccess": "Beneficiary {name} added.",
         "sponsorships": "Sponsorship",
         "directSupport": "Direct Support",
         "noResults": "No beneficiaries found",
@@ -293,6 +297,11 @@
             "community": "Community",
             "incubation_beneficiary": "Incubation Beneficiary",
             "individual-other": "Individual"
+        },
+        "voice": {
+            "notSupported": "Speech recognition is not supported in this browser.",
+            "permissionDenied": "Microphone permission was denied. Please enable it in your browser settings.",
+            "startError": "Could not start listening. Please try again."
         },
         "linkedBeneficiaries": "Linked Beneficiaries",
         "noLinked": "No linked beneficiaries",
@@ -877,6 +886,10 @@
             "title": "Reports",
             "goal": "Goal",
             "project": "Project",
+            "task": "Task",
+            "status": "Status",
+            "assignee": "Assignee",
+            "linkedProject": "Linked Project",
             "description": "Description",
             "progress": "Progress",
             "linkedGoal": "Linked Goal",
@@ -885,6 +898,11 @@
             "exportError": "Failed to export report.",
             "exportXLSX": "Export XLSX",
             "exportPDF": "Export PDF",
+            "sheetGoals": "Goals Summary",
+            "sheetProjects": "Projects Summary",
+            "sheetTasks": "Tasks Summary",
+            "dashboardReportFileName": "Bousala_Dashboard_Report.pdf",
+            "fullReportFileName": "Bousala_Full_Report.xlsx",
             "itemsDistribution": "Items Distribution",
             "count": "Count",
             "taskStatus": "Task Status",
@@ -918,6 +936,7 @@
             "relatedGoal": "Related Goal",
             "dueDate": "Due Date",
             "priority": "Priority",
+            "titleAndGoalRequired": "Task title and related goal are required.",
             "save": "Save Task",
             "priorities": {
                 "high": "High",
@@ -997,10 +1016,21 @@
         "addGoalModal": {
             "title": "Add Goal",
             "goalTitle": "Goal Title",
+            "goalTitleRequired": "Goal title is required.",
             "description": "Description",
             "target": "Target",
             "responsiblePerson": "Responsible Person",
+            "selectPerson": "Select person",
             "save": "Save Goal"
+        },
+        "kpiCharts": {
+            "actualVsTarget": "KPI: Actual vs Target",
+            "actual": "Actual",
+            "target": "Target",
+            "trendOverTime": "KPI Trend Over Time",
+            "achievedTargetsPercent": "% of Achieved Targets",
+            "achieved": "Achieved",
+            "notAchieved": "Not Achieved"
         },
         "common": {
             "progressLabel": "Progress",
@@ -1015,7 +1045,7 @@
             "progress": "Progress",
             "kpiIndicators": "KPIs",
             "addKpi": "Add KPI",
-            "lastUpdated": "Last updated",
+            "lastUpdated": "Last updated: {date}",
             "predictionConfidence": "AI predicts {percentage}% success probability",
             "onTrack": "On Track",
             "atRisk": "At Risk",

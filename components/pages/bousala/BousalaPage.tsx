@@ -8,7 +8,7 @@ import AiCard from './ai/AiCard';
 import { GoogleGenAI } from "@google/genai";
 import Spinner from '../../common/Spinner';
 import { formatCurrency, formatDate, formatNumber } from '../../lib/utils';
-import type { Project as MainProject, HrData, Role, BousalaGoal, BousalaProject, BousalaTask, BousalaKpi, Language } from '../../types';
+import type { Project as MainProject, HrData, Role, BousalaGoal, BousalaProject, BousalaTask, BousalaKpi } from '../../types';
 import {
     ResponsiveContainer,
     PieChart,
@@ -94,60 +94,9 @@ interface BousalaNotificationSettings {
 }
 
 
-// Local translations to avoid modifying global i1n files
-const localTranslations: Record<Language, Record<string, string>> = {
-    ar: {
-        "bousala.prediction.title": "الرؤى التنبؤية",
-        "bousala.prediction.summary": "متوقع الوصول إلى الهدف بنسبة {percentage}%",
-        "bousala.prediction.recommendation": "لتحسين الأداء، يُنصح بزيادة الموارد بنسبة {percentage}%.",
-        "bousala.kpiUpdateNotification": "تم تحديث التحليل التنبؤي.",
-        "bousala.settings.notificationsTitle": "إعدادات الإشعارات",
-        "bousala.settings.enableSmartAlerts": "تفعيل التنبيهات الذكية",
-        "bousala.settings.severityThreshold": "عتبة الخطورة ({threshold}%)",
-        "bousala.settings.alertSound": "صوت التنبيه",
-        "bousala.settings.aiAutoRecs": "توصيات آلية بالذكاء الاصطناعي",
-        "bousala.settings.kpiTitle": "إعدادات تحديث مؤشرات الأداء",
-        "bousala.settings.refreshInterval": "فاصل التحديث",
-        "bousala.settings.smartRefresh": "تفعيل التحديث الذكي",
-        "bousala.settings.showAnimation": "عرض حركة التحديث",
-        "bousala.settings.save": "حفظ الإعدادات",
-    },
-    en: {
-       "bousala.prediction.title": "Predictive Insights",
-       "bousala.prediction.summary": "Expected to reach target by {percentage}%",
-       "bousala.prediction.recommendation": "To improve performance, it is recommended to increase resources by {percentage}%.",
-       "bousala.kpiUpdateNotification": "Predictive analysis has been updated.",
-       "bousala.settings.notificationsTitle": "Notifications Settings",
-       "bousala.settings.enableSmartAlerts": "Enable Smart Alerts",
-       "bousala.settings.severityThreshold": "Severity Threshold ({threshold}%)",
-       "bousala.settings.alertSound": "Alert Sound",
-       "bousala.settings.aiAutoRecs": "AI Auto-Recommendations",
-       "bousala.settings.kpiTitle": "KPI Auto-Refresh Settings",
-       "bousala.settings.refreshInterval": "Refresh Interval",
-       "bousala.settings.smartRefresh": "Enable Smart Refresh",
-       "bousala.settings.showAnimation": "Show Refresh Animation",
-       "bousala.settings.save": "Save Settings",
-    }
-        "bousala.prediction.title": "Tahminsel Analizler",
-        "bousala.prediction.summary": "Hedefe %{percentage} oranında ulaşılması bekleniyor",
-        "bousala.prediction.recommendation": "Performansı artırmak için kaynakların %{percentage} oranında artırılması önerilir.",
-        "bousala.kpiUpdateNotification": "Tahmin analizi güncellendi.",
-        "bousala.settings.notificationsTitle": "Bildirim Ayarları",
-        "bousala.settings.enableSmartAlerts": "Akıllı Uyarıları Etkinleştir",
-        "bousala.settings.severityThreshold": "Önem Düzeyi Eşiği ({threshold}%)",
-        "bousala.settings.alertSound": "Uyarı Sesi",
-        "bousala.settings.aiAutoRecs": "AI Otomatik Önerileri",
-        "bousala.settings.kpiTitle": "KPI Otomatik Yenileme Ayarları",
-        "bousala.settings.refreshInterval": "Yenileme Aralığı",
-        "bousala.settings.smartRefresh": "Akıllı Yenilemeyi Etkinleştir",
-        "bousala.settings.showAnimation": "Yenileme Animasyonunu Göster",
-        "bousala.settings.save": "Ayarları Kaydet",
-    }
-};
-
-
 // --- SUB-COMPONENTS ---
 const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
+    const { t } = useLocalization();
     const [isFadingOut, setIsFadingOut] = useState(false);
 
     useEffect(() => {
@@ -170,12 +119,8 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
                     {/* Placeholder Logo */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-cyan-600"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                 </div>
-                <h1 className="text-3xl font-bold text-cyan-700 dark:text-cyan-300">
-                    🧭 بوصلة - إدارة الأهداف والمهام
-                </h1>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">
-                    نظام الإدارة الذكية للمنظمات غير الربحية
-                </p>
+                <h1 className="text-3xl font-bold text-cyan-700 dark:text-cyan-300">{t('bousala.splash.title')}</h1>
+                <p className="mt-2 text-gray-600 dark:text-gray-400">{t('bousala.splash.subtitle')}</p>
             </div>
         </div>
     );
@@ -193,23 +138,26 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
 };
 
 
-const ProgressBar: React.FC<{ progress: number, color?: string }> = ({ progress, color = 'bg-primary' }) => (
-    <div className="group">
-        <div className="flex justify-between text-sm font-semibold mb-1">
-            <span>التقدم</span>
-            <span>{progress}%</span>
+const ProgressBar: React.FC<{ progress: number, color?: string }> = ({ progress, color = 'bg-primary' }) => {
+    const { t } = useLocalization();
+    return (
+        <div className="group">
+            <div className="flex justify-between text-sm font-semibold mb-1">
+                <span>{t('bousala.common.progressLabel')}</span>
+                <span>{progress}%</span>
+            </div>
+            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2.5">
+                <div
+                    className={`${color} h-2.5 rounded-full transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/50 group-hover:brightness-110`}
+                    style={{ width: `${progress}%` }}
+                ></div>
+            </div>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2.5">
-            <div 
-                className={`${color} h-2.5 rounded-full transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/50 group-hover:brightness-110`}
-                style={{ width: `${progress}%` }}
-            ></div>
-        </div>
-    </div>
-);
+    );
+};
 
 const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: boolean; showAnimation: boolean }> = ({ kpi, isRefreshing, isPredicting, showAnimation }) => {
-    const { language } = useLocalization();
+    const { language, t } = useLocalization();
     const progress = (kpi.value / kpi.target) * 100;
     const trendConfig = {
         up: { icon: <TrendingUp className="w-4 h-4 text-green-500" />, color: 'text-green-500' },
@@ -238,7 +186,7 @@ const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: 
                         {kpi.title}
                         {showAnimation && isRefreshing && <Loader size={12} className="animate-spin text-primary" />}
                     </h5>
-                    <Tooltip text={`آخر تحديث: ${formatDate(kpi.lastUpdated, language)}`}>
+                    <Tooltip text={t('bousala.common.lastUpdated', { date: formatDate(kpi.lastUpdated, language) })}>
                         {trendConfig[kpi.trend].icon}
                     </Tooltip>
                 </div>
@@ -255,13 +203,13 @@ const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: 
                  {isPredicting ? (
                     <div className="text-xs font-bold flex items-center gap-1 text-gray-500 animate-pulse">
                         <Sparkles size={12} />
-                        تحليل تنبؤي...
+                        {t('bousala.common.predictiveAnalysis')}
                     </div>
                 ) : kpi.prediction && (
-                    <Tooltip text={`AI predicts a ${kpi.prediction.probability}% chance of success.`}>
+                    <Tooltip text={t('bousala.common.predictionConfidence', { percentage: kpi.prediction.probability })}>
                         <div className={`text-xs font-bold px-2 py-1 rounded-full inline-flex items-center gap-1 ${getPredictionColor(kpi.prediction.status)}`}>
                             {getPredictionIcon(kpi.prediction.status)}
-                            {kpi.prediction.status} ({kpi.prediction.probability}%)
+                            {t(`bousala.common.${kpi.prediction.status === 'On Track' ? 'onTrack' : kpi.prediction.status === 'At Risk' ? 'atRisk' : 'unlikely'}`)} ({kpi.prediction.probability}%)
                         </div>
                     </Tooltip>
                 )}
@@ -272,9 +220,10 @@ const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: 
 };
 
 const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers'] }> = ({ task, volunteers }) => {
+    const { t } = useLocalization();
     const statusConfig = {
-        'in-progress': { icon: <Clock className="w-4 h-4 text-yellow-500" />, label: 'قيد التنفيذ' },
-        'completed': { icon: <CheckCircle className="w-4 h-4 text-green-500" />, label: 'مكتمل' }
+        'in-progress': { icon: <Clock className="w-4 h-4 text-yellow-500" />, label: t('bousala.task_status.in-progress') },
+        'completed': { icon: <CheckCircle className="w-4 h-4 text-green-500" />, label: t('bousala.task_status.completed') }
     };
     const config = statusConfig[task.status as keyof typeof statusConfig] || { icon: <Loader className="w-4 h-4" />, label: task.status };
 
@@ -284,12 +233,12 @@ const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers'] }
                 <CheckSquare className="w-5 h-5 text-gray-400 flex-shrink-0" />
                 <div>
                     <p className="font-semibold">{task.title}</p>
-                    <p className="text-xs text-gray-500">الفريق المسؤول: {task.assignee}</p>
+                    <p className="text-xs text-gray-500">{t('bousala.common.assigneeLabel')}: {task.assignee}</p>
                 </div>
             </div>
             <div className="flex items-center gap-4">
                 <select className="p-1 text-xs border rounded-md bg-gray-50 dark:bg-slate-800 w-32">
-                    <option>تعيين مهمة لـ</option>
+                    <option>{t('bousala.common.assignTaskTo')}</option>
                     {volunteers.map(v => <option key={v.volunteer_id} value={v.volunteer_id}>{v.full_name}</option>)}
                 </select>
                 <div className="flex items-center gap-2 text-sm font-semibold">
@@ -302,6 +251,7 @@ const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers'] }
 };
 
 const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; isAiLoading: boolean; onSuggestTasks: () => void; onPredictRisk: () => void; mainProjects: MainProject[]; volunteers: HrData['volunteers']; }> = ({ project, tasks, isAiLoading, onSuggestTasks, onPredictRisk, mainProjects, volunteers }) => {
+    const { t } = useLocalization();
     const [isExpanded, setIsExpanded] = useState(false);
      // Hardcoded mapping for demonstration
     const linkedProjectMapping: Record<string, string> = {
@@ -334,20 +284,20 @@ const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; isA
                         className="overflow-hidden"
                     >
                         <div className="space-y-3">
-                            <h5 className="font-semibold text-sm">المهام المرتبطة:</h5>
+                            <h5 className="font-semibold text-sm">{t('bousala.common.linkedTasks')}:</h5>
                             {tasks.map(task => <TaskItem key={task.id} task={task} volunteers={volunteers}/>)}
                              <div className="flex gap-2 pt-2">
-                                <button disabled={isAiLoading} onClick={onSuggestTasks} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><Sparkles size={14}/> اقتراح مهام (AI)</button>
-                                <button disabled={isAiLoading} onClick={onPredictRisk} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><ShieldAlert size={14}/> توقع المخاطر (AI)</button>
+                                <button disabled={isAiLoading} onClick={onSuggestTasks} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><Sparkles size={14}/> {t('bousala.common.suggestTasksAi')}</button>
+                                <button disabled={isAiLoading} onClick={onPredictRisk} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><ShieldAlert size={14}/> {t('bousala.common.predictRiskAi')}</button>
                             </div>
                             {linkedSystemProject && (
                                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
-                                    <h5 className="font-semibold text-sm mb-2">المشروع التنفيذي المرتبط:</h5>
+                                    <h5 className="font-semibold text-sm mb-2">{t('bousala.common.linkedExecutionProject')}:</h5>
                                     <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm space-y-1">
                                         <p className="font-bold text-blue-800 dark:text-blue-300">{linkedSystemProject.name.ar}</p>
-                                        <p><strong>الميزانية:</strong> {formatCurrency(linkedSystemProject.budget, 'ar')}</p>
-                                        <p><strong>التقدم:</strong> {linkedSystemProject.progress}%</p>
-                                        <h6 className="font-semibold mt-2">مؤشرات الأداء:</h6>
+                                        <p><strong>{t('bousala.common.budget')}:</strong> {formatCurrency(linkedSystemProject.budget, 'ar')}</p>
+                                        <p><strong>{t('bousala.common.progress')}:</strong> {linkedSystemProject.progress}%</p>
+                                        <h6 className="font-semibold mt-2">{t('bousala.common.kpiIndicators')}:</h6>
                                         <ul className="list-disc list-inside text-xs">
                                             {linkedSystemProject.kpis.map(kpi => <li key={kpi.id}>{kpi.name}: {kpi.target}</li>)}
                                         </ul>
@@ -388,7 +338,7 @@ const GoalCard: React.FC<{ goal: BousalaGoal; isExpanded: boolean; isAiLoading: 
                     </div>
                     <div>
                          <button onClick={onAddKpiClick} className="flex items-center gap-1 text-xs font-semibold text-primary dark:text-secondary-light hover:underline">
-                            <PlusCircle size={14} /> إضافة مؤشر أداء
+                            <PlusCircle size={14} /> {t('bousala.common.addKpi')}
                         </button>
                     </div>
                 </div>
@@ -471,7 +421,7 @@ const SmartAiPanel: React.FC<{
                              {aiAnalyticsSummary && (
                                 <div className="p-4 border-b dark:border-slate-700/50">
                                     <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
-                                        <h4 className="font-bold text-blue-800 dark:text-blue-200">تحليل تنبؤي</h4>
+                                        <h4 className="font-bold text-blue-800 dark:text-blue-200">{t('bousala.aiPanel.predictiveHeading')}</h4>
                                         <p className="text-sm mt-1 text-blue-700 dark:text-blue-300">{aiAnalyticsSummary}</p>
                                     </div>
                                 </div>
@@ -586,7 +536,7 @@ const CollapsibleAnalytics: React.FC<{goals: BousalaGoal[]}> = ({goals}) => {
                         <div className="p-4 border-t dark:border-slate-700/50">
                             <AnalyticsDashboard />
                             <div className="mt-8 pt-8 border-t dark:border-slate-700/50">
-                                <h2 className="text-xl font-bold flex items-center gap-2 mb-4">📈 {t('bousala.kpis')} Visualization</h2>
+                                <h2 className="text-xl font-bold flex items-center gap-2 mb-4">📈 {t('bousala.kpisVisualization')}</h2>
                                 <KpiCharts goals={goals} />
                             </div>
                         </div>
@@ -639,37 +589,19 @@ const InPresentationAlert: React.FC<{ alert: { message: string; icon: React.Reac
 // --- MAIN PAGE COMPONENT ---
 
 const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrData, role }) => {
-    const { language, dir } = useLocalization();
+    const { language, dir, t } = useLocalization();
     const toast = useToast();
     const [aiAnalyticsSummary, setAiAnalyticsSummary] = useState('');
     const [activeView, setActiveView] = useState('dashboard');
     const [presentationAlert, setPresentationAlert] = useState<{ message: string; icon: React.ReactNode } | null>(null);
 
-    // FIX: The local translation function was defined incorrectly for flat JSON structures. This caused it to fail all lookups and potentially confuse the TypeScript compiler, leading to the reported error. The function has been corrected to use a direct key lookup.
-    const t = useCallback((key: string, options?: any) => {
-        const lang = language as keyof typeof localTranslations;
-        const translations = localTranslations[lang] || localTranslations.en;
-        let result: any = translations[key];
-
-        if (result === undefined) return key;
-
-        if (options && typeof result === 'string') {
-            Object.keys(options).forEach(optKey => {
-                result = result.replace(`{${optKey}}`, options[optKey]);
-            });
-        }
-
-        return result || key;
-    }, [language]);
-
-
     const [bousalaState, setBousalaState] = useState(initialBousalaData);
     const [expandedGoal, setExpandedGoal] = useState<string | null>(bousalaState.goals[0]?.id || null);
     const [aiLoading, setAiLoading] = useState<'tasks' | 'kpis' | 'risks' | null>(null);
     const [aiInsights, setAiInsights] = useState<{ tasks: AiInsight[]; kpis: AiInsight[]; risks: AiInsight[] }>({
-        tasks: [{ id: Date.now(), title: 'اقتراح عام', content: 'فكر في تقسيم المهام الكبيرة إلى مهام فرعية أصغر لتتبع التقدم بشكل أفضل.' }],
-        kpis: [{ id: Date.now() + 1, title: 'تحليل الأداء', content: 'التقدم في هدف "توسيع الخدمات" (70%) يتجاوز التقدم في المشروع المرتبط به (60%). قد يكون هناك تأثيرات إيجابية غير متوقعة.' }],
-        risks: [{ id: Date.now() + 2, title: 'مخاطر محتملة', content: 'مهمة "تصميم المواد الإعلانية" قيد التنفيذ. تأكد من وجود مواعيد نهائية واضحة لتجنب التأخير في الحملة.' }]
+        tasks: [{ id: Date.now(), title: t('bousala.defaultInsights.tasksTitle'), content: t('bousala.defaultInsights.tasksContent') }],
+        kpis: [{ id: Date.now() + 1, title: t('bousala.defaultInsights.kpisTitle'), content: t('bousala.defaultInsights.kpisContent') }],
+        risks: [{ id: Date.now() + 2, title: t('bousala.defaultInsights.risksTitle'), content: t('bousala.defaultInsights.risksContent') }]
     });
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
@@ -725,7 +657,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
 
         const averageSuccessProbability = Math.round(validPredictions.reduce((a, b) => a + b, 0) / validPredictions.length);
         
-        const summaryText = `تحليل تنبؤي: المؤشرات الحالية تُظهر احتمالية نجاح ${averageSuccessProbability}% في تحقيق الأهداف المخططة.`;
+        const summaryText = t('bousala.common.goalPredictionSummary', { percentage: averageSuccessProbability });
         
         setAiAnalyticsSummary(summaryText);
     }, []);
@@ -916,7 +848,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
         sessionStorage.setItem('bousalaKpiSettings', JSON.stringify(tempKpiSettings));
         setNotificationSettings(tempNotificationSettings);
         sessionStorage.setItem('bousalaNotificationSettings', JSON.stringify(tempNotificationSettings));
-        toast.showSuccess('Settings saved!');
+        toast.showSuccess(t('bousala.settingsSaved'));
         setIsSettingsOpen(false);
     };
 
@@ -1008,7 +940,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
             return newState;
         });
 
-        toast.showSuccess("تم ربط المشروع بنجاح");
+        toast.showSuccess(t('bousala.messages.projectLinkedSuccess'));
         if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
         setIsLinkProjectModalOpen(false);
         if (kpiSettings.smartRefresh) {
@@ -1030,7 +962,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
             ...prev,
             goals: [newGoal, ...prev.goals]
         }));
-        toast.showSuccess(`Goal "${goalData.title}" added successfully.`);
+        toast.showSuccess(t('bousala.messages.goalAddedSuccess', { title: goalData.title }));
         if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
         setIsAddGoalModalOpen(false);
     };
@@ -1057,7 +989,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
             });
             return { ...prev, goals: newGoals };
         });
-        toast.showSuccess("تمت إضافة المؤشر بنجاح");
+        toast.showSuccess(t('bousala.messages.kpiAddedSuccess'));
         if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
         setIsAddKpiModalOpen(false);
         if (kpiSettings.smartRefresh) {
@@ -1112,7 +1044,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     const PredictionBar: React.FC<{ progress: number }> = ({ progress }) => (
         <div className="group">
             <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>التوقع</span>
+                <span>{t('bousala.common.predictionLabel')}</span>
                 <span>{progress}%</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
@@ -1176,7 +1108,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                         </div>
                                                     )}
                                                     {predictingGoals.has(goal.id) ? (
-                                                        <div className="text-center p-4 text-sm text-gray-500"><Spinner text="تحليل توقعات الهدف..."/></div>
+                                                        <div className="text-center p-4 text-sm text-gray-500"><Spinner text={t('bousala.common.goalPredictionsAnalysis')} /></div>
                                                     ) : goal.prediction && (
                                                         <div className="pt-4 border-t border-gray-200 dark:border-slate-700/50 space-y-4">
                                                             <h5 className="font-semibold text-sm">{t('bousala.prediction.title')}</h5>
@@ -1347,9 +1279,9 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                         <label htmlFor="severity-threshold">{t('bousala.settings.severityThreshold', {threshold: tempNotificationSettings.severityThreshold})}</label>
                                                         <input id="severity-threshold" type="range" min="50" max="90" step="10" value={tempNotificationSettings.severityThreshold} onChange={e => setTempNotificationSettings({...tempNotificationSettings, severityThreshold: Number(e.target.value)})} className="w-full mt-1" />
                                                         <div className="flex justify-between text-xs text-gray-400">
-                                                            <span>Critical &lt;50%</span>
-                                                            <span>Warning &lt;{tempNotificationSettings.severityThreshold}%</span>
-                                                            <span>Info &lt;90%</span>
+                                                            <span>{t('bousala.settings.severityCritical')}</span>
+                                                            <span>{t('bousala.settings.severityWarning', { threshold: tempNotificationSettings.severityThreshold })}</span>
+                                                            <span>{t('bousala.settings.severityInfo')}</span>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center justify-between">
@@ -1369,9 +1301,9 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                     <div>
                                                         <label htmlFor="refresh-interval" className="font-semibold">{t('bousala.settings.refreshInterval')}</label>
                                                         <select id="refresh-interval" value={tempKpiSettings.interval} onChange={e => setTempKpiSettings({...tempKpiSettings, interval: Number(e.target.value) as KpiSettings['interval']})} className="w-full p-2 mt-1 border rounded-md bg-gray-50 dark:bg-slate-800">
-                                                            <option value={30}>30 Seconds</option>
-                                                            <option value={60}>60 Seconds</option>
-                                                            <option value={120}>120 Seconds</option>
+                                                            <option value={30}>{t('bousala.settings.seconds30')}</option>
+                                                            <option value={60}>{t('bousala.settings.seconds60')}</option>
+                                                            <option value={120}>{t('bousala.settings.seconds120')}</option>
                                                         </select>
                                                     </div>
                                                     <div className="flex items-center justify-between">
@@ -1407,7 +1339,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                             : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
                         }`}
                     >
-                        لوحة المتابعة
+                        {t('bousala.tabs.dashboard')}
                     </button>
                     <button
                         onClick={() => setActiveView('predictive')}
@@ -1417,7 +1349,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                             : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
                         }`}
                     >
-                        تحليل تنبؤي
+                        {t('bousala.tabs.predictive')}
                     </button>
                 </div>
                 

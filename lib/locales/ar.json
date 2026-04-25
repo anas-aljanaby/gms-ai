@@ -207,6 +207,10 @@
             "communication_value": "{count} سجلات"
         },
         "searchPlaceholder": "ابحث عن المستفيدين...",
+        "categorySelectLabel": "فئات المستفيدين",
+        "advancedFiltersPlaceholder": "لوحة الفلاتر المتقدمة قيد التطوير.",
+        "viewUnderConstruction": "عرض {view} قيد التطوير.",
+        "addedSuccess": "تمت إضافة المستفيد {name}.",
         "sponsorships": "الكفالة",
         "directSupport": "دعم مباشر",
         "noResults": "لا يوجد مستفيدون",
@@ -293,6 +297,11 @@
             "community": "مجتمع",
             "incubation_beneficiary": "مستفيدي الاحتضان",
             "individual-other": "فرد آخر"
+        },
+        "voice": {
+            "notSupported": "التعرّف الصوتي غير مدعوم في هذا المتصفح.",
+            "permissionDenied": "تم رفض إذن الميكروفون. يرجى تفعيله من إعدادات المتصفح.",
+            "startError": "تعذر بدء الاستماع. يرجى المحاولة مرة أخرى."
         },
         "linkedBeneficiaries": "المستفيدون المرتبطون",
         "noLinked": "لا يوجد مستفيدون مرتبطون",
@@ -877,6 +886,10 @@
             "title": "التقارير",
             "goal": "الهدف",
             "project": "المشروع",
+            "task": "المهمة",
+            "status": "الحالة",
+            "assignee": "المسؤول",
+            "linkedProject": "المشروع المرتبط",
             "description": "الوصف",
             "progress": "التقدم",
             "linkedGoal": "الهدف المرتبط",
@@ -885,6 +898,11 @@
             "exportError": "فشل تصدير التقرير.",
             "exportXLSX": "تصدير XLSX",
             "exportPDF": "تصدير PDF",
+            "sheetGoals": "ملخص الأهداف",
+            "sheetProjects": "ملخص المشاريع",
+            "sheetTasks": "ملخص المهام",
+            "dashboardReportFileName": "تقرير_لوحة_بوصلة.pdf",
+            "fullReportFileName": "تقرير_بوصلة_كامل.xlsx",
             "itemsDistribution": "توزيع العناصر",
             "count": "العدد",
             "taskStatus": "حالة المهام",
@@ -918,6 +936,7 @@
             "relatedGoal": "الهدف المرتبط",
             "dueDate": "تاريخ الاستحقاق",
             "priority": "الأولوية",
+            "titleAndGoalRequired": "عنوان المهمة والهدف المرتبط مطلوبان.",
             "save": "حفظ المهمة",
             "priorities": {
                 "high": "عالية",
@@ -997,10 +1016,21 @@
         "addGoalModal": {
             "title": "إضافة هدف",
             "goalTitle": "عنوان الهدف",
+            "goalTitleRequired": "عنوان الهدف مطلوب.",
             "description": "الوصف",
             "target": "الهدف",
             "responsiblePerson": "المسؤول",
+            "selectPerson": "اختر المسؤول",
             "save": "حفظ الهدف"
+        },
+        "kpiCharts": {
+            "actualVsTarget": "مؤشر الأداء: الفعلي مقابل المستهدف",
+            "actual": "الفعلي",
+            "target": "المستهدف",
+            "trendOverTime": "اتجاه مؤشرات الأداء عبر الوقت",
+            "achievedTargetsPercent": "نسبة الأهداف المحققة",
+            "achieved": "مُحقق",
+            "notAchieved": "غير مُحقق"
         },
         "common": {
             "progressLabel": "التقدم",
@@ -1015,7 +1045,7 @@
             "progress": "التقدم",
             "kpiIndicators": "مؤشرات الأداء",
             "addKpi": "إضافة مؤشر أداء",
-            "lastUpdated": "آخر تحديث",
+            "lastUpdated": "آخر تحديث: {date}",
             "predictionConfidence": "يتوقع الذكاء الاصطناعي نسبة نجاح {percentage}%",
             "onTrack": "على المسار",
             "atRisk": "مهدد",

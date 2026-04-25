@@ -37,8 +37,8 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
     const barChartData = useMemo(() => allKpis.map(kpi => ({
         // FIX: Changed kpi.titleKey to kpi.title and removed t() wrapper.
         name: kpi.title,
-        Actual: kpi.value,
-        Target: kpi.target,
+        [t('bousala.kpiCharts.actual')]: kpi.value,
+        [t('bousala.kpiCharts.target')]: kpi.target,
     })), [allKpis, t]);
     
     const lineChartData = mockKpiHistory[selectedKpiId] || [];
@@ -47,10 +47,10 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
         const achieved = allKpis.filter(kpi => kpi.value >= kpi.target).length;
         const notAchieved = allKpis.length - achieved;
         return [
-            { name: 'Achieved', value: achieved },
-            { name: 'Not Achieved', value: notAchieved },
+            { name: t('bousala.kpiCharts.achieved'), value: achieved },
+            { name: t('bousala.kpiCharts.notAchieved'), value: notAchieved },
         ];
-    }, [allKpis]);
+    }, [allKpis, t]);
     const PIE_COLORS = ['hsl(145, 63%, 49%)', 'hsl(210, 40%, 50%)'];
     
     const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
@@ -71,7 +71,7 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
         <div className="space-y-8">
             {/* Bar Chart */}
             <div>
-                <h4 className="font-bold text-lg mb-2">KPI: Actual vs. Target</h4>
+                <h4 className="font-bold text-lg mb-2">{t('bousala.kpiCharts.actualVsTarget')}</h4>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={barChartData}>
                         <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -79,8 +79,8 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
                         <YAxis tick={{ fill: textColor }} />
                         <RechartsTooltip content={<CustomTooltip />} />
                         <Legend />
-                        <Bar dataKey="Actual" fill="hsl(145, 63%, 49%)" />
-                        <Bar dataKey="Target" fill="hsl(210, 40%, 50%)" />
+                        <Bar dataKey={t('bousala.kpiCharts.actual')} fill="hsl(145, 63%, 49%)" />
+                        <Bar dataKey={t('bousala.kpiCharts.target')} fill="hsl(210, 40%, 50%)" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
@@ -89,7 +89,7 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
                  {/* Line Chart */}
                 <div>
                     <div className="flex justify-between items-center mb-2">
-                         <h4 className="font-bold text-lg">KPI Trend Over Time</h4>
+                         <h4 className="font-bold text-lg">{t('bousala.kpiCharts.trendOverTime')}</h4>
                          <select 
                             value={selectedKpiId}
                             onChange={(e) => setSelectedKpiId(e.target.value)}
@@ -113,7 +113,7 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
                 
                  {/* Pie Chart */}
                 <div>
-                    <h4 className="font-bold text-lg mb-2 text-center">% of Achieved Targets</h4>
+                    <h4 className="font-bold text-lg mb-2 text-center">{t('bousala.kpiCharts.achievedTargetsPercent')}</h4>
                      <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                             <Pie 

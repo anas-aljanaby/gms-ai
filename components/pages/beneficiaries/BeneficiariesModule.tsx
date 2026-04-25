@@ -33,13 +33,13 @@ const BeneficiariesModule: React.FC = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     const categories: { id: BeneficiaryType | 'all', name: string, icon: React.FC }[] = [
-        { id: 'all', name: 'الكل', icon: Users },
-        { id: 'student', name: 'طالب', icon: BookOpen },
-        { id: 'orphan', name: 'يتيم', icon: Heart },
-        { id: 'hafiz', name: 'حافظ', icon: BookOpen },
-        { id: 'family', name: 'أسرة', icon: Home },
-        { id: 'institution', name: 'مؤسسة', icon: Building },
-        { id: 'community', name: 'مجتمع', icon: Globe },
+        { id: 'all', name: t('beneficiaries.types.all'), icon: Users },
+        { id: 'student', name: t('beneficiaries.types.student'), icon: BookOpen },
+        { id: 'orphan', name: t('beneficiaries.types.orphan'), icon: Heart },
+        { id: 'hafiz', name: t('beneficiaries.types.hafiz'), icon: BookOpen },
+        { id: 'family', name: t('beneficiaries.types.family'), icon: Home },
+        { id: 'institution', name: t('beneficiaries.types.institution'), icon: Building },
+        { id: 'community', name: t('beneficiaries.types.community'), icon: Globe },
     ];
     
     const handleAddBeneficiary = (data: any) => {
@@ -55,7 +55,7 @@ const BeneficiariesModule: React.FC = () => {
             milestones: []
         };
         setBeneficiaries(prev => [newBeneficiary, ...prev]);
-        toast.showSuccess(`Beneficiary ${data.name} added.`);
+        toast.showSuccess(t('beneficiaries.addedSuccess', { name: data.name }));
         setIsAddModalOpen(false);
     };
     
@@ -90,7 +90,7 @@ const BeneficiariesModule: React.FC = () => {
             case 'briefcase':
                 return (
                     <div className="text-center py-16 px-6 bg-card dark:bg-dark-card rounded-2xl shadow-inner mt-6">
-                        <h3 className="text-xl font-semibold text-foreground dark:text-dark-foreground mt-4">{view} view is under construction.</h3>
+                        <h3 className="text-xl font-semibold text-foreground dark:text-dark-foreground mt-4">{t('beneficiaries.viewUnderConstruction', { view })}</h3>
                     </div>
                 );
             default:
@@ -127,7 +127,7 @@ const BeneficiariesModule: React.FC = () => {
                 </h1>
 
                 <div>
-                    <label htmlFor="beneficiary-category-select" className="sr-only">فئات المستفيدين</label>
+                    <label htmlFor="beneficiary-category-select" className="sr-only">{t('beneficiaries.categorySelectLabel')}</label>
                     <select 
                         id="beneficiary-category-select"
                         value={selectedCategory}
@@ -150,7 +150,7 @@ const BeneficiariesModule: React.FC = () => {
                 onToggleAdvancedFilters={() => setIsAdvancedFiltersOpen(prev => !prev)}
             />
             
-            {isAdvancedFiltersOpen && <div className="p-4 bg-gray-50 dark:bg-dark-card/50 rounded-xl border dark:border-slate-700 animate-fade-in-fast">Advanced filters panel placeholder.</div>}
+            {isAdvancedFiltersOpen && <div className="p-4 bg-gray-50 dark:bg-dark-card/50 rounded-xl border dark:border-slate-700 animate-fade-in-fast">{t('beneficiaries.advancedFiltersPlaceholder')}</div>}
 
             {filteredBeneficiaries.length > 0 ? renderCurrentView() : (
                 <div className="col-span-full text-center py-16 px-6 bg-card dark:bg-dark-card rounded-2xl shadow-inner mt-6">

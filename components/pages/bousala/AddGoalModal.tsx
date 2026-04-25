@@ -21,7 +21,7 @@ const AddGoalModal: React.FC<AddGoalModalProps> = ({ isOpen, onClose, onAdd, hrD
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!title.trim()) {
-            alert('Goal title is required.');
+            alert(t('bousala.addGoalModal.goalTitleRequired'));
             return;
         }
         onAdd({ title, description, progress, responsiblePerson });
@@ -60,7 +60,7 @@ const AddGoalModal: React.FC<AddGoalModalProps> = ({ isOpen, onClose, onAdd, hrD
                              <div>
                                 <label className="block text-sm font-medium">{t('bousala.addGoalModal.responsiblePerson')}</label>
                                 <select value={responsiblePerson} onChange={e => setResponsiblePerson(e.target.value)} className="w-full p-2 mt-1 border rounded-md bg-gray-50 dark:bg-slate-800">
-                                    <option value="">Select Person</option>
+                                    <option value="">{t('bousala.addGoalModal.selectPerson')}</option>
                                     {hrData.volunteers.map(v => <option key={v.volunteer_id} value={v.full_name}>{v.full_name}</option>)}
                                 </select>
                             </div>

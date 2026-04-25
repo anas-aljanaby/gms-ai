@@ -37,7 +37,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onAdd, goa
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!title.trim() || !goalId) {
-            alert('Title and goal are required.');
+            alert(t('bousala.addTaskModal.titleAndGoalRequired'));
             return;
         }
         onAdd({ title, goalId, dueDate, priority });
