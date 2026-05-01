@@ -1,0 +1,14 @@
+{
+  "name": "@gms/api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'TODO: hono dev server' && exit 1",
+    "build": "echo 'TODO: build' && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "~5.8.2"
+  }
+}
