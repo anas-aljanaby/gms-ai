@@ -1,5 +1,5 @@
-import { createClient, User } from '@supabase/supabase-js';
-import { Hono, Context, Next } from 'hono';
+import { createClient } from '@supabase/supabase-js';
+import { Context, Next } from 'hono';
 
 
 const supabase = createClient(

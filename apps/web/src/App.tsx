@@ -1,11 +1,13 @@
 
-import React, { useState, useEffect, Suspense, lazy, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, Suspense, lazy, useCallback } from 'react';
 import type { Role, Language, Project, HrData } from './types';
 
 // Providers & Contexts
 import { DashboardProvider } from './contexts/DashboardContext';
+import { useAuth } from './contexts/AuthContext';
 import { ToastProvider } from './components/common/Toast';
 import DashboardErrorBoundary from './components/common/DashboardErrorBoundary';
+import LoginPage from './components/pages/LoginPage';
 
 // Layout Components
 import Sidebar from './components/layout/Sidebar';
@@ -73,11 +75,12 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+    const { user, loading: authLoading } = useAuth();
     const [activeModule, setActiveModule] = useState(() => (window.location.hash.substring(1) || 'dashboard').split('/')[0]);
     const [role, setRole] = useState<Role>('Admin');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [enabledLanguages, setEnabledLanguages] = useState<Language[]>(['en', 'ar']);
-    const [isAiFabVisible, setIsAiFabVisible] = useState(false);
+    const [_isAiFabVisible, setIsAiFabVisible] = useState(false);
     const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
     const [deepLinkTarget, setDeepLinkTarget] = useState<{ id?: string; tab?: string } | null>(null);
 
@@ -100,6 +103,14 @@ function App() {
         handleHashChange(); // Initial load
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
+
+    if (authLoading) {
+        return <LoadingSpinner />;
+    }
+
+    if (!user) {
+        return <LoginPage />;
+    }
 
     return (
         <DashboardErrorBoundary>
@@ -138,7 +149,7 @@ function App() {
                                 </Suspense>
                             </main>
                         </div>
-                        {isAiFabVisible && <AiFab onClick={() => updateActiveModule('dashboard')} />}
+                        {_isAiFabVisible && <AiFab onClick={() => updateActiveModule('dashboard')} />}
                         <FeedbackFab onClick={() => setIsFeedbackOpen(true)} />
                         <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
                          <BottomNavBar

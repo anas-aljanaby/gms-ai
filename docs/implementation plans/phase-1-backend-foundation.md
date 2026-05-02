@@ -41,15 +41,15 @@ Goal: get a working Hono API server with Supabase, Drizzle, and the core schema.
 - [x] Protect a test route and verify it rejects unauthenticated request
 
 ### 1.7 `/me` route
-- [ ] Create `src/routes/me.ts`
-- [ ] Query `memberships` to return the current user's organizations
-- [ ] Register the route in `src/index.ts`
-- [ ] Test with a real Supabase token (via curl or Hoppscotch)
+- [x] Create `src/routes/me.ts`
+- [x] Query `memberships` to return the current user's organizations
+- [x] Register the route in `src/index.ts`
+- [x] Test with a real Supabase token (via curl or Hoppscotch)
 
 ### 1.8 CORS + error handling
-- [ ] Add CORS middleware allowing the Vite dev origin
-- [ ] Add a global error handler that returns `{ error: message }` JSON
-- [ ] Confirm the frontend can reach `GET /health` from the browser
+- [x] Add CORS middleware allowing the Vite dev origin
+- [x] Add a global error handler that returns `{ error: message }` JSON
+- [x] Confirm the frontend can reach `GET /health` from the browser
 
 ---
 

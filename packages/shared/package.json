@@ -10,7 +10,9 @@
     "./schemas/*": "./src/schemas/*.ts",
     "./types/*": "./src/types/*.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "zod": "^4.4.2"
+  },
   "devDependencies": {
     "typescript": "~5.8.2"
   }

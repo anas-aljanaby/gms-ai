@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react';
 // AI calls must go through apps/api per docs/architecture/decisions.md.
 export default defineConfig({
   server: {
-    port: 3000,
+    port: 5173,
     host: '0.0.0.0',
   },
   plugins: [react()],
