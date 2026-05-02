@@ -1,8 +1,15 @@
 import 'dotenv/config';
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
+import { User } from "@supabase/supabase-js"
+import { authMiddleware } from './middleware/auth';
 
-const app = new Hono()
+
+type Variables = {
+    user: User
+}
+
+const app = new Hono<{ Variables }>()
 
 app.get('/', (c) => c.text('Hono!'))
 
@@ -13,6 +20,10 @@ app.get('/health', (c) => {
     })
 })
 
+app.get('/protected', authMiddleware, (c) => {
+    return c.json(c.get('user'))
+}
+)
 
 const port = Number(process.env.PORT) || 3000
 
