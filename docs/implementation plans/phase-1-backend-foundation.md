@@ -7,16 +7,16 @@ Goal: get a working Hono API server with Supabase, Drizzle, and the core schema.
 ## Tasks
 
 ### 1.1 Bootstrap Hono API
-- [ ] Add Hono + runtime deps to `apps/api/package.json`
-- [ ] Create `src/index.ts` with a minimal Hono app (health check route)
-- [ ] Replace the TODO `dev` script with a working `tsx watch` command
-- [ ] Verify `npm run dev:api` starts without errors
+- [x] Add Hono + runtime deps to `apps/api/package.json`
+- [x] Create `src/index.ts` with a minimal Hono app (health check route)
+- [x] Replace the TODO `dev` script with a working `tsx watch` command
+- [x] Verify `npm run dev:api` starts without errors
 
 ### 1.2 Set up Supabase project
-- [ ] Create a new Supabase project in the dashboard
-- [ ] Copy connection strings + anon/service keys into `apps/api/.env` (not committed)
-- [ ] Add `.env.example` with placeholder keys (committed)
-- [ ] Add `dotenv` loading to `src/index.ts`
+- [x] Create a new Supabase project in the dashboard
+- [x] Copy connection strings + anon/service keys into `apps/api/.env` (not committed)
+- [x] Add `.env.example` with placeholder keys (committed)
+- [x] Add `dotenv` loading to `src/index.ts`
 
 ### 1.3 Drizzle config + core schema
 - [ ] Install Drizzle ORM + Postgres driver in `apps/api`

@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
-
 
 const app = new Hono()
 
@@ -13,11 +13,9 @@ app.get('/health', (c) => {
     })
 })
 
-export default app
-
-
+const port = Number(process.env.PORT) || 3000
 
 serve({
     fetch: app.fetch,
-    port: 3000
+    port,
 })
