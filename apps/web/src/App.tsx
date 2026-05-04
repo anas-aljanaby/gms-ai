@@ -15,8 +15,6 @@ import Header from './components/layout/Header';
 import MobileSidebar from './components/layout/MobileSidebar';
 import BottomNavBar from './components/layout/BottomNavBar';
 import AiFab from './components/common/AiFab';
-import FeedbackFab from './components/common/FeedbackFab';
-import FeedbackModal from './components/feedback/FeedbackModal';
 
 import { useBeneficiaryData } from './hooks/useBeneficiaryData';
 import { useHrData } from './hooks/useHrData';
@@ -81,7 +79,6 @@ function App() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [enabledLanguages, setEnabledLanguages] = useState<Language[]>(['en', 'ar']);
     const [_isAiFabVisible, setIsAiFabVisible] = useState(false);
-    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
     const [deepLinkTarget, setDeepLinkTarget] = useState<{ id?: string; tab?: string } | null>(null);
 
     // Get all necessary data at the top level
@@ -150,8 +147,6 @@ function App() {
                             </main>
                         </div>
                         {_isAiFabVisible && <AiFab onClick={() => updateActiveModule('dashboard')} />}
-                        <FeedbackFab onClick={() => setIsFeedbackOpen(true)} />
-                        <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
                          <BottomNavBar
                             activeModule={activeModule}
                             setActiveModule={updateActiveModule}
