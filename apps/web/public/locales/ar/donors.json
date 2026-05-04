@@ -1,0 +1,91 @@
+{
+  "donors": {
+    "hubTitle": "إدارة المانحين",
+    "tabs": {
+      "pipeline": "مسار المانحين",
+      "directory": "الدليل",
+      "analytics": "التحليلات"
+    },
+    "directory": {
+      "advancedFilters": "فلاتر متقدمة",
+      "searchPlaceholder": "ابحث عن مانح..."
+    },
+    "searchPlaceholder": "ابحث عن مانح...",
+    "allCountries": "كل الدول",
+    "addDonor": "إضافة مانح",
+    "modal": {
+      "addDonorTitle": "إضافة مانح",
+      "donorName": "اسم المانح",
+      "email": "البريد الإلكتروني",
+      "country": "الدولة",
+      "potentialGift": "قيمة التبرع المحتملة",
+      "cancel": "إلغاء",
+      "saveDonor": "حفظ المانح",
+      "requiredFields": "الاسم والبريد الإلكتروني مطلوبان."
+    },
+    "card": {
+      "potential": "المحتمل",
+      "donated": "المتبرع به",
+      "openTasks": "المهام المفتوحة",
+      "overdue": "متأخر",
+      "due": "الاستحقاق",
+      "addTask": "إضافة مهمة",
+      "addDonation": "إضافة تبرع",
+      "moreOptions": "خيارات إضافية",
+      "ariaLabel": "بطاقة المانح {name}"
+    },
+    "ai_suggestion": {
+      "title": "اقتراح الذكاء الاصطناعي",
+      "loading": "جارٍ إنشاء الاقتراح...",
+      "start": "إعداد بريد",
+      "error": "تعذر إنشاء الاقتراح حالياً.",
+      "rationale": "المبرر"
+    },
+    "ai_modal": {
+      "title": "مساعد البريد بالذكاء الاصطناعي",
+      "generating": "جارٍ إنشاء مسودة البريد...",
+      "to": "إلى",
+      "subject": "الموضوع",
+      "body": "النص",
+      "send": "إرسال البريد",
+      "generationFailed": "تعذر إنشاء المحتوى بالذكاء الاصطناعي.",
+      "fallbackSubject": "خطأ",
+      "fallbackBody": "تعذر إنشاء المحتوى.",
+      "emailSent": "تم إرسال البريد!"
+    },
+    "stages": {
+      "prospect": "مرشح",
+      "contacted": "تم التواصل",
+      "cultivating": "قيد التطوير",
+      "solicited": "مطلوب منه",
+      "stewardship": "رعاية"
+    }
+  },
+  "donorManagement": {
+    "messages": {
+      "saveComingSoon": "ميزة الحفظ ستكون متاحة قريبًا.",
+      "mapUnderConstruction": "عرض الخريطة قيد التطوير."
+    },
+    "voice": {
+      "notSupported": "التعرف الصوتي غير مدعوم في هذا المتصفح.",
+      "permissionDenied": "تم رفض إذن الميكروفون. يرجى تفعيله من إعدادات المتصفح.",
+      "startError": "تعذر بدء الاستماع. يرجى المحاولة مرة أخرى."
+    },
+    "views": {
+      "kanban": "عرض كانبان",
+      "funnel": "عرض القمع"
+    }
+  },
+  "donorIntelligence": {
+    "distributionChart": "توزيع فئات المانحين",
+    "categories": {
+      "HeroDonor": "مانح بطل",
+      "RecurringDonor": "مانح متكرر",
+      "SeasonalDonor": "مانح موسمي",
+      "EventDonor": "مانح الفعاليات",
+      "DormantDonor": "مانح غير نشط",
+      "GeneralDonor": "مانح عام",
+      "NewDonor": "مانح جديد"
+    }
+  }
+}

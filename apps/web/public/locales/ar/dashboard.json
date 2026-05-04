@@ -1,0 +1,85 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "activeFilters": "الفلاتر النشطة",
+    "vsLastPeriod": "مقارنة بالفترة السابقة",
+    "favoriteReport": {
+      "title": "التقرير المفضل",
+      "noneSelected": "لم يتم اختيار تقرير مفضل بعد."
+    },
+    "toastDemo": {
+      "title": "تجربة الإشعارات",
+      "successTitle": "نجاح",
+      "successMessage": "تم تنفيذ العملية بنجاح.",
+      "errorTitle": "خطأ",
+      "errorMessage": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+      "warningTitle": "تنبيه",
+      "warningMessage": "يرجى مراجعة المدخلات قبل المتابعة.",
+      "infoTitle": "معلومة",
+      "infoMessage": "هذه رسالة معلوماتية.",
+      "successButton": "نجاح",
+      "errorButton": "خطأ",
+      "warningButton": "تنبيه",
+      "infoButton": "معلومة"
+    },
+    "widgets": {
+      "kpiSponsorships": "الكفالات المنتظرة",
+      "kpiOverdueTasks": "مهام المانحين المتأخرة",
+      "kpiProjectsAtRisk": "المشاريع المعرّضة للخطر",
+      "kpiFundsDisbursed": "الأموال المقرر صرفها",
+      "donationsChart": "مخطط التبرعات",
+      "timelineView": "الجدول الزمني",
+      "matrixView": "عرض المصفوفة",
+      "comparisonBars": "الأداء المقارن",
+      "favoriteReport": "التقرير المفضل",
+      "toastDemo": "تجربة الإشعارات",
+      "gettingStarted": "البدء",
+      "quickActions": "الإجراءات السريعة",
+      "aiInsights": "رؤى الذكاء الاصطناعي"
+    },
+    "controls": {
+      "timePeriod": "الفترة الزمنية",
+      "department": "القسم",
+      "indicators": "المؤشرات",
+      "selected": "تم اختيار {count}",
+      "searchIndicators": "ابحث في المؤشرات...",
+      "autoRefresh": "تحديث تلقائي",
+      "periods": {
+        "d7": "آخر 7 أيام",
+        "d30": "آخر 30 يومًا",
+        "thisMonth": "هذا الشهر",
+        "thisQuarter": "هذا الربع",
+        "thisYear": "هذه السنة"
+      },
+      "departments": {
+        "all": "جميع الأقسام",
+        "programs": "البرامج",
+        "finance": "المالية",
+        "hr": "الموارد البشرية",
+        "marketing": "التسويق"
+      },
+      "kpis": {
+        "donorRetention": "الاحتفاظ بالمانحين",
+        "newDonors": "المانحون الجدد",
+        "avgGift": "متوسط التبرع",
+        "campaignROI": "عائد الحملة",
+        "projectSuccess": "نجاح المشاريع",
+        "volunteerTurnover": "دوران المتطوعين"
+      }
+    },
+    "aiInsights": {
+      "title": "رؤى الذكاء الاصطناعي",
+      "refreshingIn": "تحديث خلال {seconds}ث",
+      "opportunities": "الفرص",
+      "alerts": "التنبيهات",
+      "recommendations": "التوصيات",
+      "forecasts": "التوقعات",
+      "viewMore": "عرض المزيد من الرؤى",
+      "confidence": "الثقة"
+    }
+  },
+  "kpiCard": {
+    "target": "الهدف: {target}",
+    "daysRemaining": "يوم متبقٍ"
+  }
+}

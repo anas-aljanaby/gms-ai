@@ -41,7 +41,7 @@ interface InstitutionalDonorsMapProps {
 }
 
 export const InstitutionalDonorsMap: React.FC<InstitutionalDonorsMapProps> = ({ donors }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
     const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
     const donorsByCountry = useMemo(() => {

@@ -1,6 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
+import React, { useEffect, useState } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { Donor, AiSuggestion } from '../../../types';
 import { XIcon, SparklesIcon } from '../../icons/GenericIcons';
@@ -19,56 +18,55 @@ interface GeneratedContent {
     body: string;
 }
 
+const buildDraftContent = (donor: Donor, suggestion: AiSuggestion, language: string): GeneratedContent => {
+    if (language === 'ar') {
+        return {
+            subject: `متابعة بخصوص دعم ${donor.name}`,
+            body: `عزيزي/عزيزتي ${donor.name},
+
+أتمنى أن تكونوا بخير.
+
+أردت التواصل معكم بخصوص الخطوة التالية المقترحة: ${suggestion.action}.
+
+${suggestion.rationale}
+
+نقدّر دعمكم واهتمامكم المستمر، ويسعدنا ترتيب الوقت المناسب للمتابعة أو مشاركة أي تفاصيل إضافية قد تساعد في اتخاذ الخطوة القادمة.
+
+مع خالص التقدير،
+فريق إدارة المانحين`,
+        };
+    }
+
+    return {
+        subject: `Following up with ${donor.name}`,
+        body: `Dear ${donor.name},
+
+I hope you are doing well.
+
+I wanted to follow up with a suggested next step: ${suggestion.action}.
+
+${suggestion.rationale}
+
+We truly value your continued interest and support. I would be happy to share more details or arrange a convenient time to continue the conversation.
+
+Warm regards,
+Donor Relations Team`,
+    };
+};
+
 const AiActionModal: React.FC<AiActionModalProps> = ({ isOpen, onClose, donor, suggestion }) => {
-    const { t } = useLocalization();
+    const { t, language } = useLocalization(['common', 'donors']);
     const toast = useToast();
     const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState<GeneratedContent | null>(null);
 
     useEffect(() => {
         if (isOpen && donor && suggestion) {
-            const generateContent = async () => {
-                setIsLoading(true);
-                try {
-                    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-                    const systemInstruction = "You are an expert non-profit copywriter. Write a personalized email to a donor based on their data and the suggested action. The tone should be warm, personal, and impactful. Respond ONLY with a JSON object containing 'subject' and 'body' keys.";
-                    
-                    const prompt = `
-                        Donor Data: ${JSON.stringify(donor)}
-                        Suggested Action: "${suggestion.action}"
-                        Rationale: "${suggestion.rationale}"
-                    `;
-
-                    const response = await ai.models.generateContent({
-                        model: 'gemini-2.5-flash',
-                        contents: prompt,
-                        config: {
-                            systemInstruction,
-                            responseMimeType: "application/json",
-                            responseSchema: {
-                                type: Type.OBJECT,
-                                properties: {
-                                    subject: { type: Type.STRING },
-                                    body: { type: Type.STRING }
-                                },
-                                required: ['subject', 'body']
-                            }
-                        }
-                    });
-                    
-                    const result = JSON.parse(response.text.trim());
-                    setContent(result);
-                } catch (error) {
-                    console.error("Error generating AI content:", error);
-                    toast.showError(t('donors.ai_modal.generationFailed'));
-                    setContent({ subject: t('donors.ai_modal.fallbackSubject'), body: t('donors.ai_modal.fallbackBody') });
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            generateContent();
+            setIsLoading(true);
+            setContent(buildDraftContent(donor, suggestion, language));
+            setIsLoading(false);
         }
-    }, [isOpen, donor, suggestion, toast]);
+    }, [isOpen, donor, suggestion, language]);
 
     if (!isOpen || !donor) return null;
 

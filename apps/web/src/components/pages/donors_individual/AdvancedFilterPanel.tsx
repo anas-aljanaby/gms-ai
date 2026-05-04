@@ -7,7 +7,7 @@ interface AdvancedFilterPanelProps {
 }
 
 const AdvancedFilterPanel: React.FC<AdvancedFilterPanelProps> = ({ isOpen }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'individual_donors']);
 
     return (
         <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96' : 'max-h-0'}`}>

@@ -1,0 +1,67 @@
+{
+  "individual_donors": {
+    "cardView": "عرض البطاقات",
+    "mapView": "عرض الخريطة",
+    "listView": "عرض القائمة",
+    "searchPlaceholder": "ابحث عن المانحين...",
+    "filters": "الفلاتر",
+    "addDonor": "إضافة مانح",
+    "backToList": "العودة إلى قائمة المانحين",
+    "recentActivity": "النشاط الأخير",
+    "noResults": "لا يوجد مانحون",
+    "noResultsDescription": "جرّب تعديل البحث أو الفلاتر.",
+    "columns": {
+      "donor": "المانح",
+      "totalDonations": "إجمالي التبرعات",
+      "avgGift": "متوسط التبرع",
+      "donationCount": "عدد التبرعات",
+      "lastDonationDate": "تاريخ آخر تبرع",
+      "status": "الحالة",
+      "tier": "الفئة",
+      "tags": "الوسوم"
+    },
+    "kpi": {
+      "ltv": "القيمة مدى الحياة",
+      "avgGift": "متوسط التبرع",
+      "totalGifts": "إجمالي الهبات",
+      "donorSince": "مانح منذ"
+    },
+    "modal": {
+      "fullNameEN": "الاسم الكامل (الإنجليزية)",
+      "fullNameAR": "الاسم الكامل (العربية)",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "country": "الدولة",
+      "saveDonor": "حفظ المانح",
+      "requiredFields": "الاسم الكامل (بالإنجليزية) والبريد الإلكتروني مطلوبان."
+    },
+    "detailView": {
+      "overview": "نظرة عامة",
+      "donations": "التبرعات",
+      "communications": "التواصل",
+      "tasks": "المهام",
+      "profile": "الملف الشخصي",
+      "sendEmail": "إرسال بريد",
+      "logInteraction": "تسجيل تواصل",
+      "profilePlaceholder": "سيكون الملف الشخصي الكامل لـ {donorName} متاحاً هنا."
+    },
+    "statuses": {
+      "Active": "نشط",
+      "Lapsed": "غير منتظم",
+      "OnHold": "معلق",
+      "Deceased": "متوفى"
+    },
+    "tiers": {
+      "Bronze": "Bronze",
+      "Silver": "Silver",
+      "Gold": "Gold",
+      "Platinum": "Platinum",
+      "MajorDonor": "مانح كبير"
+    }
+  },
+  "donorIntelligence": {
+    "table": {
+      "donationCount": "عدد التبرعات"
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "leadership": {
+    "title": "Leadership Qualification",
+    "tabs": {
+      "overview": "Overview",
+      "calendar": "Calendar",
+      "projects": "Student Projects",
+      "student_environment": "Student Environment",
+      "scout": "Scout Unit",
+      "leadership": "Leadership Qualification",
+      "educational": "Educational Development"
+    },
+    "overview": {
+      "workTeam": "Work Team",
+      "totalEvents": "Total Events",
+      "studentProjectImpact": "Student Project Impact",
+      "beneficiaries": "Beneficiaries",
+      "upcomingEvents": "Upcoming Events"
+    },
+    "projects": {
+      "activeProjects": "Active Projects",
+      "mentor": "Mentor",
+      "progress": "Progress",
+      "statuses": {
+        "completed": "Completed"
+      }
+    },
+    "calendar": {
+      "addNewEvent": "Add New Event",
+      "studentProjects": "Student Projects",
+      "eventCreatedSuccess": "Event created successfully.",
+      "form": {
+        "eventTitle": "Event Title",
+        "eventCategory": "Event Category",
+        "eventType": "Event Type",
+        "date": "Date",
+        "startTime": "Start Time",
+        "facilitator": "Facilitator",
+        "selectFacilitator": "Select Facilitator",
+        "location": "Location",
+        "cancel": "Cancel",
+        "createEvent": "Create Event",
+        "requiredFields": "Please fill all required fields."
+      }
+    },
+    "today": "Today",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "metrics": {
+      "performanceDashboard": "Performance Dashboard",
+      "overallCompletion": "Overall Completion",
+      "stageCompletion": "Stage Completion",
+      "onTimeCompletion": "On-Time Completion",
+      "avgAttendance": "Avg. Attendance",
+      "cancellationRate": "Cancellation Rate",
+      "teamEngagement": "Team Engagement",
+      "eventsStatusBreakdown": "Events Status Breakdown"
+    },
+    "noEventsPlanned": "No events planned",
+    "workTeam": "Work Team",
+    "teamTypes": {
+      "staff": "Staff",
+      "volunteer": "Volunteer"
+    },
+    "stages": {
+      "s1": "Second Semester",
+      "s2": "First Semester",
+      "s3": "Summer Break"
+    },
+    "eventTypes": {
+      "lecture": "Lecture",
+      "course": "Course",
+      "camp": "Camp",
+      "workshop": "Workshop",
+      "activity": "Activity",
+      "ceremony": "Ceremony",
+      "meeting": "Meeting",
+      "event": "Event"
+    },
+    "eventStatuses": {
+      "planned": "Planned",
+      "in-progress": "In-progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "missed": "Missed"
+    },
+    "eventFacilitator": "Facilitator",
+    "eventLocation": "Location",
+    "eventTime": "Time",
+    "eventParticipants": "Participants",
+    "workPlan": "Work Plan",
+    "confirmCancel": "Are you sure you want to cancel this event?",
+    "eventCancelled": "Event cancelled.",
+    "eventCompleted": "Event marked as completed.",
+    "markCompleted": "Mark as Completed",
+    "cancelEvent": "Cancel Event",
+    "quranicTimeline": {
+      "title": "Quranic Timeline",
+      "progress": "Progress",
+      "weeks": "Weeks",
+      "totalDuration": "Total Duration",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "upcoming": "Upcoming",
+      "week": "Week",
+      "dateRange": "Date Range",
+      "content": "Content",
+      "status": "Status",
+      "notes": "Notes",
+      "stationDetails": "Station Details",
+      "markAsComplete": "Mark as Complete",
+      "inprogress": "In Progress"
+    }
+  },
+  "qualificationJourney": {
+    "programsTitle": "Programs Progress",
+    "initiativesTitle": "Community Initiatives",
+    "completion": "completion"
+  }
+}

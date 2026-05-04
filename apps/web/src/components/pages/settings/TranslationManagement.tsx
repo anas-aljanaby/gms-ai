@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { Language } from '../../../types';
+import { ALL_NAMESPACES, resolveNamespaceForKey } from '../../../lib/i18n';
 import { Download, Search, Sparkles } from 'lucide-react';
 import Spinner from '../../common/Spinner';
 import { GoogleGenAI, Type } from "@google/genai";
@@ -43,6 +44,23 @@ const getNestedKeys = (obj: any, prefix = ''): string[] => {
     }, []);
 };
 
+const loadLanguageTranslations = async (language: Language) => {
+    const namespacePayloads = await Promise.all(
+        ALL_NAMESPACES.map(async (namespace) => {
+            const response = await fetch(`/locales/${language}/${namespace}.json`);
+            if (!response.ok) {
+                throw new Error(`Failed to load namespace ${namespace} for ${language}`);
+            }
+            return response.json();
+        })
+    );
+
+    return namespacePayloads.reduce<Record<string, any>>((merged, payload) => {
+        Object.assign(merged, payload);
+        return merged;
+    }, {});
+};
+
 
 const TranslationManagement: React.FC = () => {
     const { t } = useLocalization();
@@ -60,8 +78,8 @@ const TranslationManagement: React.FC = () => {
             setIsLoading(true);
             try {
                 const [en, ar] = await Promise.all([
-                    fetch('/lib/locales/en.json').then(res => res.json()),
-                    fetch('/lib/locales/ar.json').then(res => res.json())
+                    loadLanguageTranslations('en'),
+                    loadLanguageTranslations('ar')
                 ]);
                 setTranslations({ en, ar });
             } catch (e) {
@@ -75,7 +93,7 @@ const TranslationManagement: React.FC = () => {
     }, [toast]);
     
     const masterKeys = useMemo(() => getNestedKeys(translations.en).sort(), [translations.en]);
-    const namespaces = useMemo(() => ['all', ...Object.keys(translations.en).sort()], [translations.en]);
+    const namespaces = useMemo(() => ['all', ...ALL_NAMESPACES], []);
 
     const filteredKeys = useMemo(() => {
         return masterKeys.filter(key => {
@@ -83,7 +101,7 @@ const TranslationManagement: React.FC = () => {
             if (typeof enValue === 'object' && enValue !== null) return false;
 
             const matchesSearch = key.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesNamespace = namespaceFilter === 'all' || key.startsWith(namespaceFilter);
+            const matchesNamespace = namespaceFilter === 'all' || resolveNamespaceForKey(key) === namespaceFilter;
             const isMissing = showMissingOnly 
                 ? !getNestedValue(translations.ar, key)
                 : true;

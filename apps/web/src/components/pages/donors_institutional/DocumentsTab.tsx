@@ -44,7 +44,7 @@ const getFileIcon = (type: DocumentType) => {
 
 // --- PREVIEW MODAL ---
 const FilePreviewModal: React.FC<{ item: DocumentItem; onClose: () => void }> = ({ item, onClose }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     const isImage = item.type === 'jpg';
     const isVideo = item.type === 'mp4';
     const fileUrl = item.file ? URL.createObjectURL(item.file) : '#';
@@ -90,7 +90,7 @@ const FilePreviewModal: React.FC<{ item: DocumentItem; onClose: () => void }> = 
 
 
 const DocumentsTab: React.FC = () => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     const toast = useToast();
     const [documents, setDocuments] = useState<DocumentItem[]>(initialDocuments);
     const [selectedCategory, setSelectedCategory] = useState('الكل');

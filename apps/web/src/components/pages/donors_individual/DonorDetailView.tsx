@@ -20,14 +20,14 @@ const DonationsTab: React.FC = () => <div className="p-8 text-center text-gray-5
 const CommunicationsTab: React.FC = () => <div className="p-8 text-center text-gray-500">Communication log will be displayed here.</div>;
 const TasksTab: React.FC = () => <div className="p-8 text-center text-gray-500">Tasks related to this donor will be displayed here.</div>;
 const ProfileTab: React.FC<{ donor: IndividualDonor }> = ({ donor }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'individual_donors', 'misc']);
     const donorName = donor.fullName[language] || donor.fullName.en;
     return <div className="p-8 text-center text-gray-500">{t('individual_donors.detailView.profilePlaceholder', { donorName })}</div>;
 };
 
 
 const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'individual_donors', 'misc']);
     const toast = useToast();
     const [activeTab, setActiveTab] = React.useState('profile');
     const [isLogModalOpen, setIsLogModalOpen] = useState(false);

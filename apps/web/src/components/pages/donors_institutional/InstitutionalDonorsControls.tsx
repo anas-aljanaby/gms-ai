@@ -20,7 +20,7 @@ interface InstitutionalDonorsControlsProps {
 const InstitutionalDonorsControls: React.FC<InstitutionalDonorsControlsProps> = ({
     view, onViewChange, searchTerm, onSearchChange, onAddInstitution, onFiltersToggle, isListening, handleListen, micError
 }) => {
-    const { t, dir } = useLocalization();
+    const { t, dir } = useLocalization(['common', 'institutional_donors']);
 
     const ViewButton: React.FC<{
         label: string;

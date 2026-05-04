@@ -1,0 +1,114 @@
+{
+  "beneficiaries": {
+    "title": "Beneficiary Management",
+    "backToList": "Back to Beneficiaries List",
+    "subtitle_at": "{field} at {university}",
+    "kpi": {
+      "gpa": "Current GPA",
+      "financialAid": "Financial Aid",
+      "communication": "Communication",
+      "documents": "Documents",
+      "communication_value": "{count} logs"
+    },
+    "searchPlaceholder": "Search beneficiaries...",
+    "categorySelectLabel": "Beneficiary categories",
+    "advancedFiltersPlaceholder": "Advanced filters panel is under construction.",
+    "viewUnderConstruction": "{view} view is under construction.",
+    "addedSuccess": "Beneficiary {name} added.",
+    "sponsorships": "Sponsorship",
+    "directSupport": "Direct Support",
+    "noResults": "No beneficiaries found",
+    "noResultsDescription": "Try adjusting search or filters.",
+    "filters": {
+      "allTypes": "All Types",
+      "allProjects": "All Projects",
+      "sponsorshipProjects": "Sponsorship Projects",
+      "allCountries": "All Countries"
+    },
+    "aiSearch": {
+      "title": "AI Search",
+      "placeholder": "Search with natural language...",
+      "search": "Search"
+    },
+    "card": {
+      "sponsoredStudent": "Sponsored Student",
+      "directSupport": "Direct Support"
+    },
+    "documents": {
+      "officialDocuments": "Official Documents"
+    },
+    "aidLog": {
+      "title": "Aid & Services Log",
+      "noItems": "No aid or services have been logged for this beneficiary yet.",
+      "value": "Value",
+      "status": {
+        "delivered": "Delivered",
+        "pending": "Pending",
+        "scheduled": "Scheduled"
+      }
+    },
+    "overview": {
+      "title": "Personal Details",
+      "id": "ID",
+      "country": "Country",
+      "email": "Email",
+      "phone": "Phone",
+      "university": "University",
+      "major": "Major",
+      "gpa": "GPA",
+      "academic_year": "Academic Year"
+    },
+    "modal": {
+      "tabs": {
+        "personal": "Personal",
+        "journey_impact": "Journey & Impact",
+        "academic": "Academic",
+        "sponsorship": "Sponsorship",
+        "needs_assessment": "Needs Assessment",
+        "qualification_journey": "Qualification Journey",
+        "aid_log": "Aid & Services",
+        "calendar": "Calendar",
+        "files_and_documents": "Files & Documents",
+        "communication": "Communication"
+      },
+      "add": {
+        "title": "Add New Beneficiary",
+        "fullName": "Full Name",
+        "beneficiaryType": "Beneficiary Type",
+        "country": "Country",
+        "email": "Email",
+        "phone": "Phone",
+        "addButton": "Add",
+        "validation": {
+          "nameRequired": "Name is required."
+        }
+      },
+      "personalInfo": {
+        "fullName": "Full Name",
+        "country": "Country"
+      },
+      "academic": {
+        "grade": "Grade"
+      }
+    },
+    "types": {
+      "all": "All",
+      "student": "Student",
+      "orphan": "Orphan",
+      "hafiz": "Hafiz",
+      "family": "Family",
+      "institution": "Institution",
+      "community": "Community",
+      "incubation_beneficiary": "Incubation Beneficiary",
+      "individual-other": "Individual"
+    },
+    "voice": {
+      "notSupported": "Speech recognition is not supported in this browser.",
+      "permissionDenied": "Microphone permission was denied. Please enable it in your browser settings.",
+      "startError": "Could not start listening. Please try again."
+    },
+    "linkedBeneficiaries": "Linked Beneficiaries",
+    "noLinked": "No linked beneficiaries",
+    "reached": "reached"
+  }
+}

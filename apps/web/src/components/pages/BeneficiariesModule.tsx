@@ -39,7 +39,7 @@ declare global {
 
 
 const BeneficiariesModule: React.FC = () => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'beneficiaries', 'leadership', 'misc']);
     const { beneficiaryData } = useBeneficiaryData();
     const { projects } = beneficiaryData;
     const toast = useToast();

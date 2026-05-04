@@ -1,0 +1,32 @@
+{
+  "common": {
+    "searchPlaceholder": "Search everything...",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "pagination_summary": "Showing {start}-{end} of {total}",
+    "dismissAlert": "Dismiss alert",
+    "loading": "Loading...",
+    "analyzing": "Analyzing...",
+    "generating": "Generating...",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "date": "Date",
+    "time": "Time",
+    "share": "Share",
+    "shareReport": "Share Report",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "validFor7Days": "Link is valid for 7 days",
+    "showing": "Showing",
+    "of": "of",
+    "preview": "Preview",
+    "save": "Save",
+    "clearFilters": "Clear Filters",
+    "improvement": "improvement",
+    "listening": "Listening...",
+    "voiceSearch": "Search by voice",
+    "export": "Export",
+    "tabs": "Tabs"
+  }
+}

@@ -11,7 +11,7 @@ interface AddInstitutionModalProps {
 }
 
 const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClose, onAdd }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     const [organizationName, setOrganizationName] = useState({ en: '', ar: '' });
     const [type, setType] = useState<InstitutionType>('Foundation');
     const [country, setCountry] = useState('');

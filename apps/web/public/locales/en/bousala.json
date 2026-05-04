@@ -1,0 +1,221 @@
+{
+  "bousala": {
+    "title": "Bousala",
+    "linkedModules": "Smart goals and projects management platform",
+    "reports": {
+      "title": "Reports",
+      "goal": "Goal",
+      "project": "Project",
+      "task": "Task",
+      "status": "Status",
+      "assignee": "Assignee",
+      "linkedProject": "Linked Project",
+      "description": "Description",
+      "progress": "Progress",
+      "linkedGoal": "Linked Goal",
+      "exporting": "Exporting report...",
+      "exportSuccess": "Report exported successfully.",
+      "exportError": "Failed to export report.",
+      "exportXLSX": "Export XLSX",
+      "exportPDF": "Export PDF",
+      "sheetGoals": "Goals Summary",
+      "sheetProjects": "Projects Summary",
+      "sheetTasks": "Tasks Summary",
+      "dashboardReportFileName": "Bousala_Dashboard_Report.pdf",
+      "fullReportFileName": "Bousala_Full_Report.xlsx",
+      "itemsDistribution": "Items Distribution",
+      "count": "Count",
+      "taskStatus": "Task Status",
+      "goalProgress": "Goal Progress"
+    },
+    "presentationMode": "Presentation Mode",
+    "projects": "Projects",
+    "kpis": "KPIs",
+    "kpisVisualization": "KPI Visualization",
+    "aiSuggestions": "AI Suggestions",
+    "kpiUpdateNotification": "Predictive analysis has been updated.",
+    "settingsSaved": "Settings saved successfully.",
+    "tabs": {
+      "dashboard": "Dashboard",
+      "predictive": "Predictive Analysis"
+    },
+    "prediction": {
+      "title": "Predictive Insights",
+      "summary": "Expected to reach target by {percentage}%",
+      "recommendation": "To improve performance, it is recommended to increase resources by {percentage}%."
+    },
+    "analytics": {
+      "title": "Analytics Dashboard",
+      "goalProgress": "Goal Progress",
+      "projectComparison": "Project Progress Comparison"
+    },
+    "addTaskModal": {
+      "success": "Task added successfully.",
+      "title": "Add Task",
+      "taskTitle": "Task Title",
+      "relatedGoal": "Related Goal",
+      "dueDate": "Due Date",
+      "priority": "Priority",
+      "titleAndGoalRequired": "Task title and related goal are required.",
+      "save": "Save Task",
+      "priorities": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      }
+    },
+    "aiPanel": {
+      "title": "AI Assistant",
+      "recommendations": "Recommendations",
+      "performanceInsights": "Performance Insights",
+      "riskForecast": "Risk Forecast",
+      "suggestedActions": "Suggested Actions",
+      "actions": {
+        "addGoal": "Add Goal",
+        "addTask": "Add Task",
+        "linkProject": "Link Project",
+        "viewReports": "View Reports"
+      },
+      "predictiveHeading": "Predictive Analysis"
+    },
+    "alerts": {
+      "lowProbability": "Goal achievement probability dropped to {probability}%.",
+      "kpiBelowHalf": "\"{kpiTitle}\" is below 50% of target.",
+      "kpiDownward": "\"{kpiTitle}\" is trending downward.",
+      "smartAlertFor": "Smart alert for: {title}",
+      "recommendationFailed": "Failed to generate recommendation. Please try again later.",
+      "generatingRecommendation": "AI is generating a recommendation..."
+    },
+    "alertsCenter": {
+      "title": "Alerts Center",
+      "filters": {
+        "allGoals": "All Goals",
+        "allSeverities": "All Severities",
+        "newest": "Newest",
+        "oldest": "Oldest"
+      },
+      "severity": {
+        "critical": "Critical",
+        "warning": "Warning"
+      },
+      "status": {
+        "reviewed": "Reviewed"
+      },
+      "actions": {
+        "markReviewed": "Mark as reviewed",
+        "createTask": "Create task",
+        "correctiveTaskFor": "Corrective task for: {title}"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "notificationsTitle": "Notification Settings",
+      "enableSmartAlerts": "Enable Smart Alerts",
+      "severityThreshold": "Severity Threshold ({threshold}%)",
+      "alertSound": "Alert Sound",
+      "aiAutoRecs": "AI Auto-Recommendations",
+      "kpiTitle": "KPI Update Settings",
+      "refreshInterval": "Refresh Interval",
+      "smartRefresh": "Enable Smart Refresh",
+      "showAnimation": "Show Refresh Animation",
+      "save": "Save Settings",
+      "severityCritical": "Critical <50%",
+      "severityWarning": "Warning <{threshold}%",
+      "severityInfo": "Info <90%",
+      "seconds30": "30 seconds",
+      "seconds60": "60 seconds",
+      "seconds120": "120 seconds"
+    },
+    "goals": "Goals",
+    "tasks": "Tasks",
+    "visualAnalytics": "Visual Analytics",
+    "task_status": {
+      "completed": "Completed",
+      "in-progress": "In Progress"
+    },
+    "addGoalModal": {
+      "title": "Add Goal",
+      "goalTitle": "Goal Title",
+      "goalTitleRequired": "Goal title is required.",
+      "description": "Description",
+      "target": "Target",
+      "responsiblePerson": "Responsible Person",
+      "selectPerson": "Select person",
+      "save": "Save Goal"
+    },
+    "kpiCharts": {
+      "actualVsTarget": "KPI: Actual vs Target",
+      "actual": "Actual",
+      "target": "Target",
+      "trendOverTime": "KPI Trend Over Time",
+      "achievedTargetsPercent": "% of Achieved Targets",
+      "achieved": "Achieved",
+      "notAchieved": "Not Achieved"
+    },
+    "common": {
+      "progressLabel": "Progress",
+      "predictiveAnalysis": "Predictive analysis...",
+      "assigneeLabel": "Assignee team",
+      "assignTaskTo": "Assign task to",
+      "linkedTasks": "Linked Tasks",
+      "suggestTasksAi": "Suggest Tasks (AI)",
+      "predictRiskAi": "Predict Risk (AI)",
+      "linkedExecutionProject": "Linked Execution Project",
+      "budget": "Budget",
+      "progress": "Progress",
+      "kpiIndicators": "KPIs",
+      "addKpi": "Add KPI",
+      "lastUpdated": "Last updated: {date}",
+      "predictionConfidence": "AI predicts {percentage}% success probability",
+      "onTrack": "On Track",
+      "atRisk": "At Risk",
+      "unlikely": "Unlikely",
+      "goalPredictionSummary": "Predictive analysis: current indicators show a {percentage}% probability of achieving planned goals.",
+      "predictionLabel": "Prediction",
+      "goalPredictionsAnalysis": "Analyzing goal predictions..."
+    },
+    "messages": {
+      "projectLinkedSuccess": "Project linked successfully.",
+      "kpiAddedSuccess": "KPI added successfully.",
+      "goalAddedSuccess": "Goal \"{title}\" was added successfully."
+    },
+    "addKpiModal": {
+      "title": "Add KPI",
+      "kpiTitle": "KPI Title",
+      "currentValue": "Current Value",
+      "targetValue": "Target Value",
+      "unit": "Unit",
+      "unitPlaceholder": "%, beneficiary, $",
+      "save": "Save KPI",
+      "requiredFields": "All fields are required."
+    },
+    "linkProjectModal": {
+      "title": "Link Existing Project",
+      "description": "Select one or more projects to link to the current goal.",
+      "noProjects": "No other projects available to link.",
+      "linkCta": "Link ({count})"
+    },
+    "predictive": {
+      "overallSummary": "Overall Forecast Summary",
+      "goalSuccessProbability": "Goal success probability",
+      "topAtRiskGoals": "Top 3 At-Risk Goals",
+      "noAtRiskGoals": "No goals currently at risk.",
+      "forecastOverTime": "Forecast Change Over Time",
+      "avgSuccessProbability": "Average success probability",
+      "aiRecommendationsSummary": "AI Recommendations Summary",
+      "noRecommendations": "No recommendations available right now."
+    },
+    "splash": {
+      "title": "🧭 Bousala - Goals & Tasks Management",
+      "subtitle": "Smart management system for non-profit organizations"
+    },
+    "defaultInsights": {
+      "tasksTitle": "General Suggestion",
+      "tasksContent": "Consider splitting larger tasks into smaller ones to track progress better.",
+      "kpisTitle": "Performance Analysis",
+      "kpisContent": "Goal progress and linked project progress should be monitored together for better decisions.",
+      "risksTitle": "Potential Risks",
+      "risksContent": "Review key deadlines regularly to reduce the risk of delays."
+    }
+  }
+}

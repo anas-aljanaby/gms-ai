@@ -1,0 +1,200 @@
+{
+  "stakeholder_management": {
+    "title": "Stakeholder Management",
+    "subtitle": "Track relationships, engagement health, and strategic influence.",
+    "export": "Export",
+    "addNew": "Add New",
+    "totalStakeholders": "Total Stakeholders",
+    "avgRelationshipHealth": "Average Relationship Health",
+    "needsAttention": "Needs Attention",
+    "highRisks": "High Risks",
+    "searchPlaceholder": "Search stakeholders...",
+    "filter": "Filter",
+    "view": {
+      "table": "Table view",
+      "card": "Card view",
+      "matrix": "Matrix view"
+    },
+    "voice": {
+      "notSupported": "Speech recognition is not supported in this browser.",
+      "permissionDenied": "Microphone permission was denied. Please enable it in your browser settings.",
+      "startError": "Could not start listening. Please try again."
+    },
+    "types": {
+      "all": "All",
+      "donor": "Donor",
+      "beneficiary": "Beneficiary",
+      "partner": "Partner",
+      "volunteer": "Volunteer",
+      "mentor": "Mentor",
+      "expert": "Expert/Trainer",
+      "investor": "Investor",
+      "board_member": "Board Member",
+      "government": "Government",
+      "supplier": "Supplier",
+      "community": "Community",
+      "media": "Media"
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "relationshipHealth": "Relationship Health",
+      "level": "Level",
+      "risks": "Risks",
+      "lastContact": "Last Contact",
+      "aiInsights": "AI Insights",
+      "actions": "Actions"
+    },
+    "relationshipLevels": {
+      "strategic": "Strategic",
+      "core": "Core",
+      "important": "Important"
+    },
+    "risks": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "classificationLabel": "Classification",
+    "classification": {
+      "primary": "Primary",
+      "secondary": "Secondary"
+    },
+    "riskProfileLabel": "Risk Profile",
+    "riskProfile": {
+      "supporter": "Supporter",
+      "neutral": "Neutral",
+      "blocker": "Blocker"
+    },
+    "card": {
+      "health": "Health",
+      "engagement": "Engagement",
+      "power": "Power",
+      "interest": "Interest",
+      "needs": "Needs",
+      "viewDetails": "View Details"
+    },
+    "matrix": {
+      "high": "High",
+      "low": "Low",
+      "power": "Power",
+      "interest": "Interest",
+      "keepSatisfied": "Keep Satisfied",
+      "keepSatisfiedDesc": "High influence, lower active interest.",
+      "manageClosely": "Manage Closely",
+      "manageCloselyDesc": "High influence and high interest.",
+      "monitor": "Monitor",
+      "monitorDesc": "Low influence and low interest.",
+      "keepInformed": "Keep Informed",
+      "keepInformedDesc": "High interest, lower influence."
+    },
+    "add_modal": {
+      "title": "Add New Stakeholder",
+      "name_ar": "Name (Arabic)",
+      "name_en": "Name (English)",
+      "type": "Type",
+      "category": "Category",
+      "country": "Country",
+      "email": "Email",
+      "phone": "Phone",
+      "validation": {
+        "nameRequired": "Name is required in at least one language."
+      },
+      "categories": {
+        "foundation": "Foundation",
+        "family": "Family",
+        "company": "Company"
+      }
+    },
+    "detailPanel": {
+      "summary": "Summary",
+      "metrics": "Relationship Metrics",
+      "contactHistory": "Contact History",
+      "aiActionCenter": "AI Action Center",
+      "generateSuggestions": "Generate Smart Suggestions",
+      "generating": "Generating suggestions...",
+      "suggestionsError": "Failed to generate suggestions. Please try again.",
+      "contact_types": {
+        "email": "Email",
+        "meeting": "Meeting",
+        "call": "Phone Call"
+      }
+    },
+    "timeAgo": {
+      "twoWeeks": "2 weeks ago",
+      "oneMonth": "1 month ago",
+      "threeMonths": "3 months ago"
+    },
+    "insights": {
+      "newly_added": "New stakeholder added; schedule onboarding and first engagement.",
+      "excellent_relation": "Excellent strategic relationship with consistent communication.",
+      "active_beneficiary": "High beneficiary engagement with stable support outcomes.",
+      "warning_communication": "Communication frequency is declining; proactive outreach is recommended.",
+      "excellent_engagement": "Outstanding engagement and participation level.",
+      "investor_follow_on": "High potential for follow-on funding for successful startups.",
+      "investor_early_stage": "Interested in early-stage social impact startups.",
+      "mentor_marketing": "Highly rated mentor specializing in marketing.",
+      "mentor_finance": "Finance expert providing strong feedback on financial models.",
+      "expert_agritech": "Leading AgriTech expert available for workshops.",
+      "expert_cybersecurity": "Provides pro-bono data security training for nonprofits.",
+      "board_chairman": "Board chairman with very high influence and engagement.",
+      "board_financial": "Board member with strong financial expertise."
+    }
+  },
+  "incubation_stakeholders": {
+    "title": "Incubation Stakeholders",
+    "kpi_total": "Total Stakeholders",
+    "kpi_mentors": "Mentors",
+    "kpi_investors": "Investors",
+    "kpi_partners": "Partners",
+    "add_stakeholder": "Add Stakeholder",
+    "search_placeholder": "Search by name or role...",
+    "table": {
+      "name": "Name",
+      "role": "Role",
+      "relatedProgram": "Related Program/Startup",
+      "contact": "Contact",
+      "notes": "Notes",
+      "actions": "Actions"
+    },
+    "roles": {
+      "Mentor": "Mentor",
+      "Investor": "Investor",
+      "CorporatePartner": "Corporate Partner",
+      "UniversityPartner": "University Partner",
+      "Expert": "Expert"
+    }
+  },
+  "incubation_investors": {
+    "title": "Incubation Investors",
+    "viewDemoDay": "View Demo Day Evaluations",
+    "totalInvestors": "Total Investors",
+    "totalFunds": "Total Funds Represented",
+    "mostActive": "Most Active",
+    "table_investor": "Investor",
+    "table_fundType": "Fund / Type",
+    "table_focus": "Investment Focus",
+    "table_startups": "Followed Startups",
+    "table_lastInteraction": "Last Interaction",
+    "fundTypes": {
+      "vc_firm": "VC Firm",
+      "angel_network": "Angel Network"
+    }
+  },
+  "incubationSuccessMetrics": {
+    "fundingPerDonorTitle": "Funding Per Donor Organization",
+    "fundingVsImpactTitle": "Funding vs. Impact Score Over Time",
+    "grantDistributionTitle": "Grant Distribution by Sector",
+    "roiVsMentorshipTitle": "ROI vs. Mentorship Intensity",
+    "fundingAxisLabel": "Funding (USD)",
+    "impactScoreAxisLabel": "Impact Score",
+    "mentorshipSessionsAxisLabel": "Mentorship Sessions",
+    "roiAxisLabel": "ROI (x)",
+    "donor": "Donor",
+    "sector": "Sector"
+  }
+}

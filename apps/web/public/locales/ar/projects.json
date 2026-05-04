@@ -1,0 +1,272 @@
+{
+  "projects": {
+    "title": "إدارة المشاريع",
+    "projectList": "قائمة المشاريع",
+    "createProject": "إنشاء مشروع",
+    "backToList": "العودة إلى قائمة المشاريع",
+    "search_placeholder": "ابحث باسم المشروع أو المعرّف...",
+    "advanced_filters": "فلاتر متقدمة",
+    "tabs": {
+      "overview": "نظرة عامة",
+      "monitoring": "المتابعة",
+      "scope": "النطاق",
+      "schedule": "الجدول الزمني",
+      "cost": "التكلفة",
+      "hr": "الموارد البشرية",
+      "risks": "المخاطر",
+      "quality": "الجودة",
+      "documents": "المستندات",
+      "reports": "التقارير",
+      "changeLog": "سجل التغييرات"
+    },
+    "views": {
+      "list": "قائمة",
+      "card": "بطاقات",
+      "map": "خريطة"
+    },
+    "list": {
+      "name": "المشروع",
+      "stage": "المرحلة",
+      "progress": "نسبة الإنجاز",
+      "budget": "الميزانية",
+      "spent": "المصروف"
+    },
+    "stages": {
+      "design": "التصميم",
+      "planning": "التخطيط",
+      "implementation": "التنفيذ",
+      "monitoring": "المتابعة",
+      "closure": "الإغلاق"
+    },
+    "wizard": {
+      "title": "إنشاء مشروع جديد",
+      "back": "رجوع",
+      "next": "التالي",
+      "finish": "إنهاء",
+      "progressAria": "التقدم",
+      "form": {
+        "name": "اسم المشروع",
+        "code": "رمز المشروع",
+        "type": "نوع المشروع",
+        "stage": "المرحلة الحالية",
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء",
+        "country": "الدولة",
+        "city": "المدينة",
+        "region": "المنطقة",
+        "donor": "المانح",
+        "implementingPartner": "الشريك المنفذ",
+        "targetBeneficiaries": "المستفيدون المستهدفون",
+        "primaryContact": "جهة الاتصال الرئيسية",
+        "goal": "هدف المشروع",
+        "objective": "الهدف التفصيلي",
+        "outcome": "المخرج المتوقع",
+        "kpi": "مؤشرات الأداء الرئيسية",
+        "kpiName": "اسم المؤشر",
+        "kpiTarget": "القيمة المستهدفة",
+        "addObjective": "إضافة هدف تفصيلي",
+        "addOutcome": "إضافة مخرج",
+        "addKpi": "إضافة مؤشر",
+        "units": {
+          "number": "رقم",
+          "percentage": "نسبة مئوية",
+          "text": "نص"
+        }
+      }
+    },
+    "countries": {
+      "turkey": "تركيا",
+      "syria": "سوريا",
+      "lebanon": "لبنان",
+      "uganda": "أوغندا"
+    },
+    "monitoring": {
+      "kpis": "مؤشرات المتابعة",
+      "spi": "مؤشر أداء الجدول (SPI)",
+      "cpi": "مؤشر أداء التكلفة (CPI)",
+      "spiGood": "أداء الجدول جيد.",
+      "spiBad": "أداء الجدول يحتاج متابعة.",
+      "cpiGood": "أداء التكلفة جيد.",
+      "cpiBad": "أداء التكلفة يحتاج متابعة.",
+      "overallCompletion": "الإنجاز الكلي",
+      "budgetStatus": "حالة الميزانية",
+      "scheduleStatus": "حالة الجدول",
+      "activeRisks": "المخاطر النشطة",
+      "evmChart": "اتجاه القيمة المكتسبة",
+      "pv": "القيمة المخططة",
+      "ev": "القيمة المكتسبة",
+      "ac": "التكلفة الفعلية",
+      "taskStatus": "توزيع حالة المهام",
+      "tasksUnit": "مهام"
+    },
+    "overview": {
+      "sdgTitle": "مواءمة أهداف التنمية المستدامة"
+    },
+    "scope": {
+      "statement": "بيان النطاق",
+      "inScope": "ضمن النطاق",
+      "outOfScope": "خارج النطاق",
+      "assumptions": "الافتراضات",
+      "constraints": "القيود",
+      "wbs": "هيكل تجزئة العمل (WBS)"
+    },
+    "schedule": {
+      "gantt": "الجدول الزمني (Gantt)"
+    },
+    "cost": {
+      "dashboard": "لوحة التكلفة",
+      "totalBudget": "إجمالي الميزانية",
+      "totalSpent": "إجمالي المصروف",
+      "remaining": "المتبقي",
+      "earnedValue": "القيمة المكتسبة",
+      "plannedVsActual": "المخطط مقابل الفعلي",
+      "burnRate": "معدل الإنفاق",
+      "detailedBudget": "تفاصيل الميزانية",
+      "category": "الفئة",
+      "planned": "المخطط",
+      "actual": "الفعلي",
+      "variance": "الانحراف",
+      "expenseLog": "سجل المصروفات",
+      "date": "التاريخ",
+      "description": "الوصف",
+      "wbs_link": "ربط WBS",
+      "amount": "المبلغ"
+    },
+    "hr": {
+      "effort": "الجهد",
+      "projectTeam": "فريق المشروع",
+      "raciMatrix": "مصفوفة RACI",
+      "task": "المهمة",
+      "timesheet": "سجل الساعات",
+      "member": "العضو",
+      "hours": "الساعات"
+    },
+    "risks": {
+      "dashboard": "لوحة المخاطر",
+      "matrix": "مصفوفة المخاطر",
+      "topRisks": "أهم المخاطر",
+      "register": "سجل المخاطر",
+      "description": "الوصف",
+      "category": "الفئة",
+      "impact": "الأثر",
+      "probability": "الاحتمالية",
+      "response": "الاستجابة",
+      "owner": "المالك",
+      "status": "الحالة"
+    },
+    "quality": {
+      "standards": "معايير الجودة",
+      "deliverableStandards": "معايير المخرجات",
+      "processStandards": "معايير العمليات",
+      "lessonsLearned": "الدروس المستفادة",
+      "positive": "ما تم بشكل جيد",
+      "negative": "ما يحتاج تحسين",
+      "checklist": "قائمة التحقق",
+      "recommendation": "التوصية"
+    },
+    "documents": {
+      "search": {
+        "placeholder": "ابحث في المستندات..."
+      },
+      "uploadFile": "رفع ملف",
+      "newFolder": "مجلد جديد",
+      "name": "الاسم",
+      "uploader": "الرافع",
+      "lastModified": "آخر تعديل",
+      "size": "الحجم",
+      "fileDetails": "تفاصيل الملف",
+      "descriptionLabel": "الوصف",
+      "lastModifiedLabel": "آخر تعديل",
+      "accessLabel": "الوصول",
+      "viewsLabel": "المشاهدات",
+      "versionsLabel": "الإصدارات",
+      "folder": "مجلد",
+      "notAvailable": "غير متوفر",
+      "versionBy": "{version} بواسطة {author}",
+      "accessLevels": {
+        "public": "عام",
+        "team": "الفريق",
+        "private": "خاص"
+      }
+    },
+    "changeLog": {
+      "title": "سجل التغييرات",
+      "requestChange": "طلب تغيير",
+      "id": "المعرّف",
+      "description": "الوصف",
+      "requester": "مقدم الطلب",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "impact": "الأثر"
+    },
+    "reporting": {
+      "reportCardsTitle": "تقارير المشروع",
+      "overviewReport": "تقرير النظرة العامة",
+      "overviewReportDesc": "ملخص عالي المستوى لتفاصيل المشروع ومؤشرات الأداء.",
+      "tasksReport": "تقرير المهام",
+      "tasksReportDesc": "تفصيل تقدم المهام وحالة الإنجاز.",
+      "budgetReport": "تقرير الميزانية",
+      "budgetReportDesc": "مقارنة استخدام الميزانية والمصروف الفعلي.",
+      "timelineReport": "تقرير الجدول الزمني",
+      "timelineReportDesc": "مقارنة الجدول المخطط بالتقدم الفعلي.",
+      "viewReport": "عرض التقرير",
+      "printReport": "طباعة التقرير",
+      "closeModal": "إغلاق نافذة التقرير",
+      "exportComingSoon": "ميزة التصدير ستكون متاحة قريبًا!",
+      "favorite": {
+        "setAsFavorite": "تعيين كمفضل",
+        "unfavorite": "إزالة من المفضلة"
+      },
+      "modal": {
+        "overview": {
+          "title": "تقرير النظرة العامة",
+          "projectInfo": "معلومات المشروع",
+          "manager": "مدير المشروع",
+          "dates": "تواريخ المشروع",
+          "budgetVsSpent": "الميزانية مقابل المصروف"
+        },
+        "tasks": {
+          "title": "تقرير المهام",
+          "taskSummary": "ملخص المهام",
+          "pending": "قيد الانتظار",
+          "inProgress": "قيد التنفيذ",
+          "completed": "مكتمل",
+          "totalTasks": "إجمالي المهام"
+        },
+        "budget": {
+          "title": "تقرير الميزانية",
+          "financialSummary": "الملخص المالي",
+          "totalBudget": "إجمالي الميزانية",
+          "actualSpent": "المصروف الفعلي",
+          "remaining": "المتبقي",
+          "budgetBreakdown": "تفصيل الميزانية",
+          "spent": "المصروف"
+        },
+        "timeline": {
+          "title": "تقرير الجدول الزمني",
+          "startDate": "تاريخ البدء",
+          "endDate": "تاريخ الانتهاء",
+          "totalDays": "إجمالي الأيام",
+          "elapsedDays": "الأيام المنقضية",
+          "timeElapsed": "الوقت المنقضي",
+          "completionProgress": "نسبة الإنجاز",
+          "status": "الحالة",
+          "statuses": {
+            "ahead": "متقدم عن الجدول",
+            "behind": "متأخر عن الجدول",
+            "onTrack": "ضمن المسار"
+          }
+        }
+      }
+    }
+  },
+  "reporting": {
+    "tabs": {
+      "create": "إنشاء التقارير",
+      "history": "السجل"
+    },
+    "history": {
+      "comingSoon": "سجل التقارير سيكون متاحًا قريبًا."
+    }
+  }
+}

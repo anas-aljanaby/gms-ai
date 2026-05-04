@@ -1,0 +1,10 @@
+{
+  "header": {
+    "greeting": "Welcome",
+    "profile": {
+      "name": "Ali",
+      "email": "ali@example.com"
+    },
+    "role": "Role"
+  }
+}

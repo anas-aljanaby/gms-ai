@@ -41,7 +41,7 @@ interface HeaderProps {
  * />
  */
 const Header: React.FC<HeaderProps> = ({ role, setRole, isMobileMenuOpen, setIsMobileMenuOpen, enabledLanguages, setActiveModule }) => {
-  const { t, language, setLanguage } = useLocalization();
+  const { t, language, setLanguage } = useLocalization(['common', 'header', 'sidebar', 'misc']);
   const { theme, toggleTheme } = useTheme();
 
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);

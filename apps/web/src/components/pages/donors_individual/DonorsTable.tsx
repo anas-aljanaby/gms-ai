@@ -15,7 +15,7 @@ interface DonorsTableProps {
 }
 
 const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortColumn, sortDirection, onSort }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
     const [selectedDonors, setSelectedDonors] = useState<Set<string>>(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
@@ -65,7 +65,7 @@ const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortCo
                             <SortableHeader column="fullName" labelKey="individual_donors.columns.donor" />
                             <SortableHeader column="totalDonations" labelKey="individual_donors.columns.totalDonations" />
                             <SortableHeader column="avgGift" labelKey="individual_donors.columns.avgGift" />
-                            <SortableHeader column="donationsCount" labelKey="donorIntelligence.table.donationCount" />
+                            <SortableHeader column="donationsCount" labelKey="individual_donors.columns.donationCount" />
                             <SortableHeader column="lastDonationDate" labelKey="individual_donors.columns.lastDonationDate" />
                             <SortableHeader column="status" labelKey="individual_donors.columns.status" />
                             <SortableHeader column="tier" labelKey="individual_donors.columns.tier" />

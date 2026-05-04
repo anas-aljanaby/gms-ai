@@ -1,0 +1,32 @@
+{
+  "common": {
+    "searchPlaceholder": "ابحث في كل شيء...",
+    "close": "إغلاق",
+    "previous": "السابق",
+    "next": "التالي",
+    "pagination_summary": "عرض {start}-{end} من {total}",
+    "dismissAlert": "إغلاق التنبيه",
+    "loading": "جاري التحميل...",
+    "analyzing": "جاري التحليل...",
+    "generating": "جاري الإنشاء...",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "share": "مشاركة",
+    "shareReport": "مشاركة التقرير",
+    "copy": "نسخ",
+    "copied": "تم النسخ!",
+    "validFor7Days": "الرابط صالح لمدة 7 أيام",
+    "showing": "عرض",
+    "of": "من",
+    "preview": "معاينة",
+    "save": "حفظ",
+    "clearFilters": "مسح الفلاتر",
+    "improvement": "تحسن",
+    "listening": "جاري الاستماع...",
+    "voiceSearch": "بحث صوتي",
+    "export": "تصدير",
+    "tabs": "علامات التبويب"
+  }
+}

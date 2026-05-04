@@ -13,7 +13,7 @@ interface ProjectManagementProps {
 }
 
 const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, deepLinkTarget }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'projects', 'beneficiaries', 'misc']);
     const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
     const [isWizardOpen, setIsWizardOpen] = useState(false);
     const [selectedProjectInfo, setSelectedProjectInfo] = useState<{ project: Project; initialTab?: string } | null>(null);

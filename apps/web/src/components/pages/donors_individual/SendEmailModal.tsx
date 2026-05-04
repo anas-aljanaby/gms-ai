@@ -10,7 +10,7 @@ interface SendEmailModalProps {
 }
 
 const SendEmailModal: React.FC<SendEmailModalProps> = ({ isOpen, onClose, onSend, donorEmail }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'individual_donors']);
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
 

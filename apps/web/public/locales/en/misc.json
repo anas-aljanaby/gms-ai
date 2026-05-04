@@ -1,0 +1,88 @@
+{
+  "help": {
+    "title": "Help & Support",
+    "subtitle": "Quickly browse FAQs, video tutorials, and interactive guides.",
+    "contextual": {
+      "indicators": "Choose which KPIs are shown on your dashboard."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "noResults": "No results match your search.",
+      "categories": {
+        "general": "General",
+        "donors": "Donors",
+        "projects": "Projects"
+      }
+    },
+    "videos": {
+      "title": "Video Tutorials",
+      "minutes": "min"
+    },
+    "interactive": {
+      "title": "Interactive Tutorials",
+      "description": "Follow step-by-step interactive walkthroughs for core modules.",
+      "duration": "{duration} min",
+      "start": "Start tutorial",
+      "comingSoonMessage": "Interactive tutorials are coming soon!",
+      "comingSoonTitle": "Feature in Development"
+    }
+  },
+  "quick_actions": {
+    "title": "Quick Actions",
+    "addProject": "Add Project",
+    "createReport": "Create Report",
+    "sendMessage": "Send Message",
+    "settings": "Settings"
+  },
+  "toasts": {
+    "featureInDev": "Feature in Development",
+    "newFolderComingSoon": "Create folder is coming soon.",
+    "uploadComingSoon": "Upload is coming soon."
+  },
+  "onboarding": {
+    "startTour": "Start Tour",
+    "checklist": {
+      "title": "Getting Started Checklist"
+    },
+    "tour": {
+      "skip": "Skip",
+      "prev": "Previous",
+      "next": "Next",
+      "finish": "Finish",
+      "step1_title": "Navigation Sidebar",
+      "step1_content": "Use the sidebar to switch between modules quickly.",
+      "step2_title": "Top Header Controls",
+      "step2_content": "Change language, role, and profile options from here.",
+      "step3_title": "Dashboard Controls",
+      "step3_content": "Filter metrics, share, export, and customize the dashboard layout.",
+      "step4_title": "AI Assistant",
+      "step4_content": "Open the AI assistant for contextual support and insights."
+    }
+  },
+  "sdg_analytics": {
+    "kpi": {
+      "aligned_projects": "Aligned Projects",
+      "alignment_score": "Alignment Score",
+      "most_targeted": "Most Targeted SDG",
+      "total_budget": "Total Budget"
+    },
+    "chart": {
+      "title": "SDG Budget Distribution"
+    },
+    "grid": {
+      "title": "Project-SDG Alignment Grid",
+      "clear": "Clear Selection"
+    },
+    "list": {
+      "title": "Aligned Projects",
+      "title_all": "All Projects",
+      "placeholder": "Select an SDG to view related projects."
+    }
+  },
+  "matrix": {
+    "title": "Performance Matrix"
+  },
+  "placeholder": {
+    "underConstruction": "{moduleName} is under construction."
+  }
+}

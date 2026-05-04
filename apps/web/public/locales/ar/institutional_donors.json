@@ -1,0 +1,140 @@
+{
+  "institutional_donors": {
+    "card": {
+      "viewProfile": "عرض الملف"
+    },
+    "opportunities": {
+      "title": "فرص الشراكات",
+      "description": "استخدم المطابقة الذكية لاختيار أفضل المانحين لكل مشروع.",
+      "selectProject": "اختر مشروعًا",
+      "findMatches": "بحث عن تطابقات",
+      "searching": "جارٍ البحث...",
+      "aiWorking": "يقوم الذكاء الاصطناعي بتحليل التطابقات...",
+      "alignmentScore": "درجة التوافق",
+      "matchingCriteria": "معايير التطابق",
+      "prepareDraft": "إعداد مسودة",
+      "selectProjectWarning": "يرجى اختيار مشروع أولاً.",
+      "matchError": "تعذر إيجاد تطابقات حاليًا.",
+      "draftError": "تعذر إنشاء المسودة حاليًا.",
+      "draftCopied": "تم نسخ المسودة.",
+      "draftTitle": "مسودة طلب تمويل",
+      "generatingDraft": "جارٍ إنشاء المسودة...",
+      "draftDisclaimer": "هذه مسودة أولية وتحتاج مراجعة قبل الإرسال."
+    },
+    "title": "المؤسسات المانحة",
+    "searchPlaceholder": "ابحث عن مؤسسة...",
+    "filters": "الفلاتر",
+    "listView": "عرض القائمة",
+    "cardView": "عرض البطاقات",
+    "mapView": "عرض الخريطة",
+    "addInstitution": "إضافة مؤسسة",
+    "backToList": "العودة إلى المؤسسات المانحة",
+    "nextDeadline": "الموعد القادم",
+    "columns": {
+      "funding": "التمويل",
+      "focus": "التركيز",
+      "actions": "الإجراءات"
+    },
+    "filter_labels": {
+      "institutionType": "نوع المؤسسة",
+      "relationshipStatus": "حالة العلاقة",
+      "grantFocusArea": "مجال المنح",
+      "priorityLevel": "مستوى الأولوية"
+    },
+    "modal": {
+      "nameEn": "اسم المؤسسة (إنجليزي)",
+      "nameAr": "اسم المؤسسة (عربي)",
+      "country": "الدولة",
+      "city": "المدينة",
+      "registrationNumber": "رقم التسجيل",
+      "establishmentDate": "تاريخ التأسيس",
+      "contactName": "اسم جهة الاتصال",
+      "contactEmail": "بريد جهة الاتصال",
+      "focusAreas": "مجالات الاهتمام",
+      "requiredName": "اسم المؤسسة (بالإنجليزية) مطلوب."
+    },
+    "analytics": {
+      "totalFunding": "إجمالي التمويل",
+      "pipelineValue": "قيمة مسار التمويل",
+      "highPriority": "أولوية عالية",
+      "upcomingDeadlines": "المواعيد القادمة",
+      "next90days": "خلال 90 يوماً"
+    },
+    "analyticsDashboard": {
+      "title": "لوحة التحليلات",
+      "donationGrowth": "نمو التبرعات",
+      "projectCompletion": "إنجاز المشاريع",
+      "communicationFrequency": "وتيرة التواصل",
+      "satisfactionScore": "مستوى الرضا"
+    },
+    "statuses": {
+      "Cold": "بارد",
+      "Prospect": "محتمل",
+      "Cultivating": "قيد التطوير",
+      "Active": "نشط",
+      "Stewardship": "رعاية"
+    },
+    "types": {
+      "Foundation": "مؤسسة",
+      "Corporate": "شركة",
+      "Government": "حكومي",
+      "Multilateral": "متعدد الأطراف"
+    },
+    "priorities": {
+      "High": "عالية",
+      "Medium": "متوسطة",
+      "Low": "منخفضة"
+    },
+    "detail": {
+      "overview": "نظرة عامة",
+      "grants": "المنح",
+      "contacts": "جهات الاتصال",
+      "documents": "المستندات",
+      "status": "الحالة",
+      "assignedManager": "المدير المسؤول",
+      "priority": "الأولوية",
+      "totalAwarded": "إجمالي المنح الممنوحة",
+      "activeGrants": "المنح النشطة",
+      "nextDeadline": "الموعد القادم",
+      "type": "النوع",
+      "country": "الدولة",
+      "registrationNumber": "رقم التسجيل",
+      "establishmentDate": "تاريخ التأسيس",
+      "donationsTitle": "ملخص التبرعات",
+      "donationsThisYear": "تبرعات هذا العام",
+      "totalDonations": "إجمالي التبرعات",
+      "vsLastYear": "مقارنة بالعام الماضي",
+      "contactInfoTitle": "معلومات الاتصال",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "website": "الموقع الإلكتروني",
+      "socialMedia": "وسائل التواصل",
+      "addContact": "إضافة جهة اتصال",
+      "addContactTitle": "إضافة جهة اتصال جديدة",
+      "save": "حفظ",
+      "validation": {
+        "required": "هذا الحقل مطلوب.",
+        "email": "يرجى إدخال بريد إلكتروني صحيح."
+      },
+      "placeholders": {
+        "fullName": "الاسم الكامل",
+        "position": "المنصب"
+      },
+      "form": {
+        "fullName": "الاسم الكامل",
+        "position": "المنصب",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "whatsapp": "واتساب",
+        "profilePicture": "رابط صورة الملف",
+        "isPrimary": "جهة اتصال رئيسية",
+        "permissions": "الصلاحيات",
+        "permissionsDesc": "اختر صلاحيات الوصول لجهة الاتصال.",
+        "permViewProjects": "عرض المشاريع",
+        "permManageFinances": "إدارة الشؤون المالية",
+        "permApproveReports": "اعتماد التقارير"
+      }
+    }
+  }
+}

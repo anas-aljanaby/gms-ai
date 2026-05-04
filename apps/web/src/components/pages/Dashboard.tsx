@@ -52,7 +52,7 @@ const comparisonData = [ { label: 'Donations', value: 125000, year: 2024 }, { la
  * @returns {JSX.Element}
  */
 const FavoriteReportCard: React.FC<{ setActiveModule: (module: string) => void; }> = memo(({ setActiveModule }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'dashboard', 'settings', 'misc']);
     const [favId, setFavId] = useState<string | null>(null);
 
     useEffect(() => {
@@ -228,7 +228,7 @@ const getInitialVisibleWidgets = () => {
  * @returns {JSX.Element}
  */
 const Dashboard: React.FC<DashboardProps> = ({ setActiveModule }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'dashboard', 'projects', 'settings', 'misc']);
     const [isCustomizeMode, setIsCustomizeMode] = useState(false);
     const [layouts, setLayouts, undo, redo, canUndo, canRedo] = useHistoryState<Layouts>(getInitialLayouts());
     const [visibleWidgets, setVisibleWidgets] = useState<string[]>(getInitialVisibleWidgets());

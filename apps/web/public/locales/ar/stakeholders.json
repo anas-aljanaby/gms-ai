@@ -1,0 +1,200 @@
+{
+  "stakeholder_management": {
+    "title": "إدارة أصحاب المصلحة",
+    "subtitle": "متابعة العلاقات وصحة التفاعل والتأثير الاستراتيجي.",
+    "export": "تصدير",
+    "addNew": "إضافة جديد",
+    "totalStakeholders": "إجمالي أصحاب المصلحة",
+    "avgRelationshipHealth": "متوسط صحة العلاقة",
+    "needsAttention": "بحاجة إلى متابعة",
+    "highRisks": "مخاطر عالية",
+    "searchPlaceholder": "ابحث عن صاحب مصلحة...",
+    "filter": "فلترة",
+    "view": {
+      "table": "عرض الجدول",
+      "card": "عرض البطاقات",
+      "matrix": "عرض المصفوفة"
+    },
+    "voice": {
+      "notSupported": "التعرّف الصوتي غير مدعوم في هذا المتصفح.",
+      "permissionDenied": "تم رفض إذن الميكروفون. يرجى تفعيله من إعدادات المتصفح.",
+      "startError": "تعذر بدء الاستماع. يرجى المحاولة مرة أخرى."
+    },
+    "types": {
+      "all": "الكل",
+      "donor": "مانح",
+      "beneficiary": "مستفيد",
+      "partner": "شريك",
+      "volunteer": "متطوع",
+      "mentor": "مرشد",
+      "expert": "خبير/مدرب",
+      "investor": "مستثمر",
+      "board_member": "عضو مجلس إدارة",
+      "government": "جهة حكومية",
+      "supplier": "مورد",
+      "community": "مجتمع",
+      "media": "إعلام"
+    },
+    "table": {
+      "name": "الاسم",
+      "type": "النوع",
+      "relationshipHealth": "صحة العلاقة",
+      "level": "المستوى",
+      "risks": "المخاطر",
+      "lastContact": "آخر تواصل",
+      "aiInsights": "رؤى الذكاء الاصطناعي",
+      "actions": "الإجراءات"
+    },
+    "relationshipLevels": {
+      "strategic": "استراتيجي",
+      "core": "محوري",
+      "important": "مهم"
+    },
+    "risks": {
+      "low": "منخفض",
+      "medium": "متوسط",
+      "high": "مرتفع"
+    },
+    "statuses": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "classificationLabel": "التصنيف",
+    "classification": {
+      "primary": "أساسي",
+      "secondary": "ثانوي"
+    },
+    "riskProfileLabel": "ملف المخاطر",
+    "riskProfile": {
+      "supporter": "داعم",
+      "neutral": "محايد",
+      "blocker": "مُعطِّل"
+    },
+    "card": {
+      "health": "الصحة",
+      "engagement": "التفاعل",
+      "power": "النفوذ",
+      "interest": "الاهتمام",
+      "needs": "الاحتياجات",
+      "viewDetails": "عرض التفاصيل"
+    },
+    "matrix": {
+      "high": "مرتفع",
+      "low": "منخفض",
+      "power": "النفوذ",
+      "interest": "الاهتمام",
+      "keepSatisfied": "الحفاظ على الرضا",
+      "keepSatisfiedDesc": "نفوذ مرتفع واهتمام نشط أقل.",
+      "manageClosely": "إدارة وثيقة",
+      "manageCloselyDesc": "نفوذ مرتفع واهتمام مرتفع.",
+      "monitor": "المراقبة",
+      "monitorDesc": "نفوذ منخفض واهتمام منخفض.",
+      "keepInformed": "إبقاء على اطلاع",
+      "keepInformedDesc": "اهتمام مرتفع ونفوذ أقل."
+    },
+    "add_modal": {
+      "title": "إضافة صاحب مصلحة جديد",
+      "name_ar": "الاسم (عربي)",
+      "name_en": "الاسم (إنجليزي)",
+      "type": "النوع",
+      "category": "الفئة",
+      "country": "الدولة",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "validation": {
+        "nameRequired": "الاسم مطلوب بلغة واحدة على الأقل."
+      },
+      "categories": {
+        "foundation": "مؤسسة",
+        "family": "عائلة",
+        "company": "شركة"
+      }
+    },
+    "detailPanel": {
+      "summary": "الملخص",
+      "metrics": "مؤشرات العلاقة",
+      "contactHistory": "سجل التواصل",
+      "aiActionCenter": "مركز الإجراءات الذكية",
+      "generateSuggestions": "توليد اقتراحات ذكية",
+      "generating": "جاري توليد الاقتراحات...",
+      "suggestionsError": "تعذر توليد الاقتراحات. يرجى المحاولة مرة أخرى.",
+      "contact_types": {
+        "email": "بريد إلكتروني",
+        "meeting": "اجتماع",
+        "call": "مكالمة"
+      }
+    },
+    "timeAgo": {
+      "twoWeeks": "قبل أسبوعين",
+      "oneMonth": "قبل شهر",
+      "threeMonths": "قبل 3 أشهر"
+    },
+    "insights": {
+      "newly_added": "تمت إضافة صاحب مصلحة جديد؛ يُنصح بجدولة تهيئة وتواصل أولي.",
+      "excellent_relation": "علاقة استراتيجية ممتازة مع تواصل منتظم.",
+      "active_beneficiary": "تفاعل المستفيد مرتفع ونتائج الدعم مستقرة.",
+      "warning_communication": "وتيرة التواصل في انخفاض؛ يُوصى بتواصل استباقي.",
+      "excellent_engagement": "مستوى تفاعل ومشاركة متميز.",
+      "investor_follow_on": "احتمال مرتفع لتمويل لاحق للشركات الناشئة الناجحة.",
+      "investor_early_stage": "مهتم بالشركات الاجتماعية الناشئة في المراحل المبكرة.",
+      "mentor_marketing": "مرشد عالي التقييم ومتخصص في التسويق.",
+      "mentor_finance": "خبير مالي يقدّم ملاحظات قوية على النماذج المالية.",
+      "expert_agritech": "خبير رائد في التقنية الزراعية ومتاح للورش.",
+      "expert_cybersecurity": "يوفّر تدريبًا تطوعيًا على أمن البيانات للمنظمات غير الربحية.",
+      "board_chairman": "رئيس مجلس إدارة ذو تأثير مرتفع وتفاعل قوي.",
+      "board_financial": "عضو مجلس إدارة بخبرة مالية قوية."
+    }
+  },
+  "incubation_stakeholders": {
+    "title": "أصحاب المصلحة في الحاضنة",
+    "kpi_total": "إجمالي أصحاب المصلحة",
+    "kpi_mentors": "المرشدون",
+    "kpi_investors": "المستثمرون",
+    "kpi_partners": "الشركاء",
+    "add_stakeholder": "إضافة صاحب مصلحة",
+    "search_placeholder": "ابحث بالاسم أو الدور...",
+    "table": {
+      "name": "الاسم",
+      "role": "الدور",
+      "relatedProgram": "البرنامج/الشركة الناشئة ذات الصلة",
+      "contact": "جهة الاتصال",
+      "notes": "ملاحظات",
+      "actions": "إجراءات"
+    },
+    "roles": {
+      "Mentor": "مرشد",
+      "Investor": "مستثمر",
+      "CorporatePartner": "شريك مؤسسي",
+      "UniversityPartner": "شريك جامعي",
+      "Expert": "خبير"
+    }
+  },
+  "incubation_investors": {
+    "title": "مستثمرو الحاضنة",
+    "viewDemoDay": "عرض تقييمات يوم العرض",
+    "totalInvestors": "إجمالي المستثمرين",
+    "totalFunds": "إجمالي الصناديق الممثلة",
+    "mostActive": "الأكثر نشاطًا",
+    "table_investor": "المستثمر",
+    "table_fundType": "الصندوق / النوع",
+    "table_focus": "مجال الاستثمار",
+    "table_startups": "الشركات الناشئة المتابعة",
+    "table_lastInteraction": "آخر تفاعل",
+    "fundTypes": {
+      "vc_firm": "شركة رأس مال مخاطر",
+      "angel_network": "شبكة مستثمرين ملائكيين"
+    }
+  },
+  "incubationSuccessMetrics": {
+    "fundingPerDonorTitle": "التمويل لكل منظمة مانحة",
+    "fundingVsImpactTitle": "التمويل مقابل درجة التأثير مع مرور الوقت",
+    "grantDistributionTitle": "توزيع المنح حسب القطاع",
+    "roiVsMentorshipTitle": "عائد الاستثمار مقابل كثافة الإرشاد",
+    "fundingAxisLabel": "التمويل (دولار أمريكي)",
+    "impactScoreAxisLabel": "درجة التأثير",
+    "mentorshipSessionsAxisLabel": "جلسات الإرشاد",
+    "roiAxisLabel": "عائد الاستثمار (x)",
+    "donor": "المانح",
+    "sector": "القطاع"
+  }
+}

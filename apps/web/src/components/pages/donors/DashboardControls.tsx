@@ -25,7 +25,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
     view,
     onViewChange
 }) => {
-    const { t, dir } = useLocalization();
+    const { t, dir } = useLocalization(['common', 'donors']);
     const [isExportMenuOpen, setIsExportMenuOpen] = React.useState(false);
     const exportMenuRef = React.useRef<HTMLDivElement>(null);
 

@@ -1,0 +1,88 @@
+{
+  "help": {
+    "title": "المساعدة والدعم",
+    "subtitle": "استعرض الأسئلة الشائعة والدروس المصورة والإرشادات التفاعلية بسرعة.",
+    "contextual": {
+      "indicators": "اختر مؤشرات الأداء التي تريد عرضها في لوحة البيانات."
+    },
+    "faq": {
+      "title": "الأسئلة الشائعة",
+      "noResults": "لا توجد نتائج مطابقة لبحثك.",
+      "categories": {
+        "general": "عام",
+        "donors": "المانحون",
+        "projects": "المشاريع"
+      }
+    },
+    "videos": {
+      "title": "الدروس المصورة",
+      "minutes": "دقيقة"
+    },
+    "interactive": {
+      "title": "الدروس التفاعلية",
+      "description": "اتبع جولات تفاعلية خطوة بخطوة للتعرف على الوحدات الأساسية.",
+      "duration": "{duration} دقيقة",
+      "start": "ابدأ الدرس",
+      "comingSoonMessage": "الدروس التفاعلية ستكون متاحة قريبًا!",
+      "comingSoonTitle": "الميزة قيد التطوير"
+    }
+  },
+  "quick_actions": {
+    "title": "الإجراءات السريعة",
+    "addProject": "إضافة مشروع",
+    "createReport": "إنشاء تقرير",
+    "sendMessage": "إرسال رسالة",
+    "settings": "الإعدادات"
+  },
+  "toasts": {
+    "featureInDev": "الميزة قيد التطوير",
+    "newFolderComingSoon": "إنشاء مجلد سيكون متاحًا قريبًا.",
+    "uploadComingSoon": "الرفع سيكون متاحًا قريبًا."
+  },
+  "onboarding": {
+    "startTour": "ابدأ الجولة",
+    "checklist": {
+      "title": "قائمة البدء"
+    },
+    "tour": {
+      "skip": "تخطي",
+      "prev": "السابق",
+      "next": "التالي",
+      "finish": "إنهاء",
+      "step1_title": "الشريط الجانبي",
+      "step1_content": "استخدم الشريط الجانبي للتنقل بسرعة بين الوحدات.",
+      "step2_title": "عناصر التحكم العلوية",
+      "step2_content": "يمكنك تغيير اللغة والدور وخيارات الملف الشخصي من هنا.",
+      "step3_title": "عناصر تحكم Dashboard",
+      "step3_content": "رشّح المؤشرات وشارك وصدّر وخصص تخطيط Dashboard.",
+      "step4_title": "المساعد الذكي",
+      "step4_content": "افتح المساعد الذكي للحصول على دعم ورؤى سياقية."
+    }
+  },
+  "sdg_analytics": {
+    "kpi": {
+      "aligned_projects": "المشاريع المتوافقة",
+      "alignment_score": "درجة المواءمة",
+      "most_targeted": "أكثر هدف مستهدف",
+      "total_budget": "إجمالي الميزانية"
+    },
+    "chart": {
+      "title": "توزيع ميزانية أهداف التنمية المستدامة"
+    },
+    "grid": {
+      "title": "شبكة مواءمة المشاريع مع الأهداف",
+      "clear": "مسح التحديد"
+    },
+    "list": {
+      "title": "المشاريع المتوافقة",
+      "title_all": "جميع المشاريع",
+      "placeholder": "اختر هدفًا لعرض المشاريع المرتبطة."
+    }
+  },
+  "matrix": {
+    "title": "مصفوفة الأداء"
+  },
+  "placeholder": {
+    "underConstruction": "{moduleName} قيد التطوير."
+  }
+}

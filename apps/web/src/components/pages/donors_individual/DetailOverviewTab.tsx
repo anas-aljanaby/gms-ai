@@ -38,7 +38,7 @@ const InfoItem: React.FC<{ label: string; value: React.ReactNode; icon: React.Re
 
 
 const DetailOverviewTab: React.FC<DetailOverviewTabProps> = ({ donor, donations, communications }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
 
     const avgGift = donor.donationsCount && donor.donationsCount > 0 ? donor.totalDonations / donor.donationsCount : 0;
     

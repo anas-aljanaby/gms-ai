@@ -29,7 +29,7 @@ interface SettingsPageProps {
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({ enabledLanguages, onEnabledLanguagesChange }) => {
-    const { t, dir } = useLocalization();
+    const { t, dir } = useLocalization(['common', 'settings', 'misc']);
     const [activeCategory, setActiveCategory] = useState<SettingsCategory>('organization');
 
     const categories: { id: SettingsCategory; icon: React.FC<{className?: string}> }[] = [

@@ -1,0 +1,85 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "activeFilters": "Active Filters",
+    "vsLastPeriod": "vs last period",
+    "favoriteReport": {
+      "title": "Favorite Report",
+      "noneSelected": "No favorite report selected."
+    },
+    "toastDemo": {
+      "title": "Notification Demo",
+      "successTitle": "Success",
+      "successMessage": "Operation completed successfully.",
+      "errorTitle": "Error",
+      "errorMessage": "Something went wrong. Please try again.",
+      "warningTitle": "Warning",
+      "warningMessage": "Please review your inputs before continuing.",
+      "infoTitle": "Info",
+      "infoMessage": "Here is an informational update.",
+      "successButton": "Success",
+      "errorButton": "Error",
+      "warningButton": "Warning",
+      "infoButton": "Info"
+    },
+    "widgets": {
+      "kpiSponsorships": "Pending Sponsorships",
+      "kpiOverdueTasks": "Overdue Donor Tasks",
+      "kpiProjectsAtRisk": "Projects at Risk",
+      "kpiFundsDisbursed": "Funds to be Disbursed",
+      "donationsChart": "Donations Chart",
+      "timelineView": "Timeline",
+      "matrixView": "Matrix View",
+      "comparisonBars": "Comparative Performance",
+      "favoriteReport": "Favorite Report",
+      "toastDemo": "Notifications Demo",
+      "gettingStarted": "Getting Started",
+      "quickActions": "Quick Actions",
+      "aiInsights": "AI Insights"
+    },
+    "controls": {
+      "timePeriod": "Time Period",
+      "department": "Department",
+      "indicators": "Indicators",
+      "selected": "{count} selected",
+      "searchIndicators": "Search indicators...",
+      "autoRefresh": "Auto Refresh",
+      "periods": {
+        "d7": "Last 7 days",
+        "d30": "Last 30 days",
+        "thisMonth": "This month",
+        "thisQuarter": "This quarter",
+        "thisYear": "This year"
+      },
+      "departments": {
+        "all": "All departments",
+        "programs": "Programs",
+        "finance": "Finance",
+        "hr": "Human Resources",
+        "marketing": "Marketing"
+      },
+      "kpis": {
+        "donorRetention": "Donor Retention",
+        "newDonors": "New Donors",
+        "avgGift": "Average Gift",
+        "campaignROI": "Campaign ROI",
+        "projectSuccess": "Project Success",
+        "volunteerTurnover": "Volunteer Turnover"
+      }
+    },
+    "aiInsights": {
+      "title": "AI Insights",
+      "refreshingIn": "Refreshing in {seconds}s",
+      "opportunities": "Opportunities",
+      "alerts": "Alerts",
+      "recommendations": "Recommendations",
+      "forecasts": "Forecasts",
+      "viewMore": "View More Insights",
+      "confidence": "Conf"
+    }
+  },
+  "kpiCard": {
+    "target": "Target: {target}",
+    "daysRemaining": "days remaining"
+  }
+}

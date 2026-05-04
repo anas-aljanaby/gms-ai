@@ -470,7 +470,7 @@ const PipelineTab: React.FC<{
 };
 
 const DirectoryTab: React.FC = () => {
-    const { t, language, dir } = useLocalization();
+    const { t, language, dir } = useLocalization(['common', 'donors', 'individual_donors', 'misc']);
     const enrichedDonors = useMemo(() =>
         MOCK_INDIVIDUAL_DONORS.map(donor => classifyAndEnrichDonor(donor, MOCK_DONATIONS)),
     []);
@@ -700,7 +700,7 @@ const AnalyticsTab: React.FC<{ role: Role }> = ({ role }) => {
 // --- MAIN HUB COMPONENT ---
 
 const DonorHub: React.FC<{ role: Role }> = ({ role }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'donors', 'individual_donors', 'misc']);
     const [state, dispatch] = useReducer(donorsReducer, getInitialState());
     const [activeTab, setActiveTab] = useState('directory');
     const [isModalOpen, setIsModalOpen] = useState(false);

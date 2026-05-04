@@ -12,7 +12,7 @@ interface AddContactModalProps {
 }
 
 const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAdd }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     const toast = useToast();
 
     const [name, setName] = useState('');

@@ -1,0 +1,91 @@
+{
+  "donors": {
+    "hubTitle": "Donor Management",
+    "tabs": {
+      "pipeline": "Pipeline",
+      "directory": "Directory",
+      "analytics": "Analytics"
+    },
+    "directory": {
+      "advancedFilters": "Advanced Filters",
+      "searchPlaceholder": "Search donors..."
+    },
+    "searchPlaceholder": "Search donors...",
+    "allCountries": "All Countries",
+    "addDonor": "Add Donor",
+    "modal": {
+      "addDonorTitle": "Add Donor",
+      "donorName": "Donor Name",
+      "email": "Email",
+      "country": "Country",
+      "potentialGift": "Potential Gift",
+      "cancel": "Cancel",
+      "saveDonor": "Save Donor",
+      "requiredFields": "Name and Email are required."
+    },
+    "card": {
+      "potential": "Potential",
+      "donated": "Donated",
+      "openTasks": "Open Tasks",
+      "overdue": "Overdue",
+      "due": "Due",
+      "addTask": "Add Task",
+      "addDonation": "Add Donation",
+      "moreOptions": "More options",
+      "ariaLabel": "Donor card for {name}"
+    },
+    "ai_suggestion": {
+      "title": "AI Suggestion",
+      "loading": "Generating suggestion...",
+      "start": "Draft Email",
+      "error": "Could not generate a suggestion right now.",
+      "rationale": "Rationale"
+    },
+    "ai_modal": {
+      "title": "AI Email Assistant",
+      "generating": "Generating email draft...",
+      "to": "To",
+      "subject": "Subject",
+      "body": "Body",
+      "send": "Send Email",
+      "generationFailed": "Failed to generate AI content.",
+      "fallbackSubject": "Error",
+      "fallbackBody": "Could not generate content.",
+      "emailSent": "Email sent!"
+    },
+    "stages": {
+      "prospect": "Prospect",
+      "contacted": "Contacted",
+      "cultivating": "Cultivating",
+      "solicited": "Solicited",
+      "stewardship": "Stewardship"
+    }
+  },
+  "donorManagement": {
+    "messages": {
+      "saveComingSoon": "Save functionality coming soon.",
+      "mapUnderConstruction": "Map view is under construction."
+    },
+    "voice": {
+      "notSupported": "Speech recognition is not supported in this browser.",
+      "permissionDenied": "Microphone permission was denied. Please enable it in your browser settings.",
+      "startError": "Could not start listening. Please try again."
+    },
+    "views": {
+      "kanban": "Kanban View",
+      "funnel": "Funnel View"
+    }
+  },
+  "donorIntelligence": {
+    "distributionChart": "Donor Category Distribution",
+    "categories": {
+      "HeroDonor": "Hero Donor",
+      "RecurringDonor": "Recurring Donor",
+      "SeasonalDonor": "Seasonal Donor",
+      "EventDonor": "Event Donor",
+      "DormantDonor": "Dormant Donor",
+      "GeneralDonor": "General Donor",
+      "NewDonor": "New Donor"
+    }
+  }
+}

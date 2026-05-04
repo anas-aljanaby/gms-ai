@@ -35,7 +35,7 @@ declare global {
 
 
 const StakeholderManagement: React.FC = () => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'stakeholders', 'misc']);
     const [stakeholders, setStakeholders] = useState<Stakeholder[]>(MOCK_STAKEHOLDERS);
     const [selectedCategory, setSelectedCategory] = useState<StakeholderType | 'all'>('all');
     const [searchQuery, setSearchQuery] = useState('');

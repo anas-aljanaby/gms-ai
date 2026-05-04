@@ -1,6 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
+import React, { useMemo, useState } from 'react';
 import type { Donor, DonorTask, AiSuggestion } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency, formatDate } from '../../../lib/utils';
@@ -13,48 +12,96 @@ interface KanbanCardProps {
     dispatch: React.Dispatch<any>;
 }
 
+const daysSince = (isoDate: string) => {
+    if (!isoDate) return Number.POSITIVE_INFINITY;
+
+    const timestamp = new Date(isoDate).getTime();
+    if (Number.isNaN(timestamp)) return Number.POSITIVE_INFINITY;
+
+    const msPerDay = 1000 * 60 * 60 * 24;
+    return Math.floor((Date.now() - timestamp) / msPerDay);
+};
+
+const buildSuggestion = (donor: Donor, language: string): AiSuggestion => {
+    const isArabic = language === 'ar';
+    const overdueTask = donor.tasks.find(task => !task.completed && task.dueDate < new Date().toISOString().split('T')[0]);
+    const lastContactDays = daysSince(donor.lastContact);
+
+    const copy = {
+        overdue: {
+            action: isArabic ? `أنهِ المهمة المتأخرة: ${overdueTask?.text ?? ''}` : `Resolve overdue task: ${overdueTask?.text ?? ''}`,
+            rationale: isArabic
+                ? 'توجد مهمة متابعة متأخرة، ومعالجتها أولاً هي أسرع خطوة لحماية العلاقة واستعادة الزخم.'
+                : 'There is an overdue follow-up task, so clearing it first is the fastest way to protect momentum.',
+        },
+        atRisk: {
+            action: isArabic ? 'رتّب مكالمة إعادة تواصل هذا الأسبوع' : 'Schedule a re-engagement call this week',
+            rationale: isArabic
+                ? 'صحة العلاقة مصنفة كمعرضة للخطر، لذا التواصل الشخصي السريع أفضل من الانتظار أو إرسال رسالة عامة.'
+                : 'The relationship is marked at risk, so a personal touchpoint is more urgent than a generic update.',
+        },
+        stale: {
+            action: isArabic ? 'أرسل رسالة متابعة شخصية' : 'Send a personalized check-in email',
+            rationale: isArabic
+                ? 'مر وقت طويل منذ آخر تواصل، ورسالة قصيرة مرتبطة باهتمامات المتبرع تساعد على إعادة فتح الحوار.'
+                : 'It has been a while since the last contact, and a brief personalized note is the best way to reopen the conversation.',
+        },
+        prospect: {
+            action: isArabic ? 'حدّد مكالمة تعريفية قصيرة' : 'Book a short introductory call',
+            rationale: isArabic
+                ? 'المتبرع ما يزال في مرحلة الاهتمام الأولي، لذا الخطوة التالية الأنسب هي تحويل الاهتمام إلى تواصل مباشر.'
+                : 'The donor is still at the prospect stage, so the next best step is converting interest into a real conversation.',
+        },
+        contacted: {
+            action: isArabic ? 'شارك قصة أثر مرتبطة باهتمامه' : 'Share a tailored impact story',
+            rationale: isArabic
+                ? 'بعد التواصل الأول، أفضل طريقة لتعميق الاهتمام هي إرسال مثال واضح يربط الدعم بالنتيجة.'
+                : 'After first contact, a concrete impact story is the best way to deepen interest.',
+        },
+        cultivating: {
+            action: isArabic ? 'ادعه إلى إحاطة أو لقاء قصير' : 'Invite them to a short briefing',
+            rationale: isArabic
+                ? 'العلاقة في مرحلة البناء، ودعوة موجزة تساعد على نقلها من الاهتمام إلى الالتزام.'
+                : 'The relationship is being cultivated, and a short briefing helps move it from interest toward commitment.',
+        },
+        solicited: {
+            action: isArabic ? 'تابع الطلب المفتوح بوضوح ولطف' : 'Follow up on the open ask',
+            rationale: isArabic
+                ? 'تم تقديم الطلب بالفعل، لذا المتابعة الواضحة وفي الوقت المناسب أهم من بدء محادثة جديدة.'
+                : 'An ask is already in play, so a timely, clear follow-up is more useful than starting a new thread.',
+        },
+        stewardship: {
+            action: isArabic ? 'أرسل تحديث أثر وشكر شخصي' : 'Send an impact update and thank-you',
+            rationale: isArabic
+                ? 'مرحلة الرعاية تحتاج إلى تعزيز الثقة وإظهار النتائج للحفاظ على العلاقة على المدى الطويل.'
+                : 'Stewardship works best when it reinforces trust and shows the results of the donor’s support.',
+        },
+    };
+
+    if (overdueTask) return copy.overdue;
+    if (donor.relationshipHealth === 'At Risk') return copy.atRisk;
+    if (lastContactDays >= 45) return copy.stale;
+
+    switch (donor.stage) {
+        case 'prospect':
+            return copy.prospect;
+        case 'contacted':
+            return copy.contacted;
+        case 'cultivating':
+            return copy.cultivating;
+        case 'solicited':
+            return copy.solicited;
+        case 'stewardship':
+        default:
+            return copy.stewardship;
+    }
+};
+
 const KanbanCard: React.FC<KanbanCardProps> = ({ donor, dispatch }) => {
-    const { t, language, dir } = useLocalization();
-    const [aiSuggestion, setAiSuggestion] = useState<AiSuggestion | null>(null);
-    const [isLoadingSuggestion, setIsLoadingSuggestion] = useState(true);
+    const { t, language } = useLocalization(['common', 'donors']);
     const [isActionModalOpen, setIsActionModalOpen] = useState(false);
-
-    useEffect(() => {
-        const getSuggestion = async () => {
-            setIsLoadingSuggestion(true);
-            try {
-                const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-                const systemInstruction = `You are a non-profit relationship manager AI. Given donor data, suggest the single 'next best action'. Respond in the user's language which is ${language}. Your response MUST be a valid JSON object with 'action' (a short imperative phrase like "Send a thank you email") and 'rationale' (a brief explanation).`;
-                const prompt = `Donor: ${JSON.stringify({ name: donor.name, stage: donor.stage, totalDonated: donor.totalDonated, lastContact: donor.lastContact, relationshipHealth: donor.relationshipHealth, donorCategory: donor.donorCategory })}`;
-                
-                const response = await ai.models.generateContent({
-                    model: 'gemini-2.5-flash',
-                    contents: prompt,
-                    config: {
-                        systemInstruction,
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: Type.OBJECT,
-                            properties: {
-                                action: { type: Type.STRING },
-                                rationale: { type: Type.STRING }
-                            },
-                            required: ['action', 'rationale']
-                        }
-                    }
-                });
-                const result = JSON.parse(response.text.trim());
-                setAiSuggestion(result);
-            } catch (error) {
-                console.error("Failed to get AI suggestion:", error);
-                setAiSuggestion(null);
-            } finally {
-                setIsLoadingSuggestion(false);
-            }
-        };
-
-        getSuggestion();
-    }, [donor, language]);
+    const aiSuggestion = useMemo(() => buildSuggestion(donor, language), [donor, language]);
+    const isLoadingSuggestion = false;
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
         e.dataTransfer.setData('donorId', donor.id.toString());

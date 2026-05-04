@@ -8,7 +8,7 @@ import VideoTutorialsSection from '../help/VideoTutorialsSection';
 import InteractiveTutorialsSection from '../help/InteractiveTutorialsSection';
 
 const HelpSupportPage: React.FC = () => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'misc']);
     const [searchTerm, setSearchTerm] = useState('');
 
     return (

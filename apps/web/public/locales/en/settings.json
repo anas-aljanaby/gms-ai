@@ -1,0 +1,371 @@
+{
+  "settings": {
+    "title": "Settings",
+    "saveChanges": "Save Changes",
+    "categories": {
+      "organization": "Organization",
+      "users": "Users & Access",
+      "translations": "Translation Management",
+      "financials": "Financial Settings",
+      "hr": "HR",
+      "projects": "Program Settings",
+      "documents": "Documents",
+      "system": "System",
+      "reporting": "Reporting",
+      "notifications": "Notifications",
+      "advanced": "Advanced"
+    },
+    "organization": {
+      "profileTitle": "Organization Profile",
+      "profileDesc": "Core organization identity and branding settings.",
+      "orgName": "Organization Name",
+      "mission": "Mission",
+      "uploadLogo": "Upload Logo",
+      "primaryColor": "Primary Color",
+      "fiscalYearStart": "Fiscal Year Start",
+      "fiscalYearEnd": "Fiscal Year End",
+      "langTitle": "Language Preferences",
+      "langDesc": "Default language and enabled interface languages.",
+      "defaultLang": "Default Language",
+      "enableEnglish": "Enable English",
+      "enableArabic": "Enable Arabic",
+      "regionTitle": "Regional Settings",
+      "regionDesc": "Country, timezone, and currency preferences.",
+      "country": "Country",
+      "timezone": "Timezone",
+      "primaryCurrency": "Primary Currency"
+    },
+    "users": {
+      "tabAccessControl": "Access Control",
+      "tabUserProvisioning": "User Provisioning",
+      "tabAuthentication": "Authentication",
+      "rolesTitle": "Roles and Permissions",
+      "rolesDesc": "Define roles and permission sets for each module.",
+      "addRole": "Add Role",
+      "roleName": "Role Name",
+      "userCount": "Users",
+      "actions": "Actions",
+      "editPermissions": "Edit Permissions",
+      "permissionsForRole": "Permissions for {roleName}",
+      "module": "Module",
+      "view": "View",
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "usersTitle": "Users",
+      "usersDesc": "Manage user access and account lifecycle.",
+      "inviteUser": "Invite User",
+      "userName": "User",
+      "role": "Role",
+      "status": "Status",
+      "lastLogin": "Last Login",
+      "deactivate": "Deactivate",
+      "resendInvite": "Resend Invite",
+      "statuses": {
+        "Active": "Active",
+        "Invited": "Invited",
+        "Deactivated": "Deactivated"
+      },
+      "passwordPolicyTitle": "Password Policy",
+      "passwordPolicyDesc": "Set password strength and expiry requirements.",
+      "minLength": "Minimum Length",
+      "complexity": "Complexity Requirements",
+      "requireUppercase": "Require uppercase letters",
+      "requireLowercase": "Require lowercase letters",
+      "requireNumbers": "Require numbers",
+      "requireSpecial": "Require special characters",
+      "mfaTitle": "Multi-Factor Authentication",
+      "mfaDesc": "Enforce MFA by policy.",
+      "mfaEnforcement": "MFA Enforcement",
+      "mfaOptions": {
+        "disabled": "Disabled",
+        "optional": "Optional",
+        "required": "Required for all users",
+        "requiredRoles": "Required for selected roles"
+      },
+      "requiredForRoles": "Required for Roles",
+      "requiredForRolesPlaceholder": "Admin, Manager",
+      "sessionTitle": "Session Security",
+      "sessionDesc": "Control session timeout and concurrent logins.",
+      "sessionTimeout": "Session Timeout (minutes)",
+      "allowConcurrent": "Allow concurrent sessions"
+    },
+    "documents": {
+      "title": "Document Settings",
+      "tabs": {
+        "types": "Document Types",
+        "templates": "Folder Templates",
+        "metadata": "Metadata",
+        "versioning": "Versioning",
+        "retention": "Retention"
+      },
+      "types": {
+        "title": "Document Type Configuration",
+        "desc": "Define and manage document types.",
+        "placeholder": "Document type configuration content."
+      },
+      "templates": {
+        "title": "Folder Template Configuration",
+        "desc": "Standardize folder structures across modules.",
+        "placeholder": "Folder template configuration content."
+      },
+      "metadata": {
+        "title": "Metadata Tags",
+        "desc": "Manage reusable metadata tags.",
+        "tagName": "Tag name",
+        "addTag": "Add Tag"
+      },
+      "versioning": {
+        "title": "Versioning and Retention",
+        "desc": "Configure version and retention rules.",
+        "placeholder": "Versioning and retention configuration content."
+      }
+    },
+    "programSettings": {
+      "title": "Program Settings",
+      "subCategories": {
+        "structure": "Program Structure",
+        "geography": "Geography",
+        "beneficiaries": "Beneficiaries",
+        "lifecycle": "Lifecycle",
+        "frameworks": "Frameworks",
+        "indicators": "Indicators"
+      },
+      "structure": {
+        "categoriesTitle": "Program Categories",
+        "categoriesDesc": "Manage program category taxonomy.",
+        "placeholder": "Manage program categories..."
+      },
+      "lifecycle": {
+        "title": "Project Lifecycle",
+        "desc": "Define lifecycle stages and transitions.",
+        "placeholder": "Define project lifecycle stages..."
+      },
+      "frameworks": {
+        "sdgTitle": "SDG Mapping",
+        "sdgDesc": "Map program outcomes to SDGs."
+      }
+    }
+  },
+  "financialSettings": {
+    "title": "Financial Settings",
+    "chartOfAccounts": "Chart of Accounts",
+    "financialPeriods": "Financial Periods",
+    "approvalWorkflows": "Approval Workflows",
+    "bankingAndPayments": "Banking and Payments",
+    "taxAndCompliance": "Tax and Compliance",
+    "coa": {
+      "title": "Chart of Accounts Configuration",
+      "templatesTitle": "COA Templates",
+      "templatesDesc": "Select a standard template or import your own chart.",
+      "templateAaoifi": "AAOIFI Template",
+      "templateAaoifiDesc": "Islamic finance-aligned account structure.",
+      "templateIfrs": "IFRS Template",
+      "templateIfrsDesc": "International reporting standard structure.",
+      "templateHybrid": "Hybrid Template",
+      "templateHybridDesc": "Balanced model for nonprofit operations.",
+      "templateCustom": "Custom Template",
+      "templateCustomDesc": "Build your own account structure from scratch.",
+      "apply": "Apply Template",
+      "preview": "Preview Template",
+      "importCoa": "Import Chart of Accounts",
+      "previewTitle": "Preview: {name}",
+      "templateAppliedTitle": "Template Applied",
+      "templateAppliedMessage": "Template \"{template}\" applied successfully.",
+      "noTemplateSelectedTitle": "No Template Selected",
+      "noTemplateSelectedMessage": "Please select a template first.",
+      "or": "Or"
+    },
+    "periods": {
+      "title": "Financial Periods",
+      "table": {
+        "period": "Period",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "statuses": {
+        "Future": "Future",
+        "Open": "Open",
+        "Soft-Closed": "Soft-Closed",
+        "Hard-Closed": "Hard-Closed"
+      },
+      "actions": {
+        "openPeriod": "Open Period",
+        "beginClosing": "Begin Closing",
+        "hardClose": "Hard Close",
+        "reopenPeriod": "Reopen Period"
+      },
+      "dashboard": {
+        "title": "Fiscal Year {year}",
+        "currentOpen": "Current open period",
+        "noOpenPeriod": "No open period",
+        "closePeriod": "Close Current Period"
+      },
+      "calendarUnderConstruction": "Calendar view is under construction."
+    },
+    "workflows": {
+      "title": "Approval Workflows",
+      "availableWorkflows": "Available Workflows",
+      "availableWorkflowsDesc": "Select a transaction type to configure.",
+      "configure": "Configure",
+      "workflowConfiguration": "Workflow Configuration",
+      "workflowEnabled": "Workflow Enabled",
+      "approvalSteps": "Approval Steps",
+      "approvalStepsDesc": "Define step-by-step approval logic.",
+      "when": "When",
+      "amount": "Amount",
+      "then": "Then",
+      "anyAmount": "Any Amount",
+      "approve": "approves",
+      "approverTypes": {
+        "role": "Role",
+        "user": "User",
+        "reportingManager": "Reporting Manager"
+      },
+      "operators": {
+        "gt": "is greater than",
+        "gte": "is greater than or equal to",
+        "lt": "is less than",
+        "lte": "is less than or equal to"
+      },
+      "authorizationLimits": "Authorization Limits",
+      "authorizationLimitsDesc": "Maximum approval amount by role.",
+      "role": "Role",
+      "limitAmount": "Limit Amount",
+      "actions": "Actions",
+      "addLimit": "Add Authorization Limit",
+      "addStep": "Add Approval Step",
+      "noWorkflowSelected": "No Workflow Selected",
+      "noWorkflowSelectedDesc": "Select a workflow from the left to configure it."
+    },
+    "banking": {
+      "title": "Banking and Payments",
+      "bankAccountsTitle": "Bank Accounts",
+      "bankAccountsDesc": "Manage linked bank accounts and feeds.",
+      "addAccount": "Add Bank Account",
+      "connectFeed": "Connect Bank Feed",
+      "accountName": "Account Name",
+      "accountNumber": "Account Number",
+      "currency": "Currency",
+      "status": "Status",
+      "actions": "Actions",
+      "statuses": {
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Pending": "Pending"
+      },
+      "gatewaysTitle": "Payment Gateways",
+      "gatewaysDesc": "Configure supported payment providers.",
+      "connected": "Connected",
+      "notConnected": "Not connected",
+      "configure": "Configure",
+      "termsAndMethodsTitle": "Payment Terms and Methods",
+      "termsAndMethodsDesc": "Define terms and available payment methods.",
+      "paymentTerms": "Payment Terms",
+      "days": "days",
+      "addTerm": "Add Payment Term",
+      "paymentMethods": "Payment Methods",
+      "addMethod": "Add Payment Method"
+    }
+  },
+  "layoutCustomizer": {
+    "title": "Customize Layout",
+    "undo": "Undo",
+    "redo": "Redo",
+    "save": "Save",
+    "presets": "Presets",
+    "executive": "Executive",
+    "manager": "Manager",
+    "analyst": "Analyst",
+    "myCustomLayout": "My Custom Layout",
+    "widgets": "Widgets",
+    "import": "Import",
+    "export": "Export",
+    "done": "Done",
+    "alerts": {
+      "saved": "Custom layout saved!",
+      "invalidFile": "Invalid layout file.",
+      "readError": "Error reading file."
+    }
+  },
+  "translations": {
+    "searchKeys": "Search translation keys...",
+    "allNamespaces": "All namespaces",
+    "showMissingOnly": "Show missing translations only",
+    "translateAll": "Translate All",
+    "loadError": "Failed to load translation files.",
+    "onlyStringValues": "Can only translate string values.",
+    "noMissingForKey": "No missing translations for this key.",
+    "autoTranslatedKey": "Auto-translated key: {key}",
+    "autoTranslateFailed": "Failed to auto-translate.",
+    "noMissingToProcess": "No missing translations to process.",
+    "translatedSummary": "Translated {successCount} of {total} missing keys.",
+    "exportedFile": "Exported {lang}.json",
+    "columns": {
+      "key": "Key",
+      "englishSource": "English (Source)",
+      "arabic": "Arabic"
+    }
+  },
+  "exportMenu": {
+    "export": "Export",
+    "exporting": "Exporting",
+    "pleaseWait": "Please wait a moment...",
+    "exportSuccess": "Export completed successfully.",
+    "exportError": "Export failed. Please try again.",
+    "successTitle": "Success",
+    "errorTitle": "Error",
+    "imageDownloadedTitle": "Image Downloaded",
+    "image": "Image (PNG)",
+    "pdf": "PDF",
+    "excel": "Excel (XLSX)",
+    "powerpoint": "PowerPoint (image)",
+    "pptxPlaceholder": "PowerPoint export is coming soon. Downloaded as image for now.",
+    "participantsSheetName": "Participants"
+  },
+  "shareMenu": {
+    "share": "Share",
+    "modalTitle": "Share Dashboard",
+    "copySuccess": "Link copied successfully.",
+    "tabs": {
+      "email": "Email",
+      "link": "Link",
+      "schedule": "Schedule"
+    },
+    "email": {
+      "to": "Recipient Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send",
+      "sending": "Sending...",
+      "sentSuccess": "Report sent successfully.",
+      "sentTitle": "Email Sent",
+      "invalidAddress": "Please enter a valid email address.",
+      "invalidTitle": "Invalid Email",
+      "defaultSubject": "Dashboard Report",
+      "defaultMessage": "Please find the attached dashboard report."
+    },
+    "link": {
+      "description": "Create a secure shareable link to this dashboard.",
+      "copy": "Copy"
+    },
+    "schedule": {
+      "description": "Schedule this report to be sent automatically.",
+      "frequency": "Frequency",
+      "time": "Time",
+      "recipients": "Recipients",
+      "recipientsPlaceholder": "email1@example.com, email2@example.com",
+      "scheduleBtn": "Schedule",
+      "scheduling": "Scheduling...",
+      "scheduledSuccess": "Report scheduled successfully.",
+      "scheduledTitle": "Scheduled",
+      "frequencies": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      }
+    }
+  }
+}

@@ -556,7 +556,7 @@ const InPresentationAlert: React.FC<{ alert: { message: string; icon: React.Reac
 // --- MAIN PAGE COMPONENT ---
 
 const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrData, role }) => {
-    const { t, language, dir } = useLocalization();
+    const { t, language, dir } = useLocalization(['common', 'bousala', 'projects', 'misc']);
     const toast = useToast();
     const [aiAnalyticsSummary, setAiAnalyticsSummary] = useState('');
     const [activeView, setActiveView] = useState('dashboard');

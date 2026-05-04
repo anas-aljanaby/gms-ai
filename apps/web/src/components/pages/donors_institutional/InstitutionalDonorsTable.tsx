@@ -13,7 +13,7 @@ interface InstitutionalDonorsTableProps {
 }
 
 const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ donors, onDonorSelect, sortColumn, sortDirection, onSort }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
 
     const SortableHeader: React.FC<{ column: keyof InstitutionalDonor, labelKey: string, className?: string }> = ({ column, labelKey, className }) => (
         <th scope="col" className={`px-4 py-3 ${className}`}>

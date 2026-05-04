@@ -12,7 +12,7 @@ interface DonorCardProps {
 }
 
 const DonorCard: React.FC<DonorCardProps> = ({ donor, onClick }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'individual_donors']);
 
     return (
         <motion.div

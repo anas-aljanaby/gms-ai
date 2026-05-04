@@ -1,0 +1,67 @@
+{
+  "individual_donors": {
+    "cardView": "Card View",
+    "mapView": "Map View",
+    "listView": "List View",
+    "searchPlaceholder": "Search donors...",
+    "filters": "Filters",
+    "addDonor": "Add Donor",
+    "backToList": "Back to Donors List",
+    "recentActivity": "Recent Activity",
+    "noResults": "No donors found",
+    "noResultsDescription": "Try adjusting search or filters.",
+    "columns": {
+      "donor": "Donor",
+      "totalDonations": "Total Donations",
+      "avgGift": "Average Gift",
+      "donationCount": "Donation Count",
+      "lastDonationDate": "Last Donation Date",
+      "status": "Status",
+      "tier": "Tier",
+      "tags": "Tags"
+    },
+    "kpi": {
+      "ltv": "Lifetime Value",
+      "avgGift": "Average Gift",
+      "totalGifts": "Total Gifts",
+      "donorSince": "Donor Since"
+    },
+    "modal": {
+      "fullNameEN": "Full Name (English)",
+      "fullNameAR": "Full Name (Arabic)",
+      "email": "Email",
+      "phone": "Phone",
+      "country": "Country",
+      "saveDonor": "Save Donor",
+      "requiredFields": "Full Name (English) and Email are required."
+    },
+    "detailView": {
+      "overview": "Overview",
+      "donations": "Donations",
+      "communications": "Communications",
+      "tasks": "Tasks",
+      "profile": "Profile",
+      "sendEmail": "Send Email",
+      "logInteraction": "Log Interaction",
+      "profilePlaceholder": "Full profile for {donorName} will be available here."
+    },
+    "statuses": {
+      "Active": "Active",
+      "Lapsed": "Lapsed",
+      "OnHold": "On Hold",
+      "Deceased": "Deceased"
+    },
+    "tiers": {
+      "Bronze": "Bronze",
+      "Silver": "Silver",
+      "Gold": "Gold",
+      "Platinum": "Platinum",
+      "MajorDonor": "Major Donor"
+    }
+  },
+  "donorIntelligence": {
+    "table": {
+      "donationCount": "Donation Count"
+    }
+  }
+}

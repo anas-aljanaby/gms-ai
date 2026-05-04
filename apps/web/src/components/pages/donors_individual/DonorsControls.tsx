@@ -18,7 +18,7 @@ interface DonorsControlsProps {
 const DonorsControls: React.FC<DonorsControlsProps> = ({
     view, onViewChange, searchTerm, onSearchChange, onAddDonor, onFiltersToggle
 }) => {
-    const { t, dir } = useLocalization();
+    const { t, dir } = useLocalization(['common', 'individual_donors', 'donors']);
 
     const ViewButton: React.FC<{
         label: string;

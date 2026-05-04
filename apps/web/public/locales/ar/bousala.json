@@ -1,0 +1,221 @@
+{
+  "bousala": {
+    "title": "بوصلة",
+    "linkedModules": "منصة إدارة الأهداف والمشاريع الذكية",
+    "reports": {
+      "title": "التقارير",
+      "goal": "الهدف",
+      "project": "المشروع",
+      "task": "المهمة",
+      "status": "الحالة",
+      "assignee": "المسؤول",
+      "linkedProject": "المشروع المرتبط",
+      "description": "الوصف",
+      "progress": "التقدم",
+      "linkedGoal": "الهدف المرتبط",
+      "exporting": "جارٍ تصدير التقرير...",
+      "exportSuccess": "تم تصدير التقرير بنجاح.",
+      "exportError": "فشل تصدير التقرير.",
+      "exportXLSX": "تصدير XLSX",
+      "exportPDF": "تصدير PDF",
+      "sheetGoals": "ملخص الأهداف",
+      "sheetProjects": "ملخص المشاريع",
+      "sheetTasks": "ملخص المهام",
+      "dashboardReportFileName": "تقرير_لوحة_بوصلة.pdf",
+      "fullReportFileName": "تقرير_بوصلة_كامل.xlsx",
+      "itemsDistribution": "توزيع العناصر",
+      "count": "العدد",
+      "taskStatus": "حالة المهام",
+      "goalProgress": "تقدم الأهداف"
+    },
+    "presentationMode": "وضع العرض",
+    "projects": "المشاريع",
+    "kpis": "مؤشرات الأداء",
+    "kpisVisualization": "عرض مؤشرات الأداء",
+    "aiSuggestions": "اقتراحات الذكاء الاصطناعي",
+    "kpiUpdateNotification": "تم تحديث التحليل التنبؤي.",
+    "settingsSaved": "تم حفظ الإعدادات بنجاح.",
+    "tabs": {
+      "dashboard": "لوحة المتابعة",
+      "predictive": "تحليل تنبؤي"
+    },
+    "prediction": {
+      "title": "الرؤى التنبؤية",
+      "summary": "متوقع الوصول إلى الهدف بنسبة {percentage}%",
+      "recommendation": "لتحسين الأداء، يُنصح بزيادة الموارد بنسبة {percentage}%."
+    },
+    "analytics": {
+      "title": "لوحة التحليلات",
+      "goalProgress": "تقدم الأهداف",
+      "projectComparison": "مقارنة تقدم المشاريع"
+    },
+    "addTaskModal": {
+      "success": "تمت إضافة المهمة بنجاح.",
+      "title": "إضافة مهمة",
+      "taskTitle": "عنوان المهمة",
+      "relatedGoal": "الهدف المرتبط",
+      "dueDate": "تاريخ الاستحقاق",
+      "priority": "الأولوية",
+      "titleAndGoalRequired": "عنوان المهمة والهدف المرتبط مطلوبان.",
+      "save": "حفظ المهمة",
+      "priorities": {
+        "high": "عالية",
+        "medium": "متوسطة",
+        "low": "منخفضة"
+      }
+    },
+    "aiPanel": {
+      "title": "المساعد الذكي",
+      "recommendations": "التوصيات",
+      "performanceInsights": "تحليلات الأداء",
+      "riskForecast": "توقع المخاطر",
+      "suggestedActions": "الإجراءات المقترحة",
+      "actions": {
+        "addGoal": "إضافة هدف",
+        "addTask": "إضافة مهمة",
+        "linkProject": "ربط مشروع",
+        "viewReports": "عرض التقارير"
+      },
+      "predictiveHeading": "تحليل تنبؤي"
+    },
+    "alerts": {
+      "lowProbability": "انخفاض احتمال تحقيق الهدف إلى {probability}%.",
+      "kpiBelowHalf": "مؤشر \"{kpiTitle}\" أقل من 50% من الهدف.",
+      "kpiDownward": "مؤشر \"{kpiTitle}\" في اتجاه هبوطي.",
+      "smartAlertFor": "تنبيه ذكي للهدف: {title}",
+      "recommendationFailed": "تعذر إنشاء التوصية حالياً. يرجى المحاولة لاحقاً.",
+      "generatingRecommendation": "يقوم الذكاء الاصطناعي بإنشاء توصية..."
+    },
+    "alertsCenter": {
+      "title": "مركز التنبيهات",
+      "filters": {
+        "allGoals": "جميع الأهداف",
+        "allSeverities": "كل مستويات الخطورة",
+        "newest": "الأحدث",
+        "oldest": "الأقدم"
+      },
+      "severity": {
+        "critical": "حرج",
+        "warning": "تحذير"
+      },
+      "status": {
+        "reviewed": "تمت المراجعة"
+      },
+      "actions": {
+        "markReviewed": "وضع كمُراجع",
+        "createTask": "إنشاء مهمة",
+        "correctiveTaskFor": "مهمة تصحيحية للهدف: {title}"
+      }
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "notificationsTitle": "إعدادات الإشعارات",
+      "enableSmartAlerts": "تفعيل التنبيهات الذكية",
+      "severityThreshold": "عتبة الخطورة ({threshold}%)",
+      "alertSound": "صوت التنبيه",
+      "aiAutoRecs": "توصيات آلية بالذكاء الاصطناعي",
+      "kpiTitle": "إعدادات تحديث مؤشرات الأداء",
+      "refreshInterval": "فاصل التحديث",
+      "smartRefresh": "تفعيل التحديث الذكي",
+      "showAnimation": "عرض حركة التحديث",
+      "save": "حفظ الإعدادات",
+      "severityCritical": "حرج <50%",
+      "severityWarning": "تحذير <{threshold}%",
+      "severityInfo": "معلومة <90%",
+      "seconds30": "30 ثانية",
+      "seconds60": "60 ثانية",
+      "seconds120": "120 ثانية"
+    },
+    "goals": "الأهداف",
+    "tasks": "المهام",
+    "visualAnalytics": "التحليلات المرئية",
+    "task_status": {
+      "completed": "مكتمل",
+      "in-progress": "قيد التنفيذ"
+    },
+    "addGoalModal": {
+      "title": "إضافة هدف",
+      "goalTitle": "عنوان الهدف",
+      "goalTitleRequired": "عنوان الهدف مطلوب.",
+      "description": "الوصف",
+      "target": "الهدف",
+      "responsiblePerson": "المسؤول",
+      "selectPerson": "اختر المسؤول",
+      "save": "حفظ الهدف"
+    },
+    "kpiCharts": {
+      "actualVsTarget": "مؤشر الأداء: الفعلي مقابل المستهدف",
+      "actual": "الفعلي",
+      "target": "المستهدف",
+      "trendOverTime": "اتجاه مؤشرات الأداء عبر الوقت",
+      "achievedTargetsPercent": "نسبة الأهداف المحققة",
+      "achieved": "مُحقق",
+      "notAchieved": "غير مُحقق"
+    },
+    "common": {
+      "progressLabel": "التقدم",
+      "predictiveAnalysis": "تحليل تنبؤي...",
+      "assigneeLabel": "الفريق المسؤول",
+      "assignTaskTo": "تعيين مهمة لـ",
+      "linkedTasks": "المهام المرتبطة",
+      "suggestTasksAi": "اقتراح مهام (AI)",
+      "predictRiskAi": "توقع المخاطر (AI)",
+      "linkedExecutionProject": "المشروع التنفيذي المرتبط",
+      "budget": "الميزانية",
+      "progress": "التقدم",
+      "kpiIndicators": "مؤشرات الأداء",
+      "addKpi": "إضافة مؤشر أداء",
+      "lastUpdated": "آخر تحديث: {date}",
+      "predictionConfidence": "يتوقع الذكاء الاصطناعي نسبة نجاح {percentage}%",
+      "onTrack": "على المسار",
+      "atRisk": "مهدد",
+      "unlikely": "غير مرجح",
+      "goalPredictionSummary": "تحليل تنبؤي: المؤشرات الحالية تُظهر احتمالية نجاح {percentage}% في تحقيق الأهداف المخططة.",
+      "predictionLabel": "التوقع",
+      "goalPredictionsAnalysis": "تحليل توقعات الهدف..."
+    },
+    "messages": {
+      "projectLinkedSuccess": "تم ربط المشروع بنجاح.",
+      "kpiAddedSuccess": "تمت إضافة المؤشر بنجاح.",
+      "goalAddedSuccess": "تمت إضافة الهدف \"{title}\" بنجاح."
+    },
+    "addKpiModal": {
+      "title": "إضافة مؤشر أداء",
+      "kpiTitle": "عنوان المؤشر",
+      "currentValue": "القيمة الحالية",
+      "targetValue": "القيمة المستهدفة",
+      "unit": "الوحدة",
+      "unitPlaceholder": "%, مستفيد, $",
+      "save": "حفظ المؤشر",
+      "requiredFields": "جميع الحقول مطلوبة."
+    },
+    "linkProjectModal": {
+      "title": "ربط مشروع قائم",
+      "description": "اختر مشروعًا واحدًا أو أكثر لربطه بالهدف الحالي.",
+      "noProjects": "لا توجد مشاريع أخرى لربطها.",
+      "linkCta": "ربط ({count})"
+    },
+    "predictive": {
+      "overallSummary": "ملخص التوقعات الإجمالي",
+      "goalSuccessProbability": "احتمالية نجاح الأهداف",
+      "topAtRiskGoals": "أبرز 3 أهداف في خطر",
+      "noAtRiskGoals": "لا توجد أهداف في خطر حالياً.",
+      "forecastOverTime": "تغير التوقعات بمرور الوقت",
+      "avgSuccessProbability": "متوسط احتمال النجاح",
+      "aiRecommendationsSummary": "ملخص توصيات الذكاء الاصطناعي",
+      "noRecommendations": "لا توجد توصيات متاحة حالياً."
+    },
+    "splash": {
+      "title": "🧭 بوصلة - إدارة الأهداف والمهام",
+      "subtitle": "نظام الإدارة الذكية للمنظمات غير الربحية"
+    },
+    "defaultInsights": {
+      "tasksTitle": "اقتراح عام",
+      "tasksContent": "فكّر في تقسيم المهام الكبيرة إلى مهام فرعية أصغر لتتبع التقدم بشكل أفضل.",
+      "kpisTitle": "تحليل الأداء",
+      "kpisContent": "من الأفضل متابعة تقدم الهدف وتقدم المشروع المرتبط به معًا لاتخاذ قرارات أدق.",
+      "risksTitle": "مخاطر محتملة",
+      "risksContent": "راجع المواعيد النهائية الرئيسية بشكل دوري لتقليل مخاطر التأخير."
+    }
+  }
+}

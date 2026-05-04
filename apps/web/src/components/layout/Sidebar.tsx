@@ -13,7 +13,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule, role }) => {
-  const { t, dir } = useLocalization();
+  const { t, dir } = useLocalization(['common', 'sidebar']);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(() => {
     return localStorage.getItem('sidebarExpanded') !== 'false';

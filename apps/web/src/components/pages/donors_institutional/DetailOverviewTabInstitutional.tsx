@@ -41,7 +41,7 @@ const AnalyticsKpiCard: React.FC<{ icon: React.ReactNode, title: string, value: 
 };
 
 const AnalyticsDashboard: React.FC = () => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     const analyticsData = {
       donationGrowth: 15.2,
       projectCompletion: 92,
@@ -88,7 +88,7 @@ const AnalyticsDashboard: React.FC = () => {
 };
 
 const DetailOverviewTabInstitutional: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
 
     const InfoRow: React.FC<InfoRowProps> = ({ labelKey, value }) => {
         return (

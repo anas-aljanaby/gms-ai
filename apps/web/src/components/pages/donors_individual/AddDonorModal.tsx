@@ -10,7 +10,7 @@ interface AddDonorModalProps {
 }
 
 const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'individual_donors']);
     const [fullName, setFullName] = useState({ en: '', ar: '' });
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');

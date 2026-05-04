@@ -1,0 +1,140 @@
+{
+  "institutional_donors": {
+    "card": {
+      "viewProfile": "View Profile"
+    },
+    "opportunities": {
+      "title": "Partnership Opportunities",
+      "description": "Use smart matching to identify the best donors for each project.",
+      "selectProject": "Select a project",
+      "findMatches": "Find Matches",
+      "searching": "Searching...",
+      "aiWorking": "AI is analyzing matches...",
+      "alignmentScore": "Alignment Score",
+      "matchingCriteria": "Matching Criteria",
+      "prepareDraft": "Prepare Draft",
+      "selectProjectWarning": "Please select a project first.",
+      "matchError": "Unable to find matches right now.",
+      "draftError": "Unable to generate the draft right now.",
+      "draftCopied": "Draft copied.",
+      "draftTitle": "Funding Request Draft",
+      "generatingDraft": "Generating draft...",
+      "draftDisclaimer": "This is an initial draft and should be reviewed before sending."
+    },
+    "title": "Institutional Donors",
+    "searchPlaceholder": "Search institutions...",
+    "filters": "Filters",
+    "listView": "List View",
+    "cardView": "Card View",
+    "mapView": "Map View",
+    "addInstitution": "Add Institution",
+    "backToList": "Back to Institutional Donors",
+    "nextDeadline": "Next Deadline",
+    "columns": {
+      "funding": "Funding",
+      "focus": "Focus",
+      "actions": "Actions"
+    },
+    "filter_labels": {
+      "institutionType": "Institution Type",
+      "relationshipStatus": "Relationship Status",
+      "grantFocusArea": "Grant Focus Area",
+      "priorityLevel": "Priority Level"
+    },
+    "modal": {
+      "nameEn": "Organization Name (English)",
+      "nameAr": "Organization Name (Arabic)",
+      "country": "Country",
+      "city": "City",
+      "registrationNumber": "Registration Number",
+      "establishmentDate": "Establishment Date",
+      "contactName": "Contact Name",
+      "contactEmail": "Contact Email",
+      "focusAreas": "Focus Areas",
+      "requiredName": "Organization Name (English) is required."
+    },
+    "analytics": {
+      "totalFunding": "Total Funding",
+      "pipelineValue": "Pipeline Value",
+      "highPriority": "High Priority",
+      "upcomingDeadlines": "Upcoming Deadlines",
+      "next90days": "Next 90 Days"
+    },
+    "analyticsDashboard": {
+      "title": "Analytics Dashboard",
+      "donationGrowth": "Donation Growth",
+      "projectCompletion": "Project Completion",
+      "communicationFrequency": "Communication Frequency",
+      "satisfactionScore": "Satisfaction Score"
+    },
+    "statuses": {
+      "Cold": "Cold",
+      "Prospect": "Prospect",
+      "Cultivating": "Cultivating",
+      "Active": "Active",
+      "Stewardship": "Stewardship"
+    },
+    "types": {
+      "Foundation": "Foundation",
+      "Corporate": "Corporate",
+      "Government": "Government",
+      "Multilateral": "Multilateral"
+    },
+    "priorities": {
+      "High": "High",
+      "Medium": "Medium",
+      "Low": "Low"
+    },
+    "detail": {
+      "overview": "Overview",
+      "grants": "Grants",
+      "contacts": "Contacts",
+      "documents": "Documents",
+      "status": "Status",
+      "assignedManager": "Assigned Manager",
+      "priority": "Priority",
+      "totalAwarded": "Total Awarded",
+      "activeGrants": "Active Grants",
+      "nextDeadline": "Next Deadline",
+      "type": "Type",
+      "country": "Country",
+      "registrationNumber": "Registration Number",
+      "establishmentDate": "Establishment Date",
+      "donationsTitle": "Donations Overview",
+      "donationsThisYear": "Donations This Year",
+      "totalDonations": "Total Donations",
+      "vsLastYear": "vs last year",
+      "contactInfoTitle": "Contact Information",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "website": "Website",
+      "socialMedia": "Social Media",
+      "addContact": "Add Contact",
+      "addContactTitle": "Add New Contact",
+      "save": "Save",
+      "validation": {
+        "required": "This field is required.",
+        "email": "Please enter a valid email address."
+      },
+      "placeholders": {
+        "fullName": "Full Name",
+        "position": "Position"
+      },
+      "form": {
+        "fullName": "Full Name",
+        "position": "Position",
+        "email": "Email",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "profilePicture": "Profile Picture URL",
+        "isPrimary": "Primary Contact",
+        "permissions": "Permissions",
+        "permissionsDesc": "Select access rights for this contact.",
+        "permViewProjects": "View Projects",
+        "permManageFinances": "Manage Finances",
+        "permApproveReports": "Approve Reports"
+      }
+    }
+  }
+}

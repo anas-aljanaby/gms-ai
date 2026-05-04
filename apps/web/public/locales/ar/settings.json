@@ -1,0 +1,371 @@
+{
+  "settings": {
+    "title": "الإعدادات",
+    "saveChanges": "حفظ التغييرات",
+    "categories": {
+      "organization": "المنظمة",
+      "users": "المستخدمون والصلاحيات",
+      "translations": "إدارة الترجمة",
+      "financials": "الإعدادات المالية",
+      "hr": "الموارد البشرية",
+      "projects": "إعدادات البرامج",
+      "documents": "المستندات",
+      "system": "النظام",
+      "reporting": "التقارير",
+      "notifications": "الإشعارات",
+      "advanced": "متقدم"
+    },
+    "organization": {
+      "profileTitle": "ملف المنظمة",
+      "profileDesc": "إعدادات الهوية الأساسية والعلامة البصرية.",
+      "orgName": "اسم المنظمة",
+      "mission": "الرسالة",
+      "uploadLogo": "رفع الشعار",
+      "primaryColor": "اللون الأساسي",
+      "fiscalYearStart": "بداية السنة المالية",
+      "fiscalYearEnd": "نهاية السنة المالية",
+      "langTitle": "تفضيلات اللغة",
+      "langDesc": "اللغة الافتراضية واللغات المفعلة.",
+      "defaultLang": "اللغة الافتراضية",
+      "enableEnglish": "تفعيل الإنجليزية",
+      "enableArabic": "تفعيل العربية",
+      "regionTitle": "إعدادات المنطقة",
+      "regionDesc": "الدولة والمنطقة الزمنية والعملة.",
+      "country": "الدولة",
+      "timezone": "المنطقة الزمنية",
+      "primaryCurrency": "العملة الأساسية"
+    },
+    "users": {
+      "tabAccessControl": "التحكم بالوصول",
+      "tabUserProvisioning": "إدارة المستخدمين",
+      "tabAuthentication": "المصادقة",
+      "rolesTitle": "الأدوار والصلاحيات",
+      "rolesDesc": "تعريف الأدوار وصلاحيات الوحدات.",
+      "addRole": "إضافة دور",
+      "roleName": "اسم الدور",
+      "userCount": "عدد المستخدمين",
+      "actions": "الإجراءات",
+      "editPermissions": "تعديل الصلاحيات",
+      "permissionsForRole": "الصلاحيات للدور: {roleName}",
+      "module": "الوحدة",
+      "view": "عرض",
+      "create": "إنشاء",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "usersTitle": "المستخدمون",
+      "usersDesc": "إدارة الوصول ودورة حياة الحسابات.",
+      "inviteUser": "دعوة مستخدم",
+      "userName": "المستخدم",
+      "role": "الدور",
+      "status": "الحالة",
+      "lastLogin": "آخر تسجيل دخول",
+      "deactivate": "تعطيل",
+      "resendInvite": "إعادة إرسال الدعوة",
+      "statuses": {
+        "Active": "نشط",
+        "Invited": "مدعو",
+        "Deactivated": "معطل"
+      },
+      "passwordPolicyTitle": "سياسة كلمة المرور",
+      "passwordPolicyDesc": "إعداد متطلبات قوة وانتهاء كلمة المرور.",
+      "minLength": "الحد الأدنى للطول",
+      "complexity": "متطلبات التعقيد",
+      "requireUppercase": "اشتراط أحرف كبيرة",
+      "requireLowercase": "اشتراط أحرف صغيرة",
+      "requireNumbers": "اشتراط أرقام",
+      "requireSpecial": "اشتراط رموز خاصة",
+      "mfaTitle": "المصادقة متعددة العوامل",
+      "mfaDesc": "فرض MFA حسب السياسة.",
+      "mfaEnforcement": "تطبيق MFA",
+      "mfaOptions": {
+        "disabled": "معطل",
+        "optional": "اختياري",
+        "required": "إلزامي لجميع المستخدمين",
+        "requiredRoles": "إلزامي لأدوار محددة"
+      },
+      "requiredForRoles": "إلزامي للأدوار",
+      "requiredForRolesPlaceholder": "مسؤول، مدير",
+      "sessionTitle": "أمان الجلسات",
+      "sessionDesc": "التحكم في انتهاء الجلسات وتعددها.",
+      "sessionTimeout": "مهلة الجلسة (دقيقة)",
+      "allowConcurrent": "السماح بجلسات متزامنة"
+    },
+    "documents": {
+      "title": "إعدادات المستندات",
+      "tabs": {
+        "types": "أنواع المستندات",
+        "templates": "قوالب المجلدات",
+        "metadata": "البيانات الوصفية",
+        "versioning": "الإصدارات",
+        "retention": "الاحتفاظ"
+      },
+      "types": {
+        "title": "إعداد أنواع المستندات",
+        "desc": "تعريف وإدارة أنواع المستندات.",
+        "placeholder": "محتوى إعداد أنواع المستندات."
+      },
+      "templates": {
+        "title": "إعداد قوالب المجلدات",
+        "desc": "توحيد هياكل المجلدات عبر الوحدات.",
+        "placeholder": "محتوى إعداد قوالب المجلدات."
+      },
+      "metadata": {
+        "title": "وسوم البيانات الوصفية",
+        "desc": "إدارة الوسوم القابلة لإعادة الاستخدام.",
+        "tagName": "اسم الوسم",
+        "addTag": "إضافة وسم"
+      },
+      "versioning": {
+        "title": "الإصدارات والاحتفاظ",
+        "desc": "إعداد قواعد الإصدارات والاحتفاظ.",
+        "placeholder": "محتوى إعداد الإصدارات والاحتفاظ."
+      }
+    },
+    "programSettings": {
+      "title": "إعدادات البرامج",
+      "subCategories": {
+        "structure": "هيكل البرامج",
+        "geography": "الجغرافيا",
+        "beneficiaries": "المستفيدون",
+        "lifecycle": "دورة الحياة",
+        "frameworks": "الأطر",
+        "indicators": "المؤشرات"
+      },
+      "structure": {
+        "categoriesTitle": "فئات البرامج",
+        "categoriesDesc": "إدارة تصنيف فئات البرامج.",
+        "placeholder": "إدارة فئات البرامج..."
+      },
+      "lifecycle": {
+        "title": "دورة حياة المشروع",
+        "desc": "تعريف مراحل الدورة والانتقالات.",
+        "placeholder": "تعريف مراحل دورة حياة المشروع..."
+      },
+      "frameworks": {
+        "sdgTitle": "مواءمة أهداف التنمية المستدامة",
+        "sdgDesc": "ربط مخرجات البرامج بالأهداف."
+      }
+    }
+  },
+  "financialSettings": {
+    "title": "الإعدادات المالية",
+    "chartOfAccounts": "دليل الحسابات",
+    "financialPeriods": "الفترات المالية",
+    "approvalWorkflows": "مسارات الاعتماد",
+    "bankingAndPayments": "البنوك والمدفوعات",
+    "taxAndCompliance": "الضرائب والامتثال",
+    "coa": {
+      "title": "إعداد دليل الحسابات",
+      "templatesTitle": "قوالب دليل الحسابات",
+      "templatesDesc": "اختر قالبًا قياسيًا أو استورد دليلك الخاص.",
+      "templateAaoifi": "قالب AAOIFI",
+      "templateAaoifiDesc": "هيكل حسابات متوافق مع التمويل الإسلامي.",
+      "templateIfrs": "قالب IFRS",
+      "templateIfrsDesc": "هيكل وفق معيار التقارير الدولية.",
+      "templateHybrid": "قالب هجين",
+      "templateHybridDesc": "نموذج متوازن لعمليات المنظمات غير الربحية.",
+      "templateCustom": "قالب مخصص",
+      "templateCustomDesc": "ابنِ هيكل حساباتك من الصفر.",
+      "apply": "تطبيق القالب",
+      "preview": "معاينة القالب",
+      "importCoa": "استيراد دليل الحسابات",
+      "previewTitle": "معاينة: {name}",
+      "templateAppliedTitle": "تم تطبيق القالب",
+      "templateAppliedMessage": "تم تطبيق القالب \"{template}\" بنجاح.",
+      "noTemplateSelectedTitle": "لم يتم اختيار قالب",
+      "noTemplateSelectedMessage": "يرجى اختيار قالب أولاً.",
+      "or": "أو"
+    },
+    "periods": {
+      "title": "الفترات المالية",
+      "table": {
+        "period": "الفترة",
+        "startDate": "تاريخ البداية",
+        "endDate": "تاريخ النهاية",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      },
+      "statuses": {
+        "Future": "قادمة",
+        "Open": "مفتوحة",
+        "Soft-Closed": "إغلاق جزئي",
+        "Hard-Closed": "إغلاق نهائي"
+      },
+      "actions": {
+        "openPeriod": "فتح الفترة",
+        "beginClosing": "بدء الإغلاق",
+        "hardClose": "إغلاق نهائي",
+        "reopenPeriod": "إعادة فتح الفترة"
+      },
+      "dashboard": {
+        "title": "السنة المالية {year}",
+        "currentOpen": "الفترة المفتوحة الحالية",
+        "noOpenPeriod": "لا توجد فترة مفتوحة",
+        "closePeriod": "إغلاق الفترة الحالية"
+      },
+      "calendarUnderConstruction": "عرض الرزنامة قيد التطوير."
+    },
+    "workflows": {
+      "title": "مسارات الاعتماد",
+      "availableWorkflows": "المسارات المتاحة",
+      "availableWorkflowsDesc": "اختر نوع المعاملة للتهيئة.",
+      "configure": "تهيئة",
+      "workflowConfiguration": "تهيئة المسار",
+      "workflowEnabled": "المسار مفعّل",
+      "approvalSteps": "خطوات الاعتماد",
+      "approvalStepsDesc": "عرّف منطق الاعتماد خطوة بخطوة.",
+      "when": "عند",
+      "amount": "المبلغ",
+      "then": "ثم",
+      "anyAmount": "أي مبلغ",
+      "approve": "يعتمد",
+      "approverTypes": {
+        "role": "الدور",
+        "user": "المستخدم",
+        "reportingManager": "المدير المباشر"
+      },
+      "operators": {
+        "gt": "أكبر من",
+        "gte": "أكبر من أو يساوي",
+        "lt": "أقل من",
+        "lte": "أقل من أو يساوي"
+      },
+      "authorizationLimits": "حدود الصلاحية",
+      "authorizationLimitsDesc": "الحد الأقصى للاعتماد حسب الدور.",
+      "role": "الدور",
+      "limitAmount": "حد المبلغ",
+      "actions": "الإجراءات",
+      "addLimit": "إضافة حد صلاحية",
+      "addStep": "إضافة خطوة اعتماد",
+      "noWorkflowSelected": "لم يتم اختيار مسار",
+      "noWorkflowSelectedDesc": "اختر مسارًا من القائمة اليسرى لتهيئته."
+    },
+    "banking": {
+      "title": "البنوك والمدفوعات",
+      "bankAccountsTitle": "الحسابات البنكية",
+      "bankAccountsDesc": "إدارة الحسابات البنكية وربط التغذية البنكية.",
+      "addAccount": "إضافة حساب بنكي",
+      "connectFeed": "ربط التغذية البنكية",
+      "accountName": "اسم الحساب",
+      "accountNumber": "رقم الحساب",
+      "currency": "العملة",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "statuses": {
+        "Active": "نشط",
+        "Inactive": "غير نشط",
+        "Pending": "قيد الانتظار"
+      },
+      "gatewaysTitle": "بوابات الدفع",
+      "gatewaysDesc": "تهيئة مزودي الدفع المدعومين.",
+      "connected": "متصل",
+      "notConnected": "غير متصل",
+      "configure": "تهيئة",
+      "termsAndMethodsTitle": "شروط ووسائل الدفع",
+      "termsAndMethodsDesc": "تعريف الشروط ووسائل الدفع المتاحة.",
+      "paymentTerms": "شروط الدفع",
+      "days": "يوم",
+      "addTerm": "إضافة شرط دفع",
+      "paymentMethods": "وسائل الدفع",
+      "addMethod": "إضافة وسيلة دفع"
+    }
+  },
+  "layoutCustomizer": {
+    "title": "تخصيص التخطيط",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "save": "حفظ",
+    "presets": "القوالب الجاهزة",
+    "executive": "تنفيذي",
+    "manager": "مدير",
+    "analyst": "محلل",
+    "myCustomLayout": "تخطيطي المخصص",
+    "widgets": "العناصر",
+    "import": "استيراد",
+    "export": "تصدير",
+    "done": "تم",
+    "alerts": {
+      "saved": "تم حفظ التخطيط المخصص!",
+      "invalidFile": "ملف التخطيط غير صالح.",
+      "readError": "حدث خطأ أثناء قراءة الملف."
+    }
+  },
+  "translations": {
+    "searchKeys": "ابحث في مفاتيح الترجمة...",
+    "allNamespaces": "كل المساحات",
+    "showMissingOnly": "عرض المفاتيح الناقصة فقط",
+    "translateAll": "ترجمة الكل",
+    "loadError": "فشل تحميل ملفات الترجمة.",
+    "onlyStringValues": "يمكن ترجمة القيم النصية فقط.",
+    "noMissingForKey": "لا توجد ترجمات ناقصة لهذا المفتاح.",
+    "autoTranslatedKey": "تمت الترجمة تلقائيًا للمفتاح: {key}",
+    "autoTranslateFailed": "فشلت الترجمة التلقائية.",
+    "noMissingToProcess": "لا توجد ترجمات ناقصة للمعالجة.",
+    "translatedSummary": "تمت ترجمة {successCount} من أصل {total} مفاتيح ناقصة.",
+    "exportedFile": "تم تصدير {lang}.json",
+    "columns": {
+      "key": "المفتاح",
+      "englishSource": "الإنجليزية (المصدر)",
+      "arabic": "العربية"
+    }
+  },
+  "exportMenu": {
+    "export": "تصدير",
+    "exporting": "جارٍ التصدير",
+    "pleaseWait": "يرجى الانتظار قليلًا...",
+    "exportSuccess": "تم التصدير بنجاح.",
+    "exportError": "فشل التصدير. يرجى المحاولة مرة أخرى.",
+    "successTitle": "نجاح",
+    "errorTitle": "خطأ",
+    "imageDownloadedTitle": "تم تنزيل الصورة",
+    "image": "صورة (PNG)",
+    "pdf": "PDF",
+    "excel": "إكسل (XLSX)",
+    "powerpoint": "PowerPoint (صورة)",
+    "pptxPlaceholder": "تصدير PowerPoint قريبًا. تم تنزيله كصورة حاليًا.",
+    "participantsSheetName": "المشاركون"
+  },
+  "shareMenu": {
+    "share": "مشاركة",
+    "modalTitle": "مشاركة لوحة البيانات",
+    "copySuccess": "تم نسخ الرابط بنجاح.",
+    "tabs": {
+      "email": "البريد الإلكتروني",
+      "link": "رابط",
+      "schedule": "جدولة"
+    },
+    "email": {
+      "to": "بريد المستلم",
+      "subject": "الموضوع",
+      "message": "الرسالة",
+      "send": "إرسال",
+      "sending": "جارٍ الإرسال...",
+      "sentSuccess": "تم إرسال التقرير بنجاح.",
+      "sentTitle": "تم الإرسال",
+      "invalidAddress": "يرجى إدخال بريد إلكتروني صالح.",
+      "invalidTitle": "بريد غير صالح",
+      "defaultSubject": "تقرير لوحة البيانات",
+      "defaultMessage": "يرجى الاطلاع على تقرير لوحة البيانات المرفق."
+    },
+    "link": {
+      "description": "أنشئ رابطًا آمنًا لمشاركة لوحة البيانات.",
+      "copy": "نسخ"
+    },
+    "schedule": {
+      "description": "جدولة إرسال هذا التقرير تلقائيًا.",
+      "frequency": "التكرار",
+      "time": "الوقت",
+      "recipients": "المستلمون",
+      "recipientsPlaceholder": "example1@email.com، example2@email.com",
+      "scheduleBtn": "جدولة",
+      "scheduling": "جارٍ الجدولة...",
+      "scheduledSuccess": "تمت جدولة التقرير بنجاح.",
+      "scheduledTitle": "تمت الجدولة",
+      "frequencies": {
+        "daily": "يوميًا",
+        "weekly": "أسبوعيًا",
+        "monthly": "شهريًا"
+      }
+    }
+  }
+}

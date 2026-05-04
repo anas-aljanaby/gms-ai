@@ -29,7 +29,7 @@ interface GrantsTabProps {
 }
 
 const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
     
     const [filters, setFilters] = useState({
         status: 'الكل',

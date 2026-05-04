@@ -1,0 +1,272 @@
+{
+  "projects": {
+    "title": "Project Management",
+    "projectList": "Project List",
+    "createProject": "Create Project",
+    "backToList": "Back to project list",
+    "search_placeholder": "Search by project name or ID...",
+    "advanced_filters": "Advanced Filters",
+    "tabs": {
+      "overview": "Overview",
+      "monitoring": "Monitoring",
+      "scope": "Scope",
+      "schedule": "Schedule",
+      "cost": "Cost",
+      "hr": "Human Resources",
+      "risks": "Risks",
+      "quality": "Quality",
+      "documents": "Documents",
+      "reports": "Reports",
+      "changeLog": "Change Log"
+    },
+    "views": {
+      "list": "List",
+      "card": "Card",
+      "map": "Map"
+    },
+    "list": {
+      "name": "Project",
+      "stage": "Stage",
+      "progress": "Progress",
+      "budget": "Budget",
+      "spent": "Spent"
+    },
+    "stages": {
+      "design": "Design",
+      "planning": "Planning",
+      "implementation": "Implementation",
+      "monitoring": "Monitoring",
+      "closure": "Closure"
+    },
+    "wizard": {
+      "title": "Create New Project",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish",
+      "progressAria": "Progress",
+      "form": {
+        "name": "Project Name",
+        "code": "Project Code",
+        "type": "Project Type",
+        "stage": "Current Stage",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "country": "Country",
+        "city": "City",
+        "region": "Region",
+        "donor": "Donor",
+        "implementingPartner": "Implementing Partner",
+        "targetBeneficiaries": "Target Beneficiaries",
+        "primaryContact": "Primary Contact",
+        "goal": "Project Goal",
+        "objective": "Objective",
+        "outcome": "Expected Outcome",
+        "kpi": "Key Performance Indicators",
+        "kpiName": "KPI Name",
+        "kpiTarget": "Target Value",
+        "addObjective": "Add Objective",
+        "addOutcome": "Add Outcome",
+        "addKpi": "Add KPI",
+        "units": {
+          "number": "Number",
+          "percentage": "Percentage",
+          "text": "Text"
+        }
+      }
+    },
+    "countries": {
+      "turkey": "Turkey",
+      "syria": "Syria",
+      "lebanon": "Lebanon",
+      "uganda": "Uganda"
+    },
+    "monitoring": {
+      "kpis": "Monitoring KPIs",
+      "spi": "Schedule Performance Index (SPI)",
+      "cpi": "Cost Performance Index (CPI)",
+      "spiGood": "Schedule is healthy.",
+      "spiBad": "Schedule needs attention.",
+      "cpiGood": "Cost performance is healthy.",
+      "cpiBad": "Cost performance needs attention.",
+      "overallCompletion": "Overall Completion",
+      "budgetStatus": "Budget Status",
+      "scheduleStatus": "Schedule Status",
+      "activeRisks": "Active Risks",
+      "evmChart": "Earned Value Trend",
+      "pv": "Planned Value",
+      "ev": "Earned Value",
+      "ac": "Actual Cost",
+      "taskStatus": "Task Status Distribution",
+      "tasksUnit": "tasks"
+    },
+    "overview": {
+      "sdgTitle": "SDG Alignment"
+    },
+    "scope": {
+      "statement": "Scope Statement",
+      "inScope": "In Scope",
+      "outOfScope": "Out of Scope",
+      "assumptions": "Assumptions",
+      "constraints": "Constraints",
+      "wbs": "Work Breakdown Structure (WBS)"
+    },
+    "schedule": {
+      "gantt": "Gantt Timeline"
+    },
+    "cost": {
+      "dashboard": "Cost Dashboard",
+      "totalBudget": "Total Budget",
+      "totalSpent": "Total Spent",
+      "remaining": "Remaining",
+      "earnedValue": "Earned Value",
+      "plannedVsActual": "Planned vs Actual",
+      "burnRate": "Burn Rate",
+      "detailedBudget": "Detailed Budget",
+      "category": "Category",
+      "planned": "Planned",
+      "actual": "Actual",
+      "variance": "Variance",
+      "expenseLog": "Expense Log",
+      "date": "Date",
+      "description": "Description",
+      "wbs_link": "WBS Link",
+      "amount": "Amount"
+    },
+    "hr": {
+      "effort": "Effort",
+      "projectTeam": "Project Team",
+      "raciMatrix": "RACI Matrix",
+      "task": "Task",
+      "timesheet": "Timesheet",
+      "member": "Member",
+      "hours": "Hours"
+    },
+    "risks": {
+      "dashboard": "Risk Dashboard",
+      "matrix": "Risk Matrix",
+      "topRisks": "Top Risks",
+      "register": "Risk Register",
+      "description": "Description",
+      "category": "Category",
+      "impact": "Impact",
+      "probability": "Probability",
+      "response": "Response",
+      "owner": "Owner",
+      "status": "Status"
+    },
+    "quality": {
+      "standards": "Quality Standards",
+      "deliverableStandards": "Deliverable Standards",
+      "processStandards": "Process Standards",
+      "lessonsLearned": "Lessons Learned",
+      "positive": "What Went Well",
+      "negative": "What Needs Improvement",
+      "checklist": "Checklist",
+      "recommendation": "Recommendation"
+    },
+    "documents": {
+      "search": {
+        "placeholder": "Search documents..."
+      },
+      "uploadFile": "Upload File",
+      "newFolder": "New Folder",
+      "name": "Name",
+      "uploader": "Uploader",
+      "lastModified": "Last Modified",
+      "size": "Size",
+      "fileDetails": "File Details",
+      "descriptionLabel": "Description",
+      "lastModifiedLabel": "Last Modified",
+      "accessLabel": "Access",
+      "viewsLabel": "Views",
+      "versionsLabel": "Versions",
+      "folder": "Folder",
+      "notAvailable": "N/A",
+      "versionBy": "{version} by {author}",
+      "accessLevels": {
+        "public": "Public",
+        "team": "Team",
+        "private": "Private"
+      }
+    },
+    "changeLog": {
+      "title": "Change Log",
+      "requestChange": "Request Change",
+      "id": "ID",
+      "description": "Description",
+      "requester": "Requester",
+      "date": "Date",
+      "status": "Status",
+      "impact": "Impact"
+    },
+    "reporting": {
+      "reportCardsTitle": "Project Reports",
+      "overviewReport": "Overview Report",
+      "overviewReportDesc": "High-level summary of project details and KPIs.",
+      "tasksReport": "Tasks Report",
+      "tasksReportDesc": "Task progress and completion status breakdown.",
+      "budgetReport": "Budget Report",
+      "budgetReportDesc": "Budget utilization and spending comparison.",
+      "timelineReport": "Timeline Report",
+      "timelineReportDesc": "Planned schedule versus actual progress.",
+      "viewReport": "View Report",
+      "printReport": "Print Report",
+      "closeModal": "Close report modal",
+      "exportComingSoon": "Export functionality coming soon!",
+      "favorite": {
+        "setAsFavorite": "Set as favorite",
+        "unfavorite": "Remove favorite"
+      },
+      "modal": {
+        "overview": {
+          "title": "Overview Report",
+          "projectInfo": "Project Information",
+          "manager": "Project Manager",
+          "dates": "Project Dates",
+          "budgetVsSpent": "Budget vs Spent"
+        },
+        "tasks": {
+          "title": "Tasks Report",
+          "taskSummary": "Task Summary",
+          "pending": "Pending",
+          "inProgress": "In Progress",
+          "completed": "Completed",
+          "totalTasks": "Total Tasks"
+        },
+        "budget": {
+          "title": "Budget Report",
+          "financialSummary": "Financial Summary",
+          "totalBudget": "Total Budget",
+          "actualSpent": "Actual Spent",
+          "remaining": "Remaining",
+          "budgetBreakdown": "Budget Breakdown",
+          "spent": "Spent"
+        },
+        "timeline": {
+          "title": "Timeline Report",
+          "startDate": "Start Date",
+          "endDate": "End Date",
+          "totalDays": "Total Days",
+          "elapsedDays": "Elapsed Days",
+          "timeElapsed": "Time Elapsed",
+          "completionProgress": "Completion Progress",
+          "status": "Status",
+          "statuses": {
+            "ahead": "Ahead of schedule",
+            "behind": "Behind schedule",
+            "onTrack": "On track"
+          }
+        }
+      }
+    }
+  },
+  "reporting": {
+    "tabs": {
+      "create": "Create Reports",
+      "history": "History"
+    },
+    "history": {
+      "comingSoon": "Report history coming soon."
+    }
+  }
+}

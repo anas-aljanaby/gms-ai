@@ -14,7 +14,7 @@ interface InstitutionalDonorDetailViewProps {
 }
 
 const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> = ({ donor, onBack }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
     const [activeTab, setActiveTab] = useState('documents');
 
     const tabs = [

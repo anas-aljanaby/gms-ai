@@ -9,7 +9,7 @@ interface LogInteractionModalProps {
 }
 
 const LogInteractionModal: React.FC<LogInteractionModalProps> = ({ isOpen, onClose, onLog }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'individual_donors']);
     const [type, setType] = useState('Email');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [subject, setSubject] = useState('');

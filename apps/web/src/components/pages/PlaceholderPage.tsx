@@ -17,7 +17,7 @@ interface PlaceholderPageProps {
  * <PlaceholderPage moduleKey="financials" />
  */
 const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ moduleKey }) => {
-  const { t } = useLocalization();
+  const { t } = useLocalization(['common', 'misc']);
   
   const moduleInfo = SIDEBAR_MODULES.find(m => m.key === moduleKey);
   const Icon = moduleInfo?.icon || (() => null);

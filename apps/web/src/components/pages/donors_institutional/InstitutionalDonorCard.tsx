@@ -10,7 +10,7 @@ interface InstitutionalDonorCardProps {
 }
 
 const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, onSelect }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
 
     const priorityClasses: Record<PriorityLevel, string> = {
         'High': 'border-red-500',

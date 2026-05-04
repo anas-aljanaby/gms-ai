@@ -1,0 +1,120 @@
+{
+  "leadership": {
+    "title": "التأهيل القيادي",
+    "tabs": {
+      "overview": "نظرة عامة",
+      "calendar": "الرزنامة",
+      "projects": "مشاريع الطلاب",
+      "student_environment": "البيئة الطلابية",
+      "scout": "الوحدة الكشفية",
+      "leadership": "التأهيل القيادي",
+      "educational": "البناء التربوي"
+    },
+    "overview": {
+      "workTeam": "فريق العمل",
+      "totalEvents": "مجموع الفعاليات",
+      "studentProjectImpact": "أثر مشاريع الطلاب",
+      "beneficiaries": "مستفيد",
+      "upcomingEvents": "الفعاليات القادمة"
+    },
+    "projects": {
+      "activeProjects": "المشاريع النشطة",
+      "mentor": "المرشد",
+      "progress": "التقدم",
+      "statuses": {
+        "completed": "مكتمل"
+      }
+    },
+    "calendar": {
+      "addNewEvent": "إضافة فعالية جديدة",
+      "studentProjects": "مشاريع الطلاب",
+      "eventCreatedSuccess": "تم إنشاء الفعالية بنجاح.",
+      "form": {
+        "eventTitle": "عنوان الفعالية",
+        "eventCategory": "فئة الفعالية",
+        "eventType": "نوع الفعالية",
+        "date": "التاريخ",
+        "startTime": "وقت البدء",
+        "facilitator": "الميسّر",
+        "selectFacilitator": "اختر الميسّر",
+        "location": "المكان",
+        "cancel": "إلغاء",
+        "createEvent": "إنشاء فعالية",
+        "requiredFields": "يرجى تعبئة جميع الحقول المطلوبة."
+      }
+    },
+    "today": "اليوم",
+    "previousMonth": "الشهر السابق",
+    "nextMonth": "الشهر التالي",
+    "metrics": {
+      "performanceDashboard": "لوحة مؤشرات الأداء",
+      "overallCompletion": "نسبة الإنجاز الكلية",
+      "stageCompletion": "إنجاز المراحل",
+      "onTimeCompletion": "الإنجاز في الوقت المحدد",
+      "avgAttendance": "متوسط الحضور",
+      "cancellationRate": "معدل الإلغاء",
+      "teamEngagement": "تفاعل الفريق",
+      "eventsStatusBreakdown": "توزيع حالات الفعاليات"
+    },
+    "noEventsPlanned": "لا توجد فعاليات مخطط لها",
+    "workTeam": "فريق العمل",
+    "teamTypes": {
+      "staff": "موظف",
+      "volunteer": "متطوع"
+    },
+    "stages": {
+      "s1": "الفصل الثاني",
+      "s2": "الفصل الأول",
+      "s3": "العطلة الصيفية"
+    },
+    "eventTypes": {
+      "lecture": "محاضرة",
+      "course": "دورة",
+      "camp": "مخيم",
+      "workshop": "ورشة عمل",
+      "activity": "نشاط",
+      "ceremony": "حفل",
+      "meeting": "اجتماع",
+      "event": "فعالية"
+    },
+    "eventStatuses": {
+      "planned": "مخطط لها",
+      "in-progress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة",
+      "missed": "فائتة"
+    },
+    "eventFacilitator": "الميسّر",
+    "eventLocation": "المكان",
+    "eventTime": "الوقت",
+    "eventParticipants": "المشاركون",
+    "workPlan": "خطة العمل",
+    "confirmCancel": "هل أنت متأكد من إلغاء هذه الفعالية؟",
+    "eventCancelled": "تم إلغاء الفعالية.",
+    "eventCompleted": "تم إكمال الفعالية.",
+    "markCompleted": "تحديد كمكتمل",
+    "cancelEvent": "إلغاء الفعالية",
+    "quranicTimeline": {
+      "title": "المسار القرآني",
+      "progress": "التقدم",
+      "weeks": "أسابيع",
+      "totalDuration": "المدة الإجمالية",
+      "completed": "مكتمل",
+      "inProgress": "قيد التنفيذ",
+      "upcoming": "قادم",
+      "week": "الأسبوع",
+      "dateRange": "الفترة",
+      "content": "المحتوى",
+      "status": "الحالة",
+      "notes": "ملاحظات",
+      "stationDetails": "تفاصيل المحطة",
+      "markAsComplete": "تحديث كمكتمل",
+      "inprogress": "قيد التنفيذ"
+    }
+  },
+  "qualificationJourney": {
+    "programsTitle": "تقدم البرامج",
+    "initiativesTitle": "المبادرات المجتمعية",
+    "completion": "اكتمال"
+  }
+}

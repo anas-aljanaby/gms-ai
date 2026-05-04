@@ -50,7 +50,7 @@ const KpiCard: React.FC<{ title: string; value: string; icon: React.ReactNode; s
 );
 
 const SmartAnalyticsDashboard: React.FC<{donors: InstitutionalDonor[]}> = ({donors}) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
 
     const stats = useMemo(() => {
         const totalFunding = donors.reduce((sum, d) => sum + d.totalGrantsAwarded, 0);
@@ -100,7 +100,7 @@ const SmartAnalyticsDashboard: React.FC<{donors: InstitutionalDonor[]}> = ({dono
 
 
 const InstitutionalDonors: React.FC = () => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
     const toast = useToast();
     const [donors, setDonors] = useState<InstitutionalDonor[]>(MOCK_INSTITUTIONAL_DONORS);
     const [view, setView] = useState<'list' | 'card' | 'map' | 'opportunities'>('list');

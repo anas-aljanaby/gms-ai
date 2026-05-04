@@ -3,7 +3,7 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import type { DonorStatus, DonorTier } from '../../../types';
 
 export const StatusBadge: React.FC<{ status: DonorStatus }> = ({ status }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'individual_donors']);
     const statusKey = status.replace(/ /g, '');
     const styles: Record<DonorStatus, string> = {
         'Active': 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
@@ -15,7 +15,7 @@ export const StatusBadge: React.FC<{ status: DonorStatus }> = ({ status }) => {
 };
 
 export const TierBadge: React.FC<{ tier: DonorTier }> = ({ tier }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'individual_donors']);
     const tierKey = tier.replace(/ /g, '');
     const styles: Record<DonorTier, string> = {
         'Bronze': 'text-orange-700 dark:text-orange-400',

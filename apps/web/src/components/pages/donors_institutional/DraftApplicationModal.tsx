@@ -15,7 +15,7 @@ interface DraftApplicationModalProps {
 }
 
 const DraftApplicationModal: React.FC<DraftApplicationModalProps> = ({ isOpen, onClose, project, donor }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors', 'donors']);
     const toast = useToast();
     const [draft, setDraft] = useState('');
     const [isGenerating, setIsGenerating] = useState(true);

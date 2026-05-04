@@ -12,7 +12,7 @@ interface KanbanColumnProps {
 }
 
 const KanbanColumn: React.FC<KanbanColumnProps> = ({ stage, donors, onDragEnd, dispatch }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'donors']);
     const [isDragOver, setIsDragOver] = useState(false);
 
     const totalPotential = donors.reduce((sum, donor) => sum + donor.potentialGift, 0);

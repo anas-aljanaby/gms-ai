@@ -20,7 +20,7 @@ interface MatchCardProps {
 }
 
 const MatchCard: React.FC<MatchCardProps> = ({ donor, match, onViewProfile, onPrepareDraft }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
 
     return (
         <motion.div

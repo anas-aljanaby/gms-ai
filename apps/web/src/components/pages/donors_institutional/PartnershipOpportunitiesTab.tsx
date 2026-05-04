@@ -23,7 +23,7 @@ interface Match {
 }
 
 const PartnershipOpportunitiesTab: React.FC<PartnershipOpportunitiesTabProps> = ({ donors, onSelectDonor }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors', 'donors']);
     const toast = useToast();
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [matches, setMatches] = useState<Match[]>([]);

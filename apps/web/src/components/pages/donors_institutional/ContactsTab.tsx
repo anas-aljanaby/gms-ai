@@ -33,7 +33,7 @@ const InfoItem: React.FC<{ icon: React.ReactNode; label: string; value: React.Re
 );
 
 const ContactInfoCard: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['common', 'institutional_donors']);
     const socialPlatforms = donor.socialMedia ? Object.entries(donor.socialMedia).filter(([, url]) => url) : [];
     const NA_Component = <span className="text-gray-400 dark:text-gray-500 italic">N/A</span>;
 
@@ -123,7 +123,7 @@ interface ContactsTabProps {
 }
 
 const ContactCard: React.FC<{ contact: Contact }> = ({ contact }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     return (
         <div className="bg-card dark:bg-dark-card rounded-lg p-4 border border-gray-200 dark:border-slate-700 shadow-sm relative hover:shadow-md transition-shadow">
             {contact.isPrimary && (
@@ -163,7 +163,7 @@ const ContactCard: React.FC<{ contact: Contact }> = ({ contact }) => {
 };
 
 const ContactsTab: React.FC<ContactsTabProps> = ({ donor }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'institutional_donors']);
     const toast = useToast();
     const mockContacts = getMockContacts(donor);
     const [contacts, setContacts] = useState<Contact[]>(mockContacts);
