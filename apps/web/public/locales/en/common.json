@@ -4,7 +4,7 @@
     "close": "Close",
     "previous": "Previous",
     "next": "Next",
-    "pagination_summary": "Showing {start}-{end} of {total}",
+    "pagination_summary": "Showing {{start}}-{{end}} of {{total}}",
     "dismissAlert": "Dismiss alert",
     "loading": "Loading...",
     "analyzing": "Analyzing...",

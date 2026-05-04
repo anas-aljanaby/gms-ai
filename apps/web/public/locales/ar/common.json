@@ -4,7 +4,7 @@
     "close": "إغلاق",
     "previous": "السابق",
     "next": "التالي",
-    "pagination_summary": "عرض {start}-{end} من {total}",
+    "pagination_summary": "عرض {{start}}-{{end}} من {{total}}",
     "dismissAlert": "إغلاق التنبيه",
     "loading": "جاري التحميل...",
     "analyzing": "جاري التحليل...",
