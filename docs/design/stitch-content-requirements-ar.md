@@ -1,18 +1,18 @@
 ---
 version: alpha
 name: MSS.2 Content Requirements
-description: Arabic-first content-only screen and workflow requirements for an authenticated SaaS web app. No visual design tokens are provided so Stitch can decide the visual system.
+description: Arabic-first content-only screen and workflow requirements for an authenticated SaaS web app. No visual design tokens are provided so Claude Design can decide the visual system.
 ---
 
-# MSS.2 Arabic Content Requirements for Stitch
+# MSS.2 Arabic Content Requirements for Claude Design
 
 ## Overview
 
 Create an authenticated Arabic web application for **MSS.2**, a SaaS platform for Gulf-region endowments and charitable institutions. The product connects strategic goals, KPIs, projects, donors, beneficiaries, stakeholders, reports, and operational tasks in one system.
 
-Do not use this document to infer any specific color palette, typography, illustration style, theme, mood, or visual brand direction. Stitch should decide the visual system. This document only defines the required screens, navigation, content, components, and functionality.
+Do not use this document to infer any specific color palette, typography, illustration style, theme, mood, or visual brand direction. Claude Design should decide the visual system. This document only defines the required screens, navigation, content, components, and functionality.
 
-This requirements document is written in English for clarity, but the generated interface must be Arabic-first. Every visible UI string must be in Arabic and the full application must render right-to-left. It must also support light mode and dark mode, but Stitch should decide the visual treatment for both.
+This requirements document is written in English for clarity, but the generated interface must be Arabic-first. Every visible UI string must be in Arabic and the full application must render right-to-left. It must also support light mode and dark mode, but Claude Design should decide the visual treatment for both.
 
 ## Arabic UI Requirements
 
@@ -35,7 +35,7 @@ Required language behavior:
 
 The generated app should not feel sparse, generic, or like disconnected cards floating on a blank page. It should feel like a mature operational system with enough content density for managers, executives, and program teams who review many records and KPIs daily.
 
-Stitch should decide the visual style, but the layout must avoid excessive whitespace and repetitive plain backgrounds.
+Claude Design should decide the visual style, but the layout must avoid excessive whitespace and repetitive plain backgrounds.
 
 Required density behavior:
 
@@ -44,7 +44,7 @@ Required density behavior:
 - Fill dashboard and list pages with realistic sample data so the product feels active.
 - Keep card content concise but meaningful: show status, owner, date, progress, linked goal, amount, next action, or risk where relevant.
 - Use more than one surface level so the app does not appear as the same background everywhere.
-- Separate major page regions with clear sectioning, surface changes, dividers, rails, bands, panels, or other visual structure chosen by Stitch.
+- Separate major page regions with clear sectioning, surface changes, dividers, rails, bands, panels, or other visual structure chosen by Claude Design.
 - Use dense but readable headers for pages: title, subtitle, primary actions, filters, and key context should appear together.
 - Use right-side insight rails on complex desktop pages instead of leaving wide empty margins.
 - Make list and project pages feel populated even when using cards; avoid layouts where a few cards leave most of the canvas empty.
@@ -100,7 +100,7 @@ Navigation visibility and available actions should vary by role where appropriat
 
 ## Elevation & Depth
 
-No specific depth, shadow, border, glass, or surface treatment is prescribed. Stitch should decide how surfaces, panels, modals, drawers, sticky areas, and overlays should look. However, the interface must not be visually flat or dominated by one uninterrupted background.
+No specific depth, shadow, border, glass, or surface treatment is prescribed. Claude Design should decide how surfaces, panels, modals, drawers, sticky areas, and overlays should look. However, the interface must not be visually flat or dominated by one uninterrupted background.
 
 Required structural behaviors:
 
@@ -115,7 +115,7 @@ Required structural behaviors:
 
 ## Shapes
 
-No specific corner radius, shape language, icon style, or decorative motif is prescribed. Stitch should decide.
+No specific corner radius, shape language, icon style, or decorative motif is prescribed. Claude Design should decide.
 
 Required structural patterns:
 
@@ -493,7 +493,7 @@ Do:
 - Start with the authenticated Dashboard, not a marketing page.
 - Make Bousala a complete strategic goal, KPI, project, and task management surface.
 - Make pages feel populated, data-rich, and operational by default.
-- Use visual hierarchy and surface variation chosen by Stitch so the app does not feel like plain cards on one blank background.
+- Use visual hierarchy and surface variation chosen by Claude Design so the app does not feel like plain cards on one blank background.
 - Include required tabs, modals, drawers, tables, cards, filters, charts, and view toggles.
 - Make the interface responsive.
 - Support RTL layout behavior.

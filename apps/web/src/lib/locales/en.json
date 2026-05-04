@@ -1157,6 +1157,13 @@
             "fallbackSubject": "Error",
             "fallbackBody": "Could not generate content.",
             "emailSent": "Email sent!"
+        },
+        "stages": {
+            "prospect": "Prospect",
+            "contacted": "Contacted",
+            "cultivating": "Cultivating",
+            "solicited": "Solicited",
+            "stewardship": "Stewardship"
         }
     },
     "individual_donors": {
@@ -1196,7 +1203,21 @@
             "tasks": "Tasks",
             "profile": "Profile",
             "sendEmail": "Send Email",
-            "logInteraction": "Log Interaction"
+            "logInteraction": "Log Interaction",
+            "profilePlaceholder": "Full profile for {donorName} will be available here."
+        },
+        "statuses": {
+            "Active": "Active",
+            "Lapsed": "Lapsed",
+            "OnHold": "On Hold",
+            "Deceased": "Deceased"
+        },
+        "tiers": {
+            "Bronze": "Bronze",
+            "Silver": "Silver",
+            "Gold": "Gold",
+            "Platinum": "Platinum",
+            "MajorDonor": "Major Donor"
         }
     },
     "institutional_donors": {
@@ -1267,11 +1288,39 @@
             "communicationFrequency": "Communication Frequency",
             "satisfactionScore": "Satisfaction Score"
         },
+        "statuses": {
+            "Cold": "Cold",
+            "Prospect": "Prospect",
+            "Cultivating": "Cultivating",
+            "Active": "Active",
+            "Stewardship": "Stewardship"
+        },
+        "types": {
+            "Foundation": "Foundation",
+            "Corporate": "Corporate",
+            "Government": "Government",
+            "Multilateral": "Multilateral"
+        },
+        "priorities": {
+            "High": "High",
+            "Medium": "Medium",
+            "Low": "Low"
+        },
         "detail": {
             "overview": "Overview",
             "grants": "Grants",
             "contacts": "Contacts",
             "documents": "Documents",
+            "status": "Status",
+            "assignedManager": "Assigned Manager",
+            "priority": "Priority",
+            "totalAwarded": "Total Awarded",
+            "activeGrants": "Active Grants",
+            "nextDeadline": "Next Deadline",
+            "type": "Type",
+            "country": "Country",
+            "registrationNumber": "Registration Number",
+            "establishmentDate": "Establishment Date",
             "donationsTitle": "Donations Overview",
             "donationsThisYear": "Donations This Year",
             "totalDonations": "Total Donations",

@@ -1157,6 +1157,13 @@
             "fallbackSubject": "خطأ",
             "fallbackBody": "تعذر إنشاء المحتوى.",
             "emailSent": "تم إرسال البريد!"
+        },
+        "stages": {
+            "prospect": "مرشح",
+            "contacted": "تم التواصل",
+            "cultivating": "قيد التطوير",
+            "solicited": "مطلوب منه",
+            "stewardship": "رعاية"
         }
     },
     "individual_donors": {
@@ -1196,7 +1203,21 @@
             "tasks": "المهام",
             "profile": "الملف الشخصي",
             "sendEmail": "إرسال بريد",
-            "logInteraction": "تسجيل تواصل"
+            "logInteraction": "تسجيل تواصل",
+            "profilePlaceholder": "سيكون الملف الشخصي الكامل لـ {donorName} متاحاً هنا."
+        },
+        "statuses": {
+            "Active": "نشط",
+            "Lapsed": "غير منتظم",
+            "OnHold": "معلق",
+            "Deceased": "متوفى"
+        },
+        "tiers": {
+            "Bronze": "Bronze",
+            "Silver": "Silver",
+            "Gold": "Gold",
+            "Platinum": "Platinum",
+            "MajorDonor": "مانح كبير"
         }
     },
     "institutional_donors": {
@@ -1255,7 +1276,7 @@
         },
         "analytics": {
             "totalFunding": "إجمالي التمويل",
-            "pipelineValue": "قيمة خط الأنابيب",
+            "pipelineValue": "قيمة مسار التمويل",
             "highPriority": "أولوية عالية",
             "upcomingDeadlines": "المواعيد القادمة",
             "next90days": "خلال 90 يوماً"
@@ -1267,11 +1288,39 @@
             "communicationFrequency": "وتيرة التواصل",
             "satisfactionScore": "مستوى الرضا"
         },
+        "statuses": {
+            "Cold": "بارد",
+            "Prospect": "محتمل",
+            "Cultivating": "قيد التطوير",
+            "Active": "نشط",
+            "Stewardship": "رعاية"
+        },
+        "types": {
+            "Foundation": "مؤسسة",
+            "Corporate": "شركة",
+            "Government": "حكومي",
+            "Multilateral": "متعدد الأطراف"
+        },
+        "priorities": {
+            "High": "عالية",
+            "Medium": "متوسطة",
+            "Low": "منخفضة"
+        },
         "detail": {
             "overview": "نظرة عامة",
             "grants": "المنح",
             "contacts": "جهات الاتصال",
             "documents": "المستندات",
+            "status": "الحالة",
+            "assignedManager": "المدير المسؤول",
+            "priority": "الأولوية",
+            "totalAwarded": "إجمالي المنح الممنوحة",
+            "activeGrants": "المنح النشطة",
+            "nextDeadline": "الموعد القادم",
+            "type": "النوع",
+            "country": "الدولة",
+            "registrationNumber": "رقم التسجيل",
+            "establishmentDate": "تاريخ التأسيس",
             "donationsTitle": "ملخص التبرعات",
             "donationsThisYear": "تبرعات هذا العام",
             "totalDonations": "إجمالي التبرعات",
