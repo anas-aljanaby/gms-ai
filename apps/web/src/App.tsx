@@ -54,7 +54,7 @@ const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
     switch (activeModule) {
         case 'dashboard': return <Dashboard setActiveModule={updateActiveModule} />;
-        case 'donors': return <DonorManagement role={role}/>;
+        case 'donors': return <DonorManagement role={role} deepLinkTarget={deepLinkTarget} />;
         case 'institutional_donors': return <InstitutionalDonors />;
         case 'projects': return <ProjectManagement beneficiaries={beneficiaryData.beneficiaries} deepLinkTarget={deepLinkTarget} />;
         case 'beneficiaries': return <BeneficiariesModule />;

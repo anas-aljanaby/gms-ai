@@ -39,8 +39,10 @@ export interface ContactPerson {
 // =================================================================
 // START: Donor Pipeline Types (Kanban View)
 // =================================================================
-export type DonorStageId = 'prospect' | 'contacted' | 'cultivating' | 'solicited' | 'stewardship';
+export type DonorStageId = 'prospect' | 'researching' | 'contacted' | 'cultivating' | 'solicited' | 'pledged' | 'donated' | 'dormant';
 export type RelationshipHealth = 'Good' | 'Moderate' | 'At Risk';
+export type DonorPipelineLikelihood = 'High' | 'Medium' | 'Low';
+export type DonorPipelineType = 'Individual' | 'Company' | 'Foundation' | 'Major Donor' | 'Recurring';
 
 export interface DonorTask {
   id: string;
@@ -49,11 +51,6 @@ export interface DonorTask {
   assignedTo: Role;
   dueDate: string; // ISO
   completed: boolean;
-}
-
-export interface AiSuggestion {
-    action: string;
-    rationale: string;
 }
 
 export interface Donor {
@@ -68,8 +65,15 @@ export interface Donor {
   avatar: string;
   stage: DonorStageId;
   potentialGift: number;
+  suggestedAskAmount?: number;
   relationshipHealth: RelationshipHealth;
   lastContact: string; // ISO
+  stageEnteredAt?: string; // ISO
+  assignedOwner?: string;
+  donorType?: DonorPipelineType;
+  likelihood?: DonorPipelineLikelihood;
+  interestTags?: string[];
+  disqualificationReason?: string;
   tasks: DonorTask[];
   // Intelligence fields can be added here for Kanban cards
   donorCategory?: DonorCategory; 
@@ -103,10 +107,25 @@ export interface Communication {
 }
 
 // Individual Donors Page Types
-export type DonorStatus = 'Active' | 'Lapsed' | 'On Hold' | 'Deceased';
+export type DonorStatus = 'Active' | 'Lapsed' | 'On Hold' | 'Deceased' | 'Disqualified';
 export type DonorTier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum' | 'Major Donor';
 export type SortDirection = 'asc' | 'desc';
 export type FavoriteContentType = 'impact_stories' | 'statistics' | 'beneficiary_testimonials' | 'program_updates';
+export type PledgeStatus = 'None' | 'Expected' | 'Pledged' | 'Partially Paid' | 'Paid' | 'Cancelled';
+
+export interface DonorStageHistoryEntry {
+  stage: DonorStageId;
+  enteredAt: string;
+  exitedAt?: string;
+  note?: string;
+}
+
+export interface DonorDocument {
+  id: string;
+  title: string;
+  type: 'Proposal' | 'Receipt' | 'Agreement' | 'Impact Report' | 'Thank You Letter';
+  date: string;
+}
 
 
 export interface IndividualDonor {
@@ -114,11 +133,14 @@ export interface IndividualDonor {
   fullName: Record<Language, string>;
   email: string;
   phone: string;
+  whatsapp?: string;
+  address?: string;
   totalDonations: number;
   lastDonationDate: string; // ISO
   status: DonorStatus;
   tier: DonorTier;
   country: string;
+  city?: string;
   tags: string[];
   assignedManager: string;
   avatar: string;
@@ -127,6 +149,30 @@ export interface IndividualDonor {
   donorCategory?: DonorCategory;
   donationsCount?: number;
   avgGift?: number;
+  largestGift?: number;
+  recurringGiftStatus?: 'Active' | 'Paused' | 'None';
+  programsSupported?: string[];
+  donorType?: DonorPipelineType;
+  relationshipStage?: DonorStageId;
+  relationshipHealth?: RelationshipHealth;
+  relationshipLikelihood?: DonorPipelineLikelihood;
+  stageEnteredAt?: string;
+  stageHistory?: DonorStageHistoryEntry[];
+  potentialGift?: number;
+  suggestedAskAmount?: number;
+  currentProposal?: string;
+  askDate?: string;
+  pledgeAmount?: number;
+  pledgeStatus?: PledgeStatus;
+  expectedCloseDate?: string;
+  lostReason?: string;
+  relationshipTasks?: DonorTask[];
+  lastContactDate?: string;
+  relationshipNotes?: string;
+  aiInsights?: string[];
+  riskSignals?: string[];
+  recommendedNextStep?: string;
+  documents?: DonorDocument[];
   averageDaysBetweenDonations?: number;
   primaryProgramInterest?: string;
   categoryUpdatedAt?: string; // ISO

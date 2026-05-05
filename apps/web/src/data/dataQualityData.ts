@@ -14,17 +14,17 @@ export interface AuditLogEntry {
 export const initialDataQualityData: DataQualityRecord[] = [
   // --- Valid Records ---
   {
-    id: 1, name: 'Aisha Al-Farsi', email: 'aisha.f@example.com', totalDonated: 15250, donationCount: 12, firstDonation: '2021-03-15T10:00:00Z', lastDonation: '2024-05-20T10:00:00Z', country: 'UAE', avatar: 'https://picsum.photos/id/1027/100/100', stage: 'stewardship', potentialGift: 5000, relationshipHealth: 'Good', lastContact: '2024-07-10T10:00:00Z', tasks: [],
+    id: 1, name: 'Aisha Al-Farsi', email: 'aisha.f@example.com', totalDonated: 15250, donationCount: 12, firstDonation: '2021-03-15T10:00:00Z', lastDonation: '2024-05-20T10:00:00Z', country: 'UAE', avatar: 'https://picsum.photos/id/1027/100/100', stage: 'donated', potentialGift: 5000, relationshipHealth: 'Good', lastContact: '2024-07-10T10:00:00Z', tasks: [],
   },
   {
     id: 4, name: 'David Chen', email: 'david.chen@example.com', totalDonated: 25000, donationCount: 2, firstDonation: '2023-08-01T10:00:00Z', lastDonation: '2024-02-28T10:00:00Z', country: 'Canada', avatar: 'https://picsum.photos/id/1012/100/100', stage: 'solicited', potentialGift: 15000, relationshipHealth: 'Moderate', lastContact: '2024-06-20T10:00:00Z', tasks: [],
   },
   {
-    id: 10, name: 'Abdullah Al-Jaber', email: 'abdullah.j@example.com', totalDonated: 35000, donationCount: 7, firstDonation: '2021-09-01T10:00:00Z', lastDonation: '2024-05-05T10:00:00Z', country: 'Saudi Arabia', avatar: 'https://picsum.photos/id/1036/100/100', stage: 'stewardship', potentialGift: 20000, relationshipHealth: 'Good', lastContact: '2024-07-12T10:00:00Z', tasks: [],
+    id: 10, name: 'Abdullah Al-Jaber', email: 'abdullah.j@example.com', totalDonated: 35000, donationCount: 7, firstDonation: '2021-09-01T10:00:00Z', lastDonation: '2024-05-05T10:00:00Z', country: 'Saudi Arabia', avatar: 'https://picsum.photos/id/1036/100/100', stage: 'donated', potentialGift: 20000, relationshipHealth: 'Good', lastContact: '2024-07-12T10:00:00Z', tasks: [],
   },
   // --- DUPLICATE SET 1 ---
   {
-    id: 2, name: 'John Smith', email: 'john.smith@example.com', totalDonated: 7800, donationCount: 5, firstDonation: '2022-01-10T10:00:00Z', lastDonation: '2024-06-01T10:00:00Z', country: 'USA', avatar: 'https://picsum.photos/id/1005/100/100', stage: 'stewardship', potentialGift: 2500, relationshipHealth: 'Good', lastContact: '2024-06-15T10:00:00Z', tasks: [],
+    id: 2, name: 'John Smith', email: 'john.smith@example.com', totalDonated: 7800, donationCount: 5, firstDonation: '2022-01-10T10:00:00Z', lastDonation: '2024-06-01T10:00:00Z', country: 'USA', avatar: 'https://picsum.photos/id/1005/100/100', stage: 'donated', potentialGift: 2500, relationshipHealth: 'Good', lastContact: '2024-06-15T10:00:00Z', tasks: [],
   },
   {
     id: 12, name: 'Jon Smith', email: 'jsmith@work.com', totalDonated: 1200, donationCount: 1, firstDonation: '2024-07-15T10:00:00Z', lastDonation: '2024-07-15T10:00:00Z', country: 'USA', avatar: 'https://picsum.photos/id/1005/100/100', stage: 'contacted', potentialGift: 1000, relationshipHealth: 'Moderate', lastContact: '2024-07-16T10:00:00Z', tasks: [],

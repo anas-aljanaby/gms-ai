@@ -1,6 +1,7 @@
 {
   "common": {
     "searchPlaceholder": "Search everything...",
+    "search": "Search",
     "close": "Close",
     "previous": "Previous",
     "next": "Next",

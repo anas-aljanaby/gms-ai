@@ -2,9 +2,19 @@
   "donors": {
     "hubTitle": "إدارة المانحين",
     "tabs": {
+      "registry": "السجل",
       "pipeline": "مسار المانحين",
       "directory": "الدليل",
       "analytics": "التحليلات"
+    },
+    "registry": {
+      "searchPlaceholder": "ابحث في السجل...",
+      "metrics": {
+        "totalDonors": "إجمالي المانحين",
+        "activeDonors": "المانحون النشطون",
+        "totalDonated": "إجمالي التبرعات",
+        "averageGift": "متوسط التبرع"
+      }
     },
     "directory": {
       "advancedFilters": "فلاتر متقدمة",
@@ -28,37 +38,55 @@
       "donated": "المتبرع به",
       "openTasks": "المهام المفتوحة",
       "overdue": "متأخر",
+      "nextTask": "المهمة التالية",
       "due": "الاستحقاق",
       "addTask": "إضافة مهمة",
       "addDonation": "إضافة تبرع",
       "moreOptions": "خيارات إضافية",
       "ariaLabel": "بطاقة المانح {name}"
     },
-    "ai_suggestion": {
-      "title": "اقتراح الذكاء الاصطناعي",
-      "loading": "جارٍ إنشاء الاقتراح...",
-      "start": "إعداد بريد",
-      "error": "تعذر إنشاء الاقتراح حالياً.",
-      "rationale": "المبرر"
+    "kanban": {
+      "columnPotential": "الفرصة",
+      "owner": "المسؤول",
+      "allOwners": "كل المسؤولين",
+      "unassigned": "غير معين",
+      "stageAge": "مدة المرحلة",
+      "daysInStage": "{{count}} يوم",
+      "suggestedAsk": "قيمة الطلب",
+      "likelihood": "الاحتمال",
+      "lastContact": "آخر تواصل",
+      "noNextAction": "لا توجد خطوة تالية",
+      "noNextActionShort": "بلا خطوة",
+      "actionFilter": "حالة الإجراء",
+      "allActions": "كل حالات الإجراء",
+      "overdueOnly": "المتأخرة فقط",
+      "noNextActionOnly": "بلا خطوة تالية فقط",
+      "filteredValue": "قيمة الفرصة المعروضة",
+      "quickCall": "اتصال بالمانح",
+      "quickEmail": "إرسال بريد للمانح",
+      "emptyColumn": "لا يوجد مانحون في هذه المرحلة"
     },
-    "ai_modal": {
-      "title": "مساعد البريد بالذكاء الاصطناعي",
-      "generating": "جارٍ إنشاء مسودة البريد...",
-      "to": "إلى",
-      "subject": "الموضوع",
-      "body": "النص",
-      "send": "إرسال البريد",
-      "generationFailed": "تعذر إنشاء المحتوى بالذكاء الاصطناعي.",
-      "fallbackSubject": "خطأ",
-      "fallbackBody": "تعذر إنشاء المحتوى.",
-      "emailSent": "تم إرسال البريد!"
+    "types": {
+      "Individual": "فرد",
+      "Company": "شركة",
+      "Foundation": "مؤسسة",
+      "MajorDonor": "مانح كبير",
+      "Recurring": "متكرر"
+    },
+    "likelihood": {
+      "High": "مرتفع",
+      "Medium": "متوسط",
+      "Low": "منخفض"
     },
     "stages": {
       "prospect": "مرشح",
+      "researching": "قيد البحث",
       "contacted": "تم التواصل",
       "cultivating": "قيد التطوير",
-      "solicited": "مطلوب منه",
-      "stewardship": "رعاية"
+      "solicited": "طلب التبرع",
+      "pledged": "متعهد",
+      "donated": "تم التبرع",
+      "dormant": "متوقف"
     }
   },
   "donorManagement": {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import type { IndividualDonor } from '../../../types';
+import type { Communication, Donation, DonorTask, IndividualDonor } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import Tabs from '../../common/Tabs';
 import DetailOverviewTab from './DetailOverviewTab';
-import { ArrowLeft } from 'lucide-react';
+import { formatCurrency, formatDate, formatNumber, formatRelativeTime, getDonorCategoryLabel } from '../../../lib/utils';
+import { ArrowLeft, CalendarClock, FileText, Mail, MessageSquare, Phone } from 'lucide-react';
 import { MOCK_DONATIONS } from '../../../data/donationsData';
 import { MOCK_COMMUNICATIONS } from '../../../data/communicationsData';
 import LogInteractionModal from './LogInteractionModal';
@@ -15,14 +16,237 @@ interface DonorDetailViewProps {
     onBack: () => void;
 }
 
-// Placeholder components for new tabs
-const DonationsTab: React.FC = () => <div className="p-8 text-center text-gray-500">Donations history will be displayed here.</div>;
-const CommunicationsTab: React.FC = () => <div className="p-8 text-center text-gray-500">Communication log will be displayed here.</div>;
-const TasksTab: React.FC = () => <div className="p-8 text-center text-gray-500">Tasks related to this donor will be displayed here.</div>;
+const EmptyPanel: React.FC<{ text: string }> = ({ text }) => (
+    <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-slate-700 dark:text-gray-400">{text}</div>
+);
+
+const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
+    <section className="rounded-lg border border-gray-200 bg-card p-5 shadow-soft dark:border-slate-700/60 dark:bg-dark-card">
+        <h3 className="mb-4 text-base font-bold text-foreground dark:text-dark-foreground">{title}</h3>
+        {children}
+    </section>
+);
+
+const InfoRow: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+    <div>
+        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{label}</p>
+        <div className="mt-1 text-sm font-bold text-foreground dark:text-dark-foreground">{value || 'N/A'}</div>
+    </div>
+);
+
+const DonationsTab: React.FC<{ donations: Donation[] }> = ({ donations }) => {
+    const { t, language } = useLocalization(['common', 'individual_donors']);
+
+    if (donations.length === 0) return <EmptyPanel text={t('individual_donors.detailView.noDonations')} />;
+
+    return (
+        <Section title={t('individual_donors.detailView.donationHistory')}>
+            <div className="overflow-x-auto">
+                <table className="w-full min-w-[640px] text-sm">
+                    <thead className="text-xs uppercase text-gray-500">
+                        <tr>
+                            <th className="px-3 py-2 text-start">{t('individual_donors.detailView.date')}</th>
+                            <th className="px-3 py-2 text-start">{t('individual_donors.detailView.program')}</th>
+                            <th className="px-3 py-2 text-end">{t('individual_donors.detailView.amount')}</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
+                        {donations.map(donation => (
+                            <tr key={donation.id}>
+                                <td className="px-3 py-3">{formatDate(donation.date, language)}</td>
+                                <td className="px-3 py-3 font-semibold">{donation.program}</td>
+                                <td className="px-3 py-3 text-end font-bold">{formatCurrency(donation.amount, language)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </Section>
+    );
+};
+
+const CommunicationsTab: React.FC<{ communications: Communication[] }> = ({ communications }) => {
+    const { t, language } = useLocalization(['common', 'individual_donors']);
+
+    if (communications.length === 0) return <EmptyPanel text={t('individual_donors.detailView.noCommunications')} />;
+
+    return (
+        <Section title={t('individual_donors.detailView.communicationHistory')}>
+            <div className="space-y-3">
+                {communications.map(communication => (
+                    <div key={communication.communication_id} className="rounded-lg border border-gray-200 p-4 dark:border-slate-700">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                                <div className="rounded-md bg-primary-light p-2 text-primary dark:bg-primary/20 dark:text-secondary">
+                                    {communication.communication_type === 'call' ? <Phone size={16} /> : communication.communication_type === 'email' ? <Mail size={16} /> : <MessageSquare size={16} />}
+                                </div>
+                                <div>
+                                    <p className="font-bold text-foreground dark:text-dark-foreground">{communication.subject}</p>
+                                    <p className="text-xs text-gray-500">{communication.communication_type} / {communication.status}</p>
+                                </div>
+                            </div>
+                            <span className="text-xs font-semibold text-gray-500">{formatRelativeTime(communication.sent_at, language)}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </Section>
+    );
+};
+
+const TasksTab: React.FC<{ tasks: DonorTask[] }> = ({ tasks }) => {
+    const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
+    const openTasks = tasks.filter(task => !task.completed);
+    const completedTasks = tasks.filter(task => task.completed);
+    const today = new Date().toISOString().split('T')[0];
+
+    if (tasks.length === 0) return <EmptyPanel text={t('individual_donors.detailView.noTasks')} />;
+
+    return (
+        <div className="space-y-4">
+            <Section title={t('individual_donors.detailView.openTasks')}>
+                <div className="space-y-3">
+                    {openTasks.map(task => (
+                        <div key={task.id} className="flex items-start justify-between gap-4 rounded-lg border border-gray-200 p-4 dark:border-slate-700">
+                            <div>
+                                <p className="font-bold">{task.text}</p>
+                                <p className="text-xs text-gray-500">{task.type} / {task.assignedTo}</p>
+                            </div>
+                            <span className={`rounded-full px-2 py-1 text-xs font-bold ${task.dueDate < today ? 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300' : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-gray-300'}`}>
+                                {formatDate(task.dueDate, language)}
+                            </span>
+                        </div>
+                    ))}
+                    {openTasks.length === 0 && <EmptyPanel text={t('individual_donors.detailView.noOpenTasks')} />}
+                </div>
+            </Section>
+            {completedTasks.length > 0 && (
+                <Section title={t('individual_donors.detailView.completedTasks')}>
+                    <div className="space-y-2">
+                        {completedTasks.map(task => (
+                            <div key={task.id} className="rounded-lg bg-gray-50 p-3 text-sm text-gray-600 dark:bg-slate-800/60 dark:text-gray-300">{task.text}</div>
+                        ))}
+                    </div>
+                </Section>
+            )}
+        </div>
+    );
+};
+
 const ProfileTab: React.FC<{ donor: IndividualDonor }> = ({ donor }) => {
-    const { t, language } = useLocalization(['common', 'individual_donors', 'misc']);
+    const { t, language } = useLocalization(['common', 'individual_donors', 'donors', 'misc']);
     const donorName = donor.fullName[language] || donor.fullName.en;
-    return <div className="p-8 text-center text-gray-500">{t('individual_donors.detailView.profilePlaceholder', { donorName })}</div>;
+    const openTasks = donor.relationshipTasks?.filter(task => !task.completed) || [];
+    const nextTask = openTasks.slice().sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
+
+    return (
+        <div className="space-y-5">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                <Section title={t('individual_donors.detailView.identity')}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InfoRow label={t('individual_donors.detailView.fullName')} value={donorName} />
+                        <InfoRow label={t('individual_donors.columns.donorType')} value={donor.donorType ? t(`donors.types.${donor.donorType.replace(/ /g, '')}`, donor.donorType) : 'N/A'} />
+                        <InfoRow label={t('individual_donors.columns.country')} value={[donor.city, donor.country].filter(Boolean).join(', ')} />
+                        <InfoRow label={t('individual_donors.detailView.preferredLanguage')} value={donor.preferred_language?.toUpperCase() || 'N/A'} />
+                        <InfoRow label={t('individual_donors.columns.status')} value={donor.status} />
+                        <InfoRow label={t('individual_donors.columns.tags')} value={donor.tags.length > 0 ? donor.tags.join(', ') : t('individual_donors.relationship.noTags')} />
+                    </div>
+                </Section>
+                <Section title={t('individual_donors.detailView.contactInfo')}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InfoRow label={t('individual_donors.modal.email')} value={donor.email} />
+                        <InfoRow label={t('individual_donors.modal.phone')} value={donor.phone} />
+                        <InfoRow label="WhatsApp" value={donor.whatsapp || donor.phone} />
+                        <InfoRow label={t('individual_donors.detailView.preferredChannel')} value={donor.preferred_contact_channel || 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.bestContact')} value={donor.best_contact_time ? `${donor.best_contact_day_of_week || ''} ${donor.best_contact_time}` : 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.address')} value={donor.address || 'N/A'} />
+                    </div>
+                </Section>
+                <Section title={t('individual_donors.detailView.relationshipOwnership')}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InfoRow label={t('individual_donors.columns.owner')} value={donor.assignedManager} />
+                        <InfoRow label={t('individual_donors.columns.pipelineStage')} value={donor.relationshipStage ? t(`donors.stages.${donor.relationshipStage}`) : 'N/A'} />
+                        <InfoRow label={t('individual_donors.columns.relationshipHealth')} value={donor.relationshipHealth || 'N/A'} />
+                        <InfoRow label={t('donors.kanban.likelihood')} value={donor.relationshipLikelihood ? t(`donors.likelihood.${donor.relationshipLikelihood}`) : 'N/A'} />
+                        <InfoRow label={t('donors.kanban.stageAge')} value={donor.stageEnteredAt ? formatRelativeTime(donor.stageEnteredAt, language) : 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.stageHistory')} value={formatNumber(donor.stageHistory?.length || 0, language)} />
+                    </div>
+                </Section>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                <Section title={t('individual_donors.detailView.givingHistory')}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InfoRow label={t('individual_donors.columns.totalDonations')} value={formatCurrency(donor.totalDonations, language)} />
+                        <InfoRow label={t('individual_donors.kpi.totalGifts')} value={formatNumber(donor.donationsCount || 0, language)} />
+                        <InfoRow label={t('individual_donors.kpi.avgGift')} value={formatCurrency(donor.avgGift || 0, language)} />
+                        <InfoRow label={t('individual_donors.detailView.largestGift')} value={formatCurrency(donor.largestGift || 0, language)} />
+                        <InfoRow label={t('individual_donors.columns.lastGift')} value={donor.lastDonationDate ? formatDate(donor.lastDonationDate, language) : 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.programsSupported')} value={donor.programsSupported?.join(', ') || 'N/A'} />
+                    </div>
+                </Section>
+                <Section title={t('individual_donors.detailView.pipelineAsk')}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InfoRow label={t('donors.card.potential')} value={formatCurrency(donor.potentialGift || 0, language)} />
+                        <InfoRow label={t('donors.kanban.suggestedAsk')} value={formatCurrency(donor.suggestedAskAmount || 0, language)} />
+                        <InfoRow label={t('individual_donors.detailView.currentProposal')} value={donor.currentProposal || 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.askDate')} value={donor.askDate ? formatDate(donor.askDate, language) : 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.pledgeStatus')} value={donor.pledgeStatus || 'N/A'} />
+                        <InfoRow label={t('individual_donors.detailView.expectedClose')} value={donor.expectedCloseDate ? formatDate(donor.expectedCloseDate, language) : 'N/A'} />
+                    </div>
+                </Section>
+                <Section title={t('individual_donors.detailView.tasksNextActions')}>
+                    <div className="space-y-4">
+                        <InfoRow label={t('individual_donors.columns.nextAction')} value={nextTask ? nextTask.text : t('donors.kanban.noNextAction')} />
+                        <InfoRow label={t('donors.card.due')} value={nextTask ? formatDate(nextTask.dueDate, language) : 'N/A'} />
+                        <InfoRow label={t('individual_donors.columns.openTasks')} value={formatNumber(openTasks.length, language)} />
+                        <InfoRow label={t('individual_donors.columns.lastContact')} value={donor.lastContactDate ? formatRelativeTime(donor.lastContactDate, language) : 'N/A'} />
+                    </div>
+                </Section>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                <Section title={t('individual_donors.detailView.notesIntelligence')}>
+                    <div className="space-y-4 text-sm">
+                        <InfoRow label={t('donorIntelligence.table.category')} value={getDonorCategoryLabel(donor.donorCategory || 'General Donor', t)} />
+                        <InfoRow label={t('individual_donors.detailView.relationshipNotes')} value={donor.relationshipNotes} />
+                        <InfoRow label={t('individual_donors.detailView.recommendedNextStep')} value={donor.recommendedNextStep} />
+                        {donor.aiInsights?.map(insight => <p key={insight} className="rounded-md bg-primary-light/60 p-3 font-semibold text-primary dark:bg-primary/20 dark:text-secondary">{insight}</p>)}
+                        {donor.riskSignals?.map(signal => <p key={signal} className="rounded-md bg-red-50 p-3 font-semibold text-red-700 dark:bg-red-900/20 dark:text-red-200">{signal}</p>)}
+                    </div>
+                </Section>
+                <Section title={t('individual_donors.detailView.documents')}>
+                    <div className="space-y-3">
+                        {donor.documents && donor.documents.length > 0 ? donor.documents.map(document => (
+                            <div key={document.id} className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 dark:border-slate-700">
+                                <FileText size={18} className="text-primary" />
+                                <div>
+                                    <p className="font-bold">{document.title}</p>
+                                    <p className="text-xs text-gray-500">{document.type} / {formatDate(document.date, language)}</p>
+                                </div>
+                            </div>
+                        )) : <EmptyPanel text={t('individual_donors.detailView.noDocuments')} />}
+                    </div>
+                </Section>
+                <Section title={t('individual_donors.detailView.stageTimeline')}>
+                    <div className="space-y-3">
+                        {donor.stageHistory?.map((entry, index) => (
+                            <div key={`${entry.stage}-${entry.enteredAt}-${index}`} className="flex gap-3">
+                                <div className="flex flex-col items-center">
+                                    <div className="h-7 w-7 rounded-full bg-primary-light text-primary dark:bg-primary/20 dark:text-secondary flex items-center justify-center"><CalendarClock size={14} /></div>
+                                    {index < (donor.stageHistory?.length || 0) - 1 && <div className="h-8 w-px bg-gray-200 dark:bg-slate-700" />}
+                                </div>
+                                <div>
+                                    <p className="font-bold">{t(`donors.stages.${entry.stage}`)}</p>
+                                    <p className="text-xs text-gray-500">{formatDate(entry.enteredAt, language)}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </Section>
+            </div>
+        </div>
+    );
 };
 
 
@@ -52,6 +276,7 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack }) => {
             'Lapsed': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
             'On Hold': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
             'Deceased': 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
+            'Disqualified': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
         };
         return <span className={`px-2 py-1 text-xs font-semibold rounded-full ${styles[status]}`}>{t(`individual_donors.statuses.${statusKey}`)}</span>;
     };
@@ -86,11 +311,11 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack }) => {
             case 'overview':
                 return <DetailOverviewTab donor={donor} donations={donorDonations} communications={donorCommunications} />;
             case 'donations':
-                return <DonationsTab />;
+                return <DonationsTab donations={donorDonations} />;
             case 'communications':
-                return <CommunicationsTab />;
+                return <CommunicationsTab communications={donorCommunications} />;
             case 'tasks':
-                return <TasksTab />;
+                return <TasksTab tasks={donor.relationshipTasks || []} />;
              case 'profile':
                 return <ProfileTab donor={donor} />;
             default:

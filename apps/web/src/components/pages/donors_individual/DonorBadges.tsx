@@ -10,6 +10,7 @@ export const StatusBadge: React.FC<{ status: DonorStatus }> = ({ status }) => {
         'Lapsed': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
         'On Hold': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
         'Deceased': 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
+        'Disqualified': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
     };
     return <span className={`px-2 py-1 text-xs font-semibold rounded-full ${styles[status]}`}>{t(`individual_donors.statuses.${statusKey}`)}</span>;
 };

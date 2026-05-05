@@ -2,17 +2,23 @@ import React from 'react';
 import type { Donor, DonorStageId } from '../../../types';
 import KanbanColumn from './KanbanColumn';
 
-interface KanbanBoardProps {
-    donors: Donor[];
-    stages: { id: DonorStageId; titleKey: string; color: string; border: string; }[];
-    onDragEnd: (donorId: number, targetStageId: DonorStageId) => void;
-    dispatch: React.Dispatch<any>;
+export interface DonorKanbanStage {
+    id: DonorStageId;
+    titleKey: string;
+    color: string;
+    border: string;
 }
 
-const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd, dispatch }) => {
+interface KanbanBoardProps {
+    donors: Donor[];
+    stages: DonorKanbanStage[];
+    onDragEnd: (donorId: number, targetStageId: DonorStageId) => void;
+}
+
+const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd }) => {
     return (
         <div className="flex-grow pb-4">
-            <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(340px,1fr))]">
+            <div className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory">
                 {stages.map(stage => {
                     const stageDonors = donors.filter(d => d.stage === stage.id);
                     return (
@@ -21,7 +27,6 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd, di
                             stage={stage}
                             donors={stageDonors}
                             onDragEnd={onDragEnd}
-                            dispatch={dispatch}
                         />
                     );
                 })}
