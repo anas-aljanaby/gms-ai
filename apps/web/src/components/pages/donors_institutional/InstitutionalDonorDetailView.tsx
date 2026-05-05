@@ -3,10 +3,11 @@ import type { InstitutionalDonor } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import Tabs from '../../common/Tabs';
 import DetailOverviewTabInstitutional from './DetailOverviewTabInstitutional';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CalendarClock, Mail, MapPin, WalletCards } from 'lucide-react';
 import GrantsTab from './GrantsTab';
 import ContactsTab from './ContactsTab';
 import DocumentsTab from './DocumentsTab';
+import { formatCurrency, formatDate, formatRelativeTime } from '../../../lib/utils';
 
 interface InstitutionalDonorDetailViewProps {
     donor: InstitutionalDonor;
@@ -15,7 +16,7 @@ interface InstitutionalDonorDetailViewProps {
 
 const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> = ({ donor, onBack }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
-    const [activeTab, setActiveTab] = useState('documents');
+    const [activeTab, setActiveTab] = useState('overview');
 
     const tabs = [
         { id: 'overview', label: t('institutional_donors.detail.overview') },
@@ -40,25 +41,64 @@ const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> 
     };
 
     return (
-        <div className="animate-fade-in space-y-4">
-            <button onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-primary hover:underline mb-2">
+        <div className="animate-fade-in space-y-4 pb-24 md:pb-0">
+            <button onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
                 <ArrowLeft className="rtl:rotate-180" /> {t('institutional_donors.backToList')}
             </button>
-            <div className="bg-card dark:bg-dark-card rounded-2xl shadow-soft border border-gray-200 dark:border-slate-700/50">
-                <div className="p-6 flex items-center gap-6 border-b dark:border-slate-700">
-                    <img src={donor.logo} alt={donor.organizationName[language] || donor.organizationName.en} className="w-24 h-24 rounded-lg object-cover bg-gray-100" />
-                    <div>
-                        <h1 className="text-3xl font-bold">{donor.organizationName[language] || donor.organizationName.en}</h1>
-                        <p className="text-gray-500">{t(`institutional_donors.types.${donor.type}`)} &bull; {donor.country}</p>
+
+            <section className="overflow-hidden rounded-2xl border border-gray-200 bg-card shadow-soft dark:border-slate-700/60 dark:bg-dark-card">
+                <div className="grid grid-cols-1 gap-5 p-5 sm:p-6 xl:grid-cols-[minmax(0,1fr)_auto]">
+                    <div className="flex min-w-0 items-center gap-4 sm:gap-5">
+                        <img src={donor.logo} alt={donor.organizationName[language] || donor.organizationName.en} className="h-20 w-20 flex-shrink-0 rounded-2xl bg-gray-100 object-cover dark:bg-slate-800 sm:h-24 sm:w-24" />
+                        <div className="min-w-0">
+                            <h1 className="break-words text-2xl font-bold leading-tight text-foreground dark:text-dark-foreground sm:text-3xl">{donor.organizationName[language] || donor.organizationName.en}</h1>
+                            <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
+                                <MapPin size={15} /> {t(`institutional_donors.types.${donor.type}`)} / {[donor.city, donor.country].filter(Boolean).join(', ') || donor.country}
+                            </p>
+                            <div className="mt-4 flex flex-wrap gap-2">
+                                <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-bold text-primary dark:bg-primary/20 dark:text-secondary">{t(`institutional_donors.statuses.${donor.relationshipStatus}`)}</span>
+                                <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 dark:bg-amber-900/25 dark:text-amber-200">{t(`institutional_donors.priorities.${donor.priority}`)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:w-80 xl:grid-cols-1">
+                        <a href={`mailto:${donor.primaryContact.email}`} className="inline-flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-secondary-dark">
+                            <Mail size={16} /> {donor.primaryContact.name}
+                        </a>
+                        <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm font-bold text-foreground dark:border-slate-700 dark:bg-slate-900/30 dark:text-dark-foreground">
+                            <span className="flex items-center justify-center gap-2"><WalletCards size={16} /> {formatCurrency(donor.totalGrantsAwarded, language, 'USD')}</span>
+                        </div>
                     </div>
                 </div>
-                <div className="px-6 pt-2">
+
+                <div className="grid grid-cols-2 gap-3 border-t border-gray-200 bg-gray-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/20 xl:grid-cols-4">
+                    <div className="min-w-0">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.activeGrants')}</p>
+                        <p className="mt-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground">{donor.activeGrants}</p>
+                    </div>
+                    <div className="min-w-0">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.nextDeadline')}</p>
+                        <p className="mt-1 flex items-center gap-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground"><CalendarClock size={14} /> {donor.nextDeadline ? formatDate(donor.nextDeadline, language) : 'N/A'}</p>
+                    </div>
+                    <div className="min-w-0">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.lastContact', 'Last Contact')}</p>
+                        <p className="mt-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground">{donor.lastContactDate ? formatRelativeTime(donor.lastContactDate, language) : 'N/A'}</p>
+                    </div>
+                    <div className="min-w-0">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.columns.focus')}</p>
+                        <p className="mt-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground">{donor.focusAreas.slice(0, 2).join(', ')}{donor.focusAreas.length > 2 ? ` +${donor.focusAreas.length - 2}` : ''}</p>
+                    </div>
+                </div>
+            </section>
+
+            <section className="rounded-2xl border border-gray-200 bg-card shadow-sm dark:border-slate-700/60 dark:bg-dark-card">
+                <div className="px-4 pt-2 sm:px-6">
                     <Tabs tabs={tabs} activeTab={activeTab} onTabClick={setActiveTab} />
                 </div>
-                <div className="p-6 bg-gray-50/50 dark:bg-dark-background/20 rounded-b-2xl">
+                <div className="rounded-b-2xl bg-gray-50/70 p-4 dark:bg-dark-background/30 sm:p-6">
                     {renderTabContent()}
                 </div>
-            </div>
+            </section>
         </div>
     );
 };

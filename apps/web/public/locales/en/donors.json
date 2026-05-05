@@ -43,7 +43,7 @@
       "addTask": "Add Task",
       "addDonation": "Add Donation",
       "moreOptions": "More options",
-      "ariaLabel": "Donor card for {name}"
+      "ariaLabel": "Donor card for {{name}}"
     },
     "kanban": {
       "columnPotential": "Opportunity",
@@ -64,6 +64,16 @@
       "filteredValue": "Filtered opportunity",
       "quickCall": "Call donor",
       "quickEmail": "Email donor",
+      "moveTo": "Move to stage",
+      "dragHandle": "Drag {{name}}",
+      "stageRail": "All stages",
+      "dropTargetHint": "Drop on a stage",
+      "jumpToStage": "Jump to {{stage}}",
+      "density": {
+        "label": "Kanban density",
+        "compact": "Compact",
+        "comfortable": "Comfortable"
+      },
       "emptyColumn": "No donors in this stage"
     },
     "types": {

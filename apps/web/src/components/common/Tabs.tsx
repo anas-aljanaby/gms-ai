@@ -30,7 +30,10 @@ const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onTabClick }) => {
 
     return (
         <div className="border-b border-gray-200 dark:border-slate-700">
-            <nav className={`-mb-px flex gap-6 ${dir === 'rtl' ? 'flex-row-reverse' : ''} overflow-x-auto`}>
+            <nav
+                dir={dir}
+                className="-mb-px flex justify-start gap-4 overflow-x-auto sm:gap-6"
+            >
                 {tabs.map(tab => (
                     <button
                         key={tab.id}

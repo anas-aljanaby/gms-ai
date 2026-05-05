@@ -14,13 +14,13 @@ import { MOCK_COMMUNICATIONS } from '../../data/communicationsData';
 import { classifyAndEnrichDonor } from '../../lib/donorIntelligence';
 
 import type { Donor, DonorPipelineType, DonorStageId, IndividualDonor, Role, SortDirection } from '../../types';
-import KanbanBoard, { type DonorKanbanStage } from './donors/KanbanBoard';
+import KanbanBoard, { type DonorKanbanStage, type KanbanDensity } from './donors/KanbanBoard';
 import RegistryAddDonorModal from './donors_individual/AddDonorModal';
 import DonorsTable from './donors_individual/DonorsTable';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { formatCurrency, formatNumber, getDonorCategoryLabel } from '../../lib/utils';
 import Tabs from '../common/Tabs';
-import { Users, Filter, List, LayoutDashboard, DollarSign, UserCheck, Clock } from 'lucide-react';
+import { Users, Filter, List, LayoutDashboard, DollarSign, UserCheck, Clock, Maximize2, Minimize2 } from 'lucide-react';
 import { SearchIcon } from '../icons/GenericIcons';
 import DonorCard from './donors_individual/DonorCard';
 import DonorDetailView from './donors_individual/DonorDetailView';
@@ -266,6 +266,7 @@ const RegistryTab: React.FC<{
     const [filters, setFilters] = useState<DonorFilters>(DEFAULT_DONOR_FILTERS);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [kanbanDensity, setKanbanDensity] = useState<KanbanDensity>('compact');
     const [pipelineOwnerFilter, setPipelineOwnerFilter] = useState('all');
     const [pipelineActionFilter, setPipelineActionFilter] = useState<'all' | 'overdue' | 'noNextAction'>('all');
 
@@ -667,7 +668,29 @@ const RegistryTab: React.FC<{
                                         <span className="text-sm font-bold text-foreground dark:text-dark-foreground">{formatCurrency(pipelineStats.pipelineValue, language)}</span>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                <div className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-3 lg:grid-cols-[auto_auto_auto]">
+                                    <div className="flex items-center rounded-md border border-gray-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-800" aria-label={t('donors.kanban.density.label')}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setKanbanDensity('compact')}
+                                            aria-pressed={kanbanDensity === 'compact'}
+                                            title={t('donors.kanban.density.compact')}
+                                            className={`flex items-center gap-1 rounded px-2 py-1.5 font-semibold transition-colors ${kanbanDensity === 'compact' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700'}`}
+                                        >
+                                            <Minimize2 size={14} />
+                                            {t('donors.kanban.density.compact')}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setKanbanDensity('comfortable')}
+                                            aria-pressed={kanbanDensity === 'comfortable'}
+                                            title={t('donors.kanban.density.comfortable')}
+                                            className={`flex items-center gap-1 rounded px-2 py-1.5 font-semibold transition-colors ${kanbanDensity === 'comfortable' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700'}`}
+                                        >
+                                            <Maximize2 size={14} />
+                                            {t('donors.kanban.density.comfortable')}
+                                        </button>
+                                    </div>
                                     <button
                                         onClick={() => setPipelineActionFilter(pipelineActionFilter === 'overdue' ? 'all' : 'overdue')}
                                         className={`rounded-md border px-3 py-2 font-semibold transition-colors ${pipelineActionFilter === 'overdue' ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-200' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-200'}`}
@@ -748,6 +771,7 @@ const RegistryTab: React.FC<{
                     <KanbanBoard
                         donors={filteredPipelineDonors}
                         stages={stages}
+                        density={kanbanDensity}
                         onDragEnd={handleDragEnd}
                     />
                 )}

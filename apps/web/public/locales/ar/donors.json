@@ -43,7 +43,7 @@
       "addTask": "إضافة مهمة",
       "addDonation": "إضافة تبرع",
       "moreOptions": "خيارات إضافية",
-      "ariaLabel": "بطاقة المانح {name}"
+      "ariaLabel": "بطاقة المانح {{name}}"
     },
     "kanban": {
       "columnPotential": "الفرصة",
@@ -64,6 +64,16 @@
       "filteredValue": "قيمة الفرصة المعروضة",
       "quickCall": "اتصال بالمانح",
       "quickEmail": "إرسال بريد للمانح",
+      "moveTo": "نقل إلى مرحلة",
+      "dragHandle": "سحب {{name}}",
+      "stageRail": "كل المراحل",
+      "dropTargetHint": "أفلت على مرحلة",
+      "jumpToStage": "انتقل إلى {{stage}}",
+      "density": {
+        "label": "كثافة عرض كانبان",
+        "compact": "مضغوط",
+        "comfortable": "مريح"
+      },
       "emptyColumn": "لا يوجد مانحون في هذه المرحلة"
     },
     "types": {
