@@ -286,6 +286,11 @@ const RegistryTab: React.FC<{
         window.location.hash = 'donors';
     }, []);
 
+    const handleDonorUpdated = useCallback((updatedDonor: IndividualDonor) => {
+        setDonors(prev => prev.map(donor => donor.id === updatedDonor.id ? { ...donor, ...updatedDonor } : donor));
+        setSelectedDonor(updatedDonor);
+    }, []);
+
     const profileDonors = useMemo(
         () => enrichProfileDonors(donors, pipelineDonors),
         [donors, pipelineDonors]
@@ -576,7 +581,7 @@ const RegistryTab: React.FC<{
     };
 
     if (selectedDonor) {
-        return <DonorDetailView donor={selectedDonor} onBack={handleDonorBack} />;
+        return <DonorDetailView donor={selectedDonor} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} />;
     }
 
     return (

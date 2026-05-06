@@ -1,0 +1,736 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - button "Collapse sidebar" [expanded] [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+    - generic [ref=e8]:
+      - generic [ref=e10]: M
+      - heading "MSS.2" [level=1] [ref=e11]
+    - list [ref=e13]:
+      - listitem [ref=e14]:
+        - link "Dashboard" [ref=e15] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e17]
+          - generic [ref=e22]: Dashboard
+      - listitem [ref=e23]:
+        - link "Bousala" [ref=e24] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e26]
+          - generic [ref=e29]: Bousala
+      - listitem [ref=e30]:
+        - link "Stakeholder Management" [ref=e31] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e33]
+          - generic [ref=e38]: Stakeholder Management
+      - listitem [ref=e39]:
+        - link "Donor Management" [ref=e40] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e42]
+          - generic [ref=e44]: Donor Management
+      - listitem [ref=e45]:
+        - link "Institutional Donors" [ref=e46] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e48]
+          - generic [ref=e50]: Institutional Donors
+      - listitem [ref=e51]:
+        - link "Beneficiary Management" [ref=e52] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e54]
+          - generic [ref=e59]: Beneficiary Management
+      - listitem [ref=e60]:
+        - link "Project Management" [ref=e61] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e63]
+          - generic [ref=e67]: Project Management
+      - listitem [ref=e68]:
+        - link "Help & Support" [ref=e69] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e71]
+          - generic [ref=e74]: Help & Support
+      - listitem [ref=e75]:
+        - link "Settings" [ref=e76] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e78]
+          - generic [ref=e81]: Settings
+    - list [ref=e83]:
+      - listitem [ref=e84]:
+        - link "Logout" [ref=e85] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e87]
+          - generic [ref=e90]: Logout
+  - generic [ref=e91]:
+    - banner [ref=e92]:
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Donor Management" [level=1] [ref=e95]
+          - button "liveIndicator.live" [ref=e1010] [cursor=pointer]
+        - generic [ref=e100]:
+          - generic:
+            - img
+          - searchbox "Search everything..." [ref=e101]
+          - button "Search by voice" [ref=e103] [cursor=pointer]:
+            - img [ref=e104]
+      - generic [ref=e107]:
+        - button "Help & Support" [ref=e109] [cursor=pointer]:
+          - generic [ref=e110]: 💡
+        - button "Change language" [ref=e115] [cursor=pointer]:
+          - img [ref=e116]
+          - img "English (US) Flag" [ref=e119]
+        - button "Switch to dark mode" [ref=e125] [cursor=pointer]:
+          - img [ref=e126]
+        - button "View announcements" [ref=e129] [cursor=pointer]:
+          - img [ref=e130]
+        - button "User Welcome! Admin" [ref=e137] [cursor=pointer]:
+          - img "User" [ref=e138]
+          - generic [ref=e139]:
+            - generic [ref=e140]: Welcome!
+            - generic [ref=e141]: Admin
+          - img [ref=e142]
+    - main [ref=e144]:
+      - generic [ref=e145]:
+        - heading "Donor Management" [level=1] [ref=e146]
+        - navigation [ref=e148]:
+          - button "Registry" [ref=e149] [cursor=pointer]
+          - button "Analytics" [ref=e150] [cursor=pointer]
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - img [ref=e156]
+              - generic [ref=e161]:
+                - paragraph [ref=e162]: Total Donors
+                - paragraph [ref=e163]: "7"
+            - generic [ref=e164]:
+              - img [ref=e166]
+              - generic [ref=e170]:
+                - paragraph [ref=e171]: Active Donors
+                - paragraph [ref=e172]: "4"
+            - generic [ref=e173]:
+              - img [ref=e175]
+              - generic [ref=e177]:
+                - paragraph [ref=e178]: Total Donated
+                - paragraph [ref=e179]: $144,750
+            - generic [ref=e180]:
+              - img [ref=e182]
+              - generic [ref=e185]:
+                - paragraph [ref=e186]: Average Gift
+                - paragraph [ref=e187]: $9,355.36
+          - generic [ref=e189]:
+            - generic [ref=e190]:
+              - button "Search" [ref=e191] [cursor=pointer]:
+                - img [ref=e192]
+                - text: Search
+              - button "Filters" [ref=e195] [cursor=pointer]:
+                - img [ref=e196]
+                - text: Filters
+              - generic [ref=e198]:
+                - button "List View" [ref=e199] [cursor=pointer]:
+                  - img [ref=e200]
+                - button "Icon View" [ref=e201] [cursor=pointer]:
+                  - img [ref=e202]
+                - button "Kanban View" [ref=e207] [cursor=pointer]:
+                  - img [ref=e208]
+              - button "Add Donor" [ref=e213] [cursor=pointer]
+            - generic [ref=e477]:
+              - generic [ref=e478]:
+                - generic [ref=e479]:
+                  - generic [ref=e480]: Owner
+                  - combobox "Owner" [ref=e481]:
+                    - option "All owners" [selected]
+                    - option "Ali Veli"
+                    - option "Fatma Kaya"
+                    - option "John Doe"
+                    - option "System Admin"
+                - generic [ref=e482]:
+                  - generic [ref=e483]: Action state
+                  - combobox "Action state" [ref=e484]:
+                    - option "All action states" [selected]
+                    - option "Overdue only"
+                    - option "No next action only"
+                - generic [ref=e485]:
+                  - generic [ref=e486]: Filtered opportunity
+                  - text: $27,000
+              - generic [ref=e487]:
+                - generic "Kanban density" [ref=e488]:
+                  - button "Compact" [ref=e489] [cursor=pointer]:
+                    - img [ref=e490]
+                    - text: Compact
+                  - button "Comfortable" [active] [pressed] [ref=e495] [cursor=pointer]:
+                    - img [ref=e496]
+                    - text: Comfortable
+                - 'button "Overdue: 4" [ref=e501] [cursor=pointer]'
+                - 'button "No action: 1" [ref=e502] [cursor=pointer]'
+          - generic [ref=e214]:
+            - heading "Filters" [level=3] [ref=e215]
+            - generic [ref=e216]:
+              - generic [ref=e217]:
+                - text: Status
+                - combobox "Status" [ref=e218]:
+                  - option "All statuses" [selected]
+                  - option "Active"
+                  - option "Lapsed"
+                  - option "On Hold"
+                  - option "Deceased"
+                  - option "Disqualified"
+              - generic [ref=e219]:
+                - text: Tier
+                - combobox "Tier" [ref=e220]:
+                  - option "All tiers" [selected]
+                  - option "Bronze"
+                  - option "Silver"
+                  - option "Gold"
+                  - option "Platinum"
+                  - option "Major Donor"
+              - generic [ref=e221]:
+                - text: Country
+                - combobox "Country" [ref=e222]:
+                  - option "All countries" [selected]
+                  - option "Canada"
+                  - option "Egypt"
+                  - option "Japan"
+                  - option "Spain"
+                  - option "Turkey"
+                  - option "UAE"
+                  - option "USA"
+              - generic [ref=e223]:
+                - text: Tags
+                - combobox "Tags" [ref=e224]:
+                  - option "Any tag" [selected]
+                  - option "Annual Gala"
+                  - option "Community"
+                  - option "Disaster Relief"
+                  - option "Education"
+                  - option "Endowment"
+                  - option "Healthcare"
+                  - option "Legacy"
+                  - option "Prospect"
+              - generic [ref=e225]:
+                - text: Owner
+                - combobox "Owner" [ref=e226]:
+                  - option "All owners" [selected]
+                  - option "Ali Veli"
+                  - option "Fatma Kaya"
+                  - option "John Doe"
+                  - option "System Admin"
+              - generic [ref=e227]:
+                - text: Pipeline Stage
+                - combobox "Pipeline Stage" [ref=e228]:
+                  - option "All stages" [selected]
+                  - option "Prospect"
+                  - option "Researching"
+                  - option "Contacted"
+                  - option "Cultivating"
+                  - option "Solicited"
+                  - option "Pledged"
+                  - option "Donated"
+                  - option "Dormant"
+              - generic [ref=e229]:
+                - text: Donor Type
+                - combobox "Donor Type" [ref=e230]:
+                  - option "All donor types" [selected]
+                  - option "Major donor"
+                  - option "Recurring"
+                  - option "Individual"
+              - generic [ref=e231]:
+                - text: Action State
+                - combobox "Action State" [ref=e232]:
+                  - option "All action states" [selected]
+                  - option "Overdue"
+                  - option "No next action"
+            - generic [ref=e233]:
+              - button "Clear Filters" [ref=e234] [cursor=pointer]
+              - button "Apply Filters" [ref=e235] [cursor=pointer]
+          - generic [ref=e503]:
+            - generic [ref=e504]:
+              - generic [ref=e505]:
+                - generic [ref=e506]: All stages
+                - generic [ref=e507]: Comfortable
+              - generic [ref=e508]:
+                - 'button "Jump to {stage}" [ref=e509] [cursor=pointer]':
+                  - generic [ref=e510]:
+                    - generic [ref=e511]: Prospect
+                    - generic [ref=e512]: "0"
+                  - generic [ref=e513]: $0
+                - 'button "Jump to {stage}" [ref=e514] [cursor=pointer]':
+                  - generic [ref=e515]:
+                    - generic [ref=e516]: Researching
+                    - generic [ref=e517]: "1"
+                  - generic [ref=e518]: $1,000
+                - 'button "Jump to {stage}" [ref=e519] [cursor=pointer]':
+                  - generic [ref=e520]:
+                    - generic [ref=e521]: Contacted
+                    - generic [ref=e522]: "1"
+                  - generic [ref=e523]: $2,000
+                - 'button "Jump to {stage}" [ref=e524] [cursor=pointer]':
+                  - generic [ref=e525]:
+                    - generic [ref=e526]: Cultivating
+                    - generic [ref=e527]: "1"
+                  - generic [ref=e528]: $500
+                - 'button "Jump to {stage}" [ref=e529] [cursor=pointer]':
+                  - generic [ref=e530]:
+                    - generic [ref=e531]: Solicited
+                    - generic [ref=e532]: "1"
+                  - generic [ref=e533]: $15,000
+                - 'button "Jump to {stage}" [ref=e534] [cursor=pointer]':
+                  - generic [ref=e535]:
+                    - generic [ref=e536]: Pledged
+                    - generic [ref=e537]: "0"
+                  - generic [ref=e538]: $0
+                - 'button "Jump to {stage}" [ref=e539] [cursor=pointer]':
+                  - generic [ref=e540]:
+                    - generic [ref=e541]: Donated
+                    - generic [ref=e542]: "2"
+                  - generic [ref=e543]: $7,500
+                - 'button "Jump to {stage}" [ref=e544] [cursor=pointer]':
+                  - generic [ref=e545]:
+                    - generic [ref=e546]: Dormant
+                    - generic [ref=e547]: "1"
+                  - generic [ref=e548]: $1,000
+            - generic [ref=e550]:
+              - generic [ref=e551]:
+                - generic [ref=e554]:
+                  - generic [ref=e555]:
+                    - heading "Prospect" [level=2] [ref=e556]
+                    - generic [ref=e557]: "0"
+                  - paragraph [ref=e558]: "Opportunity: $0"
+                - generic [ref=e961]: No donors in this stage
+              - generic [ref=e608]:
+                - generic [ref=e610]:
+                  - generic [ref=e611]:
+                    - generic [ref=e612]:
+                      - heading "Researching" [level=2] [ref=e613]
+                      - generic [ref=e614]: "1"
+                    - paragraph [ref=e615]: "Opportunity: $1,000"
+                  - generic [ref=e1011]: 1 No action
+                - 'generic "Donor card for {name}" [ref=e617]':
+                  - generic [ref=e618]:
+                    - generic [ref=e619]:
+                      - img "Maria Garcia" [ref=e620]
+                      - generic [ref=e621]:
+                        - heading "Maria Garcia" [level=3] [ref=e622]
+                        - paragraph [ref=e623]: Spain / Individual
+                    - generic [ref=e624]:
+                      - 'button "Drag {name}" [ref=e625]':
+                        - img [ref=e626]
+                      - button "More options" [ref=e633] [cursor=pointer]:
+                        - img [ref=e634]
+                  - generic [ref=e638]:
+                    - generic [ref=e1012]:
+                      - generic [ref=e1013]: Owner
+                      - generic [ref=e1014]: John Doe
+                    - generic [ref=e1015]:
+                      - generic [ref=e1016]: Stage age
+                      - generic [ref=e1017]: 673 days
+                  - generic [ref=e641]:
+                    - generic [ref=e642]:
+                      - generic [ref=e643]: Potential
+                      - text: $1,000
+                    - generic [ref=e644]:
+                      - generic [ref=e645]: Ask
+                      - text: $500
+                    - generic [ref=e1018]:
+                      - generic [ref=e1019]: Donated
+                      - text: $500
+                  - generic [ref=e647]: "Likelihood: Medium"
+                  - generic [ref=e1022]: No next action
+                  - paragraph [ref=e1023]: "Last contact: 2 years ago"
+                  - generic [ref=e650]:
+                    - button "Call donor" [ref=e651] [cursor=pointer]:
+                      - img [ref=e652]
+                    - button "Email donor" [ref=e654] [cursor=pointer]:
+                      - img [ref=e655]
+                    - button "Add Task" [ref=e658] [cursor=pointer]:
+                      - img [ref=e659]
+                  - generic [ref=e660]:
+                    - generic [ref=e661]: Move to stage
+                    - combobox "Move to stage" [ref=e662]:
+                      - option "Prospect"
+                      - option "Researching" [selected]
+                      - option "Contacted"
+                      - option "Cultivating"
+                      - option "Solicited"
+                      - option "Pledged"
+                      - option "Donated"
+                      - option "Dormant"
+              - generic [ref=e664]:
+                - generic [ref=e667]:
+                  - generic [ref=e668]:
+                    - heading "Contacted" [level=2] [ref=e669]
+                    - generic [ref=e670]: "1"
+                  - paragraph [ref=e671]: "Opportunity: $2,000"
+                - 'generic "Donor card for {name}" [ref=e962]':
+                  - generic [ref=e963]:
+                    - generic [ref=e964]:
+                      - img "Omar Hassan" [ref=e965]
+                      - generic [ref=e966]:
+                        - heading "Omar Hassan" [level=3] [ref=e967]
+                        - paragraph [ref=e968]: Egypt / Individual
+                    - generic [ref=e969]:
+                      - 'button "Drag {name}" [ref=e970]':
+                        - img [ref=e971]
+                      - button "More options" [ref=e978] [cursor=pointer]:
+                        - img [ref=e979]
+                  - generic [ref=e983]:
+                    - generic [ref=e1024]:
+                      - generic [ref=e1025]: Owner
+                      - generic [ref=e1026]: John Doe
+                    - generic [ref=e1027]:
+                      - generic [ref=e1028]: Stage age
+                      - generic [ref=e1029]: 0 days
+                  - generic [ref=e986]:
+                    - generic [ref=e987]:
+                      - generic [ref=e988]: Potential
+                      - text: $2,000
+                    - generic [ref=e989]:
+                      - generic [ref=e990]: Ask
+                      - text: $500
+                    - generic [ref=e1030]:
+                      - generic [ref=e1031]: Donated
+                      - text: $0
+                  - generic [ref=e991]:
+                    - generic [ref=e992]: "Likelihood: Medium"
+                    - generic [ref=e993]: Prospect
+                  - generic [ref=e1032]:
+                    - generic [ref=e1033]:
+                      - generic [ref=e1034]: "Open Tasks: 1"
+                      - generic [ref=e1035]: "Overdue: 1"
+                    - generic [ref=e1036]:
+                      - img [ref=e1037]
+                      - paragraph [ref=e1041]:
+                        - text: Initial research
+                        - generic [ref=e1042]: Jul 30, 2024 (2 years ago)
+                  - generic [ref=e996]:
+                    - button "Call donor" [ref=e997] [cursor=pointer]:
+                      - img [ref=e998]
+                    - button "Email donor" [ref=e1000] [cursor=pointer]:
+                      - img [ref=e1001]
+                    - button "Add Task" [ref=e1004] [cursor=pointer]:
+                      - img [ref=e1005]
+                  - generic [ref=e1006]:
+                    - generic [ref=e1007]: Move to stage
+                    - combobox "Move to stage" [ref=e1008]:
+                      - option "Prospect"
+                      - option "Researching"
+                      - option "Contacted" [selected]
+                      - option "Cultivating"
+                      - option "Solicited"
+                      - option "Pledged"
+                      - option "Donated"
+                      - option "Dormant"
+              - generic [ref=e674]:
+                - generic [ref=e677]:
+                  - generic [ref=e678]:
+                    - heading "Cultivating" [level=2] [ref=e679]
+                    - generic [ref=e680]: "1"
+                  - paragraph [ref=e681]: "Opportunity: $500"
+                - 'generic "Donor card for {name}" [ref=e683]':
+                  - generic [ref=e684]:
+                    - generic [ref=e685]:
+                      - img "Kenji Tanaka" [ref=e686]
+                      - generic [ref=e687]:
+                        - heading "Kenji Tanaka" [level=3] [ref=e688]
+                        - paragraph [ref=e689]: Japan / Individual
+                    - generic [ref=e690]:
+                      - 'button "Drag {name}" [ref=e691]':
+                        - img [ref=e692]
+                      - button "More options" [ref=e699] [cursor=pointer]:
+                        - img [ref=e700]
+                  - generic [ref=e704]:
+                    - generic [ref=e1043]:
+                      - generic [ref=e1044]: Owner
+                      - generic [ref=e1045]: Ali Veli
+                    - generic [ref=e1046]:
+                      - generic [ref=e1047]: Stage age
+                      - generic [ref=e1048]: 824 days
+                  - generic [ref=e707]:
+                    - generic [ref=e708]:
+                      - generic [ref=e709]: Potential
+                      - text: $500
+                    - generic [ref=e710]:
+                      - generic [ref=e711]: Ask
+                      - text: $1,200
+                    - generic [ref=e1049]:
+                      - generic [ref=e1050]: Donated
+                      - text: $1,200
+                  - generic [ref=e712]:
+                    - generic [ref=e713]: "Likelihood: Low"
+                    - generic [ref=e714]: Disaster Relief
+                  - generic [ref=e1051]:
+                    - generic [ref=e1052]:
+                      - generic [ref=e1053]: "Open Tasks: 1"
+                      - generic [ref=e1054]: "Overdue: 1"
+                    - generic [ref=e1055]:
+                      - img [ref=e1056]
+                      - paragraph [ref=e1060]:
+                        - text: Send newsletter
+                        - generic [ref=e1061]: Aug 1, 2024 (2 years ago)
+                  - paragraph [ref=e1062]: "Last contact: 3 years ago"
+                  - generic [ref=e717]:
+                    - button "Call donor" [ref=e718] [cursor=pointer]:
+                      - img [ref=e719]
+                    - button "Email donor" [ref=e721] [cursor=pointer]:
+                      - img [ref=e722]
+                    - button "Add Task" [ref=e725] [cursor=pointer]:
+                      - img [ref=e726]
+                  - generic [ref=e727]:
+                    - generic [ref=e728]: Move to stage
+                    - combobox "Move to stage" [ref=e729]:
+                      - option "Prospect"
+                      - option "Researching"
+                      - option "Contacted"
+                      - option "Cultivating" [selected]
+                      - option "Solicited"
+                      - option "Pledged"
+                      - option "Donated"
+                      - option "Dormant"
+              - generic [ref=e731]:
+                - generic [ref=e734]:
+                  - generic [ref=e735]:
+                    - heading "Solicited" [level=2] [ref=e736]
+                    - generic [ref=e737]: "1"
+                  - paragraph [ref=e738]: "Opportunity: $15,000"
+                - 'generic "Donor card for {name}" [ref=e740]':
+                  - generic [ref=e741]:
+                    - generic [ref=e742]:
+                      - img "David Chen" [ref=e743]
+                      - generic [ref=e744]:
+                        - heading "David Chen" [level=3] [ref=e745]
+                        - paragraph [ref=e746]: Canada / Major donor
+                    - generic [ref=e747]:
+                      - 'button "Drag {name}" [ref=e748]':
+                        - img [ref=e749]
+                      - button "More options" [ref=e756] [cursor=pointer]:
+                        - img [ref=e757]
+                  - generic [ref=e761]:
+                    - generic [ref=e1063]:
+                      - generic [ref=e1064]: Owner
+                      - generic [ref=e1065]: System Admin
+                    - generic [ref=e1066]:
+                      - generic [ref=e1067]: Stage age
+                      - generic [ref=e1068]: 684 days
+                  - generic [ref=e764]:
+                    - generic [ref=e765]:
+                      - generic [ref=e766]: Potential
+                      - text: $15,000
+                    - generic [ref=e767]:
+                      - generic [ref=e768]: Ask
+                      - text: $15,000
+                    - generic [ref=e1069]:
+                      - generic [ref=e1070]: Donated
+                      - text: $125,000
+                  - generic [ref=e769]:
+                    - generic [ref=e770]: "Likelihood: Medium"
+                    - generic [ref=e771]: Endowment
+                    - generic [ref=e772]: Legacy
+                  - generic [ref=e1071]:
+                    - generic [ref=e1072]:
+                      - generic [ref=e1073]: "Open Tasks: 1"
+                      - generic [ref=e1074]: "Overdue: 1"
+                    - generic [ref=e1075]:
+                      - img [ref=e1076]
+                      - paragraph [ref=e1080]:
+                        - text: Follow up on proposal
+                        - generic [ref=e1081]: Jul 15, 2024 (2 years ago)
+                  - paragraph [ref=e1082]: "Last contact: 2 years ago"
+                  - generic [ref=e775]:
+                    - button "Call donor" [ref=e776] [cursor=pointer]:
+                      - img [ref=e777]
+                    - button "Email donor" [ref=e779] [cursor=pointer]:
+                      - img [ref=e780]
+                    - button "Add Task" [ref=e783] [cursor=pointer]:
+                      - img [ref=e784]
+                  - generic [ref=e785]:
+                    - generic [ref=e786]: Move to stage
+                    - combobox "Move to stage" [ref=e787]:
+                      - option "Prospect"
+                      - option "Researching"
+                      - option "Contacted"
+                      - option "Cultivating"
+                      - option "Solicited" [selected]
+                      - option "Pledged"
+                      - option "Donated"
+                      - option "Dormant"
+              - generic [ref=e789]:
+                - generic [ref=e792]:
+                  - generic [ref=e793]:
+                    - heading "Pledged" [level=2] [ref=e794]
+                    - generic [ref=e795]: "0"
+                  - paragraph [ref=e796]: "Opportunity: $0"
+                - generic [ref=e798]: No donors in this stage
+              - generic [ref=e799]:
+                - generic [ref=e801]:
+                  - generic [ref=e802]:
+                    - generic [ref=e803]:
+                      - heading "Donated" [level=2] [ref=e804]
+                      - generic [ref=e805]: "2"
+                    - paragraph [ref=e806]: "Opportunity: $7,500"
+                  - generic [ref=e1083]: 2 No action
+                - generic [ref=e807]:
+                  - 'generic "Donor card for {name}" [ref=e808]':
+                    - generic [ref=e809]:
+                      - generic [ref=e810]:
+                        - img "John Smith" [ref=e811]
+                        - generic [ref=e812]:
+                          - heading "John Smith" [level=3] [ref=e813]
+                          - paragraph [ref=e814]: USA / Recurring
+                      - generic [ref=e815]:
+                        - 'button "Drag {name}" [ref=e816]':
+                          - img [ref=e817]
+                        - button "More options" [ref=e824] [cursor=pointer]:
+                          - img [ref=e825]
+                    - generic [ref=e829]:
+                      - generic [ref=e1084]:
+                        - generic [ref=e1085]: Owner
+                        - generic [ref=e1086]: Fatma Kaya
+                      - generic [ref=e1087]:
+                        - generic [ref=e1088]: Stage age
+                        - generic [ref=e1089]: 703 days
+                    - generic [ref=e832]:
+                      - generic [ref=e833]:
+                        - generic [ref=e834]: Potential
+                        - text: $2,500
+                      - generic [ref=e835]:
+                        - generic [ref=e836]: Ask
+                        - text: $2,000
+                      - generic [ref=e1090]:
+                        - generic [ref=e1091]: Donated
+                        - text: $750
+                    - generic [ref=e837]:
+                      - generic [ref=e838]: "Likelihood: High"
+                      - generic [ref=e839]: Healthcare
+                    - paragraph [ref=e1092]: "Last contact: 2 years ago"
+                    - generic [ref=e840]:
+                      - button "Call donor" [ref=e841] [cursor=pointer]:
+                        - img [ref=e842]
+                      - button "Email donor" [ref=e844] [cursor=pointer]:
+                        - img [ref=e845]
+                      - button "Add Task" [ref=e848] [cursor=pointer]:
+                        - img [ref=e849]
+                    - generic [ref=e850]:
+                      - generic [ref=e851]: Move to stage
+                      - combobox "Move to stage" [ref=e852]:
+                        - option "Prospect"
+                        - option "Researching"
+                        - option "Contacted"
+                        - option "Cultivating"
+                        - option "Solicited"
+                        - option "Pledged"
+                        - option "Donated" [selected]
+                        - option "Dormant"
+                  - 'generic "Donor card for {name}" [ref=e854]':
+                    - generic [ref=e855]:
+                      - generic [ref=e856]:
+                        - img "Aisha Al-Farsi" [ref=e857]
+                        - generic [ref=e858]:
+                          - heading "Aisha Al-Farsi" [level=3] [ref=e859]
+                          - paragraph [ref=e860]: UAE / Major donor
+                      - generic [ref=e861]:
+                        - 'button "Drag {name}" [ref=e862]':
+                          - img [ref=e863]
+                        - button "More options" [ref=e870] [cursor=pointer]:
+                          - img [ref=e871]
+                    - generic [ref=e875]:
+                      - generic [ref=e1093]:
+                        - generic [ref=e1094]: Owner
+                        - generic [ref=e1095]: Fatma Kaya
+                      - generic [ref=e1096]:
+                        - generic [ref=e1097]: Stage age
+                        - generic [ref=e1098]: 715 days
+                    - generic [ref=e878]:
+                      - generic [ref=e879]:
+                        - generic [ref=e880]: Potential
+                        - text: $5,000
+                      - generic [ref=e881]:
+                        - generic [ref=e882]: Ask
+                        - text: $5,000
+                      - generic [ref=e1099]:
+                        - generic [ref=e1100]: Donated
+                        - text: $16,500
+                    - generic [ref=e883]:
+                      - generic [ref=e884]: "Likelihood: High"
+                      - generic [ref=e885]: Education
+                      - generic [ref=e886]: Annual Gala
+                    - paragraph [ref=e1101]: "Last contact: 2 years ago"
+                    - generic [ref=e887]:
+                      - button "Call donor" [ref=e888] [cursor=pointer]:
+                        - img [ref=e889]
+                      - button "Email donor" [ref=e891] [cursor=pointer]:
+                        - img [ref=e892]
+                      - button "Add Task" [ref=e895] [cursor=pointer]:
+                        - img [ref=e896]
+                    - generic [ref=e897]:
+                      - generic [ref=e898]: Move to stage
+                      - combobox "Move to stage" [ref=e899]:
+                        - option "Prospect"
+                        - option "Researching"
+                        - option "Contacted"
+                        - option "Cultivating"
+                        - option "Solicited"
+                        - option "Pledged"
+                        - option "Donated" [selected]
+                        - option "Dormant"
+              - generic [ref=e901]:
+                - generic [ref=e904]:
+                  - generic [ref=e905]:
+                    - heading "Dormant" [level=2] [ref=e906]
+                    - generic [ref=e907]: "1"
+                  - paragraph [ref=e908]: "Opportunity: $1,000"
+                - 'generic "Donor card for {name}" [ref=e910]':
+                  - generic [ref=e911]:
+                    - generic [ref=e912]:
+                      - img "Fatma Yılmaz" [ref=e913]
+                      - generic [ref=e914]:
+                        - heading "Fatma Yılmaz" [level=3] [ref=e915]
+                        - paragraph [ref=e916]: Turkey / Individual
+                    - generic [ref=e917]:
+                      - 'button "Drag {name}" [ref=e918]':
+                        - img [ref=e919]
+                      - button "More options" [ref=e926] [cursor=pointer]:
+                        - img [ref=e927]
+                  - generic [ref=e931]:
+                    - generic [ref=e1102]:
+                      - generic [ref=e1103]: Owner
+                      - generic [ref=e1104]: Ali Veli
+                    - generic [ref=e1105]:
+                      - generic [ref=e1106]: Stage age
+                      - generic [ref=e1107]: 764 days
+                  - generic [ref=e934]:
+                    - generic [ref=e935]:
+                      - generic [ref=e936]: Potential
+                      - text: $1,000
+                    - generic [ref=e937]:
+                      - generic [ref=e938]: Ask
+                      - text: $3,200
+                    - generic [ref=e1108]:
+                      - generic [ref=e1109]: Donated
+                      - text: $800
+                  - generic [ref=e939]:
+                    - generic [ref=e940]: "Likelihood: Low"
+                    - generic [ref=e941]: Community
+                  - generic [ref=e1110]:
+                    - generic [ref=e1111]:
+                      - generic [ref=e1112]: "Open Tasks: 1"
+                      - generic [ref=e1113]: "Overdue: 1"
+                    - generic [ref=e1114]:
+                      - img [ref=e1115]
+                      - paragraph [ref=e1119]:
+                        - text: Re-engagement call
+                        - generic [ref=e1120]: Jul 25, 2024 (2 years ago)
+                  - paragraph [ref=e1121]: "Last contact: 2 years ago"
+                  - generic [ref=e944]:
+                    - button "Call donor" [ref=e945] [cursor=pointer]:
+                      - img [ref=e946]
+                    - button "Email donor" [ref=e948] [cursor=pointer]:
+                      - img [ref=e949]
+                    - button "Add Task" [ref=e952] [cursor=pointer]:
+                      - img [ref=e953]
+                  - generic [ref=e954]:
+                    - generic [ref=e955]: Move to stage
+                    - combobox "Move to stage" [ref=e956]:
+                      - option "Prospect"
+                      - option "Researching"
+                      - option "Contacted"
+                      - option "Cultivating"
+                      - option "Solicited"
+                      - option "Pledged"
+                      - option "Donated"
+                      - option "Dormant" [selected]
+            - status [ref=e958]

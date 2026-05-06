@@ -1,6 +1,6 @@
 import { z } from 'zod/v4';
 
-export const donorStatusSchema = z.enum(['Active', 'Lapsed', 'On Hold', 'Deceased']);
+export const donorStatusSchema = z.enum(['Active', 'Lapsed', 'On Hold', 'Deceased', 'Disqualified']);
 export const donorTierSchema = z.enum(['Bronze', 'Silver', 'Gold', 'Platinum', 'Major Donor']);
 export const donorCategorySchema = z.enum([
     'Hero Donor',
@@ -60,13 +60,53 @@ export const donationSchema = z.object({
     custom_fields: z.record(z.string(), z.unknown()).default({}),
 });
 
-export const createDonationSchema = donationSchema.omit({ id: true, org_id: true });
+export const createDonationSchema = donationSchema.omit({ id: true, org_id: true, donor_id: true }).extend({
+    donor_id: z.string().uuid().optional(),
+});
+
+export const donorTaskSchema = z.object({
+    id: z.string().uuid(),
+    org_id: z.string().uuid(),
+    donor_id: z.string().uuid(),
+    text: z.string().min(1),
+    type: z.enum(['Follow-up', 'Call', 'Email', 'Meeting']).default('Follow-up'),
+    assigned_to: z.string().optional().default(''),
+    due_date: z.string(),
+    completed: z.boolean().default(false),
+    custom_fields: z.record(z.string(), z.unknown()).default({}),
+});
+
+export const createDonorTaskSchema = donorTaskSchema.omit({ id: true, org_id: true, donor_id: true }).extend({
+    donor_id: z.string().uuid().optional(),
+});
+
+export const updateDonorTaskSchema = createDonorTaskSchema.partial();
+
+export const donorInteractionSchema = z.object({
+    id: z.string().uuid(),
+    org_id: z.string().uuid(),
+    donor_id: z.string().uuid(),
+    interaction_type: z.enum(['email', 'whatsapp', 'sms', 'call', 'meeting', 'note']).default('note'),
+    occurred_at: z.string(),
+    subject: z.string().min(1),
+    status: z.string().optional().default('logged'),
+    notes: z.string().optional().default(''),
+    custom_fields: z.record(z.string(), z.unknown()).default({}),
+});
+
+export const createDonorInteractionSchema = donorInteractionSchema.omit({ id: true, org_id: true, donor_id: true }).extend({
+    donor_id: z.string().uuid().optional(),
+});
 
 export type IndividualDonor = z.infer<typeof individualDonorSchema>;
 export type CreateDonor = z.infer<typeof createDonorSchema>;
 export type UpdateDonor = z.infer<typeof updateDonorSchema>;
 export type Donation = z.infer<typeof donationSchema>;
 export type CreateDonation = z.infer<typeof createDonationSchema>;
+export type DonorTask = z.infer<typeof donorTaskSchema>;
+export type CreateDonorTask = z.infer<typeof createDonorTaskSchema>;
+export type DonorInteraction = z.infer<typeof donorInteractionSchema>;
+export type CreateDonorInteraction = z.infer<typeof createDonorInteractionSchema>;
 export type DonorStatus = z.infer<typeof donorStatusSchema>;
 export type DonorTier = z.infer<typeof donorTierSchema>;
 export type DonorCategory = z.infer<typeof donorCategorySchema>;

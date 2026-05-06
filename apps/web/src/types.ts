@@ -106,6 +106,106 @@ export interface Communication {
   status: 'sent' | 'opened' | 'clicked' | 'responded' | 'ignored';
 }
 
+export interface ProfileDonation {
+  id: string;
+  donor_id: string;
+  amount: number;
+  date: string | null;
+  program: string;
+  campaign?: string | null;
+  designation?: string | null;
+  payment_method?: string | null;
+  status: string;
+  receipt_state: string;
+  refund_state: string;
+  custom_fields?: Record<string, unknown>;
+}
+
+export interface DonorProfileTask {
+  id: string;
+  donor_id: string;
+  text: string;
+  type: DonorTask['type'];
+  assigned_to: string;
+  due_date: string | null;
+  completed: boolean;
+  custom_fields?: Record<string, unknown>;
+}
+
+export interface DonorProfileInteraction {
+  id: string;
+  donor_id: string;
+  interaction_type: 'email' | 'whatsapp' | 'sms' | 'call' | 'meeting' | 'note';
+  occurred_at: string | null;
+  subject: string;
+  status: string;
+  notes?: string;
+  custom_fields?: Record<string, unknown>;
+}
+
+export interface DonorProfileActivity {
+  id: string;
+  type: 'donation' | 'interaction' | 'task_created' | 'task_completed';
+  occurred_at: string | null;
+  title: string;
+  amount?: number;
+  channel?: string;
+  status?: string;
+}
+
+export interface DonorProfileSummary {
+  donor: {
+    id: string;
+    full_name_en: string;
+    full_name_ar?: string;
+    email: string;
+    phone: string;
+    status: DonorStatus;
+    tier: DonorTier;
+    country: string;
+    tags: string[];
+    assigned_manager: string;
+    avatar: string;
+    donor_since: string | null;
+    donor_category?: DonorCategory | null;
+    primary_program_interest?: string | null;
+    custom_fields?: Record<string, unknown>;
+  };
+  giving: {
+    lifetimeGiving: number;
+    totalGifts: number;
+    lastGiftAmount: number | null;
+    lastGiftDate: string | null;
+    averageGift: number | null;
+    largestGift: number | null;
+    programsSupported: string[];
+    currentGivingStatus: 'active' | 'lapsed' | 'recurring' | 'pledge_open' | 'no_gifts';
+  };
+  relationship: {
+    owner: string;
+    pipelineStage: DonorStageId | string;
+    stageEnteredAt: string | null;
+    health: RelationshipHealth | null;
+    likelihood: DonorPipelineLikelihood | null;
+    lastContact: DonorProfileInteraction | null;
+    openTaskCount: number;
+  };
+  nextAction: DonorProfileTask | null;
+  recentActivity: DonorProfileActivity[];
+  computed: {
+    suggestedAskAmount: number | null;
+    suggestedAskSource: 'calculated' | 'manual_override' | 'unavailable';
+    suggestedAskConfidence: string;
+    relationshipHealthSource: 'calculated' | 'manual_override' | 'unavailable';
+  };
+  sourceMeta: {
+    giving: string;
+    tasks: string;
+    lastContact: string;
+    pipeline: string;
+  };
+}
+
 // Individual Donors Page Types
 export type DonorStatus = 'Active' | 'Lapsed' | 'On Hold' | 'Deceased' | 'Disqualified';
 export type DonorTier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum' | 'Major Donor';

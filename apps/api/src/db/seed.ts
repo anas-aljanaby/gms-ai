@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq } from 'drizzle-orm';
 import * as schema from './schema';
 
 const client = postgres(process.env.DIRECT_URL || process.env.DATABASE_URL!);
@@ -173,6 +172,8 @@ async function lookupUserId(email: string): Promise<string> {
 
 async function reset() {
     console.log('Resetting: deleting all seed data...');
+    await db.delete(schema.donor_interactions);
+    await db.delete(schema.donor_tasks);
     await db.delete(schema.donations);
     await db.delete(schema.individual_donors);
     await db.delete(schema.audit_log);
@@ -220,6 +221,24 @@ async function seed() {
         await db.insert(schema.donations).values(
             randomDonations(inserted.id, org.id, donationCount),
         );
+        await db.insert(schema.donor_tasks).values({
+            org_id: org.id,
+            donor_id: inserted.id,
+            text: donor.status === 'Lapsed' ? 'Schedule re-engagement call' : 'Send latest impact update',
+            type: donor.status === 'Lapsed' ? 'Call' : 'Email',
+            assigned_to: donor.assigned_manager,
+            due_date: new Date(Date.now() + (donor.status === 'Lapsed' ? 3 : 10) * 86400000),
+            completed: false,
+        });
+        await db.insert(schema.donor_interactions).values({
+            org_id: org.id,
+            donor_id: inserted.id,
+            interaction_type: 'email',
+            occurred_at: new Date(Date.now() - Math.floor(Math.random() * 45 + 5) * 86400000),
+            subject: 'Impact update sent',
+            status: 'logged',
+            notes: `Latest stewardship touchpoint for ${donor.full_name_en}.`,
+        });
         console.log(`  Donor: ${inserted.full_name_en} + ${donationCount} donations`);
     }
 

@@ -18,6 +18,13 @@ This folder contains the project documentation, grouped by purpose.
 - [Stitch content requirements](design/stitch-content-requirements.md)
 - [Stitch Arabic content requirements](design/stitch-content-requirements-ar.md)
 
+## Implementation Plans
+
+- [Phase 1 backend foundation](implementation%20plans/phase-1-backend-foundation.md)
+- [Phase 2 donors migration](implementation%20plans/phase-2-donors-migration.md)
+- [Phase 2b donors real data](implementation%20plans/phase-2b-donors-real-data.md)
+- [I18n migration to i18next](implementation%20plans/i18n-migration-to-i18next.md)
+
 ## Localization
 
 - [Arabic localization guide and tracker](localization/arabic-localization-guide.md)

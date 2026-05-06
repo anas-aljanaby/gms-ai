@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, timestamp, jsonb, numeric, integer } from 'drizzle-orm/pg-core';
+import { boolean, integer, jsonb, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const organizations = pgTable('organizations', {
     id: uuid('id').primaryKey().defaultRandom(),
@@ -68,6 +68,33 @@ export const donations = pgTable('donations', {
     amount: numeric('amount', { precision: 12, scale: 2 }).notNull(),
     date: timestamp('date').notNull(),
     program: text('program').default(''),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+});
+
+export const donor_tasks = pgTable('donor_tasks', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    donor_id: uuid('donor_id').notNull().references(() => individual_donors.id),
+    text: text('text').notNull(),
+    type: text('type').notNull().default('Follow-up'),
+    assigned_to: text('assigned_to').default(''),
+    due_date: timestamp('due_date').notNull(),
+    completed: boolean('completed').notNull().default(false),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
+export const donor_interactions = pgTable('donor_interactions', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    donor_id: uuid('donor_id').notNull().references(() => individual_donors.id),
+    interaction_type: text('interaction_type').notNull().default('note'),
+    occurred_at: timestamp('occurred_at').notNull().defaultNow(),
+    subject: text('subject').notNull(),
+    status: text('status').default('logged'),
+    notes: text('notes').default(''),
     custom_fields: jsonb('custom_fields').default({}),
     created_at: timestamp('created_at').defaultNow(),
 });
