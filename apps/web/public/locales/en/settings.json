@@ -33,7 +33,9 @@
       "regionDesc": "Country, timezone, and currency preferences.",
       "country": "Country",
       "timezone": "Timezone",
-      "primaryCurrency": "Primary Currency"
+      "primaryCurrency": "Primary Currency",
+      "hijriCalendar": "Use Hijri (Islamic) Calendar",
+      "use24Hour": "Use 24-Hour Clock"
     },
     "users": {
       "tabAccessControl": "Access Control",

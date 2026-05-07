@@ -33,7 +33,9 @@
       "regionDesc": "الدولة والمنطقة الزمنية والعملة.",
       "country": "الدولة",
       "timezone": "المنطقة الزمنية",
-      "primaryCurrency": "العملة الأساسية"
+      "primaryCurrency": "العملة الأساسية",
+      "hijriCalendar": "استخدام التقويم الهجري",
+      "use24Hour": "استخدام التوقيت الـ 24 ساعة"
     },
     "users": {
       "tabAccessControl": "التحكم بالوصول",

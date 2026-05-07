@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Beneficiary, SponsorshipInfo } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
-import { formatCurrency } from '../../../../lib/utils';
+import { formatCurrency, formatDate } from '../../../../lib/utils';
 
 const SponsorshipTab: React.FC<{ beneficiary: Beneficiary }> = ({ beneficiary }) => {
     const { t, language } = useLocalization(['beneficiaries']);
@@ -34,7 +34,7 @@ const SponsorshipTab: React.FC<{ beneficiary: Beneficiary }> = ({ beneficiary })
                     <div>
                         <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.startDate')}</dt>
                         <dd className="mt-1 text-sm font-semibold text-foreground dark:text-dark-foreground">
-                            {new Date(sponsorship.startDate).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            {formatDate(sponsorship.startDate, language, 'long')}
                         </dd>
                     </div>
                 )}

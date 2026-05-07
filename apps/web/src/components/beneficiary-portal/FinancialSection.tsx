@@ -124,7 +124,7 @@ const FinancialSection: React.FC = () => {
                 </div>
               </div>
               <div className="text-left">
-                <div className="font-bold text-green-600">{payment.amount.toLocaleString()} ر.س</div>
+                <div className="font-bold text-green-600">{payment.amount.toLocaleString('en-US')} ر.س</div>
                 <div className="text-xs text-gray-500">{payment.status}</div>
               </div>
             </div>

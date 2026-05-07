@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../../hooks/useLocalization';
+import { formatTime } from '../../../lib/utils';
 import type { BousalaGoal } from '../../../types';
 import { X as XIcon, Filter, Calendar, AlertTriangle, ShieldCheck, Check, PlusCircle } from 'lucide-react';
 import { playFeedbackSound } from '../../../lib/audioFeedback';
@@ -150,7 +151,7 @@ const AlertsCenterPanel: React.FC<AlertsCenterPanelProps> = ({ isOpen, onClose, 
                                                 {alert.messages.map((msg, i) => <li key={i} dir="auto">{msg}</li>)}
                                             </ul>
                                         </div>
-                                        <span className="text-xs text-gray-500">{new Date(alert.date).toLocaleTimeString()}</span>
+                                        <span className="text-xs text-gray-500">{formatTime(alert.date, language)}</span>
                                     </div>
                                     <div className="flex justify-end items-center gap-2 mt-3">
                                         {reviewedAlerts.has(alert.id) ? (

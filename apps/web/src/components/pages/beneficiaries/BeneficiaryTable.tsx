@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Beneficiary, ProgramProject } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
+import { formatDate } from '../../../lib/utils';
 import BeneficiaryStatusBadge from './BeneficiaryStatusBadge';
 import { getBeneficiarySubtitle } from './beneficiaryUtils';
 
@@ -84,9 +85,7 @@ const BeneficiaryTable: React.FC<BeneficiaryTableProps> = ({ beneficiaries, proj
                                         {project ? project.name[language] : '—'}
                                     </td>
                                     <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
-                                        {lastAid
-                                            ? new Date(lastAid).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-                                            : '—'}
+                                        {lastAid ? formatDate(lastAid, language) : '—'}
                                     </td>
                                 </tr>
                             );

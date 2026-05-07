@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDashboard } from '../contexts/DashboardContext';
 import type { Language } from '../types';
 import i18n, {
   DEFAULT_NAMESPACES,
@@ -20,6 +21,10 @@ import i18n, {
  */
 export const useLocalization = (namespaces: AppNamespace[] = DEFAULT_NAMESPACES) => {
   const { t: baseT, i18n: instance } = useTranslation(namespaces);
+  // Subscribe to dateFormat/timeFormat so components re-render when settings change.
+  // The actual format values are read from the module-level store in utils.ts (kept in sync
+  // by DashboardContext via useMemo), so no explicit prop-threading is needed at call sites.
+  useDashboard();
 
   const language = (instance.resolvedLanguage === 'ar' ? 'ar' : 'en') as Language;
   const dir = getDirectionForLanguage(language);

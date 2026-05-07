@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect, useMemo, useCallback, ReactNode } from 'react';
 import i18n, { getDirectionForLanguage } from '../lib/i18n';
-import type { Language, Theme, Direction, DashboardState, DashboardAction } from '../types';
+import { setFormatSettings } from '../lib/utils';
+import type { Language, Theme, Direction, DateFormat, TimeFormat, DashboardState, DashboardAction } from '../types';
 
 // --- CONTEXT SETUP ---
 
@@ -9,6 +10,8 @@ interface DashboardContextType {
   dispatch: React.Dispatch<DashboardAction>;
   setLanguage: (language: Language) => void;
   toggleTheme: () => void;
+  setDateFormat: (format: DateFormat) => void;
+  setTimeFormat: (format: TimeFormat) => void;
   dir: Direction;
 }
 
@@ -24,6 +27,10 @@ const dashboardReducer = (state: DashboardState, action: DashboardAction): Dashb
       return { ...state, theme: action.payload };
     case 'TOGGLE_THEME':
       return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
+    case 'SET_DATE_FORMAT':
+      return { ...state, dateFormat: action.payload };
+    case 'SET_TIME_FORMAT':
+      return { ...state, timeFormat: action.payload };
     default:
       return state;
   }
@@ -43,6 +50,8 @@ const getInitialState = (): DashboardState => {
     return {
         language: i18n.resolvedLanguage === 'ar' ? 'ar' : 'en',
         theme: 'light',
+        dateFormat: 'gregorian',
+        timeFormat: '12h',
     };
 };
 
@@ -74,11 +83,19 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
         };
     }, []);
 
+    // Sync global format settings synchronously during render so all formatDate/formatTime
+    // calls in child renders pick up the new values without needing per-call context subscriptions.
+    useMemo(() => {
+        setFormatSettings(state.dateFormat, state.timeFormat);
+    }, [state.dateFormat, state.timeFormat]);
+
     // Memoized dispatcher functions
     const setLanguage = useCallback((language: Language) => {
         void i18n.changeLanguage(language);
     }, []);
     const toggleTheme = useCallback(() => dispatch({ type: 'TOGGLE_THEME' }), []);
+    const setDateFormat = useCallback((format: DateFormat) => dispatch({ type: 'SET_DATE_FORMAT', payload: format }), []);
+    const setTimeFormat = useCallback((format: TimeFormat) => dispatch({ type: 'SET_TIME_FORMAT', payload: format }), []);
     const dir = getDirectionForLanguage(state.language);
 
     const value = useMemo(() => ({
@@ -86,8 +103,10 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
         dispatch,
         setLanguage,
         toggleTheme,
+        setDateFormat,
+        setTimeFormat,
         dir,
-    }), [state, setLanguage, toggleTheme, dir]);
+    }), [state, setLanguage, toggleTheme, setDateFormat, setTimeFormat, dir]);
     
     return (
         <DashboardContext.Provider value={value}>
@@ -115,4 +134,14 @@ export const useTheme = () => {
 export const useLanguage = () => {
     const { state, setLanguage } = useDashboard();
     return { language: state.language, setLanguage };
-}
+};
+
+export const useDateFormat = () => {
+    const { state, setDateFormat } = useDashboard();
+    return { dateFormat: state.dateFormat, setDateFormat };
+};
+
+export const useTimeFormat = () => {
+    const { state, setTimeFormat } = useDashboard();
+    return { timeFormat: state.timeFormat, setTimeFormat };
+};

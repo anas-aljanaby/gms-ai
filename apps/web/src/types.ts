@@ -7,6 +7,8 @@ export type Language = 'en' | 'ar';
 export type Theme = 'light' | 'dark';
 export type Direction = 'ltr' | 'rtl';
 export type Role = 'Admin' | 'Manager' | 'Staff' | 'Volunteer';
+export type DateFormat = 'gregorian' | 'hijri';
+export type TimeFormat = '12h' | '24h';
 
 export interface LanguageOption {
   code: Language;
@@ -17,12 +19,16 @@ export interface LanguageOption {
 export interface DashboardState {
     language: Language;
     theme: Theme;
+    dateFormat: DateFormat;
+    timeFormat: TimeFormat;
 }
 
 export type DashboardAction =
     | { type: 'SET_LANGUAGE'; payload: Language }
     | { type: 'SET_THEME'; payload: Theme }
-    | { type: 'TOGGLE_THEME' };
+    | { type: 'TOGGLE_THEME' }
+    | { type: 'SET_DATE_FORMAT'; payload: DateFormat }
+    | { type: 'SET_TIME_FORMAT'; payload: TimeFormat };
 
 // Reusable Contact Person type for both Donors and Partners
 export interface ContactPerson {

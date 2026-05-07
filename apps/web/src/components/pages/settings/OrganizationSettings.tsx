@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
+import { useDateFormat, useTimeFormat } from '../../../contexts/DashboardContext';
 import SettingsCard from './SettingsCard';
 import FormField from './FormField';
 import ToggleSwitch from './ToggleSwitch';
@@ -13,6 +14,8 @@ interface OrganizationSettingsProps {
 
 const OrganizationSettings: React.FC<OrganizationSettingsProps> = ({ enabledLanguages, onEnabledLanguagesChange }) => {
     const { t } = useLocalization();
+    const { dateFormat, setDateFormat } = useDateFormat();
+    const { timeFormat, setTimeFormat } = useTimeFormat();
     const [settings, setSettings] = useState({
         orgName: 'Global Relief Foundation',
         mission: 'To provide humanitarian aid and sustainable development solutions to communities in need.',
@@ -122,6 +125,20 @@ const OrganizationSettings: React.FC<OrganizationSettingsProps> = ({ enabledLang
                         <option>GBP</option>
                     </select>
                 </FormField>
+                <div className="space-y-2 pt-2">
+                    <ToggleSwitch
+                        label={t('settings.organization.hijriCalendar')}
+                        name="hijriCalendar"
+                        isChecked={dateFormat === 'hijri'}
+                        onToggle={(_, checked) => setDateFormat(checked ? 'hijri' : 'gregorian')}
+                    />
+                    <ToggleSwitch
+                        label={t('settings.organization.use24Hour')}
+                        name="use24Hour"
+                        isChecked={timeFormat === '24h'}
+                        onToggle={(_, checked) => setTimeFormat(checked ? '24h' : '12h')}
+                    />
+                </div>
             </SettingsCard>
 
             <div className="flex justify-end pt-4">

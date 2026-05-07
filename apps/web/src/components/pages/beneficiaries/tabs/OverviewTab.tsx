@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Beneficiary } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
+import { formatDate, formatNumber } from '../../../../lib/utils';
 
 const InfoItem: React.FC<{ label: string; value?: string | number | null }> = ({ label, value }) => (
     <div>
@@ -65,7 +66,7 @@ const OverviewTab: React.FC<{ beneficiary: Beneficiary }> = ({ beneficiary }) =>
             case 'community':
                 return (
                     <>
-                        <InfoItem label={t('beneficiaries.fields.populationEstimate')} value={p.populationEstimate?.toLocaleString()} />
+                        <InfoItem label={t('beneficiaries.fields.populationEstimate')} value={p.populationEstimate != null ? formatNumber(p.populationEstimate, language) : undefined} />
                         <InfoItem label={t('beneficiaries.fields.fieldOfficer')} value={p.fieldOfficer} />
                         <InfoItem label={t('beneficiaries.fields.areaType')} value={p.areaType} />
                     </>
@@ -119,7 +120,7 @@ const OverviewTab: React.FC<{ beneficiary: Beneficiary }> = ({ beneficiary }) =>
                                     </div>
                                     {m.date && (
                                         <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
-                                            {new Date(m.date).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short' })}
+                                            {formatDate(m.date, language, { year: 'numeric', month: 'short' })}
                                         </span>
                                     )}
                                 </div>

@@ -1,49 +1,44 @@
 
-import type { Language } from '../types';
+import type { DateFormat, Language, TimeFormat } from '../types';
 
 // --- Caching for Intl Formatters ---
 const numberFormatCache = new Map<string, Intl.NumberFormat>();
 const dateTimeFormatCache = new Map<string, Intl.DateTimeFormat>();
 const relativeTimeFormatCache = new Map<string, Intl.RelativeTimeFormat>();
 
-const getLocale = (language: Language): string => {
-  return language === 'ar' ? 'ar-SA' : 'en-US';
-};
+// --- Global format settings (synced from DashboardContext) ---
+// Using -u-nu-latn extension forces Latin (Western) digits for all locales.
+let _dateFormat: DateFormat = 'gregorian';
+let _timeFormat: TimeFormat = '12h';
 
-/**
- * formatNumber - Formats a number according to language and options.
- * Handles decimals, currency, and percentages.
- * @param {number} num The number to format.
- * @param {Language} language The language code ('en', 'ar').
- * @param {Intl.NumberFormatOptions} [options={}] Options for formatting.
- * @returns {string} The formatted number string.
- */
-export const formatNumber = (num: number, language: Language, options: Intl.NumberFormatOptions = {}): string => {
-  const locale = getLocale(language);
-  const cacheKey = `${locale}-${JSON.stringify(options)}`;
-
-  try {
-    if (!numberFormatCache.has(cacheKey)) {
-      const finalOptions = { ...options };
-      if (language === 'ar') {
-        (finalOptions as any).numberingSystem = 'arab';
-      }
-      numberFormatCache.set(cacheKey, new Intl.NumberFormat(locale, finalOptions));
+export const setFormatSettings = (dateFormat: DateFormat, timeFormat: TimeFormat) => {
+    if (_dateFormat !== dateFormat || _timeFormat !== timeFormat) {
+        _dateFormat = dateFormat;
+        _timeFormat = timeFormat;
+        dateTimeFormatCache.clear();
     }
-    return numberFormatCache.get(cacheKey)!.format(num);
-  } catch (error) {
-    console.error("Error formatting number:", error);
-    return String(num); // Fallback
-  }
 };
 
-/**
- * formatCurrency - Formats a number as a currency string.
- * @param {number} amount The amount.
- * @param {Language} language The language code.
- * @param {string} [currency='USD'] The ISO currency code.
- * @returns {string} The formatted currency string.
- */
+// ar-SA-u-nu-latn: Arabic locale with Latin (0-9) digits forced via Unicode extension.
+const getLocale = (language: Language): string => {
+    return language === 'ar' ? 'ar-SA-u-nu-latn' : 'en-US';
+};
+
+export const formatNumber = (num: number, language: Language, options: Intl.NumberFormatOptions = {}): string => {
+    const locale = getLocale(language);
+    const cacheKey = `${locale}-${JSON.stringify(options)}`;
+
+    try {
+        if (!numberFormatCache.has(cacheKey)) {
+            numberFormatCache.set(cacheKey, new Intl.NumberFormat(locale, { ...options }));
+        }
+        return numberFormatCache.get(cacheKey)!.format(num);
+    } catch (error) {
+        console.error("Error formatting number:", error);
+        return String(num);
+    }
+};
+
 export const formatCurrency = (amount: number, language: Language, currency: string = 'USD'): string => {
     const options: Intl.NumberFormatOptions = {
         style: 'currency',
@@ -51,7 +46,6 @@ export const formatCurrency = (amount: number, language: Language, currency: str
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     };
-    // Keep integer display for USD amounts without decimals for consistency with previous behavior
     if (currency === 'USD' && (amount % 1 === 0)) {
         options.minimumFractionDigits = 0;
         options.maximumFractionDigits = 0;
@@ -59,13 +53,6 @@ export const formatCurrency = (amount: number, language: Language, currency: str
     return formatNumber(amount, language, options);
 };
 
-/**
- * formatPercentage - Formats a decimal number as a percentage.
- * @param {number} value The decimal value (e.g., 0.156).
- * @param {Language} language The language code.
- * @param {Intl.NumberFormatOptions} [options] Additional formatting options.
- * @returns {string} The formatted percentage string.
- */
 export const formatPercentage = (value: number, language: Language, options: Intl.NumberFormatOptions = {}): string => {
     const finalOptions: Intl.NumberFormatOptions = {
         style: 'percent',
@@ -78,52 +65,83 @@ export const formatPercentage = (value: number, language: Language, options: Int
 
 type DateFormatPreset = 'short' | 'medium' | 'long' | 'full';
 
-/**
- * formatDate - Formats a date string according to language and format presets.
- * @param {string} dateString The ISO date string.
- * @param {Language} language The language code.
- * @param {DateFormatPreset | Intl.DateTimeFormatOptions} [format='medium'] The format preset or a custom options object.
- * @returns {string} The formatted date string.
- */
-export const formatDate = (dateString: string, language: Language, format: DateFormatPreset | Intl.DateTimeFormatOptions = 'medium'): string => {
-  if (!dateString) return 'N/A';
-  
-  const locale = getLocale(language);
-  const date = new Date(dateString);
+// dateFormat param is optional — falls back to the global _dateFormat set by DashboardContext.
+export const formatDate = (
+    dateString: string,
+    language: Language,
+    format: DateFormatPreset | Intl.DateTimeFormatOptions = 'medium',
+    dateFormat?: DateFormat
+): string => {
+    if (!dateString) return 'N/A';
 
-  let options: Intl.DateTimeFormatOptions;
+    const effectiveDateFormat = dateFormat ?? _dateFormat;
+    const locale = getLocale(language);
+    const date = new Date(dateString);
 
-  if (typeof format === 'string') {
-    const presets: Record<DateFormatPreset, Intl.DateTimeFormatOptions> = {
-      short: { year: '2-digit', month: 'numeric', day: 'numeric' },
-      medium: { year: 'numeric', month: 'short', day: 'numeric' },
-      long: { year: 'numeric', month: 'long', day: 'numeric' },
-      full: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
-    };
-    options = presets[format] || presets['medium'];
-  } else {
-    options = format;
-  }
-  
-  const finalOptions = {...options};
-
-  if (language === 'ar') {
-    (finalOptions as any).numberingSystem = 'arab';
-    // Example: To enable Hijri calendar, uncomment the line below or pass it in options
-    (finalOptions as any).calendar = 'islamic-umalqura';
-  }
-
-  const cacheKey = `${locale}-${JSON.stringify(finalOptions)}`;
-  
-  try {
-    if (!dateTimeFormatCache.has(cacheKey)) {
-        dateTimeFormatCache.set(cacheKey, new Intl.DateTimeFormat(locale, finalOptions));
+    let options: Intl.DateTimeFormatOptions;
+    if (typeof format === 'string') {
+        const presets: Record<DateFormatPreset, Intl.DateTimeFormatOptions> = {
+            short: { year: '2-digit', month: 'numeric', day: 'numeric' },
+            medium: { year: 'numeric', month: 'short', day: 'numeric' },
+            long: { year: 'numeric', month: 'long', day: 'numeric' },
+            full: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+        };
+        options = presets[format] || presets['medium'];
+    } else {
+        options = format;
     }
-    return dateTimeFormatCache.get(cacheKey)!.format(date);
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return date.toLocaleDateString(); // Fallback
-  }
+
+    const finalOptions: Intl.DateTimeFormatOptions & Record<string, any> = { ...options };
+    if (effectiveDateFormat === 'hijri') {
+        finalOptions.calendar = 'islamic-umalqura';
+    }
+
+    const cacheKey = `${locale}-${JSON.stringify(finalOptions)}`;
+
+    try {
+        if (!dateTimeFormatCache.has(cacheKey)) {
+            dateTimeFormatCache.set(cacheKey, new Intl.DateTimeFormat(locale, finalOptions));
+        }
+        return dateTimeFormatCache.get(cacheKey)!.format(date);
+    } catch (error) {
+        console.error("Error formatting date:", error);
+        return date.toLocaleDateString();
+    }
+};
+
+// timeFormat param is optional — falls back to the global _timeFormat set by DashboardContext.
+export const formatTime = (timeString: string, language: Language, timeFormat?: TimeFormat): string => {
+    if (!timeString) return 'N/A';
+
+    const effectiveTimeFormat = timeFormat ?? _timeFormat;
+    const locale = getLocale(language);
+    let date: Date;
+
+    if (timeString.includes('T') || (timeString.includes('-') && timeString.length > 5)) {
+        date = new Date(timeString);
+    } else {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        date = new Date();
+        date.setHours(hours, minutes, 0, 0);
+    }
+
+    const options: Intl.DateTimeFormatOptions = {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: effectiveTimeFormat === '12h',
+    };
+
+    const cacheKey = `${locale}-time-${effectiveTimeFormat}`;
+
+    try {
+        if (!dateTimeFormatCache.has(cacheKey)) {
+            dateTimeFormatCache.set(cacheKey, new Intl.DateTimeFormat(locale, options));
+        }
+        return dateTimeFormatCache.get(cacheKey)!.format(date);
+    } catch (error) {
+        console.error("Error formatting time:", error);
+        return timeString;
+    }
 };
 
 const DIVISIONS: { amount: number; name: Intl.RelativeTimeFormatUnit }[] = [
@@ -136,12 +154,6 @@ const DIVISIONS: { amount: number; name: Intl.RelativeTimeFormatUnit }[] = [
     { amount: Number.POSITIVE_INFINITY, name: 'years' },
 ];
 
-/**
- * formatRelativeTime - Formats a date string as a relative time (e.g., "5 minutes ago").
- * @param {string} dateString The ISO date string.
- * @param {Language} language The language code.
- * @returns {string} The formatted relative time string.
- */
 export const formatRelativeTime = (dateString: string, language: Language): string => {
     if (!dateString) return 'N/A';
 
@@ -151,7 +163,7 @@ export const formatRelativeTime = (dateString: string, language: Language): stri
     let duration = (date.getTime() - now.getTime()) / 1000;
 
     const cacheKey = `${locale}-numeric`;
-    
+
     try {
         if (!relativeTimeFormatCache.has(cacheKey)) {
             relativeTimeFormatCache.set(cacheKey, new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }));
@@ -165,20 +177,13 @@ export const formatRelativeTime = (dateString: string, language: Language): stri
             }
             duration /= division.amount;
         }
-        return date.toLocaleDateString(); // Fallback for very old dates
+        return date.toLocaleDateString();
     } catch (error) {
         console.error("Error formatting relative time:", error);
-        return date.toLocaleDateString(); // Fallback
+        return date.toLocaleDateString();
     }
 };
 
-
-/**
- * getDonorCategoryLabel - Gets the translated label for a donor category.
- * @param {string} category The category key (e.g., 'HeroDonor').
- * @param {(key: string, fallback?: string) => string} t The translation function.
- * @returns {string} The translated label.
- */
 export const getDonorCategoryLabel = (category: string, t: (key: string, fallback?: string) => string): string => {
     if (!category) return '';
     const categoryKey = category.replace(/ /g, '');
