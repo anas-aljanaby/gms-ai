@@ -4,8 +4,8 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import type { BousalaGoal } from '../../../types';
 import { AlertTriangle, X as XIcon, Bot } from 'lucide-react';
 import { playFeedbackSound } from '../../../lib/audioFeedback';
-import { GoogleGenAI } from "@google/genai";
 import Spinner from '../../common/Spinner';
+import { generateAiContent } from '../../../lib/ai';
 
 // Define the structure for an alert
 interface SmartAlert {
@@ -98,7 +98,6 @@ const SmartAlertsPanel: React.FC<SmartAlertsPanelProps> = ({ goals, isVoiceFeedb
     
     const generateRecommendation = useCallback(async (alert: SmartAlert, goal: BousalaGoal) => {
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const systemInstruction = `You are an AI assistant providing concise, actionable recommendations in ${language} for a non-profit's goal management system. Your response should be a single sentence, direct and clear. Do not add any introductory text.`;
             
             const context = `
@@ -114,9 +113,7 @@ const SmartAlertsPanel: React.FC<SmartAlertsPanelProps> = ({ goals, isVoiceFeedb
             ${context}
             `;
 
-            const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt, config: { systemInstruction } });
-            
-            const recommendationText = response.text;
+            const recommendationText = await generateAiContent({ contents: prompt, systemInstruction });
             
             setAlerts(prevAlerts => prevAlerts.map(a => 
                 a.id === alert.id 

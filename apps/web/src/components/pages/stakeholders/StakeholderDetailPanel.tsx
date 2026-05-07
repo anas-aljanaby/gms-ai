@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GoogleGenAI, Type } from "@google/genai";
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { Stakeholder } from '../../../types';
 import { X, Mail, Phone, Zap, MessageSquare, Briefcase, Calendar, Info, Shield, CheckCircle } from 'lucide-react';
 import Spinner from '../../common/Spinner';
+import { generateAiContent, parseAiJson } from '../../../lib/ai';
 
 interface StakeholderDetailPanelProps {
     stakeholder: Stakeholder | null;
@@ -87,24 +87,19 @@ const StakeholderDetailPanel: React.FC<StakeholderDetailPanelProps> = ({ stakeho
         setAiSuggestions([]);
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const systemInstruction = `You are a professional non-profit relationship manager. Based on the stakeholder data provided, generate 2-3 concise, actionable next steps to improve or maintain the relationship. Respond in the language of the user's request, which is ${language}. Your response MUST be a valid JSON object with a single key 'suggestions' which is an array of objects. Each object in the array must have two keys: 'suggestion' (a string) and 'rationale' (a string). Do not include any text outside of the JSON object, including markdown fences.`;
             
             const prompt = `User's language: ${language}. Stakeholder Data: ${JSON.stringify({
                 name: stakeholder.name[language], type: stakeholder.type, healthScore: stakeholder.healthScore, riskLevel: stakeholder.riskLevel, lastContact: stakeholder.lastContact, engagementScore: stakeholder.engagementScore
             })}`;
 
-            const response = await ai.models.generateContent({
-                model: "gemini-2.5-flash",
+            const responseText = await generateAiContent({
                 contents: prompt,
-                config: {
-                    systemInstruction,
-                    responseMimeType: "application/json",
-                }
+                systemInstruction,
+                responseMimeType: "application/json",
             });
 
-            const jsonText = response.text.trim();
-            const result = JSON.parse(jsonText);
+            const result = parseAiJson<{ suggestions?: AiSuggestion[] }>(responseText);
             setAiSuggestions(result.suggestions || []);
 
         } catch (err) {

@@ -1,4 +1,4 @@
-CREATE TABLE "donations" (
+CREATE TABLE IF NOT EXISTS "donations" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"org_id" uuid NOT NULL,
 	"donor_id" uuid NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE "donations" (
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE "individual_donors" (
+CREATE TABLE IF NOT EXISTS "individual_donors" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"org_id" uuid NOT NULL,
 	"full_name_en" text NOT NULL,
@@ -34,6 +34,17 @@ CREATE TABLE "individual_donors" (
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
-ALTER TABLE "donations" ADD CONSTRAINT "donations_org_id_organizations_id_fk" FOREIGN KEY ("org_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "donations" ADD CONSTRAINT "donations_donor_id_individual_donors_id_fk" FOREIGN KEY ("donor_id") REFERENCES "public"."individual_donors"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "individual_donors" ADD CONSTRAINT "individual_donors_org_id_organizations_id_fk" FOREIGN KEY ("org_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;
+DO $$ BEGIN
+ ALTER TABLE "donations" ADD CONSTRAINT "donations_org_id_organizations_id_fk" FOREIGN KEY ("org_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "donations" ADD CONSTRAINT "donations_donor_id_individual_donors_id_fk" FOREIGN KEY ("donor_id") REFERENCES "public"."individual_donors"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "individual_donors" ADD CONSTRAINT "individual_donors_org_id_organizations_id_fk" FOREIGN KEY ("org_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;

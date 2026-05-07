@@ -3,9 +3,8 @@ import { useDraggable } from '@dnd-kit/core';
 import type { Donor } from '../../../types';
 import type { DonorStageId } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { formatCurrency, formatDate, formatNumber, formatRelativeTime } from '../../../lib/utils';
-import { MoreHorizontalIcon } from '../../icons/GenericIcons';
-import { CalendarClock, GripVertical, Mail, Phone, Plus } from 'lucide-react';
+import { formatCurrency, formatNumber, formatRelativeTime } from '../../../lib/utils';
+import { GripVertical } from 'lucide-react';
 import type { DonorKanbanStage, KanbanDensity } from './KanbanBoard';
 
 interface KanbanCardProps {
@@ -46,17 +45,10 @@ const KanbanCardShell: React.FC<KanbanCardShellProps> = ({
         Low: 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
     };
     
-    const openTasks = donor.tasks.filter(task => !task.completed);
-    const today = new Date().toISOString().split('T')[0];
-    const overdueTasks = openTasks.filter(task => task.dueDate < today);
-    const nextTask = openTasks
-        .slice()
-        .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
     const stageEnteredAt = donor.stageEnteredAt || donor.lastContact || donor.firstDonation;
     const stageAgeDays = stageEnteredAt
         ? Math.max(0, Math.floor((Date.now() - new Date(stageEnteredAt).getTime()) / 86400000))
         : null;
-    const needsNextAction = openTasks.length === 0 && !['donated', 'dormant'].includes(donor.stage);
     const owner = donor.assignedOwner || t('donors.kanban.unassigned');
     const askAmount = donor.suggestedAskAmount ?? donor.potentialGift;
     const isCompact = density === 'compact';
@@ -72,7 +64,7 @@ const KanbanCardShell: React.FC<KanbanCardShellProps> = ({
         <div
             ref={rootRef}
             className={`flex flex-col bg-card dark:bg-dark-card rounded-lg border-s-4 ${healthColors[donor.relationshipHealth]} ${
-                isCompact ? 'space-y-2 p-2.5 shadow-sm' : 'space-y-3 p-3 shadow-md'
+                isCompact ? 'space-y-2.5 p-3 shadow-sm' : 'space-y-3 p-3 shadow-md'
             } ${
                 isDragOverlay
                     ? 'shadow-2xl ring-2 ring-primary/40 cursor-grabbing'
@@ -93,9 +85,6 @@ const KanbanCardShell: React.FC<KanbanCardShellProps> = ({
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
                         {dragHandle}
-                        <button type="button" className="p-1 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 flex-shrink-0" aria-label={t('donors.card.moreOptions')}>
-                            <MoreHorizontalIcon />
-                        </button>
                     </div>
                 </div>
 
@@ -152,55 +141,11 @@ const KanbanCardShell: React.FC<KanbanCardShellProps> = ({
                     ))}
                 </div>
 
-                {/* Task Summary */}
-                {isCompact && (openTasks.length > 0 || needsNextAction) && (
-                    <div className={`rounded-md border px-2 py-1.5 text-xs ${needsNextAction ? 'border-amber-200 bg-amber-50/70 text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200' : 'border-gray-200 text-gray-600 dark:border-slate-700 dark:text-gray-300'}`}>
-                        <span className="block truncate font-semibold">
-                            {needsNextAction ? t('donors.kanban.noNextAction') : nextTask?.text || `${t('donors.card.openTasks')}: ${formatNumber(openTasks.length, language)}`}
-                        </span>
-                    </div>
-                )}
-                {!isCompact && (openTasks.length > 0 || needsNextAction) && (
-                    <div className={`rounded-lg border p-3 text-sm ${needsNextAction ? 'border-amber-200 bg-amber-50/70 dark:border-amber-800 dark:bg-amber-900/20' : 'border-gray-200 dark:border-slate-700'}`}>
-                        <div className="flex items-center justify-between gap-3">
-                            <span className="font-semibold text-foreground dark:text-dark-foreground">
-                                {needsNextAction ? t('donors.kanban.noNextAction') : `${t('donors.card.openTasks')}: ${formatNumber(openTasks.length, language)}`}
-                            </span>
-                            {overdueTasks.length > 0 && (
-                                <span className="px-2 py-0.5 rounded-full bg-red-50 text-xs font-bold text-red-600 dark:bg-red-900/30 dark:text-red-300">
-                                    {t('donors.card.overdue')}: {formatNumber(overdueTasks.length, language)}
-                                </span>
-                            )}
-                        </div>
-                        {nextTask && (
-                            <div className="mt-2 flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400">
-                                <CalendarClock size={14} className="mt-0.5 shrink-0" />
-                                <p className="min-w-0">
-                                    <span className="font-semibold text-gray-700 dark:text-gray-300">{nextTask.text}</span>
-                                    <span className="block truncate">{formatDate(nextTask.dueDate, language)} ({formatRelativeTime(nextTask.dueDate, language)})</span>
-                                </p>
-                            </div>
-                        )}
-                    </div>
-                )}
-
                 {!isCompact && donor.lastContact && (
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                         {t('donors.kanban.lastContact')}: {formatRelativeTime(donor.lastContact, language)}
                     </p>
                 )}
-
-                <div className={`grid grid-cols-3 gap-2 ${isCompact ? '' : 'pt-1'}`}>
-                    <button type="button" className="flex items-center justify-center rounded-md border border-gray-200 p-2 text-gray-600 hover:bg-gray-50 dark:border-slate-700 dark:text-gray-300 dark:hover:bg-slate-800" title={t('donors.kanban.quickCall')} aria-label={t('donors.kanban.quickCall')}>
-                        <Phone size={15} />
-                    </button>
-                    <button type="button" className="flex items-center justify-center rounded-md border border-gray-200 p-2 text-gray-600 hover:bg-gray-50 dark:border-slate-700 dark:text-gray-300 dark:hover:bg-slate-800" title={t('donors.kanban.quickEmail')} aria-label={t('donors.kanban.quickEmail')}>
-                        <Mail size={15} />
-                    </button>
-                    <button type="button" className="flex items-center justify-center rounded-md border border-gray-200 p-2 text-gray-600 hover:bg-gray-50 dark:border-slate-700 dark:text-gray-300 dark:hover:bg-slate-800" title={t('donors.card.addTask')} aria-label={t('donors.card.addTask')}>
-                        <Plus size={15} />
-                    </button>
-                </div>
 
                 {stages && onMoveDonor && (
                     <label className="block">
@@ -218,9 +163,6 @@ const KanbanCardShell: React.FC<KanbanCardShellProps> = ({
                         </select>
                     </label>
                 )}
-                
-                {/* Spacer to push actions to bottom */}
-                <div className="flex-grow min-h-[0.25rem]"></div>
         </div>
     );
 };

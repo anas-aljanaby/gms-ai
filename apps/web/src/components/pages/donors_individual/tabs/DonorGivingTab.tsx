@@ -1,57 +1,75 @@
-import React from 'react';
-import { DollarSign, Gift, ReceiptText, Target, TrendingUp, WalletCards } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { DollarSign, Gift, ReceiptText, Target, TrendingUp } from 'lucide-react';
+import { PIPELINE_STAGES } from '@gms/shared';
 import type { DonorProfileSummary, ProfileDonation } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import { formatCurrency, formatDate, formatRelativeTime } from '../../../../lib/utils';
-import { Chip, EmptyPanel, InfoRow, MetricCard, Section } from './profileUi';
+import { Chip, EmptyPanel, MetricCard, Section } from './profileUi';
 
 interface DonorGivingTabProps {
     summary: DonorProfileSummary;
     donations: ProfileDonation[];
     isLoading?: boolean;
+    onSavePipelineAsk?: (data: { pipelineStage: string; askAmount: number | null }) => Promise<void> | void;
+    isSavingPipelineAsk?: boolean;
 }
 
-const GivingStatusChip: React.FC<{ status: DonorProfileSummary['giving']['currentGivingStatus'] }> = ({ status }) => {
-    const label = {
-        active: 'Active',
-        lapsed: 'Lapsed',
-        recurring: 'Recurring',
-        pledge_open: 'Pledge open',
-        no_gifts: 'No gifts',
-    }[status];
-    const tone = status === 'active' || status === 'recurring' ? 'green' : status === 'lapsed' ? 'amber' : 'neutral';
-    return <Chip tone={tone}>{label}</Chip>;
-};
-
-const DonorGivingTab: React.FC<DonorGivingTabProps> = ({ summary, donations, isLoading }) => {
+const DonorGivingTab: React.FC<DonorGivingTabProps> = ({ summary, donations, isLoading, onSavePipelineAsk, isSavingPipelineAsk }) => {
     const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
     const suggestedAsk = summary.computed.suggestedAskAmount;
     const askAvailable = suggestedAsk !== null && suggestedAsk > 0;
+    const [pipelineStage, setPipelineStage] = useState(summary.relationship.pipelineStage || 'prospect');
+    const [askAmount, setAskAmount] = useState(askAvailable ? String(suggestedAsk) : '');
+
+    useEffect(() => {
+        setPipelineStage(summary.relationship.pipelineStage || 'prospect');
+        setAskAmount(summary.computed.suggestedAskAmount !== null ? String(summary.computed.suggestedAskAmount) : '');
+    }, [summary.computed.suggestedAskAmount, summary.relationship.pipelineStage]);
+
+    const handlePipelineAskSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        const parsedAskAmount = askAmount.trim() ? Number(askAmount) : null;
+        onSavePipelineAsk?.({
+            pipelineStage,
+            askAmount: parsedAskAmount !== null && Number.isFinite(parsedAskAmount) ? parsedAskAmount : null,
+        });
+    };
 
     return (
         <div className="space-y-5">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <MetricCard title={t('individual_donors.columns.totalDonations')} value={formatCurrency(summary.giving.lifetimeGiving, language)} icon={<DollarSign size={19} />} accent="text-emerald-600 dark:text-emerald-300" />
                 <MetricCard title={t('individual_donors.columns.lastGift')} value={summary.giving.lastGiftAmount !== null ? formatCurrency(summary.giving.lastGiftAmount, language) : 'N/A'} icon={<Gift size={19} />} subtext={summary.giving.lastGiftDate ? formatRelativeTime(summary.giving.lastGiftDate, language) : undefined} accent="text-blue-600 dark:text-blue-300" />
                 <MetricCard title={t('individual_donors.kpi.avgGift')} value={summary.giving.averageGift !== null ? formatCurrency(summary.giving.averageGift, language) : 'N/A'} icon={<TrendingUp size={19} />} accent="text-amber-600 dark:text-amber-300" />
-                <MetricCard title={t('individual_donors.detailView.currentGivingStatus', 'Giving Status')} value={<GivingStatusChip status={summary.giving.currentGivingStatus} />} icon={<WalletCards size={19} />} accent="text-primary dark:text-secondary" />
             </div>
 
             <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(290px,0.65fr)_minmax(0,1.35fr)]">
                 <Section title={t('individual_donors.detailView.pipelineAsk')} icon={<Target size={18} />}>
-                    <div className="space-y-4">
-                        <InfoRow label={t('individual_donors.columns.pipelineStage')} value={t(`donors.stages.${summary.relationship.pipelineStage}`, summary.relationship.pipelineStage)} />
-                        <InfoRow
-                            label={t('donors.kanban.suggestedAsk')}
-                            value={askAvailable ? formatCurrency(suggestedAsk, language) : <Chip>Not enough data</Chip>}
-                        />
+                    <form onSubmit={handlePipelineAskSubmit} className="space-y-4">
+                        <label className="block">
+                            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('individual_donors.columns.pipelineStage')}</span>
+                            <select value={pipelineStage} onChange={(event) => setPipelineStage(event.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900">
+                                {PIPELINE_STAGES.map((stage) => (
+                                    <option key={stage} value={stage}>{t(`donors.stages.${stage}`, stage)}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label className="block">
+                            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('donors.kanban.suggestedAsk')}</span>
+                            <input type="number" min="0" step="0.01" value={askAmount} onChange={(event) => setAskAmount(event.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900" />
+                        </label>
                         <div className="rounded-lg bg-gray-50 p-4 text-sm font-semibold leading-6 text-gray-600 dark:bg-slate-900/40 dark:text-gray-300">
                             {askAvailable
-                                ? t('individual_donors.detailView.askRationale', { defaultValue: 'Suggested ask is manager-provided for this MVP profile.' })
+                                ? t('individual_donors.detailView.askRationale', { defaultValue: 'Suggested ask is manager-provided.' })
                                 : t('individual_donors.detailView.askUnavailable', { defaultValue: 'Suggested ask is unavailable until there is a defensible calculation or a manager override.' })}
                         </div>
-                        <InfoRow label={t('individual_donors.detailView.source', 'Source')} value={`${summary.computed.suggestedAskSource} / ${summary.computed.suggestedAskConfidence}`} muted />
-                    </div>
+                        {!askAvailable && <Chip>Not enough data</Chip>}
+                        {onSavePipelineAsk && (
+                            <button type="submit" disabled={isSavingPipelineAsk} className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60">
+                                {isSavingPipelineAsk ? t('common.loading') : t('common.save')}
+                            </button>
+                        )}
+                    </form>
                 </Section>
 
                 <Section title={t('individual_donors.detailView.donationHistory')} icon={<ReceiptText size={18} />}>

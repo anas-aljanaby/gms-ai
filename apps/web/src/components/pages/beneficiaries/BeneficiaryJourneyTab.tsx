@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { GoogleGenAI, Type } from "@google/genai";
 import type { Beneficiary, Milestone } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
@@ -9,6 +8,7 @@ import { useTheme } from '../../../hooks/useTheme';
 import { formatDate } from '../../../lib/utils';
 import { CheckCircle, Loader, Circle, TrendingUp, BarChart2, Bot, Sparkles } from 'lucide-react';
 import Spinner from '../../common/Spinner';
+import { generateAiContent, parseAiJson } from '../../../lib/ai';
 
 interface BeneficiaryJourneyTabProps {
     beneficiary: Beneficiary;
@@ -88,7 +88,6 @@ const BeneficiaryJourneyTab: React.FC<BeneficiaryJourneyTabProps> = ({ beneficia
         setIsLoadingInsights(true);
         setInsights(null);
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const systemInstruction = "You are an expert NGO case manager and academic advisor. Analyze the provided beneficiary data (milestones and academic progress) and generate a concise report in Arabic. The report should include a brief analysis of their journey, a prediction of their future performance, and one key actionable recommendation for their case manager. Provide the output as a JSON object with keys 'analysis', 'prediction', and 'recommendation'.";
             
             const prompt = `
@@ -97,25 +96,13 @@ const BeneficiaryJourneyTab: React.FC<BeneficiaryJourneyTabProps> = ({ beneficia
                 - GPA Trend: ${JSON.stringify(beneficiary.profile.academicRecords?.reports)}
             `;
             
-             const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
+            const responseText = await generateAiContent({
                 contents: prompt,
-                config: {
-                    systemInstruction,
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: Type.OBJECT,
-                        properties: {
-                            analysis: { type: Type.STRING },
-                            prediction: { type: Type.STRING },
-                            recommendation: { type: Type.STRING }
-                        },
-                        required: ['analysis', 'prediction', 'recommendation']
-                    }
-                }
+                systemInstruction,
+                responseMimeType: "application/json",
             });
             
-            const result = JSON.parse(response.text.trim());
+            const result = parseAiJson<{ analysis: string; prediction: string; recommendation: string }>(responseText);
             setInsights(result);
         } catch (error) {
             console.error("AI Insight Generation Error:", error);

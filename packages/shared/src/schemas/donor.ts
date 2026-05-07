@@ -1,7 +1,8 @@
 import { z } from 'zod/v4';
+import { DONOR_STATUSES, DONOR_TIERS, INTERACTION_TYPES, TASK_TYPES } from '../constants/donorOptions';
 
-export const donorStatusSchema = z.enum(['Active', 'Lapsed', 'On Hold', 'Deceased', 'Disqualified']);
-export const donorTierSchema = z.enum(['Bronze', 'Silver', 'Gold', 'Platinum', 'Major Donor']);
+export const donorStatusSchema = z.enum(DONOR_STATUSES);
+export const donorTierSchema = z.enum(DONOR_TIERS);
 export const donorCategorySchema = z.enum([
     'Hero Donor',
     'Recurring Donor',
@@ -69,7 +70,7 @@ export const donorTaskSchema = z.object({
     org_id: z.string().uuid(),
     donor_id: z.string().uuid(),
     text: z.string().min(1),
-    type: z.enum(['Follow-up', 'Call', 'Email', 'Meeting']).default('Follow-up'),
+    type: z.enum(TASK_TYPES).default('Follow-up'),
     assigned_to: z.string().optional().default(''),
     due_date: z.string(),
     completed: z.boolean().default(false),
@@ -86,7 +87,7 @@ export const donorInteractionSchema = z.object({
     id: z.string().uuid(),
     org_id: z.string().uuid(),
     donor_id: z.string().uuid(),
-    interaction_type: z.enum(['email', 'whatsapp', 'sms', 'call', 'meeting', 'note']).default('note'),
+    interaction_type: z.enum(INTERACTION_TYPES).default('note'),
     occurred_at: z.string(),
     subject: z.string().min(1),
     status: z.string().optional().default('logged'),
@@ -95,6 +96,34 @@ export const donorInteractionSchema = z.object({
 });
 
 export const createDonorInteractionSchema = donorInteractionSchema.omit({ id: true, org_id: true, donor_id: true }).extend({
+    donor_id: z.string().uuid().optional(),
+});
+
+export const updateDonorInteractionSchema = createDonorInteractionSchema.partial();
+
+export const donorDocumentSchema = z.object({
+    id: z.string().uuid(),
+    org_id: z.string().uuid(),
+    donor_id: z.string().uuid(),
+    filename: z.string().min(1),
+    file_url: z.string().min(1),
+    label: z.string().optional().default('Document'),
+    content_type: z.string().nullable().default(null),
+    size_bytes: z.number().nullable().default(null),
+    uploaded_at: z.string(),
+    custom_fields: z.record(z.string(), z.unknown()).default({}),
+});
+
+export const createDonorDocumentSchema = donorDocumentSchema.omit({
+    id: true,
+    org_id: true,
+    donor_id: true,
+    filename: true,
+    file_url: true,
+    content_type: true,
+    size_bytes: true,
+    uploaded_at: true,
+}).extend({
     donor_id: z.string().uuid().optional(),
 });
 
@@ -107,6 +136,8 @@ export type DonorTask = z.infer<typeof donorTaskSchema>;
 export type CreateDonorTask = z.infer<typeof createDonorTaskSchema>;
 export type DonorInteraction = z.infer<typeof donorInteractionSchema>;
 export type CreateDonorInteraction = z.infer<typeof createDonorInteractionSchema>;
+export type DonorDocument = z.infer<typeof donorDocumentSchema>;
+export type CreateDonorDocument = z.infer<typeof createDonorDocumentSchema>;
 export type DonorStatus = z.infer<typeof donorStatusSchema>;
 export type DonorTier = z.infer<typeof donorTierSchema>;
 export type DonorCategory = z.infer<typeof donorCategorySchema>;

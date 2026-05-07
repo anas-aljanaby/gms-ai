@@ -11,7 +11,7 @@ export interface DonorFilters {
     owner: string;
     stage: DonorStageId | 'all';
     donorType: DonorPipelineType | 'all';
-    actionState: 'all' | 'overdue' | 'noNextAction';
+    taskState: 'all' | 'overdue' | 'noOpenTasks';
 }
 
 interface AdvancedFilterPanelProps {
@@ -36,7 +36,7 @@ const emptyFilters: DonorFilters = {
     owner: 'all',
     stage: 'all',
     donorType: 'all',
-    actionState: 'all',
+    taskState: 'all',
 };
 
 const translationKey = (value: string) => value.replace(/\s+/g, '');
@@ -162,16 +162,16 @@ const AdvancedFilterPanel: React.FC<AdvancedFilterPanelProps> = ({
                         </select>
                     </div>
                     <div>
-                        <label className="text-sm font-medium" htmlFor="donor-action-filter">{t('individual_donors.columns.actionState')}</label>
+                        <label className="text-sm font-medium" htmlFor="donor-task-filter">{t('individual_donors.columns.taskState', 'Task State')}</label>
                         <select
-                            id="donor-action-filter"
-                            value={draftFilters.actionState}
-                            onChange={(event) => updateFilter('actionState', event.target.value as DonorFilters['actionState'])}
+                            id="donor-task-filter"
+                            value={draftFilters.taskState}
+                            onChange={(event) => updateFilter('taskState', event.target.value as DonorFilters['taskState'])}
                             className="w-full p-2 mt-1 border rounded-md bg-white dark:bg-slate-800 dark:border-slate-600"
                         >
-                            <option value="all">{t('individual_donors.filterOptions.allActionStates')}</option>
+                            <option value="all">{t('individual_donors.filterOptions.allTaskStates', 'All task states')}</option>
                             <option value="overdue">{t('individual_donors.filterOptions.overdue')}</option>
-                            <option value="noNextAction">{t('individual_donors.filterOptions.noNextAction')}</option>
+                            <option value="noOpenTasks">{t('individual_donors.filterOptions.noOpenTasks', 'No open tasks')}</option>
                         </select>
                     </div>
                 </div>

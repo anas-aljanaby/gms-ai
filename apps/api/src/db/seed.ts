@@ -172,6 +172,7 @@ async function lookupUserId(email: string): Promise<string> {
 
 async function reset() {
     console.log('Resetting: deleting all seed data...');
+    await db.delete(schema.donor_documents);
     await db.delete(schema.donor_interactions);
     await db.delete(schema.donor_tasks);
     await db.delete(schema.donations);

@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import type { IndividualDonor } from '../../../types';
+import { DONOR_STATUSES, DONOR_TIERS } from '@gms/shared';
+import type { DonorProfileTask, IndividualDonor, Role } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
-import { useDonorProfileDonations, useDonorProfileInteractions, useDonorProfileSummary, useDonorProfileTasks } from '../../../hooks/useDonorProfileSummary';
+import { deleteDonorProfileDocument, uploadDonorProfileDocument, useDonorProfileDocuments, useDonorProfileDonations, useDonorProfileInteractions, useDonorProfileRecord, useDonorProfileSummary, useDonorProfileTasks } from '../../../hooks/useDonorProfileSummary';
 import { api } from '../../../lib/api';
 import { formatCurrency, formatDate, formatRelativeTime } from '../../../lib/utils';
 import Tabs from '../../common/Tabs';
-import { ArrowLeft, Check, FileText, Mail, MapPin, MessageSquare, Pencil, X } from 'lucide-react';
+import { ArrowLeft, Check, ExternalLink, FileText, Mail, MapPin, MessageSquare, Pencil, Trash2, Upload, X } from 'lucide-react';
 import LogInteractionModal from './LogInteractionModal';
 import SendEmailModal from './SendEmailModal';
 import DonorGivingTab from './tabs/DonorGivingTab';
@@ -22,8 +23,7 @@ interface DonorDetailViewProps {
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const DONOR_STATUSES: IndividualDonor['status'][] = ['Active', 'Lapsed', 'On Hold', 'Deceased', 'Disqualified'];
-const DONOR_TIERS: IndividualDonor['tier'][] = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Major Donor'];
+const DONOR_TYPES: NonNullable<IndividualDonor['donorType']>[] = ['Individual', 'Company', 'Foundation', 'Major Donor', 'Recurring'];
 
 interface HeaderFormState {
     fullNameEn: string;
@@ -32,6 +32,7 @@ interface HeaderFormState {
     tagsText: string;
     status: IndividualDonor['status'];
     tier: IndividualDonor['tier'];
+    donorType: NonNullable<IndividualDonor['donorType']>;
     assignedManager: string;
 }
 
@@ -42,6 +43,7 @@ const buildHeaderFormState = (donor: IndividualDonor): HeaderFormState => ({
     tagsText: (donor.tags || []).join(', '),
     status: donor.status,
     tier: donor.tier,
+    donorType: donor.donorType || 'Individual',
     assignedManager: donor.assignedManager || '',
 });
 
@@ -49,6 +51,11 @@ const parseTags = (value: string) => Array.from(new Set(value
     .split(',')
     .map((tag) => tag.trim())
     .filter(Boolean)));
+
+const toTaskIsoDate = (value: string) => {
+    const date = value ? new Date(value) : new Date();
+    return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+};
 
 const StatusBadge: React.FC<{ status: IndividualDonor['status']; label: string }> = ({ status, label }) => {
     const styles: Record<IndividualDonor['status'], string> = {
@@ -81,24 +88,127 @@ const LoadingProfile = () => (
     </div>
 );
 
-const DonorDocumentsTab: React.FC<{ donor: IndividualDonor }> = ({ donor }) => {
+const DonorDocumentsTab: React.FC<{ donor: IndividualDonor; onChanged: () => void }> = ({ donor, onChanged }) => {
     const { t, language } = useLocalization(['common', 'individual_donors']);
+    const toast = useToast();
+    const queryClient = useQueryClient();
+    const [label, setLabel] = useState('');
+    const [file, setFile] = useState<File | null>(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const isApiBackedDonor = UUID_RE.test(donor.id);
+    const documentsQuery = useDonorProfileDocuments(donor.id, donor);
+    const documents = documentsQuery.data || [];
+    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+    const getDocumentUrl = (url: string) => url.startsWith('http') || url === '#' ? url : `${apiBase}${url}`;
+
+    const handleUpload = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!file || !isApiBackedDonor) return;
+
+        setIsUploading(true);
+        try {
+            await uploadDonorProfileDocument(donor.id, file, label.trim() || file.name);
+            setFile(null);
+            setLabel('');
+            await queryClient.invalidateQueries({ queryKey: ['donor-profile-documents', donor.id] });
+            onChanged();
+            toast.showSuccess(t('individual_donors.detailView.documentUploaded', 'Document uploaded.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.documentUploadFailed', 'Unable to upload document.'));
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const handleDelete = async (documentId: string) => {
+        if (!isApiBackedDonor) return;
+
+        try {
+            await deleteDonorProfileDocument(donor.id, documentId);
+            await queryClient.invalidateQueries({ queryKey: ['donor-profile-documents', donor.id] });
+            onChanged();
+            toast.showSuccess(t('individual_donors.detailView.documentDeleted', 'Document deleted.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.documentDeleteFailed', 'Unable to delete document.'));
+        }
+    };
 
     return (
         <Section title={t('individual_donors.detailView.documents')} icon={<FileText size={18} />}>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-                {donor.documents && donor.documents.length > 0 ? donor.documents.map((document) => (
-                    <div key={document.id} className="flex min-w-0 items-start gap-3 rounded-lg border border-gray-200 bg-gray-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/30">
+            <div className="space-y-4">
+                {isApiBackedDonor && (
+                    <form onSubmit={handleUpload} className="grid grid-cols-1 gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/30 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+                        <label className="min-w-0">
+                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('individual_donors.detailView.documentLabel', 'Label')}</span>
+                            <input value={label} onChange={(event) => setLabel(event.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900" placeholder="Tax receipt" />
+                        </label>
+                        <label className="min-w-0">
+                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('individual_donors.detailView.documentFile', 'File')}</span>
+                            <input type="file" onChange={(event) => setFile(event.target.files?.[0] || null)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900" />
+                        </label>
+                        <button type="submit" disabled={!file || isUploading} className="inline-flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-secondary-dark disabled:cursor-not-allowed disabled:opacity-60 md:self-end">
+                            <Upload size={16} /> {isUploading ? t('common.loading') : t('individual_donors.detailView.uploadDocument', 'Upload')}
+                        </button>
+                    </form>
+                )}
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+                    {documentsQuery.isLoading ? (
+                        [0, 1, 2].map((item) => <div key={item} className="h-24 animate-pulse rounded-lg bg-gray-100 dark:bg-slate-800" />)
+                    ) : documents.length > 0 ? documents.map((document) => (
+                    <div key={document.id} className="flex min-w-0 items-start justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/30">
+                        <div className="flex min-w-0 items-start gap-3">
                         <FileText size={18} className="mt-1 flex-shrink-0 text-primary dark:text-secondary" />
                         <div className="min-w-0">
-                            <p className="break-words font-bold text-foreground dark:text-dark-foreground">{document.title}</p>
-                            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{document.type} / {formatDate(document.date, language)}</p>
+                            <p className="break-words font-bold text-foreground dark:text-dark-foreground">{document.label || document.filename}</p>
+                            <p className="mt-1 break-words text-xs text-gray-500 dark:text-gray-400">{document.filename}</p>
+                            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                {document.uploaded_at ? formatDate(document.uploaded_at, language) : 'N/A'}
+                                {document.size_bytes ? ` / ${Math.round(document.size_bytes / 1024)} KB` : ''}
+                            </p>
+                        </div>
+                        </div>
+                        <div className="flex flex-shrink-0 items-center gap-1">
+                            <a href={getDocumentUrl(document.file_url)} target="_blank" rel="noreferrer" className="rounded-lg p-2 text-gray-500 hover:bg-white hover:text-primary dark:hover:bg-slate-800 dark:hover:text-secondary" aria-label={t('common.open', 'Open')}>
+                                <ExternalLink size={16} />
+                            </a>
+                            {isApiBackedDonor && (
+                                <button onClick={() => handleDelete(document.id)} className="rounded-lg p-2 text-gray-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-300" aria-label={t('common.delete', 'Delete')}>
+                                    <Trash2 size={16} />
+                                </button>
+                            )}
                         </div>
                     </div>
-                )) : <div className="md:col-span-2 xl:col-span-3"><EmptyPanel text={t('individual_donors.detailView.noDocuments')} /></div>}
+                    )) : <div className="md:col-span-2 xl:col-span-3"><EmptyPanel text={t('individual_donors.detailView.noDocuments')} /></div>}
+                </div>
             </div>
         </Section>
     );
+};
+
+export const DonorProfileRoute: React.FC<{
+    donorId: string;
+    onBack: () => void;
+    onDonorUpdated?: (donor: IndividualDonor) => void;
+}> = ({ donorId, onBack, onDonorUpdated }) => {
+    const { t } = useLocalization(['common', 'individual_donors']);
+    const donorQuery = useDonorProfileRecord(donorId);
+
+    if (donorQuery.isLoading) return <LoadingProfile />;
+
+    if (donorQuery.isError || !donorQuery.data) {
+        return (
+            <div className="space-y-4">
+                <button onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+                    <ArrowLeft className="h-4 w-4 rtl:rotate-180" /> {t('individual_donors.backToList')}
+                </button>
+                <EmptyPanel text={t('individual_donors.detailView.profileLoadFailed', 'Unable to load this donor profile.')} />
+            </div>
+        );
+    }
+
+    return <DonorDetailView donor={donorQuery.data} onBack={onBack} onDonorUpdated={onDonorUpdated} />;
 };
 
 const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDonorUpdated }) => {
@@ -111,6 +221,8 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
     const [isHeaderEditing, setIsHeaderEditing] = useState(false);
     const [isSavingHeader, setIsSavingHeader] = useState(false);
+    const [isSavingContact, setIsSavingContact] = useState(false);
+    const [isSavingPipelineAsk, setIsSavingPipelineAsk] = useState(false);
     const [headerForm, setHeaderForm] = useState<HeaderFormState>(() => buildHeaderFormState(donor));
 
     const summaryQuery = useDonorProfileSummary(editableDonor.id, editableDonor);
@@ -126,9 +238,48 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
     const visibleTags = useMemo(() => (summary?.donor.tags || editableDonor.tags || []).filter(Boolean).slice(0, 6), [editableDonor.tags, summary?.donor.tags]);
 
     const invalidateProfile = () => {
+        void queryClient.invalidateQueries({ queryKey: ['donor-profile-record', editableDonor.id] });
         void queryClient.invalidateQueries({ queryKey: ['donor-profile-summary', editableDonor.id] });
+        void queryClient.invalidateQueries({ queryKey: ['donor-profile-donations', editableDonor.id] });
+        void queryClient.invalidateQueries({ queryKey: ['donor-profile-tasks', editableDonor.id] });
         void queryClient.invalidateQueries({ queryKey: ['donor-profile-interactions', editableDonor.id] });
+        void queryClient.invalidateQueries({ queryKey: ['donor-profile-documents', editableDonor.id] });
         void queryClient.invalidateQueries({ queryKey: ['donors'] });
+    };
+
+    const getCachedProfileTasks = () => (
+        queryClient.getQueryData<DonorProfileTask[]>(['donor-profile-tasks', editableDonor.id])
+        || tasksQuery.data
+        || []
+    );
+
+    const syncLocalTasks = (tasks: DonorProfileTask[]) => {
+        const openTasks = tasks
+            .filter((task) => !task.completed)
+            .sort((a, b) => new Date(a.due_date || '').getTime() - new Date(b.due_date || '').getTime());
+        const relationshipTasks = tasks.map((task) => ({
+            id: task.id,
+            text: task.text,
+            type: task.type,
+            assignedTo: (task.assigned_to || editableDonor.assignedManager || 'Staff') as Role,
+            dueDate: task.due_date || new Date().toISOString(),
+            completed: task.completed,
+        }));
+        const updatedDonor: IndividualDonor = {
+            ...editableDonor,
+            relationshipTasks,
+        };
+
+        setEditableDonor(updatedDonor);
+        onDonorUpdated?.(updatedDonor);
+        queryClient.setQueryData(['donor-profile-tasks', editableDonor.id], tasks);
+        queryClient.setQueryData(['donor-profile-summary', editableDonor.id], summary ? {
+            ...summary,
+            relationship: {
+                ...summary.relationship,
+                openTaskCount: openTasks.length,
+            },
+        } : summary);
     };
 
     const startHeaderEdit = () => {
@@ -142,6 +293,7 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
             tags: summary?.donor.tags || editableDonor.tags,
             status: summary?.donor.status || editableDonor.status,
             tier: summary?.donor.tier || editableDonor.tier,
+            donorType: editableDonor.donorType || 'Individual',
             assignedManager: summary?.donor.assigned_manager || editableDonor.assignedManager,
         }));
         setIsHeaderEditing(true);
@@ -168,6 +320,10 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
             status: headerForm.status,
             tier: headerForm.tier,
             assigned_manager: headerForm.assignedManager.trim(),
+            custom_fields: {
+                ...(summary?.donor.custom_fields || {}),
+                donor_type: headerForm.donorType,
+            },
         };
 
         setIsSavingHeader(true);
@@ -186,6 +342,7 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
                 tags,
                 status: payload.status,
                 tier: payload.tier,
+                donorType: headerForm.donorType,
                 assignedManager: payload.assigned_manager,
             };
 
@@ -202,6 +359,7 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
                     status: payload.status,
                     tier: payload.tier,
                     assigned_manager: payload.assigned_manager,
+                    custom_fields: payload.custom_fields,
                 },
                 relationship: {
                     ...summary.relationship,
@@ -259,6 +417,199 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
         setIsEmailModalOpen(false);
     };
 
+    const handleSaveContact = async ({ email, phone }: { email: string; phone: string }) => {
+        const nextEmail = email.trim();
+        const nextPhone = phone.trim();
+
+        if (!nextEmail) {
+            toast.showError(t('individual_donors.modal.requiredFields'));
+            return;
+        }
+
+        setIsSavingContact(true);
+        try {
+            if (isApiBackedDonor) {
+                await api.patch(`/donors/${editableDonor.id}`, {
+                    email: nextEmail,
+                    phone: nextPhone,
+                });
+            }
+
+            const updatedDonor: IndividualDonor = {
+                ...editableDonor,
+                email: nextEmail,
+                phone: nextPhone,
+            };
+
+            setEditableDonor(updatedDonor);
+            onDonorUpdated?.(updatedDonor);
+            queryClient.setQueryData(['donor-profile-summary', editableDonor.id], summary ? {
+                ...summary,
+                donor: {
+                    ...summary.donor,
+                    email: nextEmail,
+                    phone: nextPhone,
+                },
+            } : summary);
+            invalidateProfile();
+            toast.showSuccess(t('individual_donors.detailView.contactSaved', 'Contact information updated.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.contactSaveFailed', 'Unable to update contact information.'));
+            throw error;
+        } finally {
+            setIsSavingContact(false);
+        }
+    };
+
+    const handleSavePipelineAsk = async ({ pipelineStage, askAmount }: { pipelineStage: string; askAmount: number | null }) => {
+        if (!isApiBackedDonor) return;
+
+        setIsSavingPipelineAsk(true);
+        try {
+            const customFields = {
+                ...(summary?.donor.custom_fields || {}),
+                pipeline_stage: pipelineStage,
+                stage_entered_at: summary?.relationship.pipelineStage === pipelineStage
+                    ? summary?.relationship.stageEnteredAt || new Date().toISOString()
+                    : new Date().toISOString(),
+                ask_amount: askAmount,
+                suggested_ask_amount: askAmount,
+            };
+
+            await api.patch(`/donors/${editableDonor.id}`, { custom_fields: customFields });
+            setEditableDonor((current) => ({
+                ...current,
+                relationshipStage: pipelineStage as IndividualDonor['relationshipStage'],
+                suggestedAskAmount: askAmount ?? undefined,
+            }));
+            invalidateProfile();
+            toast.showSuccess(t('individual_donors.detailView.pipelineAskSaved', 'Pipeline and ask updated.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.pipelineAskSaveFailed', 'Unable to update pipeline and ask.'));
+        } finally {
+            setIsSavingPipelineAsk(false);
+        }
+    };
+
+    const handleCreateTask = async (task: { text: string; type: string; assignedTo: string; dueDate: string }) => {
+        try {
+            const payload = {
+                text: task.text,
+                type: task.type,
+                assigned_to: task.assignedTo,
+                due_date: toTaskIsoDate(task.dueDate),
+                completed: false,
+                custom_fields: {},
+            };
+
+            if (isApiBackedDonor) {
+                await api.post(`/donors/${editableDonor.id}/tasks`, payload);
+                invalidateProfile();
+            } else {
+                syncLocalTasks([
+                    ...getCachedProfileTasks(),
+                    {
+                        id: `local-task-${Date.now()}`,
+                        donor_id: editableDonor.id,
+                        text: payload.text,
+                        type: payload.type as DonorProfileTask['type'],
+                        assigned_to: payload.assigned_to,
+                        due_date: payload.due_date,
+                        completed: false,
+                        custom_fields: {},
+                    },
+                ]);
+            }
+            toast.showSuccess(t('individual_donors.detailView.taskCreated', 'Task created.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.taskCreateFailed', 'Unable to create task.'));
+        }
+    };
+
+    const handleToggleTask = async (taskId: string, completed: boolean) => {
+        try {
+            if (isApiBackedDonor) {
+                await api.patch(`/donors/${editableDonor.id}/tasks/${taskId}`, { completed });
+                invalidateProfile();
+            } else {
+                syncLocalTasks(getCachedProfileTasks().map((task) => task.id === taskId ? { ...task, completed } : task));
+            }
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.taskUpdateFailed', 'Unable to update task.'));
+        }
+    };
+
+    const handleUpdateTask = async (taskId: string, task: { text: string; type: string; assignedTo: string; dueDate: string }) => {
+        try {
+            const payload = {
+                text: task.text,
+                type: task.type,
+                assigned_to: task.assignedTo,
+                due_date: toTaskIsoDate(task.dueDate),
+            };
+
+            if (isApiBackedDonor) {
+                await api.patch(`/donors/${editableDonor.id}/tasks/${taskId}`, payload);
+                invalidateProfile();
+            } else {
+                syncLocalTasks(getCachedProfileTasks().map((currentTask) => currentTask.id === taskId ? {
+                    ...currentTask,
+                    text: payload.text,
+                    type: payload.type as DonorProfileTask['type'],
+                    assigned_to: payload.assigned_to,
+                    due_date: payload.due_date,
+                } : currentTask));
+            }
+            toast.showSuccess(t('individual_donors.detailView.taskUpdated', 'Task updated.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.taskUpdateFailed', 'Unable to update task.'));
+        }
+    };
+
+    const handleDeleteTask = async (taskId: string) => {
+        try {
+            if (isApiBackedDonor) {
+                await api.delete(`/donors/${editableDonor.id}/tasks/${taskId}`);
+                invalidateProfile();
+            } else {
+                syncLocalTasks(getCachedProfileTasks().filter((task) => task.id !== taskId));
+            }
+            toast.showSuccess(t('individual_donors.detailView.taskDeleted', 'Task deleted.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.taskDeleteFailed', 'Unable to delete task.'));
+        }
+    };
+
+    const handleUpdateInteraction = async (interactionId: string, interaction: { type: string; date: string; subject: string; status: string; notes: string }) => {
+        if (!isApiBackedDonor) return;
+
+        try {
+            await api.patch(`/donors/${editableDonor.id}/interactions/${interactionId}`, {
+                interaction_type: interaction.type,
+                occurred_at: new Date(interaction.date).toISOString(),
+                subject: interaction.subject,
+                status: interaction.status,
+                notes: interaction.notes,
+            });
+            invalidateProfile();
+            toast.showSuccess(t('individual_donors.detailView.interactionUpdated', 'Interaction updated.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.interactionUpdateFailed', 'Unable to update interaction.'));
+        }
+    };
+
+    const handleDeleteInteraction = async (interactionId: string) => {
+        if (!isApiBackedDonor) return;
+
+        try {
+            await api.delete(`/donors/${editableDonor.id}/interactions/${interactionId}`);
+            invalidateProfile();
+            toast.showSuccess(t('individual_donors.detailView.interactionDeleted', 'Interaction deleted.'));
+        } catch (error) {
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.interactionDeleteFailed', 'Unable to delete interaction.'));
+        }
+    };
+
     const tabs = [
         { id: 'overview', label: t('individual_donors.detailView.overview') },
         { id: 'giving', label: t('individual_donors.detailView.giving', 'Giving') },
@@ -271,21 +622,42 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
 
         switch (activeTab) {
             case 'overview':
-                return <DonorOverviewTab summary={summary} onLogInteraction={() => setIsLogModalOpen(true)} />;
+                return (
+                    <DonorOverviewTab
+                        summary={summary}
+                        tasks={tasksQuery.data || []}
+                        isLoadingTasks={tasksQuery.isLoading}
+                        onLogInteraction={() => setIsLogModalOpen(true)}
+                        onSaveContact={handleSaveContact}
+                        isSavingContact={isSavingContact}
+                    />
+                );
             case 'giving':
-                return <DonorGivingTab summary={summary} donations={donationsQuery.data || []} isLoading={donationsQuery.isLoading} />;
+                return (
+                    <DonorGivingTab
+                        summary={summary}
+                        donations={donationsQuery.data || []}
+                        isLoading={donationsQuery.isLoading}
+                        onSavePipelineAsk={isApiBackedDonor ? handleSavePipelineAsk : undefined}
+                        isSavingPipelineAsk={isSavingPipelineAsk}
+                    />
+                );
             case 'relationship':
                 return (
                     <DonorRelationshipActivityTab
-                        donor={editableDonor}
-                        summary={summary}
                         tasks={tasksQuery.data || []}
                         interactions={interactionsQuery.data || []}
                         isLoading={tasksQuery.isLoading || interactionsQuery.isLoading}
+                        onCreateTask={handleCreateTask}
+                        onUpdateTask={handleUpdateTask}
+                        onToggleTask={handleToggleTask}
+                        onDeleteTask={handleDeleteTask}
+                        onUpdateInteraction={isApiBackedDonor ? handleUpdateInteraction : undefined}
+                        onDeleteInteraction={isApiBackedDonor ? handleDeleteInteraction : undefined}
                     />
                 );
             case 'documents':
-                return <DonorDocumentsTab donor={editableDonor} />;
+                return <DonorDocumentsTab donor={editableDonor} onChanged={invalidateProfile} />;
             default:
                 return <div className="p-8 text-center">{t('placeholder.underConstruction')}</div>;
         }
@@ -297,6 +669,8 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
 
     const status = summary?.donor.status || editableDonor.status;
     const tier = summary?.donor.tier || editableDonor.tier;
+    const donorType = editableDonor.donorType;
+    const donorTypeLabel = donorType ? t(`donors.types.${donorType.replace(/ /g, '')}`, donorType) : 'N/A';
     const location = [editableDonor.city, summary?.donor.country || editableDonor.country].filter(Boolean).join(', ');
 
     return (
@@ -339,6 +713,12 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
                                             <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('individual_donors.columns.tier')}</span>
                                             <select value={headerForm.tier} onChange={(event) => updateHeaderForm('tier', event.target.value as IndividualDonor['tier'])} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900">
                                                 {DONOR_TIERS.map((option) => <option key={option} value={option}>{t(`individual_donors.tiers.${option.replace(/ /g, '')}`, option)}</option>)}
+                                            </select>
+                                        </label>
+                                        <label className="min-w-0">
+                                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('individual_donors.columns.donorType')}</span>
+                                            <select value={headerForm.donorType} onChange={(event) => updateHeaderForm('donorType', event.target.value as NonNullable<IndividualDonor['donorType']>)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900">
+                                                {DONOR_TYPES.map((option) => <option key={option} value={option}>{t(`donors.types.${option.replace(/ /g, '')}`, option)}</option>)}
                                             </select>
                                         </label>
                                         <label className="min-w-0 lg:col-span-2">
@@ -388,11 +768,12 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3 border-t border-gray-200 bg-gray-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/20 xl:grid-cols-4">
+                    <div className="grid grid-cols-2 gap-3 border-t border-gray-200 bg-gray-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/20 xl:grid-cols-5">
                         <InfoRow label={t('individual_donors.columns.totalDonations')} value={summary ? formatCurrency(summary.giving.lifetimeGiving, language) : 'N/A'} muted />
+                        <InfoRow label={t('individual_donors.columns.donorType')} value={donorTypeLabel} />
                         <InfoRow label={t('individual_donors.columns.owner')} value={summary?.relationship.owner || 'Unassigned'} />
                         <InfoRow label={t('individual_donors.columns.lastContact')} value={summary?.relationship.lastContact?.occurred_at ? formatRelativeTime(summary.relationship.lastContact.occurred_at, language) : 'N/A'} />
-                        <InfoRow label={t('individual_donors.columns.nextAction')} value={summary?.nextAction?.text || t('donors.kanban.noNextAction')} />
+                        <InfoRow label={t('individual_donors.columns.openTasks')} value={summary?.relationship.openTaskCount ?? 0} />
                     </div>
                 </section>
 

@@ -1,6 +1,6 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
 import type { IndividualDonor, MessageTemplate, GeneratedMessage, MessageType, SendChannel, Language } from '../types';
+import { generateAiContent, parseAiJson } from './ai';
 
 export const generatePersonalizedMessage = async (
     donor: IndividualDonor, 
@@ -71,26 +71,17 @@ Follow these rules:
     - For high personalization, you can invent a brief, positive beneficiary story or impact metric if not provided. For example: "Your gift helped a young student named Omar receive the books he needed for his final year."
     `;
     
-    // 5. Call Gemini API
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-    const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+    // 5. Call the server-side AI proxy
+    const responseText = await generateAiContent({
         contents: userPrompt,
-        config: {
-            systemInstruction,
-            responseMimeType: "application/json",
-            responseSchema: {
-                type: Type.OBJECT,
-                properties: {
-                    generated_subject: { type: Type.STRING },
-                    generated_body: { type: Type.STRING }
-                },
-                required: ['generated_subject', 'generated_body']
-            }
-        }
+        systemInstruction,
+        responseMimeType: "application/json",
     });
     
-    const { generated_subject, generated_body } = JSON.parse(response.text.trim());
+    const { generated_subject, generated_body } = parseAiJson<{
+        generated_subject: string;
+        generated_body: string;
+    }>(responseText);
 
     // 6. Calculate scores (simplified)
     let personalization_score = 10;

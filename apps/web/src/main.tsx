@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import './index.css';
 import { AuthProvider } from './contexts/AuthContext';
 import './lib/i18n';
 import App from './App';

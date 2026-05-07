@@ -2,10 +2,10 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { MOCK_ORPHAN_DATA } from '../../../data/orphanData';
 import { motion } from 'framer-motion';
-import { GoogleGenAI, Type } from "@google/genai";
 import { useToast } from '../../../hooks/useToast';
 import { ArrowLeft, Edit, FileText, Bot, Calendar, Users, Home, Heart, BookOpen, Brain, CreditCard, ArrowUp, ArrowDown, Gift, ShoppingBag, PlusCircle, X as XIcon, ChevronDown, ChevronUp } from 'lucide-react';
 import Spinner from '../../common/Spinner';
+import { generateAiContent } from '../../../lib/ai';
 
 const OrphanProfile: React.FC<{ orphanId: string; onBack: () => void }> = ({ orphanId, onBack }) => {
     const orphan = MOCK_ORPHAN_DATA.find(o => o.id === orphanId);
@@ -20,10 +20,9 @@ const OrphanProfile: React.FC<{ orphanId: string; onBack: () => void }> = ({ orp
         setIsGeneratingAi(true);
         
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const prompt = `Based on the following data for the orphan ${orphan.name}, generate a quick, concise summary in Arabic of their current status and provide one key recommendation. Data: Academic Level: ${orphan.profile.academicInfo.level}, Last achievement: ${orphan.profile.achievements?.[0]?.title}, Financial status: ${orphan.profile.financial.payments.filter((p: any)=>p.status === 'overdue').length} overdue payments.`;
-            const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
-            setAiContent(response.text);
+            const text = await generateAiContent({ contents: prompt });
+            setAiContent(text);
         } catch (e) {
             setAiContent("تعذر إنشاء الملخص حالياً.");
         } finally {
@@ -36,10 +35,9 @@ const OrphanProfile: React.FC<{ orphanId: string; onBack: () => void }> = ({ orp
         setAiNeedsModalOpen(true);
         setIsGeneratingAi(true);
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const prompt = `Based on the following comprehensive data for the orphan ${orphan.name}, generate a detailed needs assessment report in Arabic. Identify strengths, areas requiring support (academic, psychological, material), and propose a clear action plan. Data: ${JSON.stringify(orphan.profile)}`;
-            const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
-            setAiContent(response.text);
+            const text = await generateAiContent({ contents: prompt });
+            setAiContent(text);
         } catch (e) {
             setAiContent("تعذر إنشاء التقرير حالياً.");
         } finally {

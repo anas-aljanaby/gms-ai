@@ -8,8 +8,9 @@ class ApiClient {
     }
 
     private async request<T>(path: string, options: RequestInit = {}): Promise<T> {
+        const isFormData = options.body instanceof FormData;
         const headers: Record<string, string> = {
-            'Content-Type': 'application/json',
+            ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
             ...(options.headers as Record<string, string> ?? {}),
         };
 
@@ -37,6 +38,10 @@ class ApiClient {
 
     post<T>(path: string, body: unknown) {
         return this.request<T>(path, { method: 'POST', body: JSON.stringify(body) });
+    }
+
+    upload<T>(path: string, body: FormData) {
+        return this.request<T>(path, { method: 'POST', body });
     }
 
     patch<T>(path: string, body: unknown) {

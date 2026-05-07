@@ -98,3 +98,16 @@ export const donor_interactions = pgTable('donor_interactions', {
     custom_fields: jsonb('custom_fields').default({}),
     created_at: timestamp('created_at').defaultNow(),
 });
+
+export const donor_documents = pgTable('donor_documents', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    donor_id: uuid('donor_id').notNull().references(() => individual_donors.id),
+    filename: text('filename').notNull(),
+    file_url: text('file_url').notNull(),
+    label: text('label').default('Document'),
+    content_type: text('content_type'),
+    size_bytes: integer('size_bytes'),
+    custom_fields: jsonb('custom_fields').default({}),
+    uploaded_at: timestamp('uploaded_at').defaultNow(),
+});

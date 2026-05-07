@@ -15,9 +15,9 @@
       "allOwners": "All owners",
       "allStages": "All stages",
       "allDonorTypes": "All donor types",
-      "allActionStates": "All action states",
+      "allTaskStates": "All task states",
       "overdue": "Overdue",
-      "noNextAction": "No next action",
+      "noOpenTasks": "No open tasks",
       "applyFilters": "Apply Filters"
     },
     "addDonor": "Add Donor",
@@ -43,9 +43,8 @@
       "owner": "Owner",
       "country": "Country",
       "lastContact": "Last Contact",
-      "nextAction": "Next Action",
       "openTasks": "Open Tasks",
-      "actionState": "Action State",
+      "taskState": "Task State",
       "relationshipHealth": "Relationship Health"
     },
     "table": {
@@ -54,7 +53,9 @@
       "showAll": "Show All",
       "reset": "Reset",
       "locked": "Always shown",
-      "scrollForMore": "Scroll for more columns"
+      "scrollForMore": "Scroll for more columns",
+      "scrollToStart": "Scroll to first columns",
+      "scrollToEnd": "Scroll to last columns"
     },
     "relationship": {
       "noStage": "No stage",
@@ -75,6 +76,29 @@
       "saveDonor": "Save Donor",
       "requiredFields": "Full Name (English) and Email are required."
     },
+    "modals": {
+      "send_email": {
+        "title": "Send Email",
+        "to": "To",
+        "subject": "Subject",
+        "body": "Body",
+        "send": "Send Email"
+      },
+      "log_interaction": {
+        "title": "Log Interaction",
+        "type": "Type",
+        "types": {
+          "email": "Email",
+          "call": "Call",
+          "meeting": "Meeting",
+          "note": "Note"
+        },
+        "date": "Date",
+        "subject": "Subject",
+        "notes": "Notes",
+        "log": "Log Interaction"
+      }
+    },
     "detailView": {
       "overview": "Overview",
       "donations": "Donations",
@@ -87,8 +111,6 @@
       "sendEmail": "Send Email",
       "logInteraction": "Log Interaction",
       "profilePlaceholder": "Full profile for {donorName} will be available here.",
-      "engagementPlan": "Engagement Plan",
-      "createNextAction": "Create a clear next action for this donor.",
       "activityDonation": "{{amount}} donation to {{program}}",
       "activityCommunication": "{{channel}} about {{subject}}",
       "noActivity": "No recent activity recorded yet.",
@@ -110,10 +132,8 @@
       "askDate": "Ask Date",
       "pledgeStatus": "Pledge Status",
       "expectedClose": "Expected Close",
-      "tasksNextActions": "Tasks & Next Actions",
       "notesIntelligence": "Notes & Intelligence",
       "relationshipNotes": "Relationship Notes",
-      "recommendedNextStep": "Recommended Next Step",
       "documents": "Documents",
       "stageTimeline": "Stage Timeline",
       "donationHistory": "Donation History",

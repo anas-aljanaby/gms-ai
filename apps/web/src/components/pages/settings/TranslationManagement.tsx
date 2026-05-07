@@ -6,7 +6,7 @@ import type { Language } from '../../../types';
 import { ALL_NAMESPACES, resolveNamespaceForKey } from '../../../lib/i18n';
 import { Download, Search, Sparkles } from 'lucide-react';
 import Spinner from '../../common/Spinner';
-import { GoogleGenAI, Type } from "@google/genai";
+import { generateAiContent, parseAiJson } from '../../../lib/ai';
 
 // Helper functions for nested objects
 const getNestedValue = (obj: any, path: string) => {
@@ -132,27 +132,16 @@ const TranslationManagement: React.FC = () => {
                 return false;
             }
     
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const systemInstruction = `You are a translation expert for a non-profit ERP system. You will be given an English string to translate. Your response MUST be a JSON object with an 'ar' key containing only the translated string. Preserve any placeholders like {variable}. Do not add any explanations.`;
             const userPrompt = JSON.stringify({ en: enValue });
             
-            const response = await ai.models.generateContent({
-                model: "gemini-2.5-flash",
+            const responseText = await generateAiContent({
                 contents: userPrompt,
-                config: {
-                    systemInstruction,
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: Type.OBJECT,
-                        properties: {
-                            ar: { type: Type.STRING }
-                        },
-                        required: ['ar']
-                    }
-                }
+                systemInstruction,
+                responseMimeType: "application/json",
             });
             
-            const { ar } = JSON.parse(response.text.trim());
+            const { ar } = parseAiJson<{ ar: string }>(responseText);
     
             setTranslations(prev => {
                 const newTranslations = JSON.parse(JSON.stringify(prev));

@@ -23,7 +23,7 @@ import Tabs from '../common/Tabs';
 import { Users, Filter, List, LayoutDashboard, DollarSign, UserCheck, Clock, Maximize2, Minimize2 } from 'lucide-react';
 import { SearchIcon } from '../icons/GenericIcons';
 import DonorCard from './donors_individual/DonorCard';
-import DonorDetailView from './donors_individual/DonorDetailView';
+import DonorDetailView, { DonorProfileRoute } from './donors_individual/DonorDetailView';
 import { MicrophoneIcon } from '../icons/AiIcons';
 import AdvancedFilterPanel, { type DonorFilters } from './donors_individual/AdvancedFilterPanel';
 
@@ -68,7 +68,7 @@ const DEFAULT_DONOR_FILTERS: DonorFilters = {
     owner: 'all',
     stage: 'all',
     donorType: 'all',
-    actionState: 'all',
+    taskState: 'all',
 };
 
 const normalizePipelineDonor = (donor: Donor): Donor => {
@@ -152,10 +152,9 @@ const enrichProfileDonors = (donors: IndividualDonor[], pipelineDonors: Donor[])
             aiInsights: donor.aiInsights || [
                 relationshipHealth === 'At Risk'
                     ? 'Relationship needs a timely follow-up before the donor becomes harder to re-engage.'
-                    : 'Keep the next action current so the relationship keeps moving.',
+                    : 'Keep open tasks current so the relationship keeps moving.',
             ],
             riskSignals: donor.riskSignals || (relationshipHealth === 'At Risk' ? ['Long gap since last contact or gift'] : []),
-            recommendedNextStep: donor.recommendedNextStep || nextTask?.text || (stage === 'donated' ? 'Send stewardship update' : 'Create a next action'),
             documents: donor.documents || [
                 ...(donor.totalDonations > 0 ? [{ id: `${donor.id}-receipt`, title: 'Latest donation receipt', type: 'Receipt' as const, date: donor.lastDonationDate || donor.donorSince }] : []),
                 ...(stage === 'solicited' ? [{ id: `${donor.id}-proposal`, title: 'Current funding proposal', type: 'Proposal' as const, date: stageEnteredAt }] : []),
@@ -262,13 +261,13 @@ const RegistryTab: React.FC<{
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
     const [view, setView] = useState<'list' | 'card' | 'kanban'>('list');
     const [selectedDonor, setSelectedDonor] = useState<IndividualDonor | null>(null);
+    const [selectedDonorId, setSelectedDonorId] = useState<string | null>(null);
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [filters, setFilters] = useState<DonorFilters>(DEFAULT_DONOR_FILTERS);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [kanbanDensity, setKanbanDensity] = useState<KanbanDensity>('compact');
     const [pipelineOwnerFilter, setPipelineOwnerFilter] = useState('all');
-    const [pipelineActionFilter, setPipelineActionFilter] = useState<'all' | 'overdue' | 'noNextAction'>('all');
 
     // Voice Search State
     const [isListening, setIsListening] = useState(false);
@@ -278,17 +277,20 @@ const RegistryTab: React.FC<{
 
     const handleDonorSelect = useCallback((donor: IndividualDonor) => {
         setSelectedDonor(donor);
+        setSelectedDonorId(donor.id);
         window.location.hash = `donors/${donor.id}`;
     }, []);
 
     const handleDonorBack = useCallback(() => {
         setSelectedDonor(null);
+        setSelectedDonorId(null);
         window.location.hash = 'donors';
     }, []);
 
     const handleDonorUpdated = useCallback((updatedDonor: IndividualDonor) => {
         setDonors(prev => prev.map(donor => donor.id === updatedDonor.id ? { ...donor, ...updatedDonor } : donor));
         setSelectedDonor(updatedDonor);
+        setSelectedDonorId(updatedDonor.id);
     }, []);
 
     const profileDonors = useMemo(
@@ -304,7 +306,11 @@ const RegistryTab: React.FC<{
     useEffect(() => {
         if (deepLinkTarget?.id && profileDonors.length > 0) {
             const donor = profileDonors.find(d => d.id === deepLinkTarget.id);
-            if (donor) setSelectedDonor(donor);
+            setSelectedDonor(donor || null);
+            setSelectedDonorId(deepLinkTarget.id);
+        } else if (!deepLinkTarget?.id) {
+            setSelectedDonor(null);
+            setSelectedDonorId(null);
         }
     }, [deepLinkTarget, profileDonors]);
 
@@ -366,7 +372,7 @@ const RegistryTab: React.FC<{
             const openTasks = donor.relationshipTasks?.filter(task => !task.completed) || [];
             const today = new Date().toISOString().split('T')[0];
             const hasOverdueTask = openTasks.some(task => task.dueDate < today);
-            const hasNoNextAction = openTasks.length === 0 && !['donated', 'dormant'].includes(donor.relationshipStage || 'prospect');
+            const hasNoOpenTasks = openTasks.length === 0;
             const searchableText = [
                 donor.fullName[language],
                 donor.fullName.en,
@@ -393,12 +399,12 @@ const RegistryTab: React.FC<{
             const matchesOwner = filters.owner === 'all' || donor.assignedManager === filters.owner;
             const matchesStage = filters.stage === 'all' || donor.relationshipStage === filters.stage;
             const matchesDonorType = filters.donorType === 'all' || donor.donorType === filters.donorType;
-            const matchesActionState =
-                filters.actionState === 'all' ||
-                (filters.actionState === 'overdue' && hasOverdueTask) ||
-                (filters.actionState === 'noNextAction' && hasNoNextAction);
+            const matchesTaskState =
+                filters.taskState === 'all' ||
+                (filters.taskState === 'overdue' && hasOverdueTask) ||
+                (filters.taskState === 'noOpenTasks' && hasNoOpenTasks);
 
-            return matchesSearch && matchesStatus && matchesTier && matchesCountry && matchesTag && matchesOwner && matchesStage && matchesDonorType && matchesActionState;
+            return matchesSearch && matchesStatus && matchesTier && matchesCountry && matchesTag && matchesOwner && matchesStage && matchesDonorType && matchesTaskState;
         });
         
         if (sortColumn) {
@@ -435,25 +441,17 @@ const RegistryTab: React.FC<{
     const filteredPipelineDonors = useMemo(() => {
         const searchLower = searchTerm.toLowerCase();
         const visibleEmails = new Set(filteredAndSortedDonors.map(donor => donor.email.toLowerCase()));
-        const today = new Date().toISOString().split('T')[0];
 
         return buildPipelineDonorsFromProfiles(filteredAndSortedDonors, pipelineViewDonors).filter(donor => {
-            const openTasks = donor.tasks.filter(task => !task.completed);
-            const hasOverdueTask = openTasks.some(task => task.dueDate < today);
-            const hasNoNextAction = openTasks.length === 0 && !['donated', 'dormant'].includes(donor.stage);
             const matchesOwner = pipelineOwnerFilter === 'all' || (donor.assignedOwner || 'Unassigned') === pipelineOwnerFilter;
-            const matchesAction =
-                pipelineActionFilter === 'all' ||
-                (pipelineActionFilter === 'overdue' && hasOverdueTask) ||
-                (pipelineActionFilter === 'noNextAction' && hasNoNextAction);
             const matchesSearch =
                 donor.name.toLowerCase().includes(searchLower) ||
                 donor.email.toLowerCase().includes(searchLower) ||
                 donor.country.toLowerCase().includes(searchLower);
 
-            return visibleEmails.has(donor.email.toLowerCase()) && matchesSearch && matchesOwner && matchesAction;
+            return visibleEmails.has(donor.email.toLowerCase()) && matchesSearch && matchesOwner;
         });
-    }, [filteredAndSortedDonors, pipelineActionFilter, pipelineOwnerFilter, pipelineViewDonors, searchTerm]);
+    }, [filteredAndSortedDonors, pipelineOwnerFilter, pipelineViewDonors, searchTerm]);
 
     const stageByEmail = useMemo(() => {
         return new Map(profileDonors.map(donor => [donor.email.toLowerCase(), donor.relationshipStage || 'prospect']));
@@ -486,7 +484,7 @@ const RegistryTab: React.FC<{
         filters.owner !== 'all' ||
         filters.stage !== 'all' ||
         filters.donorType !== 'all' ||
-        filters.actionState !== 'all'
+        filters.taskState !== 'all'
     ), [filters]);
 
     const clearFilters = useCallback(() => {
@@ -509,12 +507,9 @@ const RegistryTab: React.FC<{
     }, [pipelineViewDonors]);
 
     const pipelineStats = useMemo(() => {
-        const today = new Date().toISOString().split('T')[0];
-        const overdue = filteredPipelineDonors.filter(donor => donor.tasks.some(task => !task.completed && task.dueDate < today)).length;
-        const noNextAction = filteredPipelineDonors.filter(donor => !donor.tasks.some(task => !task.completed) && !['donated', 'dormant'].includes(donor.stage)).length;
         const pipelineValue = filteredPipelineDonors.reduce((sum, donor) => sum + donor.potentialGift, 0);
 
-        return { overdue, noNextAction, pipelineValue };
+        return { pipelineValue };
     }, [filteredPipelineDonors]);
 
     const handleDragEnd = useCallback((donorId: number, targetStageId: DonorStageId) => {
@@ -584,6 +579,10 @@ const RegistryTab: React.FC<{
         return <DonorDetailView donor={selectedDonor} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} />;
     }
 
+    if (selectedDonorId) {
+        return <DonorProfileRoute donorId={selectedDonorId} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} />;
+    }
+
     return (
         <>
             <RegistryAddDonorModal
@@ -642,7 +641,7 @@ const RegistryTab: React.FC<{
                         </div>
                         {view === 'kanban' && (
                             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] gap-3 rounded-lg border border-gray-200 bg-gray-50/80 p-3 dark:border-slate-700 dark:bg-slate-900/40">
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <label className="text-sm">
                                         <span className="mb-1 block font-semibold text-gray-600 dark:text-gray-300">{t('donors.kanban.owner')}</span>
                                         <select
@@ -656,24 +655,12 @@ const RegistryTab: React.FC<{
                                             ))}
                                         </select>
                                     </label>
-                                    <label className="text-sm">
-                                        <span className="mb-1 block font-semibold text-gray-600 dark:text-gray-300">{t('donors.kanban.actionFilter')}</span>
-                                        <select
-                                            value={pipelineActionFilter}
-                                            onChange={e => setPipelineActionFilter(e.target.value as 'all' | 'overdue' | 'noNextAction')}
-                                            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800"
-                                        >
-                                            <option value="all">{t('donors.kanban.allActions')}</option>
-                                            <option value="overdue">{t('donors.kanban.overdueOnly')}</option>
-                                            <option value="noNextAction">{t('donors.kanban.noNextActionOnly')}</option>
-                                        </select>
-                                    </label>
                                     <div className="rounded-md border border-gray-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-800">
                                         <span className="block text-xs font-semibold text-gray-500 dark:text-gray-400">{t('donors.kanban.filteredValue')}</span>
                                         <span className="text-sm font-bold text-foreground dark:text-dark-foreground">{formatCurrency(pipelineStats.pipelineValue, language)}</span>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-3 lg:grid-cols-[auto_auto_auto]">
+                                <div className="flex items-end justify-start text-sm lg:justify-end">
                                     <div className="flex items-center rounded-md border border-gray-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-800" aria-label={t('donors.kanban.density.label')}>
                                         <button
                                             type="button"
@@ -696,18 +683,6 @@ const RegistryTab: React.FC<{
                                             {t('donors.kanban.density.comfortable')}
                                         </button>
                                     </div>
-                                    <button
-                                        onClick={() => setPipelineActionFilter(pipelineActionFilter === 'overdue' ? 'all' : 'overdue')}
-                                        className={`rounded-md border px-3 py-2 font-semibold transition-colors ${pipelineActionFilter === 'overdue' ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-200' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-200'}`}
-                                    >
-                                        {t('donors.card.overdue')}: {formatNumber(pipelineStats.overdue, language)}
-                                    </button>
-                                    <button
-                                        onClick={() => setPipelineActionFilter(pipelineActionFilter === 'noNextAction' ? 'all' : 'noNextAction')}
-                                        className={`rounded-md border px-3 py-2 font-semibold transition-colors ${pipelineActionFilter === 'noNextAction' ? 'border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-200'}`}
-                                    >
-                                        {t('donors.kanban.noNextActionShort')}: {formatNumber(pipelineStats.noNextAction, language)}
-                                    </button>
                                 </div>
                             </div>
                         )}
@@ -766,7 +741,7 @@ const RegistryTab: React.FC<{
                     />
                 )}
                 {view === 'card' && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,23rem),1fr))] items-start gap-5">
                         {filteredAndSortedDonors.map(donor => (
                             <DonorCard key={donor.id} donor={donor} onClick={() => handleDonorSelect(donor)} />
                         ))}

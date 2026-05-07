@@ -9,6 +9,9 @@ export default defineConfig({
     port: 5173,
     host: '0.0.0.0',
   },
+  optimizeDeps: {
+    include: ['react-grid-layout', 'react-resizable'],
+  },
   plugins: [react()],
   resolve: {
     alias: {

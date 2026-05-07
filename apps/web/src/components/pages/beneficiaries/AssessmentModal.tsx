@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { BeneficiaryType, NeedsAssessment } from '../../../types';
 import { XIcon } from '../../icons/GenericIcons';
 import Spinner from '../../common/Spinner';
+import { generateAiContent, parseAiJson } from '../../../lib/ai';
 
 interface AssessmentModalProps {
     isOpen: boolean;
@@ -46,7 +46,6 @@ const AssessmentModal: React.FC<AssessmentModalProps> = ({ isOpen, onClose, onSa
                 { id: 'PROGRAM_TECH_GRANT', description: 'Grants for educational technology like laptops.' },
             ];
             
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const systemInstruction = `You are an expert social worker AI. Based on a needs assessment for a beneficiary, suggest a list of relevant program IDs from the provided list. Your response must be a JSON object with a single key 'suggestedProgramIds' which is an array of strings.`;
             
             const prompt = `
@@ -56,25 +55,13 @@ const AssessmentModal: React.FC<AssessmentModalProps> = ({ isOpen, onClose, onSa
             Analyze the data and suggest the most relevant program IDs.
             `;
             
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
+            const responseText = await generateAiContent({
                 contents: prompt,
-                config: {
-                    systemInstruction,
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: Type.OBJECT,
-                        properties: {
-                            suggestedProgramIds: {
-                                type: Type.ARRAY,
-                                items: { type: Type.STRING }
-                            }
-                        }
-                    }
-                }
+                systemInstruction,
+                responseMimeType: "application/json",
             });
             
-            const result = JSON.parse(response.text.trim());
+            const result = parseAiJson<{ suggestedProgramIds?: string[] }>(responseText);
 
             const newAssessment: NeedsAssessment = {
                 ...formData,

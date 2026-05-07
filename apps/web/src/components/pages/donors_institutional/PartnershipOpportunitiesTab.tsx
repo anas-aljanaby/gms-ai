@@ -1,6 +1,5 @@
 
 import React, { useState, useMemo } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { Project, InstitutionalDonor } from '../../../types';
@@ -10,6 +9,7 @@ import Spinner from '../../common/Spinner';
 import { Lightbulb, Search } from 'lucide-react';
 import MatchCard from './MatchCard';
 import DraftApplicationModal from './DraftApplicationModal';
+import { generateAiContent, parseAiJson } from '../../../lib/ai';
 
 interface PartnershipOpportunitiesTabProps {
     donors: InstitutionalDonor[];
@@ -45,8 +45,6 @@ const PartnershipOpportunitiesTab: React.FC<PartnershipOpportunitiesTabProps> = 
         }
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-            
             const systemInstruction = `You are an expert grant matching AI for a non-profit. Your task is to analyze a single project and a list of institutional donors. You must return a JSON object containing a list of the top 5 most suitable donors.
 
 For each match, you MUST provide:
@@ -66,33 +64,13 @@ Base your matching primarily on 'focusAreas' and 'geographicFocus'. Consider the
             ${JSON.stringify(donors.map(d => ({ id: d.id, name: d.organizationName.en, type: d.type, focusAreas: d.focusAreas, geographicFocus: d.geographicFocus })))}
             `;
 
-            const response = await ai.models.generateContent({
-                model: "gemini-2.5-flash",
+            const responseText = await generateAiContent({
                 contents: prompt,
-                config: {
-                    systemInstruction,
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: Type.OBJECT,
-                        properties: {
-                            matches: {
-                                type: Type.ARRAY,
-                                items: {
-                                    type: Type.OBJECT,
-                                    properties: {
-                                        donorId: { type: Type.STRING },
-                                        alignmentScore: { type: Type.NUMBER },
-                                        matchingCriteria: { type: Type.ARRAY, items: { type: Type.STRING } }
-                                    },
-                                    required: ['donorId', 'alignmentScore', 'matchingCriteria']
-                                }
-                            }
-                        }
-                    }
-                }
+                systemInstruction,
+                responseMimeType: "application/json",
             });
 
-            const result = JSON.parse(response.text.trim());
+            const result = parseAiJson<{ matches?: Match[] }>(responseText);
             setMatches(result.matches || []);
 
         } catch (error) {

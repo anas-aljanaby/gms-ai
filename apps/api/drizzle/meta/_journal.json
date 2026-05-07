@@ -15,6 +15,13 @@
       "when": 1777734179087,
       "tag": "0001_shocking_black_panther",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777995480000,
+      "tag": "0002_donor_profile_sources",
+      "breakpoints": true
     }
   ]
 }

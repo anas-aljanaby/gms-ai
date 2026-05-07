@@ -15,9 +15,9 @@
       "allOwners": "كل المسؤولين",
       "allStages": "كل المراحل",
       "allDonorTypes": "كل أنواع المانحين",
-      "allActionStates": "كل حالات الإجراء",
+      "allTaskStates": "كل حالات المهام",
       "overdue": "متأخر",
-      "noNextAction": "بلا خطوة تالية",
+      "noOpenTasks": "لا توجد مهام مفتوحة",
       "applyFilters": "تطبيق الفلاتر"
     },
     "addDonor": "إضافة مانح",
@@ -43,9 +43,8 @@
       "owner": "المسؤول",
       "country": "الدولة",
       "lastContact": "آخر تواصل",
-      "nextAction": "الخطوة التالية",
       "openTasks": "المهام المفتوحة",
-      "actionState": "حالة الإجراء",
+      "taskState": "حالة المهام",
       "relationshipHealth": "صحة العلاقة"
     },
     "table": {
@@ -54,7 +53,9 @@
       "showAll": "إظهار الكل",
       "reset": "إعادة تعيين",
       "locked": "يظهر دائماً",
-      "scrollForMore": "مرر لعرض المزيد من الأعمدة"
+      "scrollForMore": "مرر لعرض المزيد من الأعمدة",
+      "scrollToStart": "انتقل إلى الأعمدة الأولى",
+      "scrollToEnd": "انتقل إلى الأعمدة الأخيرة"
     },
     "relationship": {
       "noStage": "لا توجد مرحلة",
@@ -75,6 +76,29 @@
       "saveDonor": "حفظ المانح",
       "requiredFields": "الاسم الكامل (بالإنجليزية) والبريد الإلكتروني مطلوبان."
     },
+    "modals": {
+      "send_email": {
+        "title": "إرسال بريد إلكتروني",
+        "to": "إلى",
+        "subject": "الموضوع",
+        "body": "نص الرسالة",
+        "send": "إرسال البريد"
+      },
+      "log_interaction": {
+        "title": "تسجيل تواصل",
+        "type": "النوع",
+        "types": {
+          "email": "بريد إلكتروني",
+          "call": "مكالمة",
+          "meeting": "اجتماع",
+          "note": "ملاحظة"
+        },
+        "date": "التاريخ",
+        "subject": "الموضوع",
+        "notes": "الملاحظات",
+        "log": "تسجيل التواصل"
+      }
+    },
     "detailView": {
       "overview": "نظرة عامة",
       "donations": "التبرعات",
@@ -87,8 +111,6 @@
       "sendEmail": "إرسال بريد",
       "logInteraction": "تسجيل تواصل",
       "profilePlaceholder": "سيكون الملف الشخصي الكامل لـ {donorName} متاحاً هنا.",
-      "engagementPlan": "خطة التواصل",
-      "createNextAction": "أنشئ خطوة تالية واضحة لهذا المانح.",
       "activityDonation": "تبرع بقيمة {{amount}} إلى {{program}}",
       "activityCommunication": "{{channel}} حول {{subject}}",
       "noActivity": "لا يوجد نشاط حديث مسجل بعد.",
@@ -110,10 +132,8 @@
       "askDate": "تاريخ الطلب",
       "pledgeStatus": "حالة التعهد",
       "expectedClose": "الإغلاق المتوقع",
-      "tasksNextActions": "المهام والخطوات التالية",
       "notesIntelligence": "الملاحظات والذكاء",
       "relationshipNotes": "ملاحظات العلاقة",
-      "recommendedNextStep": "الخطوة المقترحة",
       "documents": "المستندات",
       "stageTimeline": "الخط الزمني للمراحل",
       "donationHistory": "سجل التبرعات",

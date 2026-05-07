@@ -23,7 +23,6 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ stage, donors, onDragEnd, s
     });
 
     const totalPotential = donors.reduce((sum, donor) => sum + donor.potentialGift, 0);
-    const donorsMissingNextTask = donors.filter(donor => !donor.tasks.some(task => !task.completed)).length;
     const isCompact = density === 'compact';
     const isActiveTarget = isOver || isFocused;
     
@@ -34,7 +33,7 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ stage, donors, onDragEnd, s
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             className={`h-full flex flex-col rounded-lg border transition-colors ${
-                isCompact ? 'min-w-[14.25rem] max-w-[14.25rem]' : 'min-w-[21rem] max-w-[21rem]'
+                isCompact ? 'min-w-[15rem] max-w-[15rem]' : 'min-w-[21rem] max-w-[21rem]'
             } ${
                 isActiveTarget
                     ? 'border-primary bg-primary-light/50 shadow-inner dark:border-secondary dark:bg-primary/20'
@@ -54,15 +53,10 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ stage, donors, onDragEnd, s
                             {t('donors.kanban.columnPotential')}: {formatCurrency(totalPotential, language)}
                         </p>
                     </div>
-                    {donorsMissingNextTask > 0 && !isCompact && (
-                        <span className="shrink-0 rounded-full bg-white/70 dark:bg-black/20 px-2 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-200">
-                            {formatNumber(donorsMissingNextTask, language)} {t('donors.kanban.noNextActionShort')}
-                        </span>
-                    )}
                 </div>
             </div>
 
-            <div className={`flex-grow ${isCompact ? 'p-1.5 space-y-2 min-h-[24rem] max-h-[calc(100vh-22rem)]' : 'p-2 space-y-3 min-h-[28rem] max-h-[calc(100vh-20rem)]'} overflow-y-auto bg-gray-100/50 dark:bg-dark-background/50 rounded-b-lg`}>
+            <div className={`flex-grow ${isCompact ? 'p-2 space-y-2.5 min-h-[24rem] max-h-[calc(100vh-22rem)]' : 'p-2 space-y-3 min-h-[28rem] max-h-[calc(100vh-20rem)]'} overflow-y-auto bg-gray-100/50 dark:bg-dark-background/50 rounded-b-lg`}>
                 {donors.map(donor => (
                     <KanbanCard
                         key={donor.id}

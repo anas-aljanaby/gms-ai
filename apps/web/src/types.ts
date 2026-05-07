@@ -47,7 +47,7 @@ export type DonorPipelineType = 'Individual' | 'Company' | 'Foundation' | 'Major
 export interface DonorTask {
   id: string;
   text: string;
-  type: 'Follow-up' | 'Call' | 'Email' | 'Meeting';
+  type: 'Follow-up' | 'Call' | 'Email' | 'Meeting' | 'Review' | 'Other';
   assignedTo: Role;
   dueDate: string; // ISO
   completed: boolean;
@@ -135,11 +135,23 @@ export interface DonorProfileTask {
 export interface DonorProfileInteraction {
   id: string;
   donor_id: string;
-  interaction_type: 'email' | 'whatsapp' | 'sms' | 'call' | 'meeting' | 'note';
+  interaction_type: 'email' | 'whatsapp' | 'sms' | 'call' | 'meeting' | 'note' | 'event';
   occurred_at: string | null;
   subject: string;
   status: string;
   notes?: string;
+  custom_fields?: Record<string, unknown>;
+}
+
+export interface DonorProfileDocument {
+  id: string;
+  donor_id: string;
+  filename: string;
+  file_url: string;
+  label: string;
+  content_type?: string | null;
+  size_bytes?: number | null;
+  uploaded_at: string | null;
   custom_fields?: Record<string, unknown>;
 }
 
@@ -190,7 +202,6 @@ export interface DonorProfileSummary {
     lastContact: DonorProfileInteraction | null;
     openTaskCount: number;
   };
-  nextAction: DonorProfileTask | null;
   recentActivity: DonorProfileActivity[];
   computed: {
     suggestedAskAmount: number | null;
@@ -271,7 +282,6 @@ export interface IndividualDonor {
   relationshipNotes?: string;
   aiInsights?: string[];
   riskSignals?: string[];
-  recommendedNextStep?: string;
   documents?: DonorDocument[];
   averageDaysBetweenDonations?: number;
   primaryProgramInterest?: string;

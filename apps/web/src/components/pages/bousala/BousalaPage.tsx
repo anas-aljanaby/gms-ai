@@ -5,7 +5,6 @@ import { useLocalization } from '../../hooks/useLocalization';
 import { BousalaIcon } from '../icons/ModuleIcons';
 import { Bell, ChevronDown, CheckCircle, Clock, Loader, Bot, Sparkles, BrainCircuit, ShieldAlert, BarChart3, Target, Briefcase, CheckSquare, GripVertical, Zap, Settings, Volume2, VolumeX, TrendingUp, TrendingDown, Minus, PlusCircle, AlertCircle as AlertCircleIcon, ArrowRightCircle, XCircle } from 'lucide-react';
 import AiCard from './ai/AiCard';
-import { GoogleGenAI } from "@google/genai";
 import Spinner from '../../common/Spinner';
 import { formatCurrency, formatDate, formatNumber } from '../../lib/utils';
 import type { Project as MainProject, HrData, Role, BousalaGoal, BousalaProject, BousalaTask, BousalaKpi } from '../../types';

@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, Cairo, Montserrat, system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground dark:bg-dark-background dark:text-dark-foreground;
+  }
+}
+
+@layer components {
+  .react-grid-layout {
+    transition: height 0.2s ease;
+  }
+
+  .react-grid-item {
+    transition: all 0.2s ease;
+  }
+
+  .react-grid-item.react-grid-placeholder {
+    background-color: hsla(210, 40%, 50%, 0.2);
+    border: 2px dashed hsl(210, 40%, 50%);
+    border-radius: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .react-grid-item > .react-resizable-handle {
+    background-image: none;
+    width: 20px;
+    height: 20px;
+  }
+
+  .react-grid-item > .react-resizable-handle::after {
+    content: '';
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .dark .react-grid-item > .react-resizable-handle::after {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+}

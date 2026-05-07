@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { Project, InstitutionalDonor } from '../../../types';
 import { XIcon, SparklesIcon, Copy, Save } from 'lucide-react';
 import Spinner from '../../common/Spinner';
+import { generateAiContent } from '../../../lib/ai';
 
 interface DraftApplicationModalProps {
     isOpen: boolean;
@@ -25,8 +25,6 @@ const DraftApplicationModal: React.FC<DraftApplicationModalProps> = ({ isOpen, o
             const generateDraft = async () => {
                 setIsGenerating(true);
                 try {
-                    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-                    
                     const systemInstruction = `You are an expert grant writer for a non-profit. Your task is to write a concise, compelling, and professional initial grant proposal draft. The tone should be formal but passionate. The response MUST be only the text of the proposal, with no extra explanations. The proposal should be in ${language}.`;
 
                     const prompt = `
@@ -45,13 +43,12 @@ const DraftApplicationModal: React.FC<DraftApplicationModalProps> = ({ isOpen, o
                     4. A concluding paragraph expressing hope for a partnership.
                     `;
                     
-                    const response = await ai.models.generateContent({
-                        model: 'gemini-2.5-flash',
+                    const text = await generateAiContent({
                         contents: prompt,
-                        config: { systemInstruction },
+                        systemInstruction,
                     });
 
-                    setDraft(response.text);
+                    setDraft(text);
 
                 } catch (error) {
                     console.error("Error generating draft:", error);
