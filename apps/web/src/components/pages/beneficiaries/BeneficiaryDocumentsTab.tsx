@@ -18,7 +18,7 @@ const fileTypeToIcon: Record<SupportedFileType, React.FC> = {
 };
 
 const BeneficiaryDocumentsTab: React.FC<BeneficiaryDocumentsTabProps> = ({ documents, beneficiaryName }) => {
-    const { t, language, dir } = useLocalization();
+    const { t, language } = useLocalization(['common', 'beneficiaries']);
     const toast = useToast();
     const [currentPath, setCurrentPath] = useState<string[]>(['/']);
 
@@ -62,8 +62,8 @@ const BeneficiaryDocumentsTab: React.FC<BeneficiaryDocumentsTabProps> = ({ docum
     return (
         <div className="space-y-4">
              <div className="flex flex-col sm:flex-row gap-4 justify-end">
-                <button onClick={handleNewFolder} className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium border rounded-lg hover:bg-gray-100 dark:border-slate-600 dark:hover:bg-slate-700">{t('projects.documents.newFolder')}</button>
-                <button onClick={handleUpload} className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-secondary hover:bg-secondary-dark rounded-lg"><UploadIcon /> {t('projects.documents.uploadFile')}</button>
+                <button onClick={handleNewFolder} className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium border rounded-lg hover:bg-gray-100 dark:border-slate-600 dark:hover:bg-slate-700">{t('beneficiaries.documents.newFolder')}</button>
+                <button onClick={handleUpload} className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-secondary hover:bg-secondary-dark rounded-lg"><UploadIcon /> {t('beneficiaries.documents.uploadFile')}</button>
             </div>
             <div className="bg-card dark:bg-dark-card rounded-lg shadow-inner border dark:border-slate-700/50">
                  <div className="p-4 border-b dark:border-slate-700">
@@ -73,10 +73,10 @@ const BeneficiaryDocumentsTab: React.FC<BeneficiaryDocumentsTabProps> = ({ docum
                     <table className="w-full text-sm text-left">
                        <thead className="text-xs text-gray-500 dark:text-gray-400 uppercase">
                             <tr>
-                                <th className="p-4">{t('projects.documents.name')}</th>
-                                <th className="p-4">{t('projects.documents.lastModified')}</th>
-                                <th className="p-4">{t('projects.documents.size')}</th>
-                                <th className="p-4">{t('projects.documents.uploader')}</th>
+                                <th className="p-4">{t('beneficiaries.documents.name')}</th>
+                                <th className="p-4">{t('beneficiaries.documents.lastModified')}</th>
+                                <th className="p-4">{t('beneficiaries.documents.size')}</th>
+                                <th className="p-4">{t('beneficiaries.documents.uploader')}</th>
                                 <th className="p-4"></th>
                             </tr>
                         </thead>

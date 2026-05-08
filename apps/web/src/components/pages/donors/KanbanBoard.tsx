@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     closestCenter,
     type CollisionDetection,
@@ -15,6 +15,7 @@ import {
     type DragOverEvent,
     type DragStartEvent,
 } from '@dnd-kit/core';
+import { ArrowLeftToLine, ArrowRightToLine } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency, formatNumber } from '../../../lib/utils';
 import type { Donor, DonorStageId } from '../../../types';
@@ -107,6 +108,39 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd, de
     const { t, language } = useLocalization(['common', 'donors']);
     const [activeDonorId, setActiveDonorId] = useState<number | null>(null);
     const [activeStageId, setActiveStageId] = useState<DonorStageId | null>(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    const checkScroll = useCallback(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+        setCanScrollLeft(el.scrollLeft > 4);
+    }, []);
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        checkScroll();
+        el.addEventListener('scroll', checkScroll, { passive: true });
+        const observer = new ResizeObserver(checkScroll);
+        observer.observe(el);
+        return () => {
+            el.removeEventListener('scroll', checkScroll);
+            observer.disconnect();
+        };
+    }, [checkScroll]);
+
+    const scrollToStart = useCallback(() => {
+        scrollRef.current?.scrollTo({ left: 0, behavior: 'smooth' });
+    }, []);
+
+    const scrollToEnd = useCallback(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        el.scrollTo({ left: el.scrollWidth - el.clientWidth, behavior: 'smooth' });
+    }, []);
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: { distance: 6 },
@@ -214,18 +248,48 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd, de
                     </div>
                 </div>
 
-                <div className="mt-3 overflow-x-auto overscroll-x-contain pb-3 scroll-smooth">
-                    <div className={`flex min-w-max items-stretch ${density === 'compact' ? 'gap-2' : 'gap-3'}`}>
-                        {stages.map(stage => (
-                            <KanbanColumn
-                                key={stage.id}
-                                stage={stage}
-                                donors={donorsByStage.get(stage.id) || []}
-                                stages={stages}
-                                density={density}
-                                onDragEnd={onDragEnd}
-                            />
-                        ))}
+                <div className="relative mt-3">
+                    {canScrollLeft && (
+                        <div className="pointer-events-none absolute inset-y-0 start-0 z-10 w-10 bg-gradient-to-r from-background to-transparent dark:from-dark-background rtl:bg-gradient-to-l" />
+                    )}
+                    {canScrollRight && (
+                        <div className="pointer-events-none absolute inset-y-0 end-0 z-10 w-14 bg-gradient-to-l from-background to-transparent dark:from-dark-background rtl:bg-gradient-to-r" />
+                    )}
+                    {canScrollLeft && (
+                        <button
+                            type="button"
+                            onClick={scrollToStart}
+                            aria-label={t('donors.kanban.scrollToStart')}
+                            title={t('donors.kanban.scrollToStart')}
+                            className="absolute start-3 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-slate-200/85 bg-white/80 text-gray-600 opacity-75 shadow-lg shadow-slate-900/10 backdrop-blur-md transition hover:scale-105 hover:bg-white hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-slate-700/80 dark:bg-slate-900/80 dark:text-gray-200 dark:shadow-black/20 rtl:rotate-180"
+                        >
+                            <ArrowLeftToLine size={16} />
+                        </button>
+                    )}
+                    {canScrollRight && (
+                        <button
+                            type="button"
+                            onClick={scrollToEnd}
+                            aria-label={t('donors.kanban.scrollToEnd')}
+                            title={t('donors.kanban.scrollToEnd')}
+                            className="absolute end-3 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-slate-200/85 bg-white/80 text-gray-600 opacity-75 shadow-lg shadow-slate-900/10 backdrop-blur-md transition hover:scale-105 hover:bg-white hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-slate-700/80 dark:bg-slate-900/80 dark:text-gray-200 dark:shadow-black/20 rtl:rotate-180"
+                        >
+                            <ArrowRightToLine size={16} />
+                        </button>
+                    )}
+                    <div ref={scrollRef} className="overflow-x-auto overscroll-x-contain pb-3 scroll-smooth">
+                        <div className={`flex min-w-max items-stretch ${density === 'compact' ? 'gap-2' : 'gap-3'}`}>
+                            {stages.map(stage => (
+                                <KanbanColumn
+                                    key={stage.id}
+                                    stage={stage}
+                                    donors={donorsByStage.get(stage.id) || []}
+                                    stages={stages}
+                                    density={density}
+                                    onDragEnd={onDragEnd}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
 

@@ -10,7 +10,7 @@ interface AidLogTabProps {
 }
 
 const AidLogTab: React.FC<AidLogTabProps> = ({ aidLog }) => {
-    const { language, dir, t } = useLocalization();
+    const { language, dir, t } = useLocalization(['common', 'beneficiaries']);
 
     const aidTypeConfig: Record<AidItem['type'], { icon: React.FC, color: string }> = {
         financial: { icon: FinancialAidIcon, color: 'text-green-500' },

@@ -97,10 +97,42 @@
       "ev": "القيمة المكتسبة",
       "ac": "التكلفة الفعلية",
       "taskStatus": "توزيع حالة المهام",
-      "tasksUnit": "مهام"
+      "tasksUnit": "مهام",
+      "statuses": {
+        "onTrack": "ضمن المسار",
+        "atRisk": "مهدد",
+        "overBudget": "متجاوز الميزانية"
+      }
     },
     "overview": {
-      "sdgTitle": "مواءمة أهداف التنمية المستدامة"
+      "sdgTitle": "مواءمة أهداف التنمية المستدامة",
+      "location": "الموقع",
+      "goal": "الهدف"
+    },
+    "sdgAnalytics": {
+      "title": "تحليلات أهداف التنمية",
+      "notAvailable": "غير متوفر",
+      "progressLabel": "التقدم",
+      "sdgTooltip": "الهدف {{id}}: {{name}}",
+      "sdgShort": "الهدف {{id}}",
+      "kpi": {
+        "alignedProjects": "المشاريع المتوافقة",
+        "totalBudget": "إجمالي الميزانية",
+        "mostTargeted": "أكثر هدف مستهدف",
+        "alignmentScore": "درجة المواءمة"
+      },
+      "grid": {
+        "title": "شبكة مواءمة المشاريع مع الأهداف",
+        "clear": "مسح التحديد"
+      },
+      "chart": {
+        "title": "توزيع ميزانية الأهداف"
+      },
+      "list": {
+        "title": "مشاريع الهدف {{sdg}}",
+        "titleAll": "كل المشاريع المتوافقة",
+        "placeholder": "اختر هدفًا لعرض المشاريع المرتبطة."
+      }
     },
     "scope": {
       "statement": "بيان النطاق",
@@ -145,6 +177,7 @@
       "dashboard": "لوحة المخاطر",
       "matrix": "مصفوفة المخاطر",
       "topRisks": "أهم المخاطر",
+      "score": "الدرجة",
       "register": "سجل المخاطر",
       "description": "الوصف",
       "category": "الفئة",
@@ -197,7 +230,10 @@
       "requester": "مقدم الطلب",
       "date": "التاريخ",
       "status": "الحالة",
-      "impact": "الأثر"
+      "impact": "الأثر",
+      "scopeImpact": "النطاق",
+      "timeImpact": "الوقت",
+      "costImpact": "التكلفة"
     },
     "reporting": {
       "reportCardsTitle": "تقارير المشروع",
@@ -221,6 +257,7 @@
         "overview": {
           "title": "تقرير النظرة العامة",
           "projectInfo": "معلومات المشروع",
+          "id": "المعرّف",
           "manager": "مدير المشروع",
           "dates": "تواريخ المشروع",
           "budgetVsSpent": "الميزانية مقابل المصروف"

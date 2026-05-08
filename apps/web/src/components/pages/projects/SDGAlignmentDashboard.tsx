@@ -23,7 +23,7 @@ const KpiCard: React.FC<{ title: string; value: string | number; icon: React.Rea
 );
 
 const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['projects']);
     const { theme } = useTheme();
     const isDark = theme === 'dark';
     const [selectedSdg, setSelectedSdg] = useState<number | null>(null);
@@ -60,9 +60,9 @@ const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) 
         return {
             totalAligned: alignedProjects.length,
             totalBudget,
-            mostTargeted: mostTargetedSdg ? `${mostTargetedSdg.id}` : 'N/A',
+            mostTargeted: mostTargetedSdg ? `${mostTargetedSdg.id}` : t('projects.sdgAnalytics.notAvailable'),
         };
-    }, [projects, projectsBySdg, sdgData]);
+    }, [projects, projectsBySdg, sdgData, t]);
 
     const budgetChartData = useMemo(() => {
         const data: { name: string; budget: number; color: string }[] = [];
@@ -83,16 +83,16 @@ const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) 
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <KpiCard title={t('sdg_analytics.kpi.aligned_projects')} value={formatNumber(useCountUp(stats.totalAligned, 1500), language)} icon={<Users />} />
-                <KpiCard title={t('sdg_analytics.kpi.total_budget')} value={formatCurrency(useCountUp(stats.totalBudget, 1500), language)} icon={<DollarSign />} />
-                <KpiCard title={t('sdg_analytics.kpi.most_targeted')} value={stats.mostTargeted} icon={<Target />} />
-                <KpiCard title={t('sdg_analytics.kpi.alignment_score')} value={`${formatNumber(useCountUp(82, 1500), language)}%`} icon={<BarChartIcon />} />
+                <KpiCard title={t('projects.sdgAnalytics.kpi.alignedProjects')} value={formatNumber(useCountUp(stats.totalAligned, 1500), language)} icon={<Users />} />
+                <KpiCard title={t('projects.sdgAnalytics.kpi.totalBudget')} value={formatCurrency(useCountUp(stats.totalBudget, 1500), language)} icon={<DollarSign />} />
+                <KpiCard title={t('projects.sdgAnalytics.kpi.mostTargeted')} value={stats.mostTargeted} icon={<Target />} />
+                <KpiCard title={t('projects.sdgAnalytics.kpi.alignmentScore')} value={`${formatNumber(useCountUp(82, 1500), language)}%`} icon={<BarChartIcon />} />
             </div>
 
             <div className="bg-card dark:bg-dark-card rounded-xl p-4 shadow-soft border dark:border-slate-700/50">
                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-bold">{t('sdg_analytics.grid.title')}</h3>
-                    {selectedSdg && <button onClick={() => setSelectedSdg(null)} className="text-sm font-semibold text-primary">{t('sdg_analytics.grid.clear')}</button>}
+                    <h3 className="font-bold">{t('projects.sdgAnalytics.grid.title')}</h3>
+                    {selectedSdg && <button onClick={() => setSelectedSdg(null)} className="text-sm font-semibold text-primary">{t('projects.sdgAnalytics.grid.clear')}</button>}
                  </div>
                  <div className="grid grid-cols-6 md:grid-cols-9 lg:grid-cols-17 gap-2">
                     {sdgData.map(sdg => {
@@ -103,7 +103,7 @@ const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) 
                             onClick={() => setSelectedSdg(sdg.id)} 
                             className={`relative aspect-square rounded-md transition-all duration-300 transform hover:scale-110 ${selectedSdg === sdg.id ? 'ring-4 ring-offset-2 ring-primary dark:ring-secondary' : 'hover:shadow-lg'} ${projectCount === 0 ? 'grayscale opacity-50' : ''}`}
                             style={{backgroundColor: sdg.color}}
-                            title={`SDG ${sdg.id}: ${sdg.name}`}
+                            title={t('projects.sdgAnalytics.sdgTooltip', { id: sdg.id, name: sdg.name })}
                         >
                             <span className="sr-only">{sdg.name}</span>
                             {projectCount > 0 && (
@@ -118,7 +118,7 @@ const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) 
             
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <div className="lg:col-span-3 bg-card dark:bg-dark-card p-6 rounded-xl shadow-soft border dark:border-slate-700/50">
-                    <h3 className="font-bold mb-4">{t('sdg_analytics.chart.title')}</h3>
+                    <h3 className="font-bold mb-4">{t('projects.sdgAnalytics.chart.title')}</h3>
                     <ResponsiveContainer width="100%" height={300}>
                          <BarChart data={budgetChartData} layout="vertical">
                             <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#4A5568' : '#E2E8F0'} />
@@ -140,22 +140,22 @@ const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) 
                     </ResponsiveContainer>
                 </div>
                 <div className="lg:col-span-2 bg-card dark:bg-dark-card p-4 rounded-xl shadow-soft border dark:border-slate-700/50">
-                    <h3 className="font-bold mb-4">{selectedSdg ? t('sdg_analytics.list.title', { sdg: selectedSdg }) : t('sdg_analytics.list.title_all')}</h3>
+                    <h3 className="font-bold mb-4">{selectedSdg ? t('projects.sdgAnalytics.list.title', { sdg: selectedSdg }) : t('projects.sdgAnalytics.list.titleAll')}</h3>
                     <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
                         {filteredProjects.length > 0 ? filteredProjects.map(p => (
                              <div key={p.id} className="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-lg">
                                 <p className="font-semibold truncate">{p.name[language]}</p>
                                 <div className="flex justify-between text-xs mt-1">
                                     <span>{formatCurrency(p.budget, language)}</span>
-                                    <span>Progress: {p.progress}%</span>
+                                    <span>{t('projects.sdgAnalytics.progressLabel')}: {p.progress}%</span>
                                 </div>
                                 <div className="flex flex-wrap gap-1 mt-2">
                                     {p.sdgGoals?.map(goalId => (
-                                        <div key={goalId} className="w-4 h-4 rounded-sm" style={{backgroundColor: sdgData.find(s=>s.id===goalId)?.color || '#ccc'}} title={`SDG ${goalId}`}></div>
+                                        <div key={goalId} className="w-4 h-4 rounded-sm" style={{backgroundColor: sdgData.find(s=>s.id===goalId)?.color || '#ccc'}} title={t('projects.sdgAnalytics.sdgShort', { id: goalId })}></div>
                                     ))}
                                 </div>
                             </div>
-                        )) : <p className="text-sm text-center text-gray-500 py-10">{t('sdg_analytics.list.placeholder')}</p>}
+                        )) : <p className="text-sm text-center text-gray-500 py-10">{t('projects.sdgAnalytics.list.placeholder')}</p>}
                     </div>
                 </div>
             </div>

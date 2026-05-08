@@ -19,10 +19,10 @@ const InfoItem: React.FC<{ label: string; value: React.ReactNode }> = ({ label, 
 );
 
 const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['projects']);
 
-    const scheduleStatus = project.costManagement.financialSummary.spi >= 1 ? 'On Track' : 'At Risk';
-    const budgetStatus = project.costManagement.financialSummary.cpi >= 1 ? 'On Track' : 'Over Budget';
+    const scheduleStatus = project.costManagement.financialSummary.spi >= 1 ? 'onTrack' : 'atRisk';
+    const budgetStatus = project.costManagement.financialSummary.cpi >= 1 ? 'onTrack' : 'overBudget';
     const activeRisks = project.riskManagement.riskRegister.filter(r => r.status === 'open' || r.status === 'in-progress').length;
     
     const { sdgs } = MOCK_PROGRAM_DATA;
@@ -35,10 +35,10 @@ const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
                 <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
                     <InfoItem label={t('projects.reporting.modal.overview.manager')} value={project.stakeholders.primaryContact} />
                     <InfoItem label={t('projects.reporting.modal.overview.dates')} value={`${formatDate(project.plannedStartDate, language)} - ${formatDate(project.plannedEndDate, language)}`} />
-                    <InfoItem label="Location" value={`${project.location.city}, ${project.location.country}`} />
+                    <InfoItem label={t('projects.overview.location')} value={`${project.location.city}, ${project.location.country}`} />
                     <InfoItem label={t('projects.wizard.form.donor')} value={project.stakeholders.donor} />
                      <div className="col-span-2">
-                        <InfoItem label="Goal" value={project.goal} />
+                        <InfoItem label={t('projects.overview.goal')} value={project.goal} />
                     </div>
                 </dl>
             </AiCard>
@@ -51,11 +51,13 @@ const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
                         <p className="text-sm font-semibold text-gray-500">{t('projects.monitoring.overallCompletion')}</p>
                     </div>
                     <div>
-                        <p className={`text-3xl font-bold ${budgetStatus === 'On Track' ? 'text-green-500' : 'text-red-500'}`}>{formatCurrency(project.spent, language)}</p>
+                        <p className={`text-3xl font-bold ${budgetStatus === 'onTrack' ? 'text-green-500' : 'text-red-500'}`}>{formatCurrency(project.spent, language)}</p>
                         <p className="text-sm font-semibold text-gray-500">{t('projects.monitoring.budgetStatus')}</p>
                     </div>
                      <div>
-                        <p className={`text-3xl font-bold ${scheduleStatus === 'On Track' ? 'text-green-500' : 'text-red-500'}`}>{scheduleStatus}</p>
+                        <p className={`text-3xl font-bold ${scheduleStatus === 'onTrack' ? 'text-green-500' : 'text-red-500'}`}>
+                            {t(`projects.monitoring.statuses.${scheduleStatus}`)}
+                        </p>
                         <p className="text-sm font-semibold text-gray-500">{t('projects.monitoring.scheduleStatus')}</p>
                     </div>
                     <div>
@@ -70,12 +72,12 @@ const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
                 <AiCard title={t('projects.overview.sdgTitle')}>
                     <div className="flex flex-wrap gap-4">
                         {alignedSdgs.map(sdg => (
-                            <Tooltip key={sdg.id} text={`SDG ${sdg.id}: ${sdg.name}`}>
+                            <Tooltip key={sdg.id} text={t('projects.sdgAnalytics.sdgTooltip', { id: sdg.id, name: sdg.name })}>
                                 <div 
                                     className="w-20 h-20 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center transition-transform hover:scale-110"
                                     style={{ backgroundColor: sdg.color }}
                                 >
-                                    <img src={`https://via.placeholder.com/40/${sdg.color.substring(1)}/FFFFFF?text=SDG`} alt={`SDG ${sdg.id}`} className="w-8 h-8 mb-1 rounded-sm" />
+                                    <img src={`https://via.placeholder.com/40/${sdg.color.substring(1)}/FFFFFF?text=SDG`} alt={t('projects.sdgAnalytics.sdgShort', { id: sdg.id })} className="w-8 h-8 mb-1 rounded-sm" />
                                     <span>{sdg.id}</span>
                                 </div>
                             </Tooltip>

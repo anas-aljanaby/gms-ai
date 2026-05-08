@@ -135,9 +135,18 @@
       "housing": "السكن",
       "medical": "طبي",
       "educational": "تعليمي",
+      "notes": "ملاحظات إضافية",
       "suggestedPrograms": "برامج مقترحة",
       "noAssessments": "لا توجد تقييمات",
       "noAssessmentsDesc": "ابدأ بإجراء تقييم جديد لتحديد احتياجات المستفيد.",
+      "actions": {
+        "analyzing": "جاري التحليل...",
+        "saveWithSuggestions": "حفظ والحصول على اقتراحات"
+      },
+      "toasts": {
+        "savedWithSuggestions": "تم حفظ التقييم مع اقتراحات الذكاء الاصطناعي.",
+        "savedWithoutSuggestions": "تعذّر جلب اقتراحات الذكاء الاصطناعي، لكن تم حفظ التقييم."
+      },
       "foodStatus": {
         "secure": "آمن",
         "at_risk": "معرض للخطر",
@@ -159,6 +168,15 @@
         "scheduled": "مجدول"
       }
     },
+    "documents": {
+      "uploadFile": "رفع ملف",
+      "newFolder": "مجلد جديد",
+      "name": "الاسم",
+      "uploader": "الرافع",
+      "lastModified": "آخر تعديل",
+      "size": "الحجم",
+      "officialDocuments": "المستندات الرسمية"
+    },
 
     "addModal": {
       "title": "إضافة مستفيد جديد",
@@ -171,6 +189,21 @@
 
     "linkedBeneficiaries": "المستفيدون المرتبطون",
     "noLinked": "لا يوجد مستفيدون مرتبطون",
-    "reached": "تم الوصول"
+    "reached": "تم الوصول",
+
+    "actions": {
+      "editContact": "تعديل الاتصال",
+      "editDetails": "تعديل التفاصيل",
+      "editAcademics": "تعديل الأكاديمي",
+      "editGuardian": "تعديل الولي",
+      "saved": "تم حفظ التغييرات."
+    },
+
+    "sponsorshipNote": "سيتم ربط تفاصيل الكفالة من وحدة إدارة المتبرعين.",
+    "milestoneStatus": {
+      "achieved": "تحقّق",
+      "in-progress": "قيد التنفيذ",
+      "pending": "معلّق"
+    }
   }
 }

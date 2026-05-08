@@ -72,7 +72,9 @@
         "compact": "مضغوط",
         "comfortable": "مريح"
       },
-      "emptyColumn": "لا يوجد مانحون في هذه المرحلة"
+      "emptyColumn": "لا يوجد مانحون في هذه المرحلة",
+      "scrollToStart": "انتقل إلى المرحلة الأولى",
+      "scrollToEnd": "انتقل إلى المرحلة الأخيرة"
     },
     "types": {
       "Individual": "فرد",

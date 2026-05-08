@@ -107,7 +107,7 @@ const FavoriteReportCard: React.FC<{ setActiveModule: (module: string) => void; 
  * @returns {JSX.Element}
  */
 const ToastDemoCard: React.FC = () => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'dashboard']);
     const { showSuccess, showError, showWarning, showInfo } = useToast();
 
     return (

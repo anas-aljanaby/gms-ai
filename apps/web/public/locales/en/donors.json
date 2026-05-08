@@ -72,7 +72,9 @@
         "compact": "Compact",
         "comfortable": "Comfortable"
       },
-      "emptyColumn": "No donors in this stage"
+      "emptyColumn": "No donors in this stage",
+      "scrollToStart": "Scroll to first stage",
+      "scrollToEnd": "Scroll to last stage"
     },
     "types": {
       "Individual": "Individual",

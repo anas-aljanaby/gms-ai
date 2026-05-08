@@ -135,9 +135,18 @@
       "housing": "Housing",
       "medical": "Medical",
       "educational": "Educational",
+      "notes": "Additional Notes",
       "suggestedPrograms": "Suggested Programs",
       "noAssessments": "No assessments yet",
       "noAssessmentsDesc": "Start by creating a new needs assessment.",
+      "actions": {
+        "analyzing": "Analyzing...",
+        "saveWithSuggestions": "Save and get suggestions"
+      },
+      "toasts": {
+        "savedWithSuggestions": "Assessment saved with AI suggestions!",
+        "savedWithoutSuggestions": "Failed to get AI suggestions, but the assessment was saved."
+      },
       "foodStatus": {
         "secure": "Secure",
         "at_risk": "At Risk",
@@ -159,6 +168,15 @@
         "scheduled": "Scheduled"
       }
     },
+    "documents": {
+      "uploadFile": "Upload File",
+      "newFolder": "New Folder",
+      "name": "Name",
+      "uploader": "Uploader",
+      "lastModified": "Last Modified",
+      "size": "Size",
+      "officialDocuments": "Official Documents"
+    },
 
     "addModal": {
       "title": "Add New Beneficiary",
@@ -171,6 +189,21 @@
 
     "linkedBeneficiaries": "Linked Beneficiaries",
     "noLinked": "No linked beneficiaries",
-    "reached": "Reached"
+    "reached": "Reached",
+
+    "actions": {
+      "editContact": "Edit Contact",
+      "editDetails": "Edit Details",
+      "editAcademics": "Edit Academics",
+      "editGuardian": "Edit Guardian",
+      "saved": "Changes saved."
+    },
+
+    "sponsorshipNote": "Sponsorship details will be linked from the donor management module.",
+    "milestoneStatus": {
+      "achieved": "Achieved",
+      "in-progress": "In Progress",
+      "pending": "Pending"
+    }
   }
 }

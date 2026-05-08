@@ -14,7 +14,7 @@ interface AssessmentModalProps {
 }
 
 const AssessmentModal: React.FC<AssessmentModalProps> = ({ isOpen, onClose, onSave, beneficiaryType }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['common', 'beneficiaries']);
     const toast = useToast();
     const [isLoading, setIsLoading] = useState(false);
     
@@ -72,11 +72,11 @@ const AssessmentModal: React.FC<AssessmentModalProps> = ({ isOpen, onClose, onSa
             };
             
             onSave(newAssessment);
-            toast.showSuccess("Assessment saved with AI suggestions!");
+            toast.showSuccess(t('beneficiaries.assessment.toasts.savedWithSuggestions'));
 
         } catch (error) {
-            console.error("AI suggestion failed:", error);
-            toast.showError("Failed to get AI suggestions, but saved the assessment.");
+            console.error('AI suggestion failed:', error);
+            toast.showError(t('beneficiaries.assessment.toasts.savedWithoutSuggestions'));
             // Save anyway without suggestions
             const newAssessment: NeedsAssessment = {
                 ...formData,
@@ -97,54 +97,54 @@ const AssessmentModal: React.FC<AssessmentModalProps> = ({ isOpen, onClose, onSa
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-in" onClick={onClose}>
             <div className="bg-card dark:bg-dark-card rounded-2xl shadow-xl w-full max-w-2xl m-4" onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between p-4 border-b dark:border-slate-700">
-                    <h2 className="text-xl font-bold">إجراء تقييم جديد</h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"><XIcon /></button>
+                    <h2 className="text-xl font-bold">{t('beneficiaries.assessment.newAssessment')}</h2>
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}><XIcon /></button>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
                         <div>
-                            <label className="block text-sm font-medium">درجة الفقر ({formData.povertyScore})</label>
+                            <label className="block text-sm font-medium">{t('beneficiaries.assessment.povertyScore')} ({formData.povertyScore})</label>
                             <input type="range" name="povertyScore" min="1" max="5" value={formData.povertyScore} onChange={handleInputChange} className="w-full mt-1" />
                         </div>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium">الأمن الغذائي</label>
+                                <label className="block text-sm font-medium">{t('beneficiaries.assessment.foodSecurity')}</label>
                                 <select name="foodSecurity" value={formData.foodSecurity} onChange={handleInputChange} className="w-full p-2 mt-1 border rounded-md">
-                                    <option value="secure">آمن</option>
-                                    <option value="at_risk">في خطر</option>
-                                    <option value="insecure">غير آمن</option>
+                                    <option value="secure">{t('beneficiaries.assessment.foodStatus.secure')}</option>
+                                    <option value="at_risk">{t('beneficiaries.assessment.foodStatus.at_risk')}</option>
+                                    <option value="insecure">{t('beneficiaries.assessment.foodStatus.insecure')}</option>
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium">حالة السكن</label>
+                                <label className="block text-sm font-medium">{t('beneficiaries.assessment.housing')}</label>
                                 <select name="housingStatus" value={formData.housingStatus} onChange={handleInputChange} className="w-full p-2 mt-1 border rounded-md">
-                                    <option value="stable">مستقر</option>
-                                    <option value="unstable">غير مستقر</option>
+                                    <option value="stable">{t('beneficiaries.assessment.housingStatus.stable')}</option>
+                                    <option value="unstable">{t('beneficiaries.assessment.housingStatus.unstable')}</option>
                                 </select>
                             </div>
                         </div>
                         {beneficiaryType !== 'family' && (
                             <>
                                 <div>
-                                    <label className="block text-sm font-medium">الاحتياجات التعليمية</label>
+                                    <label className="block text-sm font-medium">{t('beneficiaries.assessment.educational')}</label>
                                     <textarea name="educationalNeeds" value={formData.educationalNeeds} onChange={handleInputChange} rows={2} className="w-full p-2 mt-1 border rounded-md"/>
                                 </div>
                                  <div>
-                                    <label className="block text-sm font-medium">الاحتياجات الطبية</label>
+                                    <label className="block text-sm font-medium">{t('beneficiaries.assessment.medical')}</label>
                                     <textarea name="medicalNeeds" value={formData.medicalNeeds} onChange={handleInputChange} rows={2} className="w-full p-2 mt-1 border rounded-md"/>
                                 </div>
                             </>
                         )}
                         <div>
-                            <label className="block text-sm font-medium">ملاحظات إضافية</label>
+                            <label className="block text-sm font-medium">{t('beneficiaries.assessment.notes')}</label>
                             <textarea name="notes" value={formData.notes} onChange={handleInputChange} rows={3} className="w-full p-2 mt-1 border rounded-md"/>
                         </div>
                     </div>
                      <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-xl flex justify-end gap-3">
-                        <button type="button" onClick={onClose} disabled={isLoading} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">إلغاء</button>
+                        <button type="button" onClick={onClose} disabled={isLoading} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.cancel')}</button>
                         <button type="submit" disabled={isLoading} className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold flex items-center gap-2">
                             {isLoading ? <Spinner size="w-4 h-4"/> : null}
-                            {isLoading ? 'جاري التحليل...' : 'حفظ والحصول على اقتراحات'}
+                            {isLoading ? t('beneficiaries.assessment.actions.analyzing') : t('beneficiaries.assessment.actions.saveWithSuggestions')}
                         </button>
                     </div>
                 </form>

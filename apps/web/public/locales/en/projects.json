@@ -97,10 +97,42 @@
       "ev": "Earned Value",
       "ac": "Actual Cost",
       "taskStatus": "Task Status Distribution",
-      "tasksUnit": "tasks"
+      "tasksUnit": "tasks",
+      "statuses": {
+        "onTrack": "On Track",
+        "atRisk": "At Risk",
+        "overBudget": "Over Budget"
+      }
     },
     "overview": {
-      "sdgTitle": "SDG Alignment"
+      "sdgTitle": "SDG Alignment",
+      "location": "Location",
+      "goal": "Goal"
+    },
+    "sdgAnalytics": {
+      "title": "SDG Analytics",
+      "notAvailable": "N/A",
+      "progressLabel": "Progress",
+      "sdgTooltip": "SDG {{id}}: {{name}}",
+      "sdgShort": "SDG {{id}}",
+      "kpi": {
+        "alignedProjects": "Aligned Projects",
+        "totalBudget": "Total Budget",
+        "mostTargeted": "Most Targeted SDG",
+        "alignmentScore": "Alignment Score"
+      },
+      "grid": {
+        "title": "Project-SDG Alignment Grid",
+        "clear": "Clear Selection"
+      },
+      "chart": {
+        "title": "SDG Budget Distribution"
+      },
+      "list": {
+        "title": "Projects for SDG {{sdg}}",
+        "titleAll": "All Aligned Projects",
+        "placeholder": "Select an SDG to view related projects."
+      }
     },
     "scope": {
       "statement": "Scope Statement",
@@ -145,6 +177,7 @@
       "dashboard": "Risk Dashboard",
       "matrix": "Risk Matrix",
       "topRisks": "Top Risks",
+      "score": "Score",
       "register": "Risk Register",
       "description": "Description",
       "category": "Category",
@@ -197,7 +230,10 @@
       "requester": "Requester",
       "date": "Date",
       "status": "Status",
-      "impact": "Impact"
+      "impact": "Impact",
+      "scopeImpact": "Scope",
+      "timeImpact": "Time",
+      "costImpact": "Cost"
     },
     "reporting": {
       "reportCardsTitle": "Project Reports",
@@ -221,6 +257,7 @@
         "overview": {
           "title": "Overview Report",
           "projectInfo": "Project Information",
+          "id": "ID",
           "manager": "Project Manager",
           "dates": "Project Dates",
           "budgetVsSpent": "Budget vs Spent"

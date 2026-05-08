@@ -10,7 +10,7 @@ interface ChangeLogTabProps {
 }
 
 const ChangeLogTab: React.FC<ChangeLogTabProps> = ({ project }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['projects']);
 
     const StatusBadge: React.FC<{ status: ChangeRequestStatus }> = ({ status }) => {
         const styles: Record<ChangeRequestStatus, string> = {
@@ -49,9 +49,9 @@ const ChangeLogTab: React.FC<ChangeLogTabProps> = ({ project }) => {
                                 <td className="p-2">{req.requester}</td>
                                 <td className="p-2">{formatDate(req.date, language)}</td>
                                 <td className="p-2 text-xs">
-                                    {req.impact.scope && <div><strong>Scope:</strong> {req.impact.scope}</div>}
-                                    {req.impact.time && <div><strong>Time:</strong> {req.impact.time}</div>}
-                                    {req.impact.cost && <div><strong>Cost:</strong> {req.impact.cost}</div>}
+                                    {req.impact.scope && <div><strong>{t('projects.changeLog.scopeImpact')}:</strong> {req.impact.scope}</div>}
+                                    {req.impact.time && <div><strong>{t('projects.changeLog.timeImpact')}:</strong> {req.impact.time}</div>}
+                                    {req.impact.cost && <div><strong>{t('projects.changeLog.costImpact')}:</strong> {req.impact.cost}</div>}
                                 </td>
                                 <td className="p-2"><StatusBadge status={req.status} /></td>
                             </tr>

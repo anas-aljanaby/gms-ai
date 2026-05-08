@@ -11,7 +11,7 @@ const levelMap: Record<RiskLevel, number> = { low: 0, medium: 1, high: 2 };
 const scoreMap: Record<RiskLevel, number> = { low: 1, medium: 2, high: 3 };
 
 const RiskManagementTab: React.FC<RiskManagementTabProps> = ({ project }) => {
-    const { t } = useLocalization();
+    const { t } = useLocalization(['projects']);
     const risks = project.riskManagement.riskRegister;
 
     const riskMatrix: (Risk[])[][] = [[], [], []];
@@ -76,7 +76,7 @@ const RiskManagementTab: React.FC<RiskManagementTabProps> = ({ project }) => {
                                 <li key={risk.id} className="p-2 bg-gray-50 dark:bg-slate-800/50 rounded-md text-sm">
                                     <p className="font-semibold truncate">{risk.description}</p>
                                     <div className="flex justify-between items-center text-xs text-gray-500 mt-1">
-                                        <span>Score: <span className="font-bold text-foreground dark:text-dark-foreground">{getRiskScore(risk)}</span></span>
+                                        <span>{t('projects.risks.score')}: <span className="font-bold text-foreground dark:text-dark-foreground">{getRiskScore(risk)}</span></span>
                                         <LevelBadge level={risk.impact} />
                                     </div>
                                 </li>

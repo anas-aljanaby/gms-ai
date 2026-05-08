@@ -7,7 +7,7 @@ import { formatCurrency, formatDate } from '../../../../lib/utils';
 import { useTheme } from '../../../../hooks/useTheme';
 
 const OverviewReport: React.FC<{ project: Project }> = ({ project }) => {
-    const { t, language } = useLocalization();
+    const { t, language } = useLocalization(['projects']);
     const { theme } = useTheme();
 
     const data = [
@@ -26,7 +26,7 @@ const OverviewReport: React.FC<{ project: Project }> = ({ project }) => {
                 <div>
                     <h3 className="font-bold text-lg mb-2">{t('projects.reporting.modal.overview.projectInfo')}</h3>
                     <div className="text-sm space-y-1">
-                        <p><strong>ID:</strong> {project.id}</p>
+                        <p><strong>{t('projects.reporting.modal.overview.id')}:</strong> {project.id}</p>
                         <p><strong>{t('projects.reporting.modal.overview.manager')}:</strong> {project.stakeholders.primaryContact}</p>
                         <p><strong>{t('projects.reporting.modal.overview.dates')}:</strong> {formatDate(project.plannedStartDate, language)} - {formatDate(project.plannedEndDate, language)}</p>
                     </div>

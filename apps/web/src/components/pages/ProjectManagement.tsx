@@ -67,9 +67,9 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
                                 <List size={16} />
                                 <span>{t('projects.projectList')}</span>
                             </button>
-                             <button onClick={() => setActiveView('sdg')} className={`flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-md transition-colors ${getViewButtonClass('sdg')}`}>
+                            <button onClick={() => setActiveView('sdg')} className={`flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-md transition-colors ${getViewButtonClass('sdg')}`}>
                                 <Target size={16} />
-                                <span>{t('sdg_analytics.title')}</span>
+                                <span>{t('projects.sdgAnalytics.title')}</span>
                             </button>
                         </div>
                          <button 

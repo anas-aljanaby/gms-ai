@@ -100,16 +100,20 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
         community: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
     };
 
+    const handleProfileUpdate = (partial: any) => {
+        onUpdate({ ...beneficiary, profile: { ...beneficiary.profile, ...partial } });
+    };
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'overview':
-                return <OverviewTab beneficiary={beneficiary} />;
+                return <OverviewTab beneficiary={beneficiary} onUpdate={onUpdate} />;
             case 'academics':
-                return beneficiary.profile.type === 'student' ? <AcademicsTab profile={beneficiary.profile} /> : null;
+                return beneficiary.profile.type === 'student' ? <AcademicsTab profile={beneficiary.profile} onUpdate={handleProfileUpdate} /> : null;
             case 'sponsorship':
                 return <SponsorshipTab beneficiary={beneficiary} />;
             case 'guardian':
-                return beneficiary.profile.type === 'orphan' ? <GuardianTab profile={beneficiary.profile} /> : null;
+                return beneficiary.profile.type === 'orphan' ? <GuardianTab profile={beneficiary.profile} onUpdate={handleProfileUpdate} /> : null;
             case 'aid_log':
                 return <AidLogTab aidLog={beneficiary.aidLog} />;
             case 'needs_assessment':
