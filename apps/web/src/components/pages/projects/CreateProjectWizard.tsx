@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { Project, Language, ProjectKPI } from '../../../types';
-import { XIcon } from '../../icons/GenericIcons';
+import { X, ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import WizardStepper from './wizard/WizardStepper';
 import Step1_ProjectInfo from './wizard/Step1_ProjectInfo';
 import Step2_Stakeholders from './wizard/Step2_Stakeholders';
@@ -17,8 +17,7 @@ interface CreateProjectWizardProps {
 const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClose, onCreateProject }) => {
     const { t } = useLocalization();
     const [currentStep, setCurrentStep] = useState(1);
-    
-    // Initialize state for the new project with default values
+
     const [projectData, setProjectData] = useState<Partial<Omit<Project, 'id'>>>({
         name: { en: '', ar: '' },
         type: 'humanitarian',
@@ -35,16 +34,15 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
         budget: 0,
         spent: 0,
     });
-    
+
     const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, 3));
     const handleBack = () => setCurrentStep(prev => Math.max(prev - 1, 1));
-    
+
     const updateData = (update: Partial<Omit<Project, 'id'>>) => {
         setProjectData(prev => ({ ...prev, ...update }));
     };
 
     const handleCreate = () => {
-        // Here you would have validation
         onCreateProject(projectData as Omit<Project, 'id'>);
     };
 
@@ -60,45 +58,52 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
     };
 
     return (
-        <div 
-            className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-in"
+        <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
             onClick={onClose}
             role="dialog"
             aria-modal="true"
         >
-            <div 
-                className="bg-card dark:bg-dark-card rounded-2xl shadow-xl w-full max-w-4xl m-4 flex flex-col max-h-[95vh]"
+            <div
+                className="bg-card dark:bg-dark-card rounded-xl shadow-2xl w-full max-w-3xl m-4 flex flex-col max-h-[90vh] border border-gray-200 dark:border-slate-700/50"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex items-center justify-between p-4 border-b dark:border-slate-700 flex-shrink-0">
-                    <h2 className="text-xl font-bold text-foreground dark:text-dark-foreground">{t('projects.wizard.title')}</h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('common.close')}>
-                        <XIcon />
+                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-700/50 shrink-0">
+                    <h2 className="text-lg font-bold text-foreground dark:text-dark-foreground">{t('projects.wizard.title')}</h2>
+                    <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors" aria-label={t('common.close')}>
+                        <X size={18} className="text-gray-400" />
                     </button>
                 </div>
 
-                <div className="p-6 border-b dark:border-slate-700 flex-shrink-0">
+                <div className="px-6 py-4 border-b border-gray-50 dark:border-slate-800 shrink-0">
                     <WizardStepper currentStep={currentStep} />
                 </div>
 
-                <div className="p-6 overflow-y-auto flex-grow">
+                <div className="px-6 py-6 overflow-y-auto flex-grow">
                     {renderStepContent()}
                 </div>
 
-                <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-2xl flex justify-between items-center flex-shrink-0">
-                    <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">
+                <div className="px-6 py-4 bg-gray-50/80 dark:bg-slate-800/50 rounded-b-xl flex justify-between items-center shrink-0 border-t border-gray-100 dark:border-slate-700/50">
+                    <button onClick={onClose} className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
                         {t('common.cancel')}
                     </button>
-                    <div className="flex items-center gap-3">
-                        <button onClick={handleBack} disabled={currentStep === 1} className="px-4 py-2 rounded-lg border dark:border-slate-600 text-sm font-semibold disabled:opacity-50">
-                           &larr; {t('projects.wizard.back')}
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={handleBack}
+                            disabled={currentStep === 1}
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 dark:border-slate-600 text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+                        >
+                            <ArrowLeft size={14} />
+                            {t('projects.wizard.back')}
                         </button>
                         {currentStep < 3 ? (
-                            <button onClick={handleNext} className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary-dark">
-                                {t('projects.wizard.next')} &rarr;
+                            <button onClick={handleNext} className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors shadow-sm">
+                                {t('projects.wizard.next')}
+                                <ArrowRight size={14} />
                             </button>
                         ) : (
-                            <button onClick={handleCreate} className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold hover:bg-secondary-dark">
+                            <button onClick={handleCreate} className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-white text-sm font-medium hover:bg-secondary-dark transition-colors shadow-sm">
+                                <Check size={14} />
                                 {t('projects.wizard.finish')}
                             </button>
                         )}

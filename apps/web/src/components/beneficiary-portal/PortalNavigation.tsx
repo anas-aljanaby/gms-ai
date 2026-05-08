@@ -1,9 +1,10 @@
 import React from 'react';
+import { Home, User, GraduationCap, Wallet, Building2, Handshake } from 'lucide-react';
 
 interface NavigationTab {
   id: string;
   label: string;
-  icon: string;
+  icon: React.ReactNode;
 }
 
 interface PortalNavigationProps {
@@ -13,12 +14,12 @@ interface PortalNavigationProps {
 
 const PortalNavigation: React.FC<PortalNavigationProps> = ({ activeTab, onTabChange }) => {
   const tabs: NavigationTab[] = [
-    { id: 'overview', label: 'نظرة عامة', icon: '🏠' },
-    { id: 'profile', label: 'ملفي', icon: '👤' },
-    { id: 'academic', label: 'الأكاديمي', icon: '🎓' },
-    { id: 'financial', label: 'المالي', icon: '💰' },
-    { id: 'housing', label: 'السكن', icon: '🏘️' },
-    { id: 'community', label: 'المجتمع', icon: '🤝' },
+    { id: 'overview', label: 'نظرة عامة', icon: <Home size={18} /> },
+    { id: 'profile', label: 'ملفي', icon: <User size={18} /> },
+    { id: 'academic', label: 'الأكاديمي', icon: <GraduationCap size={18} /> },
+    { id: 'financial', label: 'المالي', icon: <Wallet size={18} /> },
+    { id: 'housing', label: 'السكن', icon: <Building2 size={18} /> },
+    { id: 'community', label: 'المجتمع', icon: <Handshake size={18} /> },
   ];
 
   return (
@@ -36,7 +37,7 @@ const PortalNavigation: React.FC<PortalNavigationProps> = ({ activeTab, onTabCha
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'}
               `}
             >
-              <span className="text-lg mr-2">{tab.icon}</span>
+              <span className="mr-2">{tab.icon}</span>
               {tab.label}
             </button>
           ))}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { InstitutionalDonor } from '../../../types';
-import { Mail, Phone, PlusCircle, Globe, Linkedin, Twitter, Facebook, MapPin } from 'lucide-react';
+import { Mail, Phone, PlusCircle, Globe, Linkedin, Twitter, Facebook, MapPin, Handshake } from 'lucide-react';
 import AddContactModal from './AddContactModal';
 
 // Self-contained WhatsappIcon to avoid dependency on missing file
@@ -48,7 +48,7 @@ const ContactInfoCard: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => 
                     <InfoItem icon={<Globe size={18} />} label={t('institutional_donors.detail.website')} value={donor.website ? <a href={donor.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{donor.website}</a> : NA_Component} />
                     {socialPlatforms.length > 0 && (
                          <InfoItem 
-                            icon={<span>🤝</span>} 
+                            icon={<Handshake size={18} />} 
                             label={t('institutional_donors.detail.socialMedia')} 
                             value={
                                 <div className="flex items-center gap-4 mt-1">

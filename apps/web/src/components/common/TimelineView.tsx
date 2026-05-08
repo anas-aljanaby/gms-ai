@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check } from 'lucide-react';
+import { Check, Search, Eye, Handshake, Coins, Heart, Megaphone, Sparkles } from 'lucide-react';
 import type { Language } from '../../types';
 import { useLocalization } from '../../hooks/useLocalization';
 
@@ -8,14 +8,24 @@ interface TimelineViewProps {
   setProgress: (value: number) => void;
 }
 
+const cardIcons: Record<string, React.ReactNode> = {
+    prospect: <Search size={24} />,
+    observer: <Eye size={24} />,
+    engager: <Handshake size={24} />,
+    contributor: <Coins size={24} />,
+    giver: <Heart size={24} />,
+    advocate: <Megaphone size={24} />,
+    multiplier: <Sparkles size={24} />,
+};
+
 const cardDetails = [
-    { key: "prospect", emoji: "🔭", stats: 12, colorClasses: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300" },
-    { key: "observer", emoji: "👀", stats: 7, colorClasses: "bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300" },
-    { key: "engager", emoji: "🤝", stats: 5, colorClasses: "bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300" },
-    { key: "contributor", emoji: "💸", stats: 3, colorClasses: "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300" },
-    { key: "giver", emoji: "💚", stats: 3, colorClasses: "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300" },
-    { key: "advocate", emoji: "🗣️", stats: 2, colorClasses: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300" },
-    { key: "multiplier", emoji: "✨", stats: 2, colorClasses: "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300" },
+    { key: "prospect", stats: 12, colorClasses: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300" },
+    { key: "observer", stats: 7, colorClasses: "bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300" },
+    { key: "engager", stats: 5, colorClasses: "bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300" },
+    { key: "contributor", stats: 3, colorClasses: "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300" },
+    { key: "giver", stats: 3, colorClasses: "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300" },
+    { key: "advocate", stats: 2, colorClasses: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300" },
+    { key: "multiplier", stats: 2, colorClasses: "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300" },
 ];
 
 
@@ -156,7 +166,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ progress, setProgress }) =>
               const stepLabel = steps[index] || card.key;
               return (
                   <div key={card.key} className={`p-3 rounded-lg text-center transition-all duration-300 ${card.colorClasses} ${isActive ? 'opacity-100' : 'opacity-40'}`}>
-                      <div className="text-2xl">{card.emoji}</div>
+                      <div className="flex justify-center">{cardIcons[card.key]}</div>
                       <div className="text-xs font-semibold">{stepLabel}</div>
                       <div className="text-lg font-bold">{card.stats}</div>
                   </div>

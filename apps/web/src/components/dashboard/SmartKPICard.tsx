@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, type ReactNode } from 'react';
 import { useLocalization } from '../../hooks/useLocalization';
 import type { Language } from '../../types';
 import { formatNumber, formatCurrency } from '../../lib/utils';
@@ -8,7 +8,7 @@ import { CalendarIcon } from '../icons/ActionIcons';
 interface SmartKPICardProps {
   title: Partial<Record<Language, string>>;
   value: number;
-  icon: string; // Emoji
+  icon: ReactNode;
   changePercentage?: number;
   target?: number;
   daysRemaining?: number;

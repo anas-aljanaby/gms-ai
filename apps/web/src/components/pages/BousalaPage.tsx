@@ -3,7 +3,7 @@ import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
 import { BousalaIcon } from '../icons/ModuleIcons';
-import { Bell, ChevronDown, CheckCircle, Clock, Loader, Bot, Sparkles, BrainCircuit, ShieldAlert, BarChart3, Target, Briefcase, CheckSquare, GripVertical, Zap, Settings, Volume2, VolumeX, TrendingUp, TrendingDown, Minus, PlusCircle, AlertCircle as AlertCircleIcon, ArrowRightCircle, XCircle } from 'lucide-react';
+import { Bell, ChevronDown, CheckCircle, Clock, Loader, Bot, Sparkles, BrainCircuit, ShieldAlert, BarChart3, Target, Briefcase, CheckSquare, GripVertical, Zap, Settings, Volume2, VolumeX, TrendingUp, TrendingDown, Minus, PlusCircle, AlertCircle as AlertCircleIcon, ArrowRightCircle, XCircle, ClipboardList, Link2 } from 'lucide-react';
 import AiCard from './ai/AiCard';
 import Spinner from '../common/Spinner';
 import { formatCurrency, formatDate, formatNumber } from '../../lib/utils';
@@ -416,10 +416,10 @@ const SmartAiPanel: React.FC<{
                                     {t('bousala.aiPanel.suggestedActions')}
                                 </h4>
                                 <div className="grid grid-cols-2 gap-2 text-sm">
-                                    <button onClick={onAddGoalClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700">➕ {t('bousala.aiPanel.actions.addGoal')}</button>
-                                    <button onClick={onAddTaskClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700">📋 {t('bousala.aiPanel.actions.addTask')}</button>
-                                    <button onClick={onLinkProjectClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700">🔗 {t('bousala.aiPanel.actions.linkProject')}</button>
-                                    <button onClick={onViewReportsClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700">📊 {t('bousala.aiPanel.actions.viewReports')}</button>
+                                    <button onClick={onAddGoalClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700 flex items-center gap-1.5"><PlusCircle size={14} /> {t('bousala.aiPanel.actions.addGoal')}</button>
+                                    <button onClick={onAddTaskClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700 flex items-center gap-1.5"><ClipboardList size={14} /> {t('bousala.aiPanel.actions.addTask')}</button>
+                                    <button onClick={onLinkProjectClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700 flex items-center gap-1.5"><Link2 size={14} /> {t('bousala.aiPanel.actions.linkProject')}</button>
+                                    <button onClick={onViewReportsClick} className="p-2 bg-gray-100 dark:bg-slate-700/50 rounded-lg text-left hover:bg-gray-200 dark:hover:bg-slate-700 flex items-center gap-1.5"><BarChart3 size={14} /> {t('bousala.aiPanel.actions.viewReports')}</button>
                                 </div>
                             </div>
                         </div>
@@ -488,7 +488,7 @@ const CollapsibleAnalytics: React.FC<{goals: BousalaGoal[]}> = ({goals}) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full flex justify-between items-center p-4 text-left"
             >
-                <h2 className="text-xl font-bold flex items-center gap-2">📊 {t('bousala.analytics.title')}</h2>
+                <h2 className="text-xl font-bold flex items-center gap-2"><BarChart3 size={20} /> {t('bousala.analytics.title')}</h2>
                 <ChevronDown className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
             <AnimatePresence>
@@ -502,7 +502,7 @@ const CollapsibleAnalytics: React.FC<{goals: BousalaGoal[]}> = ({goals}) => {
                         <div className="p-4 border-t dark:border-slate-700/50">
                             <AnalyticsDashboard />
                             <div className="mt-8 pt-8 border-t dark:border-slate-700/50">
-                                <h2 className="text-xl font-bold flex items-center gap-2 mb-4">📈 {t('bousala.kpisVisualization')}</h2>
+                                <h2 className="text-xl font-bold flex items-center gap-2 mb-4"><TrendingUp size={20} /> {t('bousala.kpisVisualization')}</h2>
                                 <KpiCharts goals={goals} />
                             </div>
                         </div>
