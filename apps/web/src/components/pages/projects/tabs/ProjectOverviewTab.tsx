@@ -7,7 +7,6 @@ import AiCard from '../../ai/AiCard';
 import { MOCK_PROGRAM_DATA } from '../../../../data/programData';
 import Tooltip from '../../../common/Tooltip';
 import { TrendingUp, DollarSign, Clock, AlertTriangle, Target, Users } from 'lucide-react';
-import { formatProjectLocation } from '../utils/location';
 
 interface ProjectOverviewTabProps {
     project: Project;
@@ -22,8 +21,6 @@ const InfoItem: React.FC<{ label: string; value: React.ReactNode }> = ({ label, 
 
 const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
     const { t, language } = useLocalization(['projects']);
-    const getSdgName = (sdgId: number, fallbackName: string) =>
-        t(`projects.sdgAnalytics.goals.${sdgId}`, fallbackName);
 
     const scheduleStatus = project.costManagement.financialSummary.spi >= 1 ? 'onTrack' : 'atRisk';
     const budgetStatus = project.costManagement.financialSummary.cpi >= 1 ? 'onTrack' : 'overBudget';
@@ -89,7 +86,7 @@ const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
                 <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-5">
                     <InfoItem label={t('projects.reporting.modal.overview.manager')} value={project.stakeholders.primaryContact} />
                     <InfoItem label={t('projects.reporting.modal.overview.dates')} value={`${formatDate(project.plannedStartDate, language)} – ${formatDate(project.plannedEndDate, language)}`} />
-                    <InfoItem label={t('projects.overview.location')} value={formatProjectLocation(project.location, t)} />
+                    <InfoItem label={t('projects.overview.location')} value={`${project.location.city}, ${project.location.country}`} />
                     <InfoItem label={t('projects.wizard.form.donor')} value={project.stakeholders.donor} />
                     <div className="col-span-2">
                         <InfoItem label={t('projects.overview.goal')} value={project.goal} />
@@ -101,10 +98,10 @@ const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project }) => {
                 <AiCard title={t('projects.overview.sdgTitle')}>
                     <div className="flex flex-wrap gap-3">
                         {alignedSdgs.map(sdg => (
-                            <Tooltip key={sdg.id} text={t('projects.sdgAnalytics.sdgTooltip', { id: sdg.id, name: getSdgName(sdg.id, sdg.name) })}>
+                            <Tooltip key={sdg.id} text={t('projects.sdgAnalytics.sdgTooltip', { id: sdg.id, name: sdg.name })}>
                                 <img
                                     src={`https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-${String(sdg.id).padStart(2, '0')}.jpg`}
-                                    alt={t('projects.sdgAnalytics.sdgTooltip', { id: sdg.id, name: getSdgName(sdg.id, sdg.name) })}
+                                    alt={`SDG ${sdg.id}: ${sdg.name}`}
                                     className="w-16 h-16 rounded-lg object-cover transition-transform hover:scale-110 shadow-sm"
                                     loading="lazy"
                                 />

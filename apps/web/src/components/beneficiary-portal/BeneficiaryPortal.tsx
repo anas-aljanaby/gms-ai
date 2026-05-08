@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GraduationCap, Bell, Settings } from 'lucide-react';
 import PortalNavigation from './PortalNavigation';
 import PortalDashboard from './PortalDashboard';
 import ProfileSection from './ProfileSection';
@@ -34,7 +35,7 @@ const BeneficiaryPortal: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 space-x-reverse">
-              <span className="text-3xl">🎓</span>
+              <GraduationCap size={28} />
               <div>
                 <h1 className="text-xl font-bold text-gray-800">بوابة المستفيد</h1>
                 <p className="text-sm text-gray-500">أحمد محمد علي - طالب ماجستير</p>
@@ -43,11 +44,11 @@ const BeneficiaryPortal: React.FC = () => {
             
             <div className="flex items-center space-x-3 space-x-reverse">
               <button className="relative p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <span className="text-xl">🔔</span>
+                <Bell size={20} />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
               <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <span className="text-xl">⚙️</span>
+                <Settings size={20} />
               </button>
               <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
                 أ

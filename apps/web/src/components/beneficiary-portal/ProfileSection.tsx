@@ -1,4 +1,5 @@
 import React from 'react';
+import { GraduationCap, Trophy, Medal, Bot, BarChart3, Zap, Target, MapPin } from 'lucide-react';
 
 const ProfileSection: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ const ProfileSection: React.FC = () => {
           <div className="flex-1">
             <h2 className="text-3xl font-bold mb-2">أحمد محمد علي</h2>
             <p className="text-blue-100 mb-1">طالب ماجستير - هندسة البرمجيات</p>
-            <p className="text-sm text-blue-200">📍 جامعة الملك سعود، الرياض</p>
+            <p className="text-sm text-blue-200 flex items-center"><MapPin size={14} className="ml-1" /> جامعة الملك سعود، الرياض</p>
             
             <div className="flex space-x-2 space-x-reverse mt-3">
               <span className="px-3 py-1 bg-white/20 backdrop-blur rounded-full text-sm">
@@ -35,7 +36,7 @@ const ProfileSection: React.FC = () => {
         {/* Academic Info */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
           <h3 className="text-xl font-bold mb-4 flex items-center">
-            <span className="text-2xl ml-2">🎓</span>
+            <GraduationCap size={24} className="ml-2" />
             المعلومات الأكاديمية
           </h3>
           
@@ -60,7 +61,7 @@ const ProfileSection: React.FC = () => {
 
           {/* Skills */}
           <div className="mt-6 pt-6 border-t">
-            <h4 className="font-semibold mb-3">💪 المهارات القيادية</h4>
+            <h4 className="font-semibold mb-3">المهارات القيادية</h4>
             <div className="flex flex-wrap gap-2">
               {['القيادة', 'التفكير الاستراتيجي', 'العمل الجماعي', 'حل المشكلات', 'التواصل الفعال', 'الابتكار'].map(skill => (
                 <span key={skill} className="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium">
@@ -72,7 +73,7 @@ const ProfileSection: React.FC = () => {
 
           {/* Achievements */}
           <div className="mt-6 pt-6 border-t">
-            <h4 className="font-semibold mb-3">🏆 الإنجازات</h4>
+            <h4 className="font-semibold mb-3 flex items-center"><Trophy size={18} className="ml-2" />الإنجازات</h4>
             <div className="space-y-2">
               {[
                 'قائمة شرف العميد - خريف 2024',
@@ -80,7 +81,7 @@ const ProfileSection: React.FC = () => {
                 'المركز الأول - هاكاثون الابتكار'
               ].map((achievement, idx) => (
                 <div key={idx} className="flex items-center p-2 bg-yellow-50 rounded-lg">
-                  <span className="text-xl ml-2">🏅</span>
+                  <Medal size={20} className="ml-2" />
                   <span className="text-sm">{achievement}</span>
                 </div>
               ))}
@@ -93,7 +94,7 @@ const ProfileSection: React.FC = () => {
           {/* AI Insights */}
           <div className="bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-2xl shadow-lg p-6">
             <div className="flex items-center mb-4">
-              <span className="text-3xl ml-3">🤖</span>
+              <Bot size={28} className="ml-3" />
               <h3 className="text-lg font-bold">توصيات ذكية</h3>
             </div>
             <div className="space-y-3">
@@ -114,7 +115,7 @@ const ProfileSection: React.FC = () => {
 
           {/* Progress Circle */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
-            <h4 className="font-semibold mb-4">📊 التقدم الشامل</h4>
+            <h4 className="font-semibold mb-4 flex items-center"><BarChart3 size={18} className="ml-2" />التقدم الشامل</h4>
             <div className="flex justify-center mb-4">
               <div className="relative w-32 h-32">
                 <svg className="transform -rotate-90 w-32 h-32">
@@ -150,16 +151,16 @@ const ProfileSection: React.FC = () => {
 
           {/* Quick Actions */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
-            <h4 className="font-semibold mb-3">⚡ إجراءات سريعة</h4>
+            <h4 className="font-semibold mb-3 flex items-center"><Zap size={18} className="ml-2" />إجراءات سريعة</h4>
             <div className="space-y-2">
               <button className="w-full text-right p-3 bg-blue-50 hover:bg-blue-100 rounded-lg text-sm font-medium text-blue-700 transition-colors">
-                📝 تحديث السيرة الذاتية
+                تحديث السيرة الذاتية
               </button>
               <button className="w-full text-right p-3 bg-green-50 hover:bg-green-100 rounded-lg text-sm font-medium text-green-700 transition-colors">
-                📧 التواصل مع المرشد
+                التواصل مع المرشد
               </button>
               <button className="w-full text-right p-3 bg-purple-50 hover:bg-purple-100 rounded-lg text-sm font-medium text-purple-700 transition-colors">
-                🎯 تحديث الأهداف
+                تحديث الأهداف
               </button>
             </div>
           </div>

@@ -16,8 +16,7 @@ import ChangeLogTab from './tabs/ChangeLogTab';
 import BeneficiariesTab from './tabs/BeneficiariesTab';
 import MonitoringTab from './tabs/MonitoringTab';
 import ProjectOverviewTab from './tabs/ProjectOverviewTab';
-import { ArrowLeft, ArrowRight, MapPin, Calendar, DollarSign } from 'lucide-react';
-import { formatProjectLocation } from './utils/location';
+import { ArrowLeft, MapPin, Calendar, DollarSign } from 'lucide-react';
 
 
 interface ProjectDetailViewProps {
@@ -44,7 +43,6 @@ const progressColor = (progress: number) => {
 
 const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project, beneficiaries, onBack, initialTab }) => {
     const { t, language } = useLocalization();
-    const isRtl = language === 'ar';
     const [activeTab, setActiveTab] = useState(initialTab || 'overview');
     const stage = stageConfig[project.stage] || stageConfig.design;
 
@@ -85,7 +83,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project, benefici
         <div className="animate-fade-in space-y-4">
             <div className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 p-5">
                 <button onClick={onBack} className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-primary dark:hover:text-secondary transition-colors mb-3">
-                    {isRtl ? <ArrowRight size={16} /> : <ArrowLeft size={16} />}
+                    <ArrowLeft size={16} />
                     {t('projects.backToList')}
                 </button>
 
@@ -101,10 +99,11 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project, benefici
                             </span>
                         </div>
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            <span className="font-mono text-xs">{project.id}</span>
                             {project.location && (
                                 <span className="flex items-center gap-1">
                                     <MapPin size={13} />
-                                    {formatProjectLocation(project.location, t)}
+                                    {project.location.city}, {project.location.country}
                                 </span>
                             )}
                             <span className="flex items-center gap-1">

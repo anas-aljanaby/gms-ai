@@ -1,4 +1,5 @@
 import React from 'react';
+import { Users, Globe, Handshake, Calendar, Monitor, Rocket, BookOpen, GraduationCap, Star, MapPin, Clock } from 'lucide-react';
 
 const CommunitySection: React.FC = () => {
   return (
@@ -6,13 +7,13 @@ const CommunitySection: React.FC = () => {
       {/* Community Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[
-          { icon: '👥', label: 'مستفيدين نشطين', value: '45', color: 'blue' },
-          { icon: '🌍', label: 'دول ممثلة', value: '12', color: 'green' },
-          { icon: '🤝', label: 'مجموعات', value: '8', color: 'purple' },
-          { icon: '🎉', label: 'فعاليات قادمة', value: '5', color: 'orange' },
+          { icon: <Users size={32} />, label: 'مستفيدين نشطين', value: '45', color: 'blue' },
+          { icon: <Globe size={32} />, label: 'دول ممثلة', value: '12', color: 'green' },
+          { icon: <Handshake size={32} />, label: 'مجموعات', value: '8', color: 'purple' },
+          { icon: <Calendar size={32} />, label: 'فعاليات قادمة', value: '5', color: 'orange' },
         ].map(stat => (
           <div key={stat.label} className={`bg-white rounded-xl shadow-md p-6 border-t-4 border-${stat.color}-500 hover:shadow-lg transition-shadow`}>
-            <div className="text-4xl mb-2">{stat.icon}</div>
+            <div className={`mb-2 text-${stat.color}-500`}>{stat.icon}</div>
             <div className="text-3xl font-bold text-gray-800 mb-1">{stat.value}</div>
             <div className="text-sm text-gray-600">{stat.label}</div>
           </div>
@@ -22,7 +23,7 @@ const CommunitySection: React.FC = () => {
       {/* Groups */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4 flex items-center">
-          <span className="text-2xl ml-2">🤝</span>
+          <Handshake size={24} className="ml-2" />
           المجموعات والأندية
         </h3>
         
@@ -32,7 +33,7 @@ const CommunitySection: React.FC = () => {
               name: 'نادي التقنية والذكاء الاصطناعي', 
               members: 24, 
               activity: 'نشط',
-              icon: '💻',
+              icon: <Monitor size={32} />,
               joined: true,
               nextEvent: 'ورشة عمل - غداً'
             },
@@ -40,7 +41,7 @@ const CommunitySection: React.FC = () => {
               name: 'مجموعة الطلاب المصريين', 
               members: 18, 
               activity: 'نشط جداً',
-              icon: '🇪🇬',
+              icon: <Globe size={32} />,
               joined: false,
               nextEvent: 'لقاء شهري - الأحد'
             },
@@ -48,7 +49,7 @@ const CommunitySection: React.FC = () => {
               name: 'نادي ريادة الأعمال', 
               members: 32, 
               activity: 'نشط',
-              icon: '🚀',
+              icon: <Rocket size={32} />,
               joined: true,
               nextEvent: 'مسابقة أفكار - الأسبوع القادم'
             },
@@ -56,7 +57,7 @@ const CommunitySection: React.FC = () => {
               name: 'مجموعة القراءة والثقافة', 
               members: 15, 
               activity: 'متوسط',
-              icon: '📚',
+              icon: <BookOpen size={32} />,
               joined: false,
               nextEvent: 'نقاش كتاب - الخميس'
             },
@@ -64,12 +65,12 @@ const CommunitySection: React.FC = () => {
             <div key={idx} className="border-2 rounded-xl p-5 hover:shadow-md transition-all">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-start space-x-3 space-x-reverse">
-                  <span className="text-4xl">{group.icon}</span>
+                  <span className="text-blue-500">{group.icon}</span>
                   <div>
                     <div className="font-bold text-gray-800">{group.name}</div>
                     <div className="text-sm text-gray-500 mt-1">{group.members} عضو • {group.activity}</div>
                     {group.nextEvent && (
-                      <div className="text-xs text-blue-600 mt-1">📅 {group.nextEvent}</div>
+                      <div className="text-xs text-blue-600 mt-1 flex items-center"><Calendar size={12} className="ml-1" />{group.nextEvent}</div>
                     )}
                   </div>
                 </div>
@@ -89,7 +90,7 @@ const CommunitySection: React.FC = () => {
       {/* Upcoming Events */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4 flex items-center">
-          <span className="text-2xl ml-2">🎉</span>
+          <Calendar size={24} className="ml-2" />
           الفعاليات القادمة
         </h3>
         
@@ -134,15 +135,15 @@ const CommunitySection: React.FC = () => {
                   </div>
                   <div className="text-sm text-gray-600 space-y-1">
                     <div className="flex items-center">
-                      <span className="ml-2">📅</span>
-                      {event.date} • ⏰ {event.time}
+                      <Calendar size={14} className="ml-2" />
+                      {event.date} • <Clock size={14} className="mx-1" /> {event.time}
                     </div>
                     <div className="flex items-center">
-                      <span className="ml-2">📍</span>
+                      <MapPin size={14} className="ml-2" />
                       {event.location}
                     </div>
                     <div className="flex items-center">
-                      <span className="ml-2">👥</span>
+                      <Users size={14} className="ml-2" />
                       {event.attendees} مسجل
                     </div>
                   </div>
@@ -159,15 +160,15 @@ const CommunitySection: React.FC = () => {
       {/* Mentorship Program */}
       <div className="bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-2xl shadow-xl p-6">
         <h3 className="text-xl font-bold mb-4 flex items-center">
-          <span className="text-3xl ml-3">🎓</span>
+          <GraduationCap size={28} className="ml-3" />
           برنامج الإرشاد (Mentorship)
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div className="bg-white/20 backdrop-blur rounded-xl p-4">
             <div className="flex items-center space-x-3 space-x-reverse mb-3">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-2xl">
-                👨‍🏫
+              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center">
+                <GraduationCap size={28} className="text-purple-600" />
               </div>
               <div>
                 <div className="font-bold">د. محمد السالم</div>
@@ -181,7 +182,7 @@ const CommunitySection: React.FC = () => {
 
           <div className="bg-white/20 backdrop-blur rounded-xl p-4">
             <div className="text-center mb-3">
-              <div className="text-3xl mb-2">🌟</div>
+              <div className="mb-2"><Star size={28} /></div>
               <div className="font-bold">كن مرشداً</div>
               <p className="text-xs opacity-90 mt-1">شارك خبراتك وساعد الآخرين على النمو</p>
             </div>

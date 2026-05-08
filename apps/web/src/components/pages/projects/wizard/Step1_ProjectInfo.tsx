@@ -59,9 +59,7 @@ const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData }) => {
                         type="text"
                         value={data.name?.[activeLang] || ''}
                         onChange={e => handleNameChange(activeLang, e.target.value)}
-                        placeholder={activeLang === 'en'
-                            ? t('projects.wizard.form.placeholders.projectName.en')
-                            : t('projects.wizard.form.placeholders.projectName.ar')}
+                        placeholder={activeLang === 'en' ? 'Enter project name' : 'أدخل اسم المشروع'}
                         className="w-full px-3 py-2.5 text-sm bg-white dark:bg-slate-800 border-0 focus:ring-0"
                         dir={activeLang === 'ar' ? 'rtl' : 'ltr'}
                     />
@@ -69,6 +67,9 @@ const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData }) => {
             </FormField>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField label={t('projects.wizard.form.code')}>
+                    <input type="text" disabled value="PROJ-2024-003" className={`${inputClass} bg-gray-50 dark:bg-slate-900 cursor-not-allowed opacity-60`} />
+                </FormField>
                 <FormField label={t('projects.wizard.form.type')}>
                     <select name="type" value={data.type} onChange={handleInputChange} className={selectClass}>
                         {projectTypes.map(type => <option key={type} value={type}>{t(`projects.types.${type}`)}</option>)}
@@ -97,10 +98,10 @@ const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData }) => {
                     </select>
                 </FormField>
                 <FormField label={t('projects.wizard.form.city')}>
-                    <input type="text" name="location.city" value={data.location?.city} onChange={handleInputChange} placeholder={t('projects.wizard.form.placeholders.city')} className={inputClass} />
+                    <input type="text" name="location.city" value={data.location?.city} onChange={handleInputChange} placeholder="City name" className={inputClass} />
                 </FormField>
                 <FormField label={t('projects.wizard.form.region')}>
-                    <input type="text" name="location.region" value={data.location?.region || ''} onChange={handleInputChange} placeholder={t('projects.wizard.form.placeholders.region')} className={inputClass} />
+                    <input type="text" name="location.region" value={data.location?.region || ''} onChange={handleInputChange} placeholder="Region (optional)" className={inputClass} />
                 </FormField>
             </div>
         </div>

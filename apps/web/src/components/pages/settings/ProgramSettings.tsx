@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { ProgramSettingsSubCategory } from '../../../types';
 import SettingsCard from './SettingsCard';
 import ToggleSwitch from './ToggleSwitch';
 import { MOCK_PROGRAM_DATA } from '../../../data/programData';
+import { Building2, Globe, UsersRound, RefreshCw, Crosshair, TrendingUp, Construction } from 'lucide-react';
 
 const ProgramSettings: React.FC = () => {
     const { t, dir } = useLocalization();
     const [activeSubCategory, setActiveSubCategory] = useState<ProgramSettingsSubCategory>('structure');
 
-    const subCategories: { id: ProgramSettingsSubCategory; icon: string }[] = [
-        { id: 'structure', icon: '🏗️' },
-        { id: 'geography', icon: '🌍' },
-        { id: 'beneficiaries', icon: '👨‍👩‍👧‍👦' },
-        { id: 'lifecycle', icon: '🔄' },
-        { id: 'frameworks', icon: '🎯' },
-        { id: 'indicators', icon: '📈' },
-        // { id: 'workflows', icon: '✅' },
-        // { id: 'partnerships', icon: '🤝' },
-        // { id: 'safeguarding', icon: '🛡️' },
-        // { id: 'templates', icon: '📄' },
+    const subCategories: { id: ProgramSettingsSubCategory; icon: ReactNode }[] = [
+        { id: 'structure', icon: <Building2 size={18} /> },
+        { id: 'geography', icon: <Globe size={18} /> },
+        { id: 'beneficiaries', icon: <UsersRound size={18} /> },
+        { id: 'lifecycle', icon: <RefreshCw size={18} /> },
+        { id: 'frameworks', icon: <Crosshair size={18} /> },
+        { id: 'indicators', icon: <TrendingUp size={18} /> },
+        // { id: 'workflows', icon: <CheckSquare size={18} /> },
+        // { id: 'partnerships', icon: <Handshake size={18} /> },
+        // { id: 'safeguarding', icon: <Shield size={18} /> },
+        // { id: 'templates', icon: <FileText size={18} /> },
     ];
 
     const renderActiveSubCategory = () => {
@@ -29,7 +30,7 @@ const ProgramSettings: React.FC = () => {
                 return (
                     <SettingsCard title={t(`settings.programSettings.subCategories.${activeSubCategory}`)} description="">
                         <div className="text-center p-8">
-                             <div className="text-4xl mb-4">🚧</div>
+                             <div className="mb-4 flex justify-center"><Construction size={36} /></div>
                              <p>{t('placeholder.underConstruction')}</p>
                         </div>
                     </SettingsCard>

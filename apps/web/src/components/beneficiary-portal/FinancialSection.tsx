@@ -1,4 +1,5 @@
 import React from 'react';
+import { Wallet, CheckCircle2, BarChart3, AlertTriangle, Handshake, Lightbulb, Target, ScrollText } from 'lucide-react';
 
 const FinancialSection: React.FC = () => {
   return (
@@ -6,7 +7,7 @@ const FinancialSection: React.FC = () => {
       {/* Financial Overview Header */}
       <div className="bg-gradient-to-br from-green-500 to-teal-600 text-white rounded-2xl shadow-xl p-8">
         <h2 className="text-2xl font-bold mb-6 flex items-center">
-          <span className="text-3xl ml-3">💰</span>
+          <Wallet size={28} className="ml-3" />
           الخدمات المالية
         </h2>
         
@@ -14,19 +15,19 @@ const FinancialSection: React.FC = () => {
           <div className="bg-white/20 backdrop-blur rounded-xl p-4">
             <div className="text-sm opacity-90 mb-2">الدعم الشهري</div>
             <div className="text-3xl font-bold">5,000 ر.س</div>
-            <div className="text-xs mt-2">✅ تم التحويل في 1 يناير</div>
+            <div className="text-xs mt-2 flex items-center"><CheckCircle2 size={12} className="ml-1" /> تم التحويل في 1 يناير</div>
           </div>
           
           <div className="bg-white/20 backdrop-blur rounded-xl p-4">
             <div className="text-sm opacity-90 mb-2">المنصرف حتى الآن</div>
             <div className="text-3xl font-bold">3,200 ر.س</div>
-            <div className="text-xs mt-2">📊 64% من الميزانية</div>
+            <div className="text-xs mt-2 flex items-center"><BarChart3 size={12} className="ml-1" /> 64% من الميزانية</div>
           </div>
           
           <div className="bg-white/20 backdrop-blur rounded-xl p-4">
             <div className="text-sm opacity-90 mb-2">الرصيد المتبقي</div>
             <div className="text-3xl font-bold">1,800 ر.س</div>
-            <div className="text-xs mt-2">⚠️ كافي ل 18 يوم</div>
+            <div className="text-xs mt-2 flex items-center"><AlertTriangle size={12} className="ml-1" /> كافي ل 18 يوم</div>
           </div>
         </div>
       </div>
@@ -34,7 +35,7 @@ const FinancialSection: React.FC = () => {
       {/* Sponsor Info */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4 flex items-center">
-          <span className="text-2xl ml-2">🤝</span>
+          <Handshake size={24} className="ml-2" />
           معلومات الكفيل
         </h3>
         <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
@@ -57,7 +58,7 @@ const FinancialSection: React.FC = () => {
       {/* Spending Analysis */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-bold">📊 تحليل المصروفات (AI)</h3>
+          <h3 className="text-xl font-bold flex items-center"><BarChart3 size={20} className="ml-2" />تحليل المصروفات (AI)</h3>
           <span className="text-sm text-gray-500">هذا الشهر</span>
         </div>
         
@@ -91,7 +92,7 @@ const FinancialSection: React.FC = () => {
         {/* AI Recommendation */}
         <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
           <div className="flex items-start">
-            <span className="text-2xl ml-3">💡</span>
+            <Lightbulb size={24} className="ml-3" />
             <div>
               <div className="font-semibold text-gray-800 mb-1">توصية ذكية من AI</div>
               <div className="text-sm text-gray-600">
@@ -104,7 +105,7 @@ const FinancialSection: React.FC = () => {
 
       {/* Payment History */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4">📜 سجل المدفوعات</h3>
+        <h3 className="text-xl font-bold mb-4 flex items-center"><ScrollText size={20} className="ml-2" />سجل المدفوعات</h3>
         
         <div className="space-y-3">
           {[
@@ -116,7 +117,7 @@ const FinancialSection: React.FC = () => {
             <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
               <div className="flex items-center space-x-3 space-x-reverse">
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-xl">✅</span>
+                  <CheckCircle2 size={20} />
                 </div>
                 <div>
                   <div className="font-semibold text-gray-800">{payment.type}</div>
@@ -134,7 +135,7 @@ const FinancialSection: React.FC = () => {
 
       {/* Financial Goals */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4">🎯 الأهداف المالية</h3>
+        <h3 className="text-xl font-bold mb-4 flex items-center"><Target size={20} className="ml-2" />الأهداف المالية</h3>
         <div className="space-y-4">
           <div className="p-4 bg-blue-50 rounded-xl">
             <div className="flex justify-between mb-2">

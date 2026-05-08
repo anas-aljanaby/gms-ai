@@ -46,8 +46,8 @@ export const MOCK_COMPLIANCE_TREND_DATA = [
 ];
 
 export const MOCK_SHARIA_ACTIVITIES: ShariaActivity[] = [
-    { id: 'act-1', icon: '⚖️', text: { en: 'Fatwa #123 regarding cryptocurrency was issued', ar: 'تم إصدار الفتوى رقم 123 بخصوص العملات الرقمية' }, timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString() },
-    { id: 'act-2', icon: '📄', text: { en: 'Contract #C-45 approved by Sharia board', ar: 'تمت الموافقة على العقد رقم C-45 من قبل الهيئة الشرعية' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString() },
-    { id: 'act-3', icon: '💰', text: { en: 'New Zakat expenditure of $5,000 logged', ar: 'تم تسجيل نفقة زكاة جديدة بقيمة 5,000 دولار' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() },
-    { id: 'act-4', icon: '👥', text: { en: 'Sharia board meeting scheduled for Jul 30, 2024', ar: 'تم تحديد اجتماع الهيئة الشرعية في 30 يوليو 2024' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
+    { id: 'act-1', icon: 'scale', text: { en: 'Fatwa #123 regarding cryptocurrency was issued', ar: 'تم إصدار الفتوى رقم 123 بخصوص العملات الرقمية' }, timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString() },
+    { id: 'act-2', icon: 'file', text: { en: 'Contract #C-45 approved by Sharia board', ar: 'تمت الموافقة على العقد رقم C-45 من قبل الهيئة الشرعية' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString() },
+    { id: 'act-3', icon: 'coins', text: { en: 'New Zakat expenditure of $5,000 logged', ar: 'تم تسجيل نفقة زكاة جديدة بقيمة 5,000 دولار' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() },
+    { id: 'act-4', icon: 'users', text: { en: 'Sharia board meeting scheduled for Jul 30, 2024', ar: 'تم تحديد اجتماع الهيئة الشرعية في 30 يوليو 2024' }, timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
 ];

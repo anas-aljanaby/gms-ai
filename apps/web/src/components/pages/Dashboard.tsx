@@ -15,7 +15,7 @@ import type { FilterState } from '../dashboard/DashboardControls';
 import SkeletonLoader from '../common/SkeletonLoader';
 import useHistoryState from '../../hooks/useHistoryState';
 import LayoutCustomizer from '../dashboard/LayoutCustomizer';
-import { PlusCircle, BarChart3, Mail, Settings, ChevronDown, Rocket } from 'lucide-react';
+import { PlusCircle, BarChart3, Mail, Settings, ChevronDown, Rocket, Users, ClipboardList, Construction, Banknote, Star } from 'lucide-react';
 import OnboardingTour from '../onboarding/OnboardingTour';
 import { tourSteps } from '../../data/helpData';
 
@@ -35,10 +35,10 @@ interface DashboardProps {
 }
 
 const smartKpiData = [
-    { id: 'kpiSponsorships', title: { en: 'Sponsorships Waiting', ar: 'الكفالات المنتظرة' }, value: 18, icon: '👥', changePercentage: 5, priority: 'warning', trend: [15, 12, 16, 14, 18] },
-    { id: 'kpiOverdueTasks', title: { en: 'Overdue Donor Tasks', ar: 'مهام المانحين المتأخرة' }, value: 7, icon: '📋', changePercentage: -12.5, priority: 'urgent', trend: [5, 6, 8, 9, 7] },
-    { id: 'kpiProjectsAtRisk', title: { en: 'Active Projects at Risk', ar: 'المشاريع النشطة في خطر' }, value: 2, icon: '🚧', priority: 'warning', trend: [3, 3, 2, 2, 2] },
-    { id: 'kpiFundsDisbursed', title: { en: 'Funds to be Disbursed', ar: 'الأموال المقرر صرفها' }, value: 125000, icon: '💸', target: 500000, daysRemaining: 45, priority: 'neutral', trend: [80000, 95000, 110000, 125000] },
+    { id: 'kpiSponsorships', title: { en: 'Sponsorships Waiting', ar: 'الكفالات المنتظرة' }, value: 18, icon: <Users size={24} />, changePercentage: 5, priority: 'warning', trend: [15, 12, 16, 14, 18] },
+    { id: 'kpiOverdueTasks', title: { en: 'Overdue Donor Tasks', ar: 'مهام المانحين المتأخرة' }, value: 7, icon: <ClipboardList size={24} />, changePercentage: -12.5, priority: 'urgent', trend: [5, 6, 8, 9, 7] },
+    { id: 'kpiProjectsAtRisk', title: { en: 'Active Projects at Risk', ar: 'المشاريع النشطة في خطر' }, value: 2, icon: <Construction size={24} />, priority: 'warning', trend: [3, 3, 2, 2, 2] },
+    { id: 'kpiFundsDisbursed', title: { en: 'Funds to be Disbursed', ar: 'الأموال المقرر صرفها' }, value: 125000, icon: <Banknote size={24} />, target: 500000, daysRemaining: 45, priority: 'neutral', trend: [80000, 95000, 110000, 125000] },
 ];
 
 const comparisonData = [ { label: 'Donations', value: 125000, year: 2024 }, { label: 'Donations', value: 110000, year: 2023 }, { label: 'Volunteers', value: 215, year: 2024 }, { label: 'Volunteers', value: 190, year: 2023 }, { label: 'Beneficiaries', value: 3500, year: 2024 }, { label: 'Beneficiaries', value: 3200, year: 2023 } ];
@@ -80,7 +80,7 @@ const FavoriteReportCard: React.FC<{ setActiveModule: (module: string) => void; 
             <div>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse">
                     <div className="p-3 rounded-full bg-yellow-100 text-yellow-600 dark:bg-yellow-900/50 dark:text-yellow-300">
-                        <span className="text-2xl" aria-hidden="true">⭐</span>
+                        <Star size={24} aria-hidden="true" />
                     </div>
                     <div>
                         <h3 className="text-lg font-bold text-foreground dark:text-dark-foreground">{t('dashboard.favoriteReport.title')}</h3>

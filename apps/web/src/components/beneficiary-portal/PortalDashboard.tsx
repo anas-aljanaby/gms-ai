@@ -1,11 +1,12 @@
 import React from 'react';
+import { Target, CheckCircle2, BarChart3, Trophy, Flame, AlertTriangle, FileText, Calendar } from 'lucide-react';
 
 const PortalDashboard: React.FC = () => {
   return (
     <div className="space-y-6 p-6">
       {/* Welcome Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl shadow-xl p-8">
-        <h1 className="text-3xl font-bold mb-2">مرحباً بك في بوابتك الشخصية! 👋</h1>
+        <h1 className="text-3xl font-bold mb-2">مرحباً بك في بوابتك الشخصية!</h1>
         <p className="text-blue-100">تابع تقدمك وإنجازاتك من مكان واحد</p>
       </div>
 
@@ -14,7 +15,7 @@ const PortalDashboard: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
           <div className="flex justify-between items-start mb-2">
             <span className="text-gray-600 text-sm">التقدم الأكاديمي</span>
-            <span className="text-2xl">🎯</span>
+            <Target size={24} />
           </div>
           <div className="text-3xl font-bold text-blue-600">85%</div>
           <div className="text-xs text-green-600 mt-1">↑ 5% هذا الشهر</div>
@@ -23,7 +24,7 @@ const PortalDashboard: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
           <div className="flex justify-between items-start mb-2">
             <span className="text-gray-600 text-sm">نسبة الحضور</span>
-            <span className="text-2xl">✅</span>
+            <CheckCircle2 size={24} />
           </div>
           <div className="text-3xl font-bold text-green-600">92%</div>
           <div className="text-xs text-gray-500 mt-1">18/20 جلسة</div>
@@ -32,7 +33,7 @@ const PortalDashboard: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
           <div className="flex justify-between items-start mb-2">
             <span className="text-gray-600 text-sm">المشاريع</span>
-            <span className="text-2xl">📊</span>
+            <BarChart3 size={24} />
           </div>
           <div className="text-3xl font-bold text-purple-600">3/4</div>
           <div className="text-xs text-orange-600 mt-1">1 قيد التنفيذ</div>
@@ -41,7 +42,7 @@ const PortalDashboard: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
           <div className="flex justify-between items-start mb-2">
             <span className="text-gray-600 text-sm">الترتيب</span>
-            <span className="text-2xl">🏆</span>
+            <Trophy size={24} />
           </div>
           <div className="text-3xl font-bold text-yellow-600">#3</div>
           <div className="text-xs text-gray-500 mt-1">من 45 مستفيد</div>
@@ -51,7 +52,7 @@ const PortalDashboard: React.FC = () => {
       {/* Urgent Tasks */}
       <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl shadow-lg p-6 border-r-4 border-red-500">
         <div className="flex items-center mb-4">
-          <span className="text-2xl ml-3">🔥</span>
+          <Flame size={24} className="ml-3" />
           <h2 className="text-xl font-bold text-gray-800">مهام عاجلة</h2>
         </div>
         
@@ -59,7 +60,7 @@ const PortalDashboard: React.FC = () => {
           <div className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3 space-x-reverse">
-                <span className="text-red-500 text-xl">⚠️</span>
+                <AlertTriangle size={20} className="text-red-500" />
                 <div>
                   <h3 className="font-semibold text-gray-800">تسليم مشروع القيادة</h3>
                   <p className="text-sm text-gray-600 mt-1">متبقي 3 أيام - الأولوية: عالية</p>
@@ -74,7 +75,7 @@ const PortalDashboard: React.FC = () => {
           <div className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3 space-x-reverse">
-                <span className="text-yellow-500 text-xl">📝</span>
+                <FileText size={20} className="text-yellow-500" />
                 <div>
                   <h3 className="font-semibold text-gray-800">استبيان تقييم الأداء</h3>
                   <p className="text-sm text-gray-600 mt-1">جديد - 10 دقائق فقط</p>
@@ -90,15 +91,15 @@ const PortalDashboard: React.FC = () => {
 
       {/* Recent Activity */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4">📅 النشاطات الأخيرة</h3>
+        <h3 className="text-xl font-bold mb-4 flex items-center"><Calendar size={20} className="ml-2" />النشاطات الأخيرة</h3>
         <div className="space-y-3">
           {[
-            { icon: '✅', text: 'حضرت ورشة التفكير الاستراتيجي', time: 'منذ ساعتين', color: 'green' },
-            { icon: '📝', text: 'سلمت تقرير المشروع الثاني', time: 'أمس', color: 'blue' },
-            { icon: '🎯', text: 'حصلت على 95% في التقييم', time: 'منذ 3 أيام', color: 'purple' },
+            { icon: <CheckCircle2 size={24} />, text: 'حضرت ورشة التفكير الاستراتيجي', time: 'منذ ساعتين', color: 'green' },
+            { icon: <FileText size={24} />, text: 'سلمت تقرير المشروع الثاني', time: 'أمس', color: 'blue' },
+            { icon: <Target size={24} />, text: 'حصلت على 95% في التقييم', time: 'منذ 3 أيام', color: 'purple' },
           ].map((activity, idx) => (
             <div key={idx} className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <span className={`text-2xl ml-3 ${activity.color}`}>{activity.icon}</span>
+              <span className={`ml-3 text-${activity.color}-500`}>{activity.icon}</span>
               <div className="flex-1">
                 <div className="font-medium text-gray-800">{activity.text}</div>
                 <div className="text-xs text-gray-500">{activity.time}</div>

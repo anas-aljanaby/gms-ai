@@ -4,7 +4,6 @@ import type { Project } from '../../../types';
 import { formatCurrency } from '../../../lib/utils';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, ArrowRight } from 'lucide-react';
-import { formatProjectLocation } from './utils/location';
 
 interface ProjectCardProps {
     project: Project;
@@ -57,7 +56,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelect }) => {
                     {project.location && (
                         <span className="flex items-center gap-1">
                             <MapPin size={11} />
-                            {formatProjectLocation(project.location, t)}
+                            {project.location.city}, {project.location.country}
                         </span>
                     )}
                     <span className="flex items-center gap-1">

@@ -6,8 +6,7 @@ import { formatCurrency } from '../../../lib/utils';
 import EmptyState from '../../common/EmptyState';
 import ProjectListControls from './ProjectListControls';
 import ProjectCard from './ProjectCard';
-import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
-import { formatProjectLocation } from './utils/location';
+import { MapPin, Calendar, ChevronRight } from 'lucide-react';
 
 interface ProjectListProps {
     projects: Project[];
@@ -31,7 +30,6 @@ const progressColor = (progress: number) => {
 
 const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) => {
     const { t, language } = useLocalization();
-    const isRtl = language === 'ar';
     const [view, setView] = useState<'list' | 'card'>('list');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -72,12 +70,15 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) 
                                         <p className="font-semibold text-foreground dark:text-dark-foreground group-hover:text-primary dark:group-hover:text-secondary transition-colors">
                                             {project.name[language] || project.name.en}
                                         </p>
-                                        {project.location && (
-                                            <div className="flex items-center gap-1 mt-1 text-xs text-gray-400">
-                                                <MapPin size={11} />
-                                                {formatProjectLocation(project.location, t)}
-                                            </div>
-                                        )}
+                                        <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                                            <span className="font-mono">{project.id}</span>
+                                            {project.location && (
+                                                <span className="flex items-center gap-1">
+                                                    <MapPin size={11} />
+                                                    {project.location.city}, {project.location.country}
+                                                </span>
+                                            )}
+                                        </div>
                                     </td>
                                     <td className="p-4">
                                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${stage.bg} ${stage.text}`}>
@@ -98,11 +99,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) 
                                         <p className="text-xs text-gray-400 mt-0.5">{t('projects.list.spent', 'Spent')}: {formatCurrency(project.spent, language)}</p>
                                     </td>
                                     <td className="p-4">
-                                        {isRtl ? (
-                                            <ChevronLeft size={16} className="text-gray-300 dark:text-slate-600 group-hover:text-primary dark:group-hover:text-secondary transition-colors" />
-                                        ) : (
-                                            <ChevronRight size={16} className="text-gray-300 dark:text-slate-600 group-hover:text-primary dark:group-hover:text-secondary transition-colors" />
-                                        )}
+                                        <ChevronRight size={16} className="text-gray-300 dark:text-slate-600 group-hover:text-primary dark:group-hover:text-secondary transition-colors" />
                                     </td>
                                 </tr>
                             );
