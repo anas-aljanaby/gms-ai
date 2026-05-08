@@ -1,10 +1,11 @@
 {
   "projects": {
     "title": "Project Management",
+    "subtitle": "Track and manage all organizational projects",
     "projectList": "Project List",
     "createProject": "Create Project",
     "backToList": "Back to project list",
-    "search_placeholder": "Search by project name or ID...",
+    "search_placeholder": "Search by project name...",
     "advanced_filters": "Advanced Filters",
     "tabs": {
       "overview": "Overview",
@@ -23,6 +24,19 @@
       "list": "List",
       "card": "Card",
       "map": "Map"
+    },
+    "stats": {
+      "total": "Total Projects",
+      "active": "Active",
+      "completed": "Completed",
+      "totalBudget": "Total Budget"
+    },
+    "types": {
+      "humanitarian": "Humanitarian",
+      "development": "Development",
+      "health": "Health",
+      "education": "Education",
+      "infrastructure": "Infrastructure"
     },
     "list": {
       "name": "Project",
@@ -44,6 +58,11 @@
       "next": "Next",
       "finish": "Finish",
       "progressAria": "Progress",
+      "steps": {
+        "info": "Project Info",
+        "stakeholders": "Stakeholders",
+        "goals": "Goals & Outcomes"
+      },
       "form": {
         "name": "Project Name",
         "code": "Project Code",
@@ -67,6 +86,14 @@
         "addObjective": "Add Objective",
         "addOutcome": "Add Outcome",
         "addKpi": "Add KPI",
+        "placeholders": {
+          "projectName": {
+            "en": "Enter project name",
+            "ar": "Enter Arabic project name"
+          },
+          "city": "City name",
+          "region": "Region (optional)"
+        },
         "units": {
           "number": "Number",
           "percentage": "Percentage",
@@ -78,7 +105,31 @@
       "turkey": "Turkey",
       "syria": "Syria",
       "lebanon": "Lebanon",
-      "uganda": "Uganda"
+      "uganda": "Uganda",
+      "albania": "Albania",
+      "yemen": "Yemen",
+      "niger": "Niger"
+    },
+    "location": {
+      "countries": {
+        "turkey": "Turkey",
+        "syria": "Syria",
+        "lebanon": "Lebanon",
+        "uganda": "Uganda",
+        "albania": "Albania",
+        "yemen": "Yemen",
+        "niger": "Niger"
+      },
+      "cities": {
+        "tirana": "Tirana",
+        "istanbul": "Istanbul",
+        "ataq": "Ataq",
+        "niger": "Niger",
+        "afrin": "Afrin",
+        "aleppo": "Aleppo",
+        "gulu": "Gulu",
+        "idlib": "Idlib"
+      }
     },
     "monitoring": {
       "kpis": "Monitoring KPIs",
@@ -115,6 +166,25 @@
       "progressLabel": "Progress",
       "sdgTooltip": "SDG {{id}}: {{name}}",
       "sdgShort": "SDG {{id}}",
+      "goals": {
+        "1": "No Poverty",
+        "2": "Zero Hunger",
+        "3": "Good Health and Well-being",
+        "4": "Quality Education",
+        "5": "Gender Equality",
+        "6": "Clean Water and Sanitation",
+        "7": "Affordable and Clean Energy",
+        "8": "Decent Work and Economic Growth",
+        "9": "Industry, Innovation and Infrastructure",
+        "10": "Reduced Inequality",
+        "11": "Sustainable Cities and Communities",
+        "12": "Responsible Consumption and Production",
+        "13": "Climate Action",
+        "14": "Life Below Water",
+        "15": "Life on Land",
+        "16": "Peace, Justice and Strong Institutions",
+        "17": "Partnerships for the Goals"
+      },
       "kpi": {
         "alignedProjects": "Aligned Projects",
         "totalBudget": "Total Budget",
@@ -143,7 +213,8 @@
       "wbs": "Work Breakdown Structure (WBS)"
     },
     "schedule": {
-      "gantt": "Gantt Timeline"
+      "gantt": "Gantt Timeline",
+      "timeline": "Timeline"
     },
     "cost": {
       "dashboard": "Cost Dashboard",

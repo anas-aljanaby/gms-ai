@@ -5,7 +5,7 @@ import { useTheme } from '../../hooks/useTheme';
 import { SUPPORTED_LANGUAGES } from '../../lib/i18n';
 import { USER_ROLES } from '../../constants';
 import { SunIcon, MoonIcon, GlobeIcon, ChevronDownIcon, HamburgerIcon } from '../icons/GenericIcons';
-import { Bell } from 'lucide-react';
+import { Bell, Lightbulb } from 'lucide-react';
 import { langToFlag } from '../icons/FlagIcons';
 import GlobalSearch from '../common/GlobalSearch';
 import LiveIndicator, { LiveIndicatorStatus } from '../common/LiveIndicator';
@@ -147,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ role, setRole, isMobileMenuOpen, setIsM
               className="relative hidden sm:flex items-center justify-center p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
               aria-label={quickHelpTitle}
             >
-              <span className="text-xl">💡</span>
+              <Lightbulb size={20} className="text-amber-500" />
               <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>

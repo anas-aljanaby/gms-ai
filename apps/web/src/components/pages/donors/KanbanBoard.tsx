@@ -105,7 +105,7 @@ const StageRailTarget: React.FC<StageRailTargetProps> = ({ stage, donors, isActi
 };
 
 const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd, density }) => {
-    const { t, language } = useLocalization(['common', 'donors']);
+    const { t, language, dir } = useLocalization(['common', 'donors']);
     const [activeDonorId, setActiveDonorId] = useState<number | null>(null);
     const [activeStageId, setActiveStageId] = useState<DonorStageId | null>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -133,14 +133,19 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ donors, stages, onDragEnd, de
     }, [checkScroll]);
 
     const scrollToStart = useCallback(() => {
-        scrollRef.current?.scrollTo({ left: 0, behavior: 'smooth' });
-    }, []);
+        const el = scrollRef.current;
+        if (!el) return;
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        // Keep "start/end" semantics aligned with page direction.
+        el.scrollTo({ left: dir === 'rtl' ? maxScroll : 0, behavior: 'smooth' });
+    }, [dir]);
 
     const scrollToEnd = useCallback(() => {
         const el = scrollRef.current;
         if (!el) return;
-        el.scrollTo({ left: el.scrollWidth - el.clientWidth, behavior: 'smooth' });
-    }, []);
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        el.scrollTo({ left: dir === 'rtl' ? 0 : maxScroll, behavior: 'smooth' });
+    }, [dir]);
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: { distance: 6 },

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SparklesIcon } from '../icons/GenericIcons';
 import { useLocalization } from '../../hooks/useLocalization';
 import type { AiInsightsData, AiInsightItem } from '../../data/aiInsightsData';
+import { Target, AlertTriangle, Lightbulb, TrendingUp } from 'lucide-react';
 
 interface AIInsightsPanelProps {
   insights: AiInsightsData;
@@ -42,10 +43,10 @@ const InsightItem: React.FC<{ item: AiInsightItem }> = ({ item }) => {
     );
 };
 
-const InsightSection: React.FC<{ title: string; items: AiInsightItem[]; icon: string; borderColor: string }> = ({ title, items, icon, borderColor }) => (
+const InsightSection: React.FC<{ title: string; items: AiInsightItem[]; icon: React.ReactNode; borderColor: string }> = ({ title, items, icon, borderColor }) => (
     <div className={`p-4 bg-white/50 dark:bg-black/20 rounded-lg border-l-4 ${borderColor}`}>
         <h4 className="font-bold flex items-center gap-2">
-            <span className="text-xl">{icon}</span>
+            {icon}
             {title}
         </h4>
         <div className="mt-2 space-y-3">
@@ -69,10 +70,10 @@ const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({ insights, autoRefresh
     }, [autoRefresh]);
 
     const sections = [
-        { key: 'opportunities', icon: '🎯', borderColor: 'border-green-500' },
-        { key: 'alerts', icon: '⚠️', borderColor: 'border-yellow-500' },
-        { key: 'recommendations', icon: '💡', borderColor: 'border-blue-500' },
-        { key: 'predictions', icon: '📈', borderColor: 'border-purple-500' },
+        { key: 'opportunities', icon: <Target size={20} className="text-green-500" />, borderColor: 'border-green-500' },
+        { key: 'alerts', icon: <AlertTriangle size={20} className="text-yellow-500" />, borderColor: 'border-yellow-500' },
+        { key: 'recommendations', icon: <Lightbulb size={20} className="text-blue-500" />, borderColor: 'border-blue-500' },
+        { key: 'predictions', icon: <TrendingUp size={20} className="text-purple-500" />, borderColor: 'border-purple-500' },
     ];
 
     return (
