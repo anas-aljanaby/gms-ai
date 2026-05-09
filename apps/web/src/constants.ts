@@ -8,7 +8,8 @@ import {
     SettingsIcon,
     HrIcon,
     HelpSupportIcon,
-    BousalaIcon
+    BousalaIcon,
+    FinancialsIcon,
 } from './components/icons/ModuleIcons';
 import {
     CommunityServiceIcon,
@@ -29,6 +30,7 @@ export const SIDEBAR_MODULES: any[] = [
     { key: 'institutional_donors', icon: DonorIcon },
     { key: 'beneficiaries', icon: BeneficiaryIcon },
     { key: 'projects', icon: ProjectIcon },
+    { key: 'financials', icon: FinancialsIcon },
     { key: 'help', icon: HelpSupportIcon },
     { key: 'settings', icon: SettingsIcon },
 ];

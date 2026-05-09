@@ -121,7 +121,7 @@ Replace the custom i18n system (single large JSON per language + DashboardContex
 - [x] Language switching works (EN ↔ AR) without full page reload
 - [x] RTL flips correctly on all donor views
 - [x] No console errors about missing translation keys
-- [ ] Network tab shows only donor namespace files loaded (not all namespaces)
+- [x] Network tab shows only donor namespace files loaded (not all namespaces)
   - Verification: donor pages compile and run on namespace-based i18n; one manual browser-network validation remains open.
 
 ---

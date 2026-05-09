@@ -1808,3 +1808,14 @@ export interface AdminDashboardData {
     ratingDistribution: { rating: number, count: number }[];
     participants: Participant[];
 }
+
+// Financials Module
+export type { FinancialTransaction, TransactionStatus, TransactionDirection, TransactionCategory } from './types/financials';
+export type { DonationRecord, DonationMethod, ReceiptStatus } from './types/financials';
+export type { FinancialPledge, FinancialPledgeStatus, PledgeInstallment } from './types/financials';
+export type { ProjectBudget, BudgetStatus, BudgetLine } from './types/financials';
+export type { Disbursement, DisbursementType, DisbursementStatus } from './types/financials';
+export type { Fund, FundType, Grant, GrantInstallment } from './types/financials';
+export type { ApprovalItem, ApprovalItemType } from './types/financials';
+export type { FinancialReport, FinancialReportType } from './types/financials';
+export type { FinancialAlert, MonthlyFinancialData } from './types/financials';

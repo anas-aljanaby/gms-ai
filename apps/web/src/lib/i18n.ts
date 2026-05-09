@@ -21,6 +21,7 @@ export const ALL_NAMESPACES = [
   'bousala',
   'leadership',
   'stakeholders',
+  'financials',
   'settings',
   'misc',
 ] as const;
@@ -52,6 +53,7 @@ export const NAMESPACE_BY_ROOT_KEY: Record<string, AppNamespace> = {
   incubation_investors: 'stakeholders',
   incubationSuccessMetrics: 'stakeholders',
   settings: 'settings',
+  financials: 'financials',
   financialSettings: 'settings',
   layoutCustomizer: 'settings',
   translations: 'settings',
