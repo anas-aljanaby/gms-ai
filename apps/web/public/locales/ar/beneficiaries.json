@@ -39,6 +39,8 @@
     "stats": {
       "total": "الإجمالي",
       "active": "النشطون",
+      "sponsored": "المكفولون",
+      "directSupport": "الدعم المباشر",
       "individuals": "الأفراد",
       "groups": "المجموعات والمؤسسات"
     },
@@ -192,11 +194,20 @@
     "reached": "تم الوصول",
 
     "actions": {
+      "viewDetails": "عرض التفاصيل",
+      "changeStatus": "تغيير الحالة",
+      "remove": "حذف",
+      "removeConfirm": "هل أنت متأكد من حذف هذا المستفيد؟",
+      "removed": "تم حذف المستفيد {{name}}.",
+      "statusChanged": "تم تحديث حالة المستفيد.",
       "editContact": "تعديل الاتصال",
       "editDetails": "تعديل التفاصيل",
       "editAcademics": "تعديل الأكاديمي",
       "editGuardian": "تعديل الولي",
       "saved": "تم حفظ التغييرات."
+    },
+    "drawer": {
+      "close": "إغلاق لوحة التفاصيل"
     },
 
     "sponsorshipNote": "سيتم ربط تفاصيل الكفالة من وحدة إدارة المتبرعين.",

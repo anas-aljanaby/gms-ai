@@ -1,58 +1,10 @@
 import React, { useState } from 'react';
 import type { OrphanProfile } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
-import { Users, Pencil, Check, X, ShieldCheck } from 'lucide-react';
-
-/* ------------------------------------------------------------------ */
-/* Section wrapper                                                     */
-/* ------------------------------------------------------------------ */
-const Section: React.FC<{
-    title: string;
-    icon?: React.ReactNode;
-    accent?: string;
-    onEdit?: () => void;
-    editLabel?: string;
-    children: React.ReactNode;
-}> = ({ title, icon, accent = 'bg-primary-light text-primary dark:bg-primary/20 dark:text-secondary', onEdit, editLabel, children }) => (
-    <section className="min-w-0 rounded-xl border border-gray-200/80 bg-card p-5 shadow-sm dark:border-slate-700/70 dark:bg-dark-card">
-        <div className="mb-4 flex min-w-0 items-center justify-between">
-            <div className="flex items-center gap-3">
-                {icon && <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${accent}`}>{icon}</div>}
-                <h3 className="truncate text-base font-bold text-foreground dark:text-dark-foreground">{title}</h3>
-            </div>
-            {onEdit && (
-                <button
-                    onClick={onEdit}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-gray-300 text-gray-500 transition-colors hover:bg-gray-100 hover:text-foreground dark:border-slate-600 dark:hover:bg-slate-700 dark:hover:text-dark-foreground"
-                    aria-label={editLabel}
-                    title={editLabel}
-                >
-                    <Pencil size={14} />
-                </button>
-            )}
-        </div>
-        {children}
-    </section>
-);
-
-const InfoRow: React.FC<{ label: string; value?: string | number | null }> = ({ label, value }) => (
-    <div className="min-w-0">
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{label}</p>
-        <div className="mt-1 break-words text-sm font-bold leading-6 text-foreground dark:text-dark-foreground">{value ?? '—'}</div>
-    </div>
-);
-
-const EditableInput: React.FC<{
-    label: string; value: string; onChange: (v: string) => void; type?: string;
-}> = ({ label, value, onChange, type = 'text' }) => (
-    <label className="block min-w-0">
-        <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{label}</span>
-        <input
-            type={type} value={value} onChange={e => onChange(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none transition-colors"
-        />
-    </label>
-);
+import { Users, Check, X, ShieldCheck } from 'lucide-react';
+import Section from '../shared/Section';
+import InfoRow from '../shared/InfoRow';
+import EditableField from '../shared/EditableField';
 
 /* ------------------------------------------------------------------ */
 /* Main component                                                      */
@@ -103,9 +55,9 @@ const GuardianTab: React.FC<GuardianTabProps> = ({ profile, onUpdate }) => {
                     {isEditing ? (
                         <div className="space-y-3">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <EditableInput label={t('beneficiaries.fields.guardianName')} value={form.name} onChange={v => setForm(f => ({ ...f, name: v }))} />
-                                <EditableInput label={t('beneficiaries.fields.relation')} value={form.relation} onChange={v => setForm(f => ({ ...f, relation: v }))} />
-                                <EditableInput label={t('beneficiaries.fields.phone')} value={form.phone} onChange={v => setForm(f => ({ ...f, phone: v }))} type="tel" />
+                                <EditableField label={t('beneficiaries.fields.guardianName')} value={form.name} onChange={v => setForm(f => ({ ...f, name: v }))} />
+                                <EditableField label={t('beneficiaries.fields.relation')} value={form.relation} onChange={v => setForm(f => ({ ...f, relation: v }))} />
+                                <EditableField label={t('beneficiaries.fields.phone')} value={form.phone} onChange={v => setForm(f => ({ ...f, phone: v }))} type="tel" />
                             </div>
                             <div className="flex flex-wrap justify-end gap-2 pt-2">
                                 <button onClick={handleSave} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-white hover:bg-primary-dark transition-colors">

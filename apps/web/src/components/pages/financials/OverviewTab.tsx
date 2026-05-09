@@ -60,6 +60,7 @@ const ALERT_ICON_COLORS: Record<string, string> = {
 
 const OverviewTab: React.FC = () => {
   const { t, language } = useLocalization(['common', 'financials']);
+  const isArabic = language === 'ar';
 
   const chartData = useMemo(
     () =>
@@ -225,7 +226,7 @@ const OverviewTab: React.FC = () => {
               <BarChart
                 data={fundChartData}
                 layout="vertical"
-                margin={{ top: 5, right: 20, left: 10, bottom: 0 }}
+                margin={isArabic ? { top: 5, right: 10, left: 20, bottom: 0 } : { top: 5, right: 20, left: 10, bottom: 0 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:opacity-20" horizontal={false} />
                 <XAxis
@@ -234,6 +235,7 @@ const OverviewTab: React.FC = () => {
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                  reversed={isArabic}
                 />
                 <YAxis
                   type="category"
@@ -241,7 +243,9 @@ const OverviewTab: React.FC = () => {
                   tick={{ fontSize: 11, fill: '#9ca3af' }}
                   axisLine={false}
                   tickLine={false}
-                  width={140}
+                  width={isArabic ? 180 : 140}
+                  orientation={isArabic ? 'right' : 'left'}
+                  tickMargin={isArabic ? 10 : 6}
                 />
                 <Tooltip
                   content={<CustomTooltip />}
@@ -250,7 +254,7 @@ const OverviewTab: React.FC = () => {
                 <Bar
                   dataKey="balance"
                   name={t('financials.overview.balance', 'Balance')}
-                  radius={[0, 4, 4, 0]}
+                  radius={isArabic ? [4, 0, 0, 4] : [0, 4, 4, 0]}
                   barSize={24}
                 >
                   {fundChartData.map((entry, index) => (

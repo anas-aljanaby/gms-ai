@@ -2,71 +2,10 @@ import React, { useState } from 'react';
 import type { Beneficiary } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import { formatDate, formatNumber } from '../../../../lib/utils';
-import { Pencil, Check, X, User, Phone, MapPin, Mail, Award } from 'lucide-react';
-
-/* ------------------------------------------------------------------ */
-/* Section wrapper — matches donor module's <Section> pattern          */
-/* ------------------------------------------------------------------ */
-const Section: React.FC<{
-    title: string;
-    icon?: React.ReactNode;
-    accent?: string;
-    onEdit?: () => void;
-    editLabel?: string;
-    children: React.ReactNode;
-}> = ({ title, icon, accent = 'bg-primary-light text-primary dark:bg-primary/20 dark:text-secondary', onEdit, editLabel, children }) => (
-    <section className="min-w-0 rounded-xl border border-gray-200/80 bg-card p-5 shadow-sm dark:border-slate-700/70 dark:bg-dark-card">
-        <div className="mb-4 flex min-w-0 items-center justify-between">
-            <div className="flex items-center gap-3">
-                {icon && <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${accent}`}>{icon}</div>}
-                <h3 className="truncate text-base font-bold text-foreground dark:text-dark-foreground">{title}</h3>
-            </div>
-            {onEdit && (
-                <button
-                    onClick={onEdit}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-gray-300 text-gray-500 transition-colors hover:bg-gray-100 hover:text-foreground dark:border-slate-600 dark:hover:bg-slate-700 dark:hover:text-dark-foreground"
-                    aria-label={editLabel}
-                    title={editLabel}
-                >
-                    <Pencil size={14} />
-                </button>
-            )}
-        </div>
-        {children}
-    </section>
-);
-
-/* ------------------------------------------------------------------ */
-/* Info row                                                            */
-/* ------------------------------------------------------------------ */
-const InfoRow: React.FC<{ label: string; value?: string | number | null; muted?: boolean }> = ({ label, value, muted }) => (
-    <div className="min-w-0">
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{label}</p>
-        <div className={`mt-1 break-words text-sm font-bold leading-6 ${muted ? 'text-gray-400 dark:text-gray-500' : 'text-foreground dark:text-dark-foreground'}`}>
-            {value ?? '—'}
-        </div>
-    </div>
-);
-
-/* ------------------------------------------------------------------ */
-/* Editable input                                                      */
-/* ------------------------------------------------------------------ */
-const EditableInput: React.FC<{
-    label: string;
-    value: string;
-    onChange: (v: string) => void;
-    type?: string;
-}> = ({ label, value, onChange, type = 'text' }) => (
-    <label className="block min-w-0">
-        <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{label}</span>
-        <input
-            type={type}
-            value={value}
-            onChange={e => onChange(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none transition-colors"
-        />
-    </label>
-);
+import { Check, X, User, Phone, Award } from 'lucide-react';
+import Section from '../shared/Section';
+import InfoRow from '../shared/InfoRow';
+import EditableField from '../shared/EditableField';
 
 /* ------------------------------------------------------------------ */
 /* Main OverviewTab                                                    */
@@ -138,10 +77,10 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                 <Section title={t('beneficiaries.sections.contactInfo')} icon={<Phone size={18} />}>
                     <div className="space-y-3">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <EditableInput label={t('beneficiaries.fields.email')} value={contactForm.email} onChange={v => setContactForm(f => ({ ...f, email: v }))} type="email" />
-                            <EditableInput label={t('beneficiaries.fields.phone')} value={contactForm.phone} onChange={v => setContactForm(f => ({ ...f, phone: v }))} type="tel" />
+                            <EditableField label={t('beneficiaries.fields.email')} value={contactForm.email} onChange={v => setContactForm(f => ({ ...f, email: v }))} type="email" />
+                            <EditableField label={t('beneficiaries.fields.phone')} value={contactForm.phone} onChange={v => setContactForm(f => ({ ...f, phone: v }))} type="tel" />
                         </div>
-                        <EditableInput label={t('beneficiaries.fields.address')} value={contactForm.address} onChange={v => setContactForm(f => ({ ...f, address: v }))} />
+                        <EditableField label={t('beneficiaries.fields.address')} value={contactForm.address} onChange={v => setContactForm(f => ({ ...f, address: v }))} />
                         <div className="flex flex-wrap justify-end gap-2 pt-2">
                             <button onClick={handleContactSave} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-white hover:bg-primary-dark transition-colors">
                                 <Check size={14} /> {t('common.save')}
@@ -295,55 +234,55 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
             case 'student':
                 return (
                     <>
-                        <EditableInput label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
-                        <EditableInput label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
-                        <EditableInput label={t('beneficiaries.fields.university')} value={detailsForm.university || ''} onChange={v => set('university', v)} />
-                        <EditableInput label={t('beneficiaries.fields.major')} value={detailsForm.field || ''} onChange={v => set('field', v)} />
-                        <EditableInput label={t('beneficiaries.fields.gpa')} value={detailsForm.gpa || ''} onChange={v => set('gpa', v)} type="number" />
+                        <EditableField label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
+                        <EditableField label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
+                        <EditableField label={t('beneficiaries.fields.university')} value={detailsForm.university || ''} onChange={v => set('university', v)} />
+                        <EditableField label={t('beneficiaries.fields.major')} value={detailsForm.field || ''} onChange={v => set('field', v)} />
+                        <EditableField label={t('beneficiaries.fields.gpa')} value={detailsForm.gpa || ''} onChange={v => set('gpa', v)} type="number" />
                     </>
                 );
             case 'orphan':
                 return (
                     <>
-                        <EditableInput label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
-                        <EditableInput label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
-                        <EditableInput label={t('beneficiaries.fields.school')} value={detailsForm.school || ''} onChange={v => set('school', v)} />
-                        <EditableInput label={t('beneficiaries.fields.grade')} value={detailsForm.grade || ''} onChange={v => set('grade', v)} />
-                        <EditableInput label={t('beneficiaries.fields.attendance')} value={detailsForm.attendance || ''} onChange={v => set('attendance', v)} />
+                        <EditableField label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
+                        <EditableField label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
+                        <EditableField label={t('beneficiaries.fields.school')} value={detailsForm.school || ''} onChange={v => set('school', v)} />
+                        <EditableField label={t('beneficiaries.fields.grade')} value={detailsForm.grade || ''} onChange={v => set('grade', v)} />
+                        <EditableField label={t('beneficiaries.fields.attendance')} value={detailsForm.attendance || ''} onChange={v => set('attendance', v)} />
                     </>
                 );
             case 'hafiz':
                 return (
                     <>
-                        <EditableInput label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
-                        <EditableInput label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
-                        <EditableInput label={t('beneficiaries.fields.circle')} value={detailsForm.circle || ''} onChange={v => set('circle', v)} />
-                        <EditableInput label={t('beneficiaries.fields.juzCompleted')} value={detailsForm.juzCompleted || ''} onChange={v => set('juzCompleted', v)} type="number" />
+                        <EditableField label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
+                        <EditableField label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
+                        <EditableField label={t('beneficiaries.fields.circle')} value={detailsForm.circle || ''} onChange={v => set('circle', v)} />
+                        <EditableField label={t('beneficiaries.fields.juzCompleted')} value={detailsForm.juzCompleted || ''} onChange={v => set('juzCompleted', v)} type="number" />
                     </>
                 );
             case 'family':
                 return (
                     <>
-                        <EditableInput label={t('beneficiaries.fields.headOfHousehold')} value={detailsForm.headOfHousehold || ''} onChange={v => set('headOfHousehold', v)} />
-                        <EditableInput label={t('beneficiaries.fields.memberCount')} value={detailsForm.memberCount || ''} onChange={v => set('memberCount', v)} type="number" />
-                        <EditableInput label={t('beneficiaries.fields.monthlyIncome')} value={detailsForm.monthlyIncome || ''} onChange={v => set('monthlyIncome', v)} />
-                        <EditableInput label={t('beneficiaries.fields.housingType')} value={detailsForm.housingType || ''} onChange={v => set('housingType', v)} />
+                        <EditableField label={t('beneficiaries.fields.headOfHousehold')} value={detailsForm.headOfHousehold || ''} onChange={v => set('headOfHousehold', v)} />
+                        <EditableField label={t('beneficiaries.fields.memberCount')} value={detailsForm.memberCount || ''} onChange={v => set('memberCount', v)} type="number" />
+                        <EditableField label={t('beneficiaries.fields.monthlyIncome')} value={detailsForm.monthlyIncome || ''} onChange={v => set('monthlyIncome', v)} />
+                        <EditableField label={t('beneficiaries.fields.housingType')} value={detailsForm.housingType || ''} onChange={v => set('housingType', v)} />
                     </>
                 );
             case 'institution':
                 return (
                     <>
-                        <EditableInput label={t('beneficiaries.fields.directorName')} value={detailsForm.directorName || ''} onChange={v => set('directorName', v)} />
-                        <EditableInput label={t('beneficiaries.fields.capacity')} value={detailsForm.capacity || ''} onChange={v => set('capacity', v)} type="number" />
-                        <EditableInput label={t('beneficiaries.fields.institutionType')} value={detailsForm.institutionType || ''} onChange={v => set('institutionType', v)} />
+                        <EditableField label={t('beneficiaries.fields.directorName')} value={detailsForm.directorName || ''} onChange={v => set('directorName', v)} />
+                        <EditableField label={t('beneficiaries.fields.capacity')} value={detailsForm.capacity || ''} onChange={v => set('capacity', v)} type="number" />
+                        <EditableField label={t('beneficiaries.fields.institutionType')} value={detailsForm.institutionType || ''} onChange={v => set('institutionType', v)} />
                     </>
                 );
             case 'community':
                 return (
                     <>
-                        <EditableInput label={t('beneficiaries.fields.populationEstimate')} value={detailsForm.populationEstimate || ''} onChange={v => set('populationEstimate', v)} type="number" />
-                        <EditableInput label={t('beneficiaries.fields.fieldOfficer')} value={detailsForm.fieldOfficer || ''} onChange={v => set('fieldOfficer', v)} />
-                        <EditableInput label={t('beneficiaries.fields.areaType')} value={detailsForm.areaType || ''} onChange={v => set('areaType', v)} />
+                        <EditableField label={t('beneficiaries.fields.populationEstimate')} value={detailsForm.populationEstimate || ''} onChange={v => set('populationEstimate', v)} type="number" />
+                        <EditableField label={t('beneficiaries.fields.fieldOfficer')} value={detailsForm.fieldOfficer || ''} onChange={v => set('fieldOfficer', v)} />
+                        <EditableField label={t('beneficiaries.fields.areaType')} value={detailsForm.areaType || ''} onChange={v => set('areaType', v)} />
                     </>
                 );
             default:

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import type { Beneficiary, BeneficiaryType, Language } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency, formatNumber } from '../../../lib/utils';
-import { ArrowLeftIcon, GraduationCapIcon, DollarSignCircleIcon, DocumentTextIcon } from '../../icons/UtilityIcons';
+import { GraduationCapIcon, DollarSignCircleIcon, DocumentTextIcon } from '../../icons/UtilityIcons';
 import Tabs from '../../common/Tabs';
 import BeneficiaryStatusBadge from './BeneficiaryStatusBadge';
 import OverviewTab from './tabs/OverviewTab';
@@ -34,6 +34,9 @@ const getKpis = (b: Beneficiary, t: (k: string, o?: any) => string, language: La
     const kpis: Array<{ label: string; value: string; icon: React.ReactNode }> = [];
 
     const p = b.profile;
+    const aidLog = Array.isArray(b.aidLog) ? b.aidLog : [];
+    const milestones = Array.isArray(b.milestones) ? b.milestones : [];
+    const documents = Array.isArray(b.documents) ? b.documents : [];
 
     // Type-specific KPIs
     if (p.type === 'student' && p.academicInfo?.gpa) {
@@ -47,7 +50,7 @@ const getKpis = (b: Beneficiary, t: (k: string, o?: any) => string, language: La
     }
 
     // Aid total (for all types)
-    const aidTotal = b.aidLog
+    const aidTotal = aidLog
         .filter(a => a.status === 'Delivered' && a.type === 'financial')
         .reduce((sum, a) => sum + (a.value || 0), 0);
     if (aidTotal > 0) {
@@ -55,14 +58,14 @@ const getKpis = (b: Beneficiary, t: (k: string, o?: any) => string, language: La
     }
 
     // Milestones
-    if (b.milestones.length > 0) {
-        const achieved = b.milestones.filter(m => m.status === 'achieved').length;
-        kpis.push({ label: t('beneficiaries.kpi.milestones'), value: `${achieved}/${b.milestones.length}`, icon: <CheckCircle className="w-5 h-5" /> });
+    if (milestones.length > 0) {
+        const achieved = milestones.filter(m => m.status === 'achieved').length;
+        kpis.push({ label: t('beneficiaries.kpi.milestones'), value: `${achieved}/${milestones.length}`, icon: <CheckCircle className="w-5 h-5" /> });
     }
 
     // Documents
-    if (b.documents.length > 0) {
-        kpis.push({ label: t('beneficiaries.kpi.documents'), value: formatNumber(b.documents.length, language), icon: <DocumentTextIcon className="w-5 h-5" /> });
+    if (documents.length > 0) {
+        kpis.push({ label: t('beneficiaries.kpi.documents'), value: formatNumber(documents.length, language), icon: <DocumentTextIcon className="w-5 h-5" /> });
     }
 
     return kpis;
@@ -73,11 +76,10 @@ const getKpis = (b: Beneficiary, t: (k: string, o?: any) => string, language: La
 // =================================================================
 interface BeneficiaryDetailViewProps {
     beneficiary: Beneficiary;
-    onBack: () => void;
     onUpdate: (beneficiary: Beneficiary) => void;
 }
 
-const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onBack, onUpdate }) => {
+const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onUpdate }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
     const [activeTab, setActiveTab] = useState('overview');
 
@@ -115,7 +117,7 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
             case 'guardian':
                 return beneficiary.profile.type === 'orphan' ? <GuardianTab profile={beneficiary.profile} onUpdate={handleProfileUpdate} /> : null;
             case 'aid_log':
-                return <AidLogTab aidLog={beneficiary.aidLog} />;
+                return <AidLogTab aidLog={Array.isArray(beneficiary.aidLog) ? beneficiary.aidLog : []} />;
             case 'needs_assessment':
                 return <NeedsAssessmentTab beneficiary={beneficiary} onUpdate={onUpdate} />;
             case 'documents':
@@ -127,11 +129,6 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
 
     return (
         <div className="animate-fade-in space-y-6">
-            {/* Back button */}
-            <button onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-                <ArrowLeftIcon className="rtl:rotate-180 w-4 h-4" /> {t('beneficiaries.backToList')}
-            </button>
-
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start gap-5">
                 <img

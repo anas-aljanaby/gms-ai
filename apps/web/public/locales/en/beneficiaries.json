@@ -39,6 +39,8 @@
     "stats": {
       "total": "Total",
       "active": "Active",
+      "sponsored": "Sponsored",
+      "directSupport": "Direct Support",
       "individuals": "Individuals",
       "groups": "Groups & Institutions"
     },
@@ -192,11 +194,20 @@
     "reached": "Reached",
 
     "actions": {
+      "viewDetails": "View Details",
+      "changeStatus": "Change Status",
+      "remove": "Remove",
+      "removeConfirm": "Are you sure you want to remove this beneficiary?",
+      "removed": "Beneficiary {{name}} removed.",
+      "statusChanged": "Beneficiary status updated.",
       "editContact": "Edit Contact",
       "editDetails": "Edit Details",
       "editAcademics": "Edit Academics",
       "editGuardian": "Edit Guardian",
       "saved": "Changes saved."
+    },
+    "drawer": {
+      "close": "Close details panel"
     },
 
     "sponsorshipNote": "Sponsorship details will be linked from the donor management module.",

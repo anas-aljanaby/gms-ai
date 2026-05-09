@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 // NOTE: Gemini API key is no longer exposed to the browser bundle.
 // AI calls must go through apps/api per docs/architecture/decisions.md.
 export default defineConfig({
+  base: process.env.BASE_PATH ?? '/',
   server: {
     port: 5173,
     host: '0.0.0.0',
