@@ -84,5 +84,24 @@
   },
   "placeholder": {
     "underConstruction": "{moduleName} is under construction."
+  },
+  "emptyState": {
+    "noData": {
+      "title": "No beneficiaries yet",
+      "button": "Add Beneficiary"
+    },
+    "noResults": {
+      "title": "No matching beneficiaries",
+      "subtitle": "Try adjusting your search or filters.",
+      "button": "Clear Filters"
+    },
+    "noPermission": {
+      "title": "Access restricted",
+      "subtitle": "You do not have permission to view this data."
+    },
+    "maintenance": {
+      "title": "Temporarily unavailable",
+      "subtitle": "This section is under maintenance. Please check back soon."
+    }
   }
 }

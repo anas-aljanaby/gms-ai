@@ -1,43 +1,91 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { useBeneficiaryData } from '../../../hooks/useBeneficiaryData';
+import { BENEFICIARY_MOCK_PROJECTS } from '../../../hooks/useBeneficiaryData';
+import {
+    isOptimisticBeneficiary,
+    useBeneficiaries,
+    useCreateBeneficiary,
+    useDeleteBeneficiary,
+    useUpdateBeneficiary,
+} from '../../../hooks/useBeneficiaries';
 import type { Beneficiary, BeneficiaryStatus, BeneficiaryType } from '../../../types';
 import AddBeneficiaryModal from './AddBeneficiaryModal';
 import { useToast } from '../../../hooks/useToast';
 import BeneficiaryStatsStrip from './BeneficiaryStatsStrip';
 import FilterBar, { type FilterDef } from '../financials/shared/FilterBar';
 import BeneficiaryDataTable from './BeneficiaryDataTable';
-import BeneficiaryDrawer from './BeneficiaryDrawer';
+import BeneficiaryDetailView, { BeneficiaryProfileRoute } from './BeneficiaryDetailView';
 import EmptyState from '../../common/EmptyState';
 import SkeletonLoader from '../../common/SkeletonLoader';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../../lib/optimisticSubmit';
 
-const BeneficiariesModule: React.FC = () => {
+interface BeneficiariesModuleProps {
+    deepLinkTarget?: { id?: string; tab?: string } | null;
+}
+
+const BeneficiariesModule: React.FC<BeneficiariesModuleProps> = ({ deepLinkTarget }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
-    const { beneficiaryData, isLoading } = useBeneficiaryData();
+    const { data: beneficiaries = [], isLoading, isError, refetch } = useBeneficiaries();
+    const createBeneficiaryMutation = useCreateBeneficiary();
+    const updateBeneficiaryMutation = useUpdateBeneficiary();
+    const deleteBeneficiaryMutation = useDeleteBeneficiary();
     const toast = useToast();
 
-    const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>(beneficiaryData.beneficiaries);
-    const [selectedBeneficiary, setSelectedBeneficiary] = useState<Beneficiary | null>(null);
+    const [selectedBeneficiaryId, setSelectedBeneficiaryId] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedType, setSelectedType] = useState<BeneficiaryType | ''>('');
     const [selectedStatus, setSelectedStatus] = useState<BeneficiaryStatus | ''>('');
     const [selectedCountry, setSelectedCountry] = useState<string>('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [highlightedId, setHighlightedId] = useState<string | null>(null);
+    const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const selectedBeneficiary = useMemo(
+        () => beneficiaries.find((b) => b.id === selectedBeneficiaryId) ?? null,
+        [beneficiaries, selectedBeneficiaryId],
+    );
 
     useEffect(() => {
-        setBeneficiaries(beneficiaryData.beneficiaries);
-    }, [beneficiaryData.beneficiaries]);
+        return () => {
+            if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        };
+    }, []);
 
-    // Derived data for filters
+    const handleBeneficiarySelect = useCallback((beneficiary: Beneficiary) => {
+        setSelectedBeneficiaryId(beneficiary.id);
+        window.location.hash = `beneficiaries/${beneficiary.id}`;
+    }, []);
+
+    const handleBeneficiaryBack = useCallback(() => {
+        setSelectedBeneficiaryId(null);
+        window.location.hash = 'beneficiaries';
+    }, []);
+
+    useEffect(() => {
+        if (deepLinkTarget?.id && beneficiaries.length > 0) {
+            setSelectedBeneficiaryId(deepLinkTarget.id);
+        } else if (!deepLinkTarget?.id) {
+            setSelectedBeneficiaryId(null);
+        }
+    }, [deepLinkTarget, beneficiaries.length]);
+
+    const flashHighlight = useCallback((id: string) => {
+        if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        setHighlightedId(id);
+        highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
+    }, []);
+
     const countries = useMemo(() => {
-        const set = new Set(beneficiaries.map(b => b.country));
+        const set = new Set(beneficiaries.map((b) => b.country));
         return Array.from(set).sort();
     }, [beneficiaries]);
 
-    // Filtering
     const filteredBeneficiaries = useMemo(() => {
-        return beneficiaries.filter(b => {
+        const optimistic = beneficiaries.filter((b) => isOptimisticBeneficiary(b.id));
+        const rest = beneficiaries.filter((b) => !isOptimisticBeneficiary(b.id));
+
+        const filtered = rest.filter((b) => {
             if (selectedType && b.beneficiaryType !== selectedType) return false;
             if (selectedStatus && b.status !== selectedStatus) return false;
             if (selectedCountry && b.country !== selectedCountry) return false;
@@ -56,46 +104,48 @@ const BeneficiariesModule: React.FC = () => {
 
             return true;
         });
+
+        return [...optimistic, ...filtered];
     }, [beneficiaries, selectedType, selectedStatus, selectedCountry, searchTerm, language]);
 
     const handleAddBeneficiary = (data: Partial<Beneficiary>) => {
-        const newBeneficiary: Beneficiary = {
-            id: `ben-${Date.now()}`,
-            name: data.name || { en: '', ar: '' },
-            beneficiaryType: data.beneficiaryType || 'student',
-            photo: `https://picsum.photos/seed/${Date.now()}/200/200`,
-            status: 'active',
-            supportType: data.supportType || 'direct-support',
-            country: data.country || '',
-            profile: data.profile || { type: 'student' },
-            aidLog: [],
-            assessments: [],
-            milestones: [],
-            documents: [],
-        };
-        setBeneficiaries(prev => [newBeneficiary, ...prev]);
-        toast.showSuccess(t('beneficiaries.addedSuccess', { name: newBeneficiary.name[language] }));
-        setIsAddModalOpen(false);
+        createBeneficiaryMutation.mutate(data, {
+            onSuccess: (created) => {
+                flashHighlight(created.id);
+                toast.showSuccess(t('beneficiaries.addedSuccess', { name: created.name[language] }));
+            },
+            onError: (error) => {
+                toast.showError(error instanceof Error ? error.message : t('common.error', 'Error'));
+            },
+        });
     };
 
     const handleUpdate = (updated: Beneficiary) => {
-        setBeneficiaries(prev => prev.map(b => b.id === updated.id ? updated : b));
-        setSelectedBeneficiary(updated);
+        if (isOptimisticBeneficiary(updated.id)) return;
+        updateBeneficiaryMutation.mutate(updated, {
+            onError: (error) => {
+                toast.showError(error instanceof Error ? error.message : t('common.error', 'Error'));
+            },
+        });
     };
 
     const handleStatusChange = (beneficiary: Beneficiary, status: BeneficiaryStatus) => {
-        const updated = { ...beneficiary, status };
-        setBeneficiaries((prev) => prev.map((b) => (b.id === beneficiary.id ? updated : b)));
-        if (selectedBeneficiary?.id === beneficiary.id) {
-            setSelectedBeneficiary(updated);
-        }
+        if (isOptimisticBeneficiary(beneficiary.id)) return;
+        handleUpdate({ ...beneficiary, status });
     };
 
     const handleRemove = (beneficiary: Beneficiary) => {
-        setBeneficiaries((prev) => prev.filter((b) => b.id !== beneficiary.id));
-        if (selectedBeneficiary?.id === beneficiary.id) {
-            setSelectedBeneficiary(null);
-        }
+        if (isOptimisticBeneficiary(beneficiary.id)) return;
+        deleteBeneficiaryMutation.mutate(beneficiary.id, {
+            onSuccess: () => {
+                if (selectedBeneficiaryId === beneficiary.id) {
+                    setSelectedBeneficiaryId(null);
+                }
+            },
+            onError: (error) => {
+                toast.showError(error instanceof Error ? error.message : t('common.error', 'Error'));
+            },
+        });
     };
 
     const clearFilters = () => {
@@ -142,19 +192,39 @@ const BeneficiariesModule: React.FC = () => {
         },
     ];
 
+    if (selectedBeneficiary) {
+        return (
+            <BeneficiaryDetailView
+                beneficiary={selectedBeneficiary}
+                onBack={handleBeneficiaryBack}
+                onUpdate={handleUpdate}
+                projects={BENEFICIARY_MOCK_PROJECTS}
+                existingCountries={countries}
+            />
+        );
+    }
+
+    if (selectedBeneficiaryId) {
+        return (
+            <BeneficiaryProfileRoute
+                beneficiaryId={selectedBeneficiaryId}
+                beneficiaries={beneficiaries}
+                isLoading={isLoading}
+                onBack={handleBeneficiaryBack}
+                onUpdate={handleUpdate}
+                projects={BENEFICIARY_MOCK_PROJECTS}
+                existingCountries={countries}
+            />
+        );
+    }
+
     return (
         <>
             <AddBeneficiaryModal
                 isOpen={isAddModalOpen}
                 onClose={() => setIsAddModalOpen(false)}
                 onAdd={handleAddBeneficiary}
-            />
-
-            <BeneficiaryDrawer
-                beneficiary={selectedBeneficiary}
-                isOpen={Boolean(selectedBeneficiary)}
-                onClose={() => setSelectedBeneficiary(null)}
-                onUpdate={handleUpdate}
+                existingCountries={countries}
             />
 
             <div className="space-y-4 animate-fade-in">
@@ -170,6 +240,19 @@ const BeneficiariesModule: React.FC = () => {
                         {t('beneficiaries.addBeneficiary')}
                     </button>
                 </div>
+
+                {isError && (
+                    <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+                        {t('common.error', 'Error loading data')}
+                        <button
+                            type="button"
+                            onClick={() => void refetch()}
+                            className="ms-3 font-semibold underline"
+                        >
+                            {t('common.retry', 'Retry')}
+                        </button>
+                    </div>
+                )}
 
                 <BeneficiaryStatsStrip beneficiaries={filteredBeneficiaries} />
 
@@ -189,8 +272,12 @@ const BeneficiariesModule: React.FC = () => {
                         ) : filteredBeneficiaries.length > 0 ? (
                             <BeneficiaryDataTable
                                 beneficiaries={filteredBeneficiaries}
-                                projects={beneficiaryData.projects}
-                                onSelect={setSelectedBeneficiary}
+                                projects={BENEFICIARY_MOCK_PROJECTS}
+                                highlightedId={highlightedId}
+                                onSelect={(beneficiary) => {
+                                    if (isOptimisticBeneficiary(beneficiary.id)) return;
+                                    handleBeneficiarySelect(beneficiary);
+                                }}
                                 onStatusChange={handleStatusChange}
                                 onRemove={handleRemove}
                             />

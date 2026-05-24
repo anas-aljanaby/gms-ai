@@ -6,7 +6,7 @@ import { MOCK_PROJECTS } from '../../../data/projectData';
 
 interface Grant {
   id: string;
-  date: string; // ISO
+  date: string;
   amount: number;
   currency: 'USD' | 'EUR' | 'TRY';
   type: 'Restricted' | 'Unrestricted';
@@ -15,7 +15,6 @@ interface Grant {
   attachmentUrl?: string;
 }
 
-// Updated mockGrants to match project names and remove non-project grants
 const mockGrants: Grant[] = [
     { id: 'GR-01', date: '2024-06-01T00:00:00Z', amount: 50000, currency: 'USD', type: 'Restricted', projectBeneficiary: 'Clean Water Initiative for Rural Villages', status: 'Paid'},
     { id: 'GR-02', date: '2023-11-15T00:00:00Z', amount: 100000, currency: 'USD', type: 'Restricted', projectBeneficiary: 'Education for All', status: 'Paid'},
@@ -23,19 +22,20 @@ const mockGrants: Grant[] = [
     { id: 'GR-03', date: '2023-05-20T00:00:00Z', amount: 250000, currency: 'USD', type: 'Restricted', projectBeneficiary: 'Emergency Food Aid for Conflict Zones', status: 'Paid'},
 ];
 
+const FILTER_ALL = 'all';
 
 interface GrantsTabProps {
     donor: InstitutionalDonor;
 }
 
-const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors']);
-    
+const GrantsTab: React.FC<GrantsTabProps> = ({ donor: _donor }) => {
+    const { t, language } = useLocalization(['common', 'institutional_donors', 'projects']);
+
     const [filters, setFilters] = useState({
-        status: 'الكل',
-        sector: 'الكل',
-        year: 'الكل',
-        amount: 'الكل',
+        status: FILTER_ALL,
+        sector: FILTER_ALL,
+        year: FILTER_ALL,
+        amount: FILTER_ALL,
     });
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,14 +47,14 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
         switch (stage) {
             case 'implementation':
             case 'monitoring':
-                return 'جاري التنفيذ';
+                return t('institutional_donors.grantsTab.statusInProgress');
             case 'planning':
             case 'design':
-                return 'مخطط له';
+                return t('institutional_donors.grantsTab.statusPlanned');
             case 'closure':
-                return 'مكتمل';
+                return t('institutional_donors.grantsTab.statusCompleted');
             default:
-                return 'غير معروف';
+                return t('institutional_donors.grantsTab.statusUnknown');
         }
     };
 
@@ -78,7 +78,6 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
             if (project) {
                 return { project, grant };
             }
-            // Handle cases like 'Education for All' which are in grants but not full projects
             if (grant.projectBeneficiary === 'Education for All') {
                  return {
                     grant,
@@ -88,7 +87,7 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
                         stage: 'closure',
                         type: 'education'
                     } as Partial<Project>
-                }
+                };
             }
             return null;
         }).filter(Boolean) as { project: Partial<Project>, grant: Grant }[];
@@ -96,20 +95,16 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
 
     const filteredProjects = useMemo(() => {
         return allSponsoredProjects.filter(({ project, grant }) => {
-            // Status Filter
-            if (filters.status !== 'الكل' && getProjectStatusText(project.stage) !== filters.status) {
+            if (filters.status !== FILTER_ALL && getProjectStatusText(project.stage) !== filters.status) {
                 return false;
             }
-            // Sector Filter
-            if (filters.sector !== 'الكل' && project.type !== filters.sector) {
+            if (filters.sector !== FILTER_ALL && project.type !== filters.sector) {
                 return false;
             }
-            // Year Filter
-            if (filters.year !== 'الكل' && new Date(grant.date).getFullYear().toString() !== filters.year) {
+            if (filters.year !== FILTER_ALL && new Date(grant.date).getFullYear().toString() !== filters.year) {
                 return false;
             }
-            // Amount Filter
-            if (filters.amount !== 'الكل') {
+            if (filters.amount !== FILTER_ALL) {
                 const amount = grant.amount;
                 if (filters.amount === '<50000' && amount >= 50000) return false;
                 if (filters.amount === '50000-100000' && (amount < 50000 || amount > 100000)) return false;
@@ -118,45 +113,44 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
 
             return true;
         });
-    }, [allSponsoredProjects, filters]);
+    }, [allSponsoredProjects, filters, t]);
 
     const sectorOptions = useMemo(() => Array.from(new Set(allSponsoredProjects.map(p => p.project.type).filter(Boolean))) as ProjectType[], [allSponsoredProjects]);
     const yearOptions = useMemo(() => Array.from(new Set(mockGrants.map(g => new Date(g.date).getFullYear().toString()))).sort((a,b) => Number(b) - Number(a)), []);
-
 
     return (
         <div>
              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 dark:bg-dark-card/50 rounded-lg border dark:border-slate-700">
                 <div>
-                    <label htmlFor="status-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">حسب الحالة</label>
+                    <label htmlFor="status-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.grantsTab.filterStatus')}</label>
                     <select id="status-filter" name="status" value={filters.status} onChange={handleFilterChange} className="mt-1 block w-full p-2 border-gray-300 rounded-md dark:bg-slate-800 dark:border-slate-600">
-                        <option>الكل</option>
-                        <option>مكتمل</option>
-                        <option>جاري التنفيذ</option>
-                        <option>مخطط له</option>
+                        <option value={FILTER_ALL}>{t('institutional_donors.filterAll')}</option>
+                        <option value={t('institutional_donors.grantsTab.statusCompleted')}>{t('institutional_donors.grantsTab.statusCompleted')}</option>
+                        <option value={t('institutional_donors.grantsTab.statusInProgress')}>{t('institutional_donors.grantsTab.statusInProgress')}</option>
+                        <option value={t('institutional_donors.grantsTab.statusPlanned')}>{t('institutional_donors.grantsTab.statusPlanned')}</option>
                     </select>
                 </div>
                  <div>
-                    <label htmlFor="sector-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">حسب القطاع</label>
+                    <label htmlFor="sector-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.grantsTab.filterSector')}</label>
                     <select id="sector-filter" name="sector" value={filters.sector} onChange={handleFilterChange} className="mt-1 block w-full p-2 border-gray-300 rounded-md dark:bg-slate-800 dark:border-slate-600">
-                        <option value="الكل">الكل</option>
+                        <option value={FILTER_ALL}>{t('institutional_donors.filterAll')}</option>
                         {sectorOptions.map(sector => <option key={sector} value={sector}>{t(`projects.types.${sector}`)}</option>)}
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="year-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">حسب السنة</label>
+                    <label htmlFor="year-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.grantsTab.filterYear')}</label>
                     <select id="year-filter" name="year" value={filters.year} onChange={handleFilterChange} className="mt-1 block w-full p-2 border-gray-300 rounded-md dark:bg-slate-800 dark:border-slate-600">
-                        <option>الكل</option>
+                        <option value={FILTER_ALL}>{t('institutional_donors.filterAll')}</option>
                         {yearOptions.map(year => <option key={year} value={year}>{year}</option>)}
                     </select>
                 </div>
                  <div>
-                    <label htmlFor="amount-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">حسب المبلغ</label>
+                    <label htmlFor="amount-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.grantsTab.filterAmount')}</label>
                     <select id="amount-filter" name="amount" value={filters.amount} onChange={handleFilterChange} className="mt-1 block w-full p-2 border-gray-300 rounded-md dark:bg-slate-800 dark:border-slate-600">
-                        <option value="الكل">الكل</option>
-                        <option value="<50000">أقل من 50,000$</option>
-                        <option value="50000-100000">$50,000 - $100,000</option>
-                        <option value=">100000">أكثر من 100,000$</option>
+                        <option value={FILTER_ALL}>{t('institutional_donors.filterAll')}</option>
+                        <option value="<50000">{t('institutional_donors.grantsTab.amountUnder50k')}</option>
+                        <option value="50000-100000">{t('institutional_donors.grantsTab.amount50kTo100k')}</option>
+                        <option value=">100000">{t('institutional_donors.grantsTab.amountOver100k')}</option>
                     </select>
                 </div>
             </div>
@@ -175,7 +169,7 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
                     </div>
                 )) : (
                     <div className="col-span-full text-center py-10 text-gray-500">
-                        <p>لا توجد مشاريع تطابق الفلاتر الحالية.</p>
+                        <p>{t('institutional_donors.grantsTab.noMatch')}</p>
                     </div>
                 )}
             </div>

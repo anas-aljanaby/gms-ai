@@ -5,9 +5,11 @@ import type { IndividualDonor } from '../../../types';
 import { formatDate, formatCurrency } from '../../../lib/utils';
 import { StatusBadge, TierBadge } from './DonorBadges';
 import { Activity, Calendar, HeartPulse, UserRound } from 'lucide-react';
+import { isOptimisticDonor } from '../../../hooks/useDonors';
 
 interface DonorCardProps {
     donor: IndividualDonor;
+    highlighted?: boolean;
     onClick: () => void;
 }
 
@@ -19,8 +21,9 @@ const tierAccentClasses: Record<IndividualDonor['tier'], string> = {
     'Major Donor': 'bg-purple-500',
 };
 
-const DonorCard: React.FC<DonorCardProps> = ({ donor, onClick }) => {
+const DonorCard: React.FC<DonorCardProps> = ({ donor, highlighted, onClick }) => {
     const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
+    const optimistic = isOptimisticDonor(donor.id);
     const [imageFailed, setImageFailed] = React.useState(false);
     const openTasks = donor.relationshipTasks?.filter(task => !task.completed) || [];
     const today = new Date().toISOString().split('T')[0];
@@ -60,12 +63,20 @@ const DonorCard: React.FC<DonorCardProps> = ({ donor, onClick }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            onClick={onClick}
-            onKeyDown={handleKeyDown}
+            onClick={() => !optimistic && onClick()}
+            onKeyDown={(event) => {
+                if (!optimistic) handleKeyDown(event);
+            }}
             role="button"
-            tabIndex={0}
+            tabIndex={optimistic ? -1 : 0}
             aria-label={t('donors.card.ariaLabel', { name: donorName })}
-            className="group relative overflow-hidden rounded-lg border border-gray-200/70 bg-card p-4 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:border-slate-700/60 dark:bg-dark-card dark:focus-visible:ring-offset-slate-950"
+            className={`group relative overflow-hidden rounded-lg border border-gray-200/70 bg-card p-4 shadow-soft transition-all duration-300 focus:outline-none dark:border-slate-700/60 dark:bg-dark-card ${
+                optimistic
+                    ? 'opacity-70 animate-pulse cursor-default'
+                    : highlighted
+                        ? 'ring-2 ring-primary/40 dark:ring-secondary/40 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950'
+                        : 'cursor-pointer hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950'
+            }`}
         >
             <div className={`absolute inset-x-0 top-0 h-1 ${cardAccentClass}`} aria-hidden="true" />
 

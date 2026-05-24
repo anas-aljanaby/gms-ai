@@ -1,6 +1,12 @@
 
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../lib/optimisticSubmit';
+import {
+    buildOptimisticStakeholder,
+    isOptimisticStakeholder,
+    nextStakeholderNumericId,
+} from '../../lib/stakeholderOptimistic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
 import { MOCK_STAKEHOLDERS } from '../../data/stakeholderData';
@@ -42,6 +48,8 @@ const StakeholderManagement: React.FC = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
     const [view, setView] = useState<'table' | 'card' | 'matrix'>('card');
+    const [highlightedId, setHighlightedId] = useState<Stakeholder['id'] | null>(null);
+    const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Voice Search State
     const toast = useToast();
@@ -81,6 +89,18 @@ const StakeholderManagement: React.FC = () => {
         
         recognitionRef.current = recognition;
     }, [toast, t]);
+
+    useEffect(() => {
+        return () => {
+            if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        };
+    }, []);
+
+    const flashHighlight = useCallback((id: Stakeholder['id']) => {
+        if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        setHighlightedId(id);
+        highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
+    }, []);
 
     const handleListen = useCallback(() => {
         if (!recognitionRef.current) return;
@@ -126,12 +146,15 @@ const StakeholderManagement: React.FC = () => {
     }, [stakeholders]);
 
     const filteredStakeholders = useMemo(() => {
-        return stakeholders.filter(s => {
+        const optimistic = stakeholders.filter((s) => isOptimisticStakeholder(s.id));
+        const rest = stakeholders.filter((s) => !isOptimisticStakeholder(s.id));
+        const filtered = rest.filter(s => {
             const matchesCategory = selectedCategory === 'all' || s.type === selectedCategory;
             const name = s.name[language] || s.name.en;
             const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         });
+        return [...optimistic, ...filtered];
     }, [stakeholders, selectedCategory, searchQuery, language]);
     
     const getHealthColor = (score: number) => {
@@ -146,29 +169,21 @@ const StakeholderManagement: React.FC = () => {
         return 'red';
     };
 
-    const handleAddStakeholder = (data: any) => {
-        const newStakeholder: Stakeholder = {
-            id: stakeholders.length + 1,
-            name: data.name,
-            type: data.type,
-            category: data.category,
-            status: 'active',
-            healthScore: 75,
-            relationshipLevel: 'core',
-            riskLevel: 'low',
-            lastContact: new Date().toISOString(),
-            aiInsights: 'stakeholder_management.insights.newly_added',
-            email: data.email,
-            phone: data.phone,
-            country: data.country,
-            engagementScore: 50,
-            power: 50, // Default value
-            interest: 50, // Default value
-            classification: 'secondary', // Default value
-            riskProfile: 'neutral', // Default value
-            needs: [], // Default value
-        };
-        setStakeholders(prev => [newStakeholder, ...prev]);
+    const handleAddStakeholder = (data: Pick<Stakeholder, 'name' | 'type' | 'category' | 'country' | 'email' | 'phone'>) => {
+        const optimistic = buildOptimisticStakeholder(data);
+        setStakeholders(prev => [optimistic, ...prev]);
+
+        void simulateLocalPersist((): Stakeholder => ({
+            ...optimistic,
+            id: nextStakeholderNumericId(stakeholders),
+        })).then((created) => {
+            setStakeholders(prev => prev.map(s => (s.id === optimistic.id ? created : s)));
+            flashHighlight(created.id);
+            toast.showSuccess(t('stakeholder_management.add_modal.success', 'Stakeholder added'));
+        }).catch(() => {
+            setStakeholders(prev => prev.filter(s => s.id !== optimistic.id));
+            toast.showError(t('common.error', 'Error'));
+        });
     };
     
     const ViewButton: React.FC<{ viewType: 'table' | 'card' | 'matrix'; icon: React.ReactNode; }> = ({ viewType, icon }) => (
@@ -290,20 +305,32 @@ const StakeholderManagement: React.FC = () => {
                                                 const TypeIcon = typeInfo?.icon || Users;
                                                 const healthColor = getHealthColor(stakeholder.healthScore);
                                                 const riskColor = getRiskColor(stakeholder.riskLevel);
+                                                const optimistic = isOptimisticStakeholder(stakeholder.id);
+                                                const highlighted = highlightedId === stakeholder.id;
                                                 return (
-                                                    <tr key={stakeholder.id} className="hover:bg-primary-light/20 dark:hover:bg-primary/10">
-                                                        <td className="px-6 py-4"><div className="flex items-center gap-3"><div className={`bg-primary/20 p-2 rounded-lg`}><TypeIcon className="w-5 h-5 text-primary" /></div><div><p className="font-semibold text-gray-800 dark:text-dark-foreground">{stakeholder.name[language]}</p><p className="text-xs text-gray-500">{stakeholder.name.en}</p></div></div></td>
+                                                    <tr
+                                                        key={stakeholder.id}
+                                                        className={`hover:bg-primary-light/20 dark:hover:bg-primary/10 ${
+                                                            optimistic
+                                                                ? 'opacity-70 animate-pulse bg-blue-50/60 dark:bg-blue-950/30'
+                                                                : highlighted
+                                                                  ? 'bg-emerald-50 dark:bg-emerald-950/40'
+                                                                  : ''
+                                                        }`}
+                                                    >
+                                                        <td className="px-6 py-4"><div className="flex items-center gap-3"><div className={`bg-primary/20 p-2 rounded-lg`}><TypeIcon className="w-5 h-5 text-primary" /></div><div><p className="font-semibold text-gray-800 dark:text-dark-foreground">{stakeholder.name[language]}</p><p className="text-xs text-gray-500">{optimistic ? t('common.saving') : stakeholder.name.en}</p></div></div></td>
                                                         <td className="px-6 py-4"><span className={`px-3 py-1 bg-primary-light text-primary-dark rounded-full text-xs font-semibold`}>{t(`stakeholder_management.types.${stakeholder.type}`)}</span></td>
                                                         <td className="px-6 py-4"><div className="flex items-center gap-2"><div className="flex-1 bg-gray-200 dark:bg-slate-700 rounded-full h-2 max-w-24"><div className={`h-full bg-${healthColor}-500 rounded-full`} style={{ width: `${stakeholder.healthScore}%` }} /></div><span className={`font-bold text-sm text-${healthColor}-600`}>{stakeholder.healthScore}%</span></div></td>
                                                         <td className="px-6 py-4"><Award className={`w-5 h-5 ${stakeholder.relationshipLevel === 'strategic' ? 'text-purple-600' : stakeholder.relationshipLevel === 'core' ? 'text-primary' : 'text-gray-600'}`} title={t(`stakeholder_management.relationshipLevels.${stakeholder.relationshipLevel}`)} /></td>
                                                         <td className="px-6 py-4"><span className={`px-2 py-1 bg-${riskColor}-100 text-${riskColor}-800 rounded text-xs font-semibold`}>{t(`stakeholder_management.risks.${stakeholder.riskLevel}`)}</span></td>
                                                         <td className="px-6 py-4 text-sm text-gray-600"><div className="flex items-center gap-1"><Calendar className="w-4 h-4" /><span>{formatDate(stakeholder.lastContact, language)}</span></div></td>
-                                                        <td className="px-6 py-4"><div className="flex items-start gap-2 max-w-xs"><Zap className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" /><p className="text-xs text-gray-600 dark:text-gray-400">{t(stakeholder.aiInsights)}</p></div></td>
-                                                        <td className="px-6 py-4"><div className="flex items-center gap-2">
+                                                        <td className="px-6 py-4"><div className="flex items-start gap-2 max-w-xs"><Zap className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" /><p className="text-xs text-gray-600 dark:text-gray-400">{optimistic ? t('common.saving') : t(stakeholder.aiInsights)}</p></div></td>
+                                                        <td className="px-6 py-4">{optimistic ? <span className="text-xs text-gray-400">—</span> : (
+                                                        <div className="flex items-center gap-2">
                                                             <button onClick={() => setSelectedStakeholder(stakeholder)} className="p-2 hover:bg-primary-light rounded-lg"><Eye className="w-4 h-4 text-primary" /></button>
                                                             <button className="p-2 hover:bg-green-100 rounded-lg"><Edit className="w-4 h-4 text-green-600" /></button>
                                                             <button className="p-2 hover:bg-red-100 rounded-lg"><Trash2 className="w-4 h-4 text-red-600" /></button>
-                                                        </div></td>
+                                                        </div>)}</td>
                                                     </tr>
                                                 );
                                             })}
@@ -316,7 +343,15 @@ const StakeholderManagement: React.FC = () => {
                         {view === 'card' && (
                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {filteredStakeholders.map(stakeholder => (
-                                    <StakeholderCard key={stakeholder.id} stakeholder={stakeholder} onClick={() => setSelectedStakeholder(stakeholder)} />
+                                    <StakeholderCard
+                                        key={stakeholder.id}
+                                        stakeholder={stakeholder}
+                                        highlighted={highlightedId === stakeholder.id}
+                                        onClick={() => {
+                                            if (isOptimisticStakeholder(stakeholder.id)) return;
+                                            setSelectedStakeholder(stakeholder);
+                                        }}
+                                    />
                                 ))}
                             </div>
                         )}

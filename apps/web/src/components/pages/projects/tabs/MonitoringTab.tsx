@@ -1,30 +1,16 @@
-
 import React, { useMemo } from 'react';
-import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import type { Project } from '../../../../types';
 import AiCard from '../../ai/AiCard';
-import { formatCurrency, formatNumber } from '../../../../lib/utils';
-import { useTheme } from '../../../../hooks/useTheme';
+import { formatCurrency } from '../../../../lib/utils';
 
 interface MonitoringTabProps {
     project: Project;
 }
 
-const KpiCard: React.FC<{ title: string; value: number; interpretation: string; positive: boolean }> = ({ title, value, interpretation, positive }) => (
-    <div className={`p-4 rounded-xl shadow-soft border-l-4 ${positive ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-red-500 bg-red-50 dark:bg-red-900/20'}`}>
-        <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400">{title}</h4>
-        <p className={`text-3xl font-bold ${positive ? 'text-green-600' : 'text-red-600'}`}>{value.toFixed(2)}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{interpretation}</p>
-    </div>
-);
-
-
 const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
-    const { t, language } = useLocalization();
-    const { theme } = useTheme();
-    const isDark = theme === 'dark';
-    const { financialSummary } = project.costManagement;
+    const { t, language } = useLocalization(['projects']);
 
     const taskStats = useMemo(() => {
         const stats = { pending: 0, inProgress: 0, completed: 0 };
@@ -36,6 +22,15 @@ const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
         return stats;
     }, [project.schedule]);
 
+    const budgetUtilization = project.budget > 0 ? Math.round((project.spent / project.budget) * 100) : 0;
+    const activeRisks = project.riskManagement.riskRegister.filter(r => r.status !== 'closed').length;
+
+    const start = new Date(project.plannedStartDate);
+    const end = new Date(project.plannedEndDate);
+    const today = new Date();
+    const totalDays = Math.max(1, Math.round((end.getTime() - start.getTime()) / 86400000));
+    const daysRemaining = Math.max(0, Math.round((end.getTime() - today.getTime()) / 86400000));
+
     const taskChartData = [
         { name: t('projects.reporting.modal.tasks.pending'), value: taskStats.pending },
         { name: t('projects.reporting.modal.tasks.inProgress'), value: taskStats.inProgress },
@@ -43,51 +38,51 @@ const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
     ];
     const TASK_COLORS = ['#6B7280', '#F59E0B', '#22C55E'];
 
+    const statCards = [
+        {
+            label: t('projects.monitoring.overallCompletion'),
+            value: `${project.progress}%`,
+            color: project.progress >= 75 ? 'text-emerald-600' : project.progress >= 40 ? 'text-blue-600' : 'text-amber-600',
+        },
+        {
+            label: t('projects.monitoring.budgetStatus'),
+            value: `${budgetUtilization}%`,
+            sub: `${formatCurrency(project.spent, language)} / ${formatCurrency(project.budget, language)}`,
+            color: budgetUtilization > 90 ? 'text-red-600' : 'text-foreground dark:text-dark-foreground',
+        },
+        {
+            label: t('projects.monitoring.activeRisks'),
+            value: String(activeRisks),
+            color: activeRisks > 3 ? 'text-red-600' : activeRisks > 0 ? 'text-amber-600' : 'text-emerald-600',
+        },
+        {
+            label: t('projects.reporting.modal.timeline.totalDays'),
+            value: `${daysRemaining}d`,
+            sub: t('projects.reporting.modal.timeline.elapsedDays') + `: ${totalDays - daysRemaining}`,
+            color: daysRemaining < 14 ? 'text-red-600' : 'text-foreground dark:text-dark-foreground',
+        },
+    ];
+
     return (
         <div className="space-y-6">
             <AiCard title={t('projects.monitoring.kpis')}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <KpiCard title={t('projects.monitoring.spi')} value={financialSummary.spi} interpretation={financialSummary.spi >= 1 ? t('projects.monitoring.spiGood') : t('projects.monitoring.spiBad')} positive={financialSummary.spi >= 1} />
-                    <KpiCard title={t('projects.monitoring.cpi')} value={financialSummary.cpi} interpretation={financialSummary.cpi >= 1 ? t('projects.monitoring.cpiGood') : t('projects.monitoring.cpiBad')} positive={financialSummary.cpi >= 1} />
-                    <div className="bg-card dark:bg-dark-card/50 p-4 rounded-xl shadow-soft">
-                        <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400">{t('projects.monitoring.overallCompletion')}</h4>
-                        <p className="text-3xl font-bold text-primary dark:text-secondary">{project.progress}%</p>
-                    </div>
-                     <div className="bg-card dark:bg-dark-card/50 p-4 rounded-xl shadow-soft">
-                        <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400">{t('projects.monitoring.budgetStatus')}</h4>
-                        <p className="text-3xl font-bold">{formatCurrency(project.spent, language)}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">{t('common.of')} {formatCurrency(project.budget, language)}</p>
-                    </div>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    {statCards.map(card => (
+                        <div key={card.label} className="bg-card dark:bg-dark-card/50 p-4 rounded-xl shadow-soft">
+                            <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400">{card.label}</h4>
+                            <p className={`text-3xl font-bold ${card.color}`}>{card.value}</p>
+                            {card.sub && <p className="text-xs text-gray-400 mt-0.5 truncate">{card.sub}</p>}
+                        </div>
+                    ))}
                 </div>
             </AiCard>
-            <AiCard title={t('projects.monitoring.evmChart')}>
-                <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={project.monitoring.evmHistory} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#444" : "#ddd"}/>
-                            <XAxis dataKey="month" tick={{ fill: isDark ? "#fff" : "#333" }} />
-                            <YAxis tickFormatter={(val) => formatCurrency(val, language)} tick={{ fill: isDark ? "#fff" : "#333", fontSize: 12 }} />
-                            <Tooltip formatter={(value: unknown) => {
-                                const numericValue = Number(value);
-                                if (isNaN(numericValue)) {
-                                    return String(value);
-                                }
-                                return formatCurrency(numericValue, language);
-                            }} />
-                            <Legend />
-                            <Line type="monotone" dataKey="pv" name={t('projects.monitoring.pv')} stroke="#8884d8" strokeWidth={2} />
-                            <Line type="monotone" dataKey="ev" name={t('projects.monitoring.ev')} stroke="#82ca9d" strokeWidth={2} />
-                            <Line type="monotone" dataKey="ac" name={t('projects.monitoring.ac')} stroke="#ffc658" strokeWidth={2} />
-                        </LineChart>
-                    </ResponsiveContainer>
-                </div>
-            </AiCard>
+
             <AiCard title={t('projects.monitoring.taskStatus')}>
                 <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-                            <Pie data={taskChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#8884d8" paddingAngle={5} label>
-                                {taskChartData.map((entry, index) => (
+                            <Pie data={taskChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} label>
+                                {taskChartData.map((_, index) => (
                                     <Cell key={`cell-${index}`} fill={TASK_COLORS[index % TASK_COLORS.length]} />
                                 ))}
                             </Pie>

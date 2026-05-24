@@ -57,7 +57,7 @@ const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAd
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!validate()) {
-            toast.showError('Please correct the errors before submitting.');
+            toast.showError(t('institutional_donors.documentsTab.fixFormErrors'));
             return;
         }
         onAdd({
@@ -69,7 +69,17 @@ const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAd
             isPrimary,
             photoUrl: photoPreview || '',
         });
-        onClose(); // Resetting state will be handled by parent component re-render if it re-creates the modal
+        setName('');
+        setPosition('');
+        setEmail('');
+        setPhone('');
+        setWhatsapp('');
+        setIsPrimary(false);
+        setPermissions([]);
+        setPhoto(null);
+        setPhotoPreview(null);
+        setErrors({});
+        onClose();
     };
 
     return (
@@ -91,7 +101,7 @@ const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAd
                                     ) : (
                                         <div className="text-center text-gray-500">
                                             <UploadCloud size={32} className="mx-auto" />
-                                            <p className="text-xs mt-1">Drop or click</p>
+                                            <p className="text-xs mt-1">{t('institutional_donors.documentsTab.dropOrClick')}</p>
                                         </div>
                                     )}
                                 </div>

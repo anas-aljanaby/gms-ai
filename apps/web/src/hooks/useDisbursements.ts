@@ -2,9 +2,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { MOCK_APPROVAL_ITEMS, MOCK_DISBURSEMENTS, MOCK_TRANSACTIONS } from '../data/financialsPageData';
 import type { Disbursement, DisbursementType } from '../types/financials';
+import { createOptimisticId, isOptimisticId } from '../lib/optimisticSubmit';
 
 const QUERY_KEY = ['financial-disbursements'] as const;
 const USE_API = true;
+export const OPTIMISTIC_DISBURSEMENT_PREFIX = 'optimistic-disbursement-';
+
+export function isOptimisticDisbursement(id: string): boolean {
+  return isOptimisticId(id, OPTIMISTIC_DISBURSEMENT_PREFIX);
+}
 
 export interface CreateDisbursementInput {
   beneficiaryNameEn: string;
@@ -18,13 +24,37 @@ export interface CreateDisbursementInput {
   notes?: string;
 }
 
-async function fetchDisbursements(): Promise<Disbursement[]> {
-  if (!USE_API) return MOCK_DISBURSEMENTS;
+function buildOptimisticDisbursement(input: CreateDisbursementInput): Disbursement {
+  return {
+    id: createOptimisticId(OPTIMISTIC_DISBURSEMENT_PREFIX),
+    beneficiaryId: input.beneficiaryId || `beneficiary-${Date.now()}`,
+    beneficiaryName: { en: input.beneficiaryNameEn, ar: input.beneficiaryNameAr || input.beneficiaryNameEn },
+    type: input.type,
+    amount: input.amount,
+    currency: input.currency || 'USD',
+    status: 'pending_approval',
+    scheduledDate: input.scheduledDate,
+    method: input.method,
+    notes: input.notes,
+  };
+}
+
+async function fetchDisbursements(beneficiaryId?: string): Promise<Disbursement[]> {
+  if (!USE_API) {
+    const all = MOCK_DISBURSEMENTS;
+    if (!beneficiaryId) return all;
+    return all.filter((d) => d.beneficiaryId === beneficiaryId);
+  }
 
   try {
-    return await api.get<Disbursement[]>('/financials/disbursements');
+    const path = beneficiaryId
+      ? `/financials/disbursements?beneficiary_id=${encodeURIComponent(beneficiaryId)}`
+      : '/financials/disbursements';
+    return await api.get<Disbursement[]>(path);
   } catch {
-    return MOCK_DISBURSEMENTS;
+    const all = MOCK_DISBURSEMENTS;
+    if (!beneficiaryId) return all;
+    return all.filter((d) => d.beneficiaryId === beneficiaryId);
   }
 }
 
@@ -110,19 +140,61 @@ async function createDisbursement(input: CreateDisbursementInput): Promise<Disbu
 export function useDisbursements() {
   return useQuery({
     queryKey: QUERY_KEY,
-    queryFn: fetchDisbursements,
+    queryFn: () => fetchDisbursements(),
   });
 }
+
+export function useBeneficiaryDisbursements(beneficiaryId?: string) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, beneficiaryId] as const,
+    queryFn: () => fetchDisbursements(beneficiaryId),
+    enabled: !!beneficiaryId,
+  });
+}
+
+type CreateDisbursementContext = {
+  previous?: Disbursement[];
+  optimisticId: string;
+};
 
 export function useCreateDisbursement() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createDisbursement,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEY });
-      queryClient.invalidateQueries({ queryKey: ['financial-approvals'] });
-      queryClient.invalidateQueries({ queryKey: ['financial-overview'] });
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({ queryKey: QUERY_KEY });
+      const previous = queryClient.getQueryData<Disbursement[]>(QUERY_KEY);
+      const optimistic = buildOptimisticDisbursement(variables);
+      queryClient.setQueryData<Disbursement[]>(QUERY_KEY, (old) => [optimistic, ...(old ?? [])]);
+      return { previous, optimisticId: optimistic.id } satisfies CreateDisbursementContext;
+    },
+    onSuccess: (created, variables, context) => {
+      queryClient.setQueryData<Disbursement[]>(QUERY_KEY, (old) => {
+        if (!old) return [created];
+        const optimisticId = context?.optimisticId;
+        const hasOptimistic = optimisticId && old.some((d) => d.id === optimisticId);
+        if (hasOptimistic) {
+          return old.map((d) => (d.id === optimisticId ? created : d));
+        }
+        if (old.some((d) => d.id === created.id)) return old;
+        return [created, ...old];
+      });
+      if (variables.beneficiaryId) {
+        queryClient.invalidateQueries({ queryKey: [...QUERY_KEY, variables.beneficiaryId] });
+      }
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(QUERY_KEY, context.previous);
+      }
+    },
+    onSettled: (_data, error) => {
+      if (error) {
+        queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+        queryClient.invalidateQueries({ queryKey: ['financial-approvals'] });
+        queryClient.invalidateQueries({ queryKey: ['financial-overview'] });
+      }
     },
   });
 }

@@ -5,6 +5,8 @@ import { formatDate, formatCurrency, formatNumber, formatRelativeFromEvent } fro
 import { ChevronDownIcon } from '../../icons/GenericIcons';
 import { StatusBadge } from './DonorBadges';
 import { Columns3, Eye, EyeOff, ArrowLeftToLine, ArrowRightToLine } from 'lucide-react';
+import { isOptimisticDonor } from '../../../hooks/useDonors';
+import { normalizeDonorEmail } from '../../../lib/donorEmail';
 
 interface DonorsTableProps {
     donors: IndividualDonor[];
@@ -12,7 +14,8 @@ interface DonorsTableProps {
     sortColumn: keyof IndividualDonor | null;
     sortDirection: SortDirection;
     onSort: (column: keyof IndividualDonor) => void;
-    stageByEmail?: Map<string, DonorStageId>;
+    stageByDonorId?: Map<string, DonorStageId>;
+    highlightedId?: string | null;
 }
 
 type ColumnId = 'donor' | 'donorType' | 'status' | 'pipelineStage' | 'owner' | 'country' | 'totalDonations' | 'lastGift' | 'lastContact' | 'openTasks' | 'tags';
@@ -87,7 +90,7 @@ const ALL_COLUMN_IDS = COLUMN_GROUPS.flatMap(g => g.columns);
 const ALWAYS_VISIBLE: ColumnId[] = ['donor'];
 const DEFAULT_HIDDEN: ColumnId[] = ['country', 'tags'];
 
-const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortColumn, sortDirection, onSort, stageByEmail }) => {
+const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortColumn, sortDirection, onSort, stageByDonorId, highlightedId }) => {
     const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
     const [selectedDonors, setSelectedDonors] = useState<Set<string>>(new Set());
     const [currentPage, setCurrentPage] = useState(1);
@@ -251,8 +254,8 @@ const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortCo
                         <div className="flex min-w-0 items-center gap-3">
                             <img className="w-9 h-9 rounded-full flex-shrink-0" src={donor.avatar} alt={donor.fullName.en} loading="lazy" />
                             <div className="min-w-0">
-                                <button onClick={() => onDonorSelect(donor)} className="block max-w-full truncate font-bold text-foreground dark:text-dark-foreground hover:underline text-start">{donor.fullName[language]}</button>
-                                <div className="max-w-full truncate text-xs text-gray-500">{donor.email}</div>
+                                <button onClick={() => !isOptimisticDonor(donor.id) && onDonorSelect(donor)} className="block max-w-full truncate font-bold text-foreground dark:text-dark-foreground hover:underline text-start">{donor.fullName[language]}</button>
+                                <div className="max-w-full truncate text-xs text-gray-500">{isOptimisticDonor(donor.id) ? t('common.saving') : (normalizeDonorEmail(donor.email) || t('common.notAvailable', 'N/A'))}</div>
                             </div>
                         </div>
                     </td>
@@ -439,13 +442,21 @@ const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortCo
                         </thead>
                         <tbody>
                             {paginatedDonors.map(donor => {
-                                const stage = stageByEmail?.get(donor.email.toLowerCase()) || donor.relationshipStage;
+                                const stage = stageByDonorId?.get(donor.id) || donor.relationshipStage;
                                 const openTasks = donor.relationshipTasks?.filter(task => !task.completed) || [];
                                 const today = new Date().toISOString().split('T')[0];
                                 const overdueTasks = openTasks.filter(task => task.dueDate < today);
+                                const optimistic = isOptimisticDonor(donor.id);
+                                const highlighted = highlightedId === donor.id;
                                 return (
-                                    <tr key={donor.id} className="group border-b border-slate-100/90 bg-card dark:border-slate-800/80 dark:bg-dark-card hover:bg-slate-50/55 dark:hover:bg-slate-800/20">
-                                        <td className="p-3 w-10"><input type="checkbox" checked={selectedDonors.has(donor.id)} onChange={() => handleSelectRow(donor.id)} /></td>
+                                    <tr key={donor.id} className={`group border-b border-slate-100/90 dark:border-slate-800/80 ${
+                                        optimistic
+                                            ? 'opacity-70 animate-pulse bg-card dark:bg-dark-card'
+                                            : highlighted
+                                                ? 'bg-primary-light/40 dark:bg-primary/10 bg-card dark:bg-dark-card'
+                                                : 'bg-card dark:bg-dark-card hover:bg-slate-50/55 dark:hover:bg-slate-800/20'
+                                    }`}>
+                                        <td className="p-3 w-10"><input type="checkbox" disabled={optimistic} checked={selectedDonors.has(donor.id)} onChange={() => handleSelectRow(donor.id)} /></td>
                                         {visibleColumns.map(colId => renderCell(colId, donor, stage, openTasks, overdueTasks))}
                                     </tr>
                                 );

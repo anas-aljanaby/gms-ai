@@ -477,6 +477,7 @@ export interface AidItem {
     status: AidStatus;
     relatedProjectId?: string;
     inventoryItemId?: string;
+    disbursementId?: string;
 }
 
 export interface NeedsAssessment {
@@ -1641,7 +1642,7 @@ export type StakeholderType = 'donor' | 'beneficiary' | 'partner' | 'volunteer' 
 export type StakeholderCategoryKey = 'foundation' | 'family' | 'company';
 
 export interface Stakeholder {
-    id: number;
+    id: number | string;
     name: Record<Language, string>;
     type: StakeholderType;
     category: StakeholderCategoryKey;

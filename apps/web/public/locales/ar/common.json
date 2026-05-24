@@ -8,6 +8,8 @@
     "pagination_summary": "عرض {{start}}-{{end}} من {{total}}",
     "dismissAlert": "إغلاق التنبيه",
     "loading": "جاري التحميل...",
+    "saving": "جاري الحفظ…",
+    "notAvailable": "غير متوفر",
     "analyzing": "جاري التحليل...",
     "generating": "جاري الإنشاء...",
     "cancel": "إلغاء",
@@ -28,6 +30,10 @@
     "listening": "جاري الاستماع...",
     "voiceSearch": "بحث صوتي",
     "export": "تصدير",
-    "tabs": "علامات التبويب"
+    "tabs": "علامات التبويب",
+    "countryField": {
+      "placeholder": "ابحث أو اكتب اسم البلد",
+      "noResults": "لا توجد نتائج — سيتم حفظ ما كتبته كما هو"
+    }
   }
 }

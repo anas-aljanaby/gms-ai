@@ -1,0 +1,509 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e17]:
+    - navigation [ref=e18]:
+      - button "Collapse sidebar" [expanded] [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+      - generic [ref=e22]:
+        - generic [ref=e24]: M
+        - heading "MSS.2" [level=1] [ref=e25]
+      - list [ref=e27]:
+        - listitem [ref=e28]:
+          - link "Dashboard" [ref=e29] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e31]
+            - generic [ref=e36]: Dashboard
+        - listitem [ref=e37]:
+          - link "Bousala" [ref=e38] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e40]
+            - generic [ref=e43]: Bousala
+        - listitem [ref=e44]:
+          - link "Stakeholder Management" [ref=e45] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e47]
+            - generic [ref=e52]: Stakeholder Management
+        - listitem [ref=e53]:
+          - link "Donor Management" [ref=e54] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e56]
+            - generic [ref=e58]: Donor Management
+        - listitem [ref=e59]:
+          - link "Institutional Donors" [ref=e60] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e62]
+            - generic [ref=e64]: Institutional Donors
+        - listitem [ref=e65]:
+          - link "Beneficiary Management" [ref=e66] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e68]
+            - generic [ref=e73]: Beneficiary Management
+        - listitem [ref=e74]:
+          - link "Project Management" [ref=e75] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e77]
+            - generic [ref=e81]: Project Management
+        - listitem [ref=e82]:
+          - link "Financial Management" [ref=e83] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e85]
+            - generic [ref=e87]: Financial Management
+        - listitem [ref=e88]:
+          - link "Help & Support" [ref=e89] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e91]
+            - generic [ref=e94]: Help & Support
+        - listitem [ref=e95]:
+          - link "Settings" [ref=e96] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e98]
+            - generic [ref=e101]: Settings
+      - list [ref=e103]:
+        - listitem [ref=e104]:
+          - link "Logout" [ref=e105] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e107]
+            - generic [ref=e110]: Logout
+    - generic [ref=e111]:
+      - banner [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - heading "Dashboard" [level=1] [ref=e115]
+            - button "liveIndicator.updating" [ref=e168] [cursor=pointer]:
+              - img [ref=e790]
+          - generic [ref=e120]:
+            - generic:
+              - img
+            - searchbox "Search everything..." [ref=e121]
+            - button "Search by voice" [ref=e123] [cursor=pointer]:
+              - img [ref=e124]
+        - generic [ref=e127]:
+          - button "Help & Support" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - button "Change language" [ref=e136] [cursor=pointer]:
+            - img [ref=e137]
+            - img "English (US) Flag" [ref=e140]
+          - button "Switch to dark mode" [ref=e146] [cursor=pointer]:
+            - img [ref=e147]
+          - button "View announcements" [ref=e150] [cursor=pointer]:
+            - img [ref=e151]
+          - button "User Welcome! Admin" [ref=e158] [cursor=pointer]:
+            - img "User" [ref=e159]
+            - generic [ref=e160]:
+              - generic [ref=e161]: Welcome!
+              - generic [ref=e162]: Admin
+            - img [ref=e163]
+      - main [ref=e165]:
+        - generic [ref=e174]:
+          - generic [ref=e191]:
+            - 'button "Project ''PROJ-2024-001'' is trending 15% over budget. Dismiss alert: Project ''PROJ-2024-001'' is trending 15% over budget." [ref=e795] [cursor=pointer]':
+              - generic [ref=e796]: 🔴
+              - generic [ref=e797]: Project 'PROJ-2024-001' is trending 15% over budget.
+              - 'button "Dismiss alert: Project ''PROJ-2024-001'' is trending 15% over budget." [ref=e798]':
+                - img [ref=e799]
+            - 'button "New high-value prospect ''Global Tech Fund'' identified. Needs initial contact. Dismiss alert: New high-value prospect ''Global Tech Fund'' identified. Needs initial contact." [ref=e802] [cursor=pointer]':
+              - generic [ref=e803]: 🟡
+              - generic [ref=e804]: New high-value prospect 'Global Tech Fund' identified. Needs initial contact.
+              - 'button "Dismiss alert: New high-value prospect ''Global Tech Fund'' identified. Needs initial contact." [ref=e805]':
+                - img [ref=e806]
+            - 'button "Grant deadline for ''Global Philanthropy Foundation'' is in 10 days. Dismiss alert: Grant deadline for ''Global Philanthropy Foundation'' is in 10 days." [ref=e809] [cursor=pointer]':
+              - generic [ref=e810]: 🟡
+              - generic [ref=e811]: Grant deadline for 'Global Philanthropy Foundation' is in 10 days.
+              - 'button "Dismiss alert: Grant deadline for ''Global Philanthropy Foundation'' is in 10 days." [ref=e812]':
+                - img [ref=e813]
+            - 'button "Compliance check for vendor ''SupplyCo'' is overdue. Dismiss alert: Compliance check for vendor ''SupplyCo'' is overdue." [ref=e816] [cursor=pointer]':
+              - generic [ref=e817]: 🔴
+              - generic [ref=e818]: Compliance check for vendor 'SupplyCo' is overdue.
+              - 'button "Dismiss alert: Compliance check for vendor ''SupplyCo'' is overdue." [ref=e819]':
+                - img [ref=e820]
+            - 'button "Volunteer engagement score has dropped by 5% this month. Dismiss alert: Volunteer engagement score has dropped by 5% this month." [ref=e823] [cursor=pointer]':
+              - generic [ref=e824]: 🔵
+              - generic [ref=e825]: Volunteer engagement score has dropped by 5% this month.
+              - 'button "Dismiss alert: Volunteer engagement score has dropped by 5% this month." [ref=e826]':
+                - img [ref=e827]
+            - 'button "Project ''PROJ-2024-001'' is trending 15% over budget. Dismiss alert: Project ''PROJ-2024-001'' is trending 15% over budget." [ref=e830] [cursor=pointer]':
+              - generic [ref=e831]: 🔴
+              - generic [ref=e832]: Project 'PROJ-2024-001' is trending 15% over budget.
+              - 'button "Dismiss alert: Project ''PROJ-2024-001'' is trending 15% over budget." [ref=e833]':
+                - img [ref=e834]
+            - 'button "New high-value prospect ''Global Tech Fund'' identified. Needs initial contact. Dismiss alert: New high-value prospect ''Global Tech Fund'' identified. Needs initial contact." [ref=e837] [cursor=pointer]':
+              - generic [ref=e838]: 🟡
+              - generic [ref=e839]: New high-value prospect 'Global Tech Fund' identified. Needs initial contact.
+              - 'button "Dismiss alert: New high-value prospect ''Global Tech Fund'' identified. Needs initial contact." [ref=e840]':
+                - img [ref=e841]
+            - 'button "Grant deadline for ''Global Philanthropy Foundation'' is in 10 days. Dismiss alert: Grant deadline for ''Global Philanthropy Foundation'' is in 10 days." [ref=e844] [cursor=pointer]':
+              - generic [ref=e845]: 🟡
+              - generic [ref=e846]: Grant deadline for 'Global Philanthropy Foundation' is in 10 days.
+              - 'button "Dismiss alert: Grant deadline for ''Global Philanthropy Foundation'' is in 10 days." [ref=e847]':
+                - img [ref=e848]
+            - 'button "Compliance check for vendor ''SupplyCo'' is overdue. Dismiss alert: Compliance check for vendor ''SupplyCo'' is overdue." [ref=e851] [cursor=pointer]':
+              - generic [ref=e852]: 🔴
+              - generic [ref=e853]: Compliance check for vendor 'SupplyCo' is overdue.
+              - 'button "Dismiss alert: Compliance check for vendor ''SupplyCo'' is overdue." [ref=e854]':
+                - img [ref=e855]
+            - 'button "Volunteer engagement score has dropped by 5% this month. Dismiss alert: Volunteer engagement score has dropped by 5% this month." [ref=e858] [cursor=pointer]':
+              - generic [ref=e859]: 🔵
+              - generic [ref=e860]: Volunteer engagement score has dropped by 5% this month.
+              - 'button "Dismiss alert: Volunteer engagement score has dropped by 5% this month." [ref=e861]':
+                - img [ref=e862]
+          - generic [ref=e262]:
+            - generic [ref=e263]:
+              - heading "Dashboard" [level=1] [ref=e264]
+              - generic [ref=e265]: "Active Filters: Time Period: Last 30 days, Department: All departments"
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - button "Last 30 days" [ref=e270] [cursor=pointer]:
+                  - generic [ref=e271]:
+                    - img [ref=e272]
+                    - text: Last 30 days
+                  - img [ref=e274]
+                - button "All departments" [ref=e277] [cursor=pointer]:
+                  - generic [ref=e278]:
+                    - img [ref=e279]
+                    - text: All departments
+                  - img [ref=e282]
+                - generic [ref=e284]:
+                  - 'button "Indicators ({count} selected)" [ref=e285] [cursor=pointer]':
+                    - generic [ref=e286]:
+                      - img [ref=e287]
+                      - text: "Indicators ({count} selected)"
+                    - img [ref=e289]
+                  - img [ref=e292]
+              - generic [ref=e295]:
+                - button "Quick Actions" [ref=e297] [cursor=pointer]:
+                  - text: Quick Actions
+                  - img [ref=e298]
+                - button "Share" [ref=e300] [cursor=pointer]:
+                  - img [ref=e301]
+                  - text: Share
+                - button "Export" [ref=e305] [cursor=pointer]:
+                  - text: Export
+                  - img [ref=e306]
+                - button "Customize Layout" [ref=e308] [cursor=pointer]:
+                  - img [ref=e309]
+                - generic [ref=e311]:
+                  - switch "Auto Refresh" [checked] [ref=e312] [cursor=pointer]:
+                    - img [ref=e313]
+                  - generic [ref=e315]: Auto Refresh
+                  - img [ref=e316]
+          - button "Start Tour" [ref=e321] [cursor=pointer]:
+            - img [ref=e322]
+            - text: Start Tour
+          - generic [ref=e327]:
+            - main [ref=e328]:
+              - generic [ref=e329]:
+                - article [ref=e330]:
+                  - generic:
+                    - img
+                  - generic [ref=e331]:
+                    - generic [ref=e333]:
+                      - heading "Sponsorships Waiting" [level=3] [ref=e334]
+                      - img [ref=e336]
+                    - generic [ref=e342]:
+                      - paragraph [ref=e343]: "18"
+                      - generic [ref=e344]: 5% ↑
+                - article [ref=e345]:
+                  - generic:
+                    - img
+                  - generic [ref=e346]:
+                    - generic [ref=e348]:
+                      - heading "Overdue Donor Tasks" [level=3] [ref=e349]
+                      - img [ref=e351]
+                    - generic [ref=e355]:
+                      - paragraph [ref=e356]: "7"
+                      - generic [ref=e357]: 12.5% ↓
+                - article [ref=e358]:
+                  - generic:
+                    - img
+                  - generic [ref=e359]:
+                    - generic [ref=e361]:
+                      - heading "Active Projects at Risk" [level=3] [ref=e362]
+                      - img [ref=e364]
+                    - paragraph [ref=e371]: "2"
+                - article [ref=e372]:
+                  - generic [ref=e373]:
+                    - generic [ref=e375]:
+                      - heading "Funds to be Disbursed" [level=3] [ref=e376]
+                      - img [ref=e378]
+                    - generic [ref=e381]:
+                      - paragraph [ref=e382]: $125,000
+                      - generic [ref=e383]:
+                        - generic [ref=e384]:
+                          - generic [ref=e385]: 25%
+                          - generic [ref=e386]: "Target: {target}"
+                        - generic [ref=e389]:
+                          - img [ref=e390]
+                          - generic [ref=e392]: 45 days remaining
+              - generic [ref=e393]:
+                - application [ref=e399]:
+                  - generic [ref=e416]:
+                    - generic [ref=e417]:
+                      - generic [ref=e419]: Jan
+                      - generic [ref=e421]: Feb
+                      - generic [ref=e423]: Mar
+                      - generic [ref=e425]: Apr
+                      - generic [ref=e427]: May
+                      - generic [ref=e429]: Jun
+                      - generic [ref=e431]: Jul
+                    - generic [ref=e432]:
+                      - generic [ref=e434]: $0
+                      - generic [ref=e436]: $2,000
+                      - generic [ref=e438]: $4,000
+                      - generic [ref=e440]: $6,000
+                      - generic [ref=e442]: $8,000
+                - generic [ref=e445]:
+                  - slider [ref=e450] [cursor=pointer]: "65"
+                  - generic [ref=e451]:
+                    - generic [ref=e452]:
+                      - img [ref=e454]
+                      - generic [ref=e457]: prospect
+                      - generic [ref=e458]: "12"
+                    - generic [ref=e459]:
+                      - img [ref=e461]
+                      - generic [ref=e464]: observer
+                      - generic [ref=e465]: "7"
+                    - generic [ref=e466]:
+                      - img [ref=e468]
+                      - generic [ref=e473]: engager
+                      - generic [ref=e474]: "5"
+                    - generic [ref=e475]:
+                      - img [ref=e477]
+                      - generic [ref=e482]: contributor
+                      - generic [ref=e483]: "3"
+                    - generic [ref=e484]:
+                      - img [ref=e486]
+                      - generic [ref=e488]: giver
+                      - generic [ref=e489]: "3"
+                    - generic [ref=e490]:
+                      - img [ref=e492]
+                      - generic [ref=e495]: advocate
+                      - generic [ref=e496]: "2"
+                    - generic [ref=e497]:
+                      - img [ref=e499]
+                      - generic [ref=e502]: multiplier
+                      - generic [ref=e503]: "2"
+                - generic [ref=e507]:
+                  - heading "Performance Matrix" [level=2] [ref=e508]
+                  - table [ref=e510]:
+                    - rowgroup [ref=e511]:
+                      - row "matrix.governance matrix.finance matrix.programs matrix.resources" [ref=e512]:
+                        - columnheader [ref=e513]
+                        - columnheader "matrix.governance" [ref=e514]
+                        - columnheader "matrix.finance" [ref=e515]
+                        - columnheader "matrix.programs" [ref=e516]
+                        - columnheader "matrix.resources" [ref=e517]
+                    - rowgroup [ref=e518]:
+                      - 'row "matrix.performance matrix.performance - matrix.governance: Good (95) 95 matrix.performance - matrix.finance: Warning (75) 75 matrix.performance - matrix.programs: Good (88) 88 matrix.performance - matrix.resources: Danger (45) 45" [ref=e519]':
+                        - cell "matrix.performance" [ref=e520]
+                        - 'cell "matrix.performance - matrix.governance: Good (95) 95" [ref=e521]':
+                          - generic [ref=e522]:
+                            - generic: "matrix.performance - matrix.governance: Good (95)"
+                            - generic [ref=e524]: "95"
+                        - 'cell "matrix.performance - matrix.finance: Warning (75) 75" [ref=e525]':
+                          - generic [ref=e526]:
+                            - generic: "matrix.performance - matrix.finance: Warning (75)"
+                            - generic [ref=e528]: "75"
+                        - 'cell "matrix.performance - matrix.programs: Good (88) 88" [ref=e529]':
+                          - generic [ref=e530]:
+                            - generic: "matrix.performance - matrix.programs: Good (88)"
+                            - generic [ref=e532]: "88"
+                        - 'cell "matrix.performance - matrix.resources: Danger (45) 45" [ref=e533]':
+                          - generic [ref=e534]:
+                            - generic: "matrix.performance - matrix.resources: Danger (45)"
+                            - generic [ref=e536]: "45"
+                      - 'row "matrix.risk matrix.risk - matrix.governance: Warning (60) 60 matrix.risk - matrix.finance: Danger (30) 30 matrix.risk - matrix.programs: Good (80) 80 matrix.risk - matrix.resources: Warning (65) 65" [ref=e537]':
+                        - cell "matrix.risk" [ref=e538]
+                        - 'cell "matrix.risk - matrix.governance: Warning (60) 60" [ref=e539]':
+                          - generic [ref=e540]:
+                            - generic: "matrix.risk - matrix.governance: Warning (60)"
+                            - generic [ref=e542]: "60"
+                        - 'cell "matrix.risk - matrix.finance: Danger (30) 30" [ref=e543]':
+                          - generic [ref=e544]:
+                            - generic: "matrix.risk - matrix.finance: Danger (30)"
+                            - generic [ref=e546]: "30"
+                        - 'cell "matrix.risk - matrix.programs: Good (80) 80" [ref=e547]':
+                          - generic [ref=e548]:
+                            - generic: "matrix.risk - matrix.programs: Good (80)"
+                            - generic [ref=e550]: "80"
+                        - 'cell "matrix.risk - matrix.resources: Warning (65) 65" [ref=e551]':
+                          - generic [ref=e552]:
+                            - generic: "matrix.risk - matrix.resources: Warning (65)"
+                            - generic [ref=e554]: "65"
+                      - 'row "matrix.compliance matrix.compliance - matrix.governance: Good (100) 100 matrix.compliance - matrix.finance: Good (92) 92 matrix.compliance - matrix.programs: Warning (70) 70 matrix.compliance - matrix.resources: Good (85) 85" [ref=e555]':
+                        - cell "matrix.compliance" [ref=e556]
+                        - 'cell "matrix.compliance - matrix.governance: Good (100) 100" [ref=e557]':
+                          - generic [ref=e558]:
+                            - generic: "matrix.compliance - matrix.governance: Good (100)"
+                            - generic [ref=e560]: "100"
+                        - 'cell "matrix.compliance - matrix.finance: Good (92) 92" [ref=e561]':
+                          - generic [ref=e562]:
+                            - generic: "matrix.compliance - matrix.finance: Good (92)"
+                            - generic [ref=e564]: "92"
+                        - 'cell "matrix.compliance - matrix.programs: Warning (70) 70" [ref=e565]':
+                          - generic [ref=e566]:
+                            - generic: "matrix.compliance - matrix.programs: Warning (70)"
+                            - generic [ref=e568]: "70"
+                        - 'cell "matrix.compliance - matrix.resources: Good (85) 85" [ref=e569]':
+                          - generic [ref=e570]:
+                            - generic: "matrix.compliance - matrix.resources: Good (85)"
+                            - generic [ref=e572]: "85"
+                      - 'row "matrix.trend matrix.trend - matrix.governance: Good (90) 90 matrix.trend - matrix.finance: Warning (55) 55 matrix.trend - matrix.programs: Danger (50) 50 matrix.trend - matrix.resources: Good (78) 78" [ref=e573]':
+                        - cell "matrix.trend" [ref=e574]
+                        - 'cell "matrix.trend - matrix.governance: Good (90) 90" [ref=e575]':
+                          - generic [ref=e576]:
+                            - generic: "matrix.trend - matrix.governance: Good (90)"
+                            - generic [ref=e578]: "90"
+                        - 'cell "matrix.trend - matrix.finance: Warning (55) 55" [ref=e579]':
+                          - generic [ref=e580]:
+                            - generic: "matrix.trend - matrix.finance: Warning (55)"
+                            - generic [ref=e582]: "55"
+                        - 'cell "matrix.trend - matrix.programs: Danger (50) 50" [ref=e583]':
+                          - generic [ref=e584]:
+                            - generic: "matrix.trend - matrix.programs: Danger (50)"
+                            - generic [ref=e586]: "50"
+                        - 'cell "matrix.trend - matrix.resources: Good (78) 78" [ref=e587]':
+                          - generic [ref=e588]:
+                            - generic: "matrix.trend - matrix.resources: Good (78)"
+                            - generic [ref=e590]: "78"
+                - generic [ref=e593]:
+                  - generic [ref=e594]:
+                    - generic [ref=e595]: Donations
+                    - generic [ref=e598]: 125,000
+                    - generic [ref=e600]:
+                      - img [ref=e601]
+                      - generic [ref=e604]: 13.6%
+                  - generic [ref=e605]:
+                    - generic [ref=e606]: Volunteers
+                    - generic [ref=e609]: "215"
+                    - generic [ref=e611]:
+                      - img [ref=e612]
+                      - generic [ref=e615]: 13.2%
+                  - generic [ref=e616]:
+                    - generic [ref=e617]: Beneficiaries
+                    - generic [ref=e620]: 3,500
+                    - generic [ref=e622]:
+                      - img [ref=e623]
+                      - generic [ref=e626]: 9.4%
+                - article [ref=e629]:
+                  - generic [ref=e631]:
+                    - img [ref=e633]
+                    - generic [ref=e635]:
+                      - heading "Favorite Report" [level=3] [ref=e636]
+                      - paragraph [ref=e637]: No favorite report selected.
+                - generic [ref=e640]:
+                  - heading "Notification Demo" [level=3] [ref=e641]
+                  - generic [ref=e642]:
+                    - button "Success" [ref=e643] [cursor=pointer]
+                    - button "Error" [ref=e644] [cursor=pointer]
+                    - button "Warning" [ref=e645] [cursor=pointer]
+                    - button "Info" [ref=e646] [cursor=pointer]
+                - generic [ref=e649]:
+                  - heading "Getting Started Checklist" [level=3] [ref=e650]
+                  - generic [ref=e653]: 0%
+                  - generic [ref=e654]:
+                    - generic [ref=e655] [cursor=pointer]:
+                      - checkbox "onboarding.checklist.tour" [ref=e656]
+                      - generic [ref=e657]: onboarding.checklist.tour
+                    - generic [ref=e658] [cursor=pointer]:
+                      - checkbox "onboarding.checklist.customize" [ref=e659]
+                      - generic [ref=e660]: onboarding.checklist.customize
+                    - generic [ref=e661] [cursor=pointer]:
+                      - checkbox "onboarding.checklist.report" [ref=e662]
+                      - generic [ref=e663]: onboarding.checklist.report
+                    - generic [ref=e664] [cursor=pointer]:
+                      - checkbox "onboarding.checklist.help" [ref=e665]
+                      - generic [ref=e666]: onboarding.checklist.help
+            - complementary [ref=e667]:
+              - generic [ref=e668]:
+                - generic [ref=e669]:
+                  - heading "AI Insights" [level=3] [ref=e670]:
+                    - img [ref=e671]
+                    - text: AI Insights
+                  - generic [ref=e677]: "Refreshing in {seconds}s"
+                - generic [ref=e678]:
+                  - generic [ref=e679]:
+                    - heading "Opportunities" [level=4] [ref=e680]:
+                      - img [ref=e681]
+                      - text: Opportunities
+                    - generic [ref=e685]:
+                      - generic [ref=e686]:
+                        - generic [ref=e687]:
+                          - strong [ref=e868]: Aisha Al-Farsi
+                          - text: shows high engagement. Consider soliciting for a major gift for the 'Education for All' campaign.
+                        - generic [ref=e689]:
+                          - generic [ref=e692]: High
+                          - generic [ref=e693]: "Conf: 85%"
+                      - generic [ref=e694]:
+                        - generic [ref=e695]: 3 donors in the 'Cultivating' stage have not been contacted in over 60 days. A follow-up is recommended.
+                        - generic [ref=e696]:
+                          - generic [ref=e699]: Medium
+                          - generic [ref=e700]: "Conf: 95%"
+                  - generic [ref=e701]:
+                    - heading "Alerts" [level=4] [ref=e702]:
+                      - img [ref=e703]
+                      - text: Alerts
+                    - generic [ref=e705]:
+                      - generic [ref=e706]:
+                        - generic [ref=e707]:
+                          - text: Project
+                          - strong [ref=e869]: "'PROJ-2024-001'"
+                          - text: is trending 15% over budget on its current burn rate.
+                        - generic [ref=e709]:
+                          - generic [ref=e712]: High
+                          - generic [ref=e713]: "Conf: 98%"
+                      - generic [ref=e714]:
+                        - generic [ref=e715]:
+                          - strong [ref=e870]: Fatma Yılmaz
+                          - text: is at high risk of lapsing. Her last donation was over 8 months ago.
+                        - generic [ref=e717]:
+                          - generic [ref=e720]: Medium
+                          - generic [ref=e721]: "Conf: 92%"
+                  - generic [ref=e722]:
+                    - heading "Recommendations" [level=4] [ref=e723]:
+                      - img [ref=e724]
+                      - text: Recommendations
+                    - generic [ref=e726]:
+                      - generic [ref=e727]:
+                        - generic [ref=e728]: Launch a targeted re-engagement campaign for 'Dormant Donors' focusing on the 'Healthcare' program, their past interest.
+                        - generic [ref=e729]:
+                          - generic [ref=e732]: High
+                          - generic [ref=e733]: "Conf: 78%"
+                      - generic [ref=e734]:
+                        - generic [ref=e735]:
+                          - text: Assign a dedicated manager to
+                          - strong [ref=e871]: David Chen
+                          - text: due to his high potential and recent major gift.
+                        - generic [ref=e737]:
+                          - generic [ref=e740]: Medium
+                          - generic [ref=e741]: "Conf: 90%"
+                  - generic [ref=e742]:
+                    - heading "Forecasts" [level=4] [ref=e743]:
+                      - img [ref=e744]
+                      - text: Forecasts
+                    - generic [ref=e747]:
+                      - generic [ref=e748]:
+                        - generic [ref=e749]: Predicting a 10-15% increase in online donations in Q4 based on historical data and current engagement trends.
+                        - generic [ref=e750]:
+                          - generic [ref=e753]: Low
+                          - generic [ref=e754]: "Conf: 82%"
+                      - generic [ref=e755]:
+                        - generic [ref=e756]: Volunteer engagement is forecasted to dip in August. Plan a recognition event to boost morale.
+                        - generic [ref=e757]:
+                          - generic [ref=e760]: Medium
+                          - generic [ref=e761]: "Conf: 75%"
+                - button "View More Insights" [ref=e763] [cursor=pointer]
+              - generic [ref=e764]:
+                - heading "Quick Actions" [level=2] [ref=e765]
+                - generic [ref=e766]:
+                  - button "Add Project" [ref=e768] [cursor=pointer]:
+                    - img [ref=e769]
+                    - generic [ref=e771]: Add Project
+                  - button "Create Report" [ref=e773] [cursor=pointer]:
+                    - img [ref=e774]
+                    - generic [ref=e776]: Create Report
+                  - button "Send Message" [ref=e778] [cursor=pointer]:
+                    - img [ref=e779]
+                    - generic [ref=e782]: Send Message
+                  - button "Settings" [ref=e784] [cursor=pointer]:
+                    - img [ref=e785]
+                    - generic [ref=e788]: Settings
+  - generic [ref=e789]: $0

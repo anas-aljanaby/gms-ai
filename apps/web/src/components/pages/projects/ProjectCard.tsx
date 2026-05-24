@@ -4,9 +4,11 @@ import type { Project } from '../../../types';
 import { formatCurrency } from '../../../lib/utils';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, ArrowRight } from 'lucide-react';
+import { isOptimisticProject } from '../../../lib/projectOptimistic';
 
 interface ProjectCardProps {
     project: Project;
+    highlighted?: boolean;
     onSelect: (project: Project) => void;
 }
 
@@ -25,8 +27,9 @@ const progressColor = (progress: number) => {
     return 'bg-gray-300 dark:bg-slate-600';
 };
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelect }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, highlighted, onSelect }) => {
     const { t, language } = useLocalization();
+    const optimistic = isOptimisticProject(project.id);
     const stage = stageConfig[project.stage] || stageConfig.design;
     const budgetUsed = project.budget > 0 ? Math.round((project.spent / project.budget) * 100) : 0;
     const formatProjectLocation = (city?: string, country?: string) => {
@@ -43,8 +46,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelect }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.25 }}
-            onClick={() => onSelect(project)}
-            className="bg-card dark:bg-dark-card rounded-xl shadow-soft transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 flex flex-col cursor-pointer border border-gray-200 dark:border-slate-700/50 overflow-hidden group"
+            onClick={() => !optimistic && onSelect(project)}
+            className={`bg-card dark:bg-dark-card rounded-xl shadow-soft transition-all duration-200 flex flex-col border border-gray-200 dark:border-slate-700/50 overflow-hidden group ${
+                optimistic
+                    ? 'opacity-70 animate-pulse cursor-default'
+                    : highlighted
+                        ? 'ring-2 ring-primary/40 dark:ring-secondary/40 cursor-pointer hover:shadow-lg hover:-translate-y-0.5'
+                        : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5'
+            }`}
         >
             <div className={`h-1 bg-gradient-to-r ${stage.accent}`} />
 
@@ -53,6 +62,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelect }) => {
                     <h3 className="font-semibold text-foreground dark:text-dark-foreground leading-snug group-hover:text-primary dark:group-hover:text-secondary transition-colors line-clamp-2">
                         {project.name[language] || project.name.en}
                     </h3>
+                    {optimistic && (
+                        <span className="text-xs text-gray-400 shrink-0">{t('common.saving')}</span>
+                    )}
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${stage.bg} ${stage.text}`}>
                         {t(`projects.stages.${project.stage}`)}
                     </span>

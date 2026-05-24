@@ -38,18 +38,43 @@ export const individualDonorSchema = z.object({
     custom_fields: z.record(z.string(), z.unknown()).default({}),
 });
 
-export const createDonorSchema = individualDonorSchema.omit({
-    id: true,
-    org_id: true,
-    total_donations: true,
-    donations_count: true,
-    avg_gift: true,
-    avg_days_between_donations: true,
-    primary_program_interest: true,
-    donor_category: true,
+const optionalEmailSchema = z.union([z.literal(''), z.string().email()]);
+
+const createDonorFieldsSchema = individualDonorSchema
+    .omit({
+        id: true,
+        org_id: true,
+        total_donations: true,
+        donations_count: true,
+        avg_gift: true,
+        avg_days_between_donations: true,
+        primary_program_interest: true,
+        donor_category: true,
+    })
+    .extend({
+        full_name_en: z.string().default(''),
+        full_name_ar: z.string().default(''),
+        email: optionalEmailSchema.default(''),
+        phone: z.string().optional().default(''),
+        country: z.string().optional().default(''),
+        donor_since: z.string().nullable().default(null),
+        last_donation_date: z.string().nullable().default(null),
+        primary_program_interest: z.string().nullable().optional().default(null),
+    });
+
+export const createDonorSchema = createDonorFieldsSchema.superRefine((data, ctx) => {
+    const nameEn = data.full_name_en.trim();
+    const nameAr = data.full_name_ar.trim();
+    if (!nameEn && !nameAr) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'at_least_one_name_required',
+            path: ['full_name_en'],
+        });
+    }
 });
 
-export const updateDonorSchema = createDonorSchema.partial();
+export const updateDonorSchema = createDonorFieldsSchema.partial();
 
 export const donationSchema = z.object({
     id: z.string().uuid(),

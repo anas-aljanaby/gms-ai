@@ -39,6 +39,12 @@ const AddStakeholderModal: React.FC<AddStakeholderModalProps> = ({ isOpen, onClo
             email,
             phone,
         });
+        setName({ en: '', ar: '' });
+        setType('donor');
+        setCategory('foundation');
+        setCountry('');
+        setEmail('');
+        setPhone('');
         onClose();
     };
 

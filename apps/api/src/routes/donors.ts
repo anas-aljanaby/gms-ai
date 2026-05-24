@@ -368,22 +368,27 @@ donorsRouter.post('/', async (c) => {
         if (tagsError) return c.json({ error: tagsError }, 400);
     }
 
+    const fullNameEn = data.full_name_en.trim() || data.full_name_ar.trim();
+    const fullNameAr = data.full_name_ar.trim() || data.full_name_en.trim();
+    const email = data.email.trim() || `donor+${crypto.randomUUID()}@no-email.local`;
+
     const [donor] = await db
         .insert(individual_donors)
         .values({
             org_id: orgId,
-            full_name_en: data.full_name_en,
-            full_name_ar: data.full_name_ar,
-            email: data.email,
+            full_name_en: fullNameEn,
+            full_name_ar: fullNameAr,
+            email,
             phone: data.phone,
             status: data.status,
             tier: data.tier,
             country: data.country,
             tags: normalizeDonorTags(data.tags ?? []),
             assigned_manager: data.assigned_manager,
-            avatar: data.avatar,
+            avatar: data.avatar || `https://i.pravatar.cc/150?u=${encodeURIComponent(email)}`,
             donor_since: data.donor_since ? new Date(data.donor_since) : null,
             last_donation_date: data.last_donation_date ? new Date(data.last_donation_date) : null,
+            primary_program_interest: data.primary_program_interest,
             custom_fields: data.custom_fields,
         })
         .returning();

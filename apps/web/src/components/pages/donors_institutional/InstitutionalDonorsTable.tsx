@@ -3,16 +3,19 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import type { InstitutionalDonor, GrantmakerRelationshipStatus, PriorityLevel, SortDirection } from '../../../types';
 import { formatDate, formatCurrency } from '../../../lib/utils';
 import { MoreHorizontalIcon, ChevronDownIcon } from '../../icons/GenericIcons';
+import { isOptimisticInstitution } from '../../../lib/institutionOptimistic';
+import { formatInstitutionalCountry } from './countryDisplay';
 
 interface InstitutionalDonorsTableProps {
     donors: InstitutionalDonor[];
+    highlightedId?: string | null;
     onDonorSelect: (donor: InstitutionalDonor) => void;
     sortColumn: keyof InstitutionalDonor | null;
     sortDirection: SortDirection;
     onSort: (column: keyof InstitutionalDonor) => void;
 }
 
-const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ donors, onDonorSelect, sortColumn, sortDirection, onSort }) => {
+const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ donors, highlightedId = null, onDonorSelect, sortColumn, sortDirection, onSort }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
 
     const SortableHeader: React.FC<{ column: keyof InstitutionalDonor, labelKey: string, className?: string }> = ({ column, labelKey, className }) => (
@@ -64,14 +67,28 @@ const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ don
                         </tr>
                     </thead>
                     <tbody>
-                        {donors.map(donor => (
-                            <tr key={donor.id} className="bg-card dark:bg-dark-card border-b dark:border-slate-700 hover:bg-gray-50/50 dark:hover:bg-slate-800/20">
+                        {donors.map(donor => {
+                            const optimistic = isOptimisticInstitution(donor.id);
+                            const highlighted = highlightedId === donor.id;
+                            return (
+                            <tr
+                                key={donor.id}
+                                className={`bg-card dark:bg-dark-card border-b dark:border-slate-700 hover:bg-gray-50/50 dark:hover:bg-slate-800/20 ${
+                                    optimistic
+                                        ? 'opacity-70 animate-pulse bg-blue-50/60 dark:bg-blue-950/30'
+                                        : highlighted
+                                          ? 'bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-inset ring-emerald-200/80 dark:ring-emerald-800/60'
+                                          : ''
+                                }`}
+                            >
                                 <td className="px-4 py-4">
                                     <div className="flex items-center gap-3">
                                         <img className="w-10 h-10 rounded-lg object-cover bg-gray-100" src={donor.logo} alt={`${donor.organizationName.en} logo`} loading="lazy" />
                                         <div>
                                             <button onClick={() => onDonorSelect(donor)} className="font-bold text-foreground dark:text-dark-foreground hover:underline text-start">{donor.organizationName[language]}</button>
-                                            <div className="text-xs text-gray-500">{t(`institutional_donors.types.${donor.type}`)} &bull; {donor.country}</div>
+                                            <div className="text-xs text-gray-500">
+                                                {optimistic ? t('common.saving') : `${t(`institutional_donors.types.${donor.type}`)} • ${formatInstitutionalCountry(donor.country, t)}`}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
@@ -83,7 +100,7 @@ const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ don
                                     <div className="text-xs text-gray-500">{t('institutional_donors.active', { count: donor.activeGrants })}</div>
                                 </td>
                                 <td className="px-4 py-4">
-                                    <div className="font-semibold">{donor.nextDeadline ? formatDate(donor.nextDeadline, language) : 'N/A'}</div>
+                                    <div className="font-semibold">{donor.nextDeadline ? formatDate(donor.nextDeadline, language) : t('common.notAvailable')}</div>
                                     <div className="text-xs text-gray-500">{t('institutional_donors.nextDeadline')}</div>
                                 </td>
                                 <td className="px-4 py-4"><StatusBadge status={donor.relationshipStatus} /></td>
@@ -94,12 +111,19 @@ const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ don
                                     </div>
                                 </td>
                                 <td className="px-4 py-4"><PriorityBadge priority={donor.priority} /></td>
-                                <td className="px-4 py-4 text-end"><button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="More options"><MoreHorizontalIcon /></button></td>
+                                <td className="px-4 py-4 text-end">
+                                    {optimistic ? (
+                                        <span className="text-xs text-gray-400">—</span>
+                                    ) : (
+                                        <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label={t('institutional_donors.moreOptions')}><MoreHorizontalIcon /></button>
+                                    )}
+                                </td>
                             </tr>
-                        ))}
+                        );
+                        })}
                     </tbody>
                 </table>
-                 {donors.length === 0 && <div className="text-center py-16 text-gray-500">{t('individual_donors.noResults')}</div>}
+                 {donors.length === 0 && <div className="text-center py-16 text-gray-500">{t('institutional_donors.noResults')}</div>}
             </div>
         </div>
     );

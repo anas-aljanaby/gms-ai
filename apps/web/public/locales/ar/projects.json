@@ -4,6 +4,9 @@
     "subtitle": "تتبع وإدارة جميع مشاريع المؤسسة",
     "projectList": "قائمة المشاريع",
     "createProject": "إنشاء مشروع",
+    "createSuccess": "تم إنشاء المشروع بنجاح",
+    "createFailed": "تعذر إنشاء المشروع. يرجى المحاولة مرة أخرى.",
+    "updateSuccess": "تم تحديث المشروع بنجاح",
     "backToList": "العودة إلى قائمة المشاريع",
     "search_placeholder": "ابحث باسم المشروع...",
     "advanced_filters": "فلاتر متقدمة",
@@ -65,6 +68,9 @@
       },
       "form": {
         "name": "اسم المشروع",
+        "nameEn": "اسم المشروع (بالإنجليزية)",
+        "nameAr": "اسم المشروع (بالعربية)",
+        "manager": "مدير المشروع",
         "code": "رمز المشروع",
         "type": "نوع المشروع",
         "stage": "المرحلة الحالية",
@@ -158,7 +164,13 @@
     "overview": {
       "sdgTitle": "مواءمة أهداف التنمية المستدامة",
       "location": "الموقع",
-      "goal": "الهدف"
+      "goal": "الهدف",
+      "country": "الدولة",
+      "city": "المدينة"
+    },
+    "validation": {
+      "nameRequired": "اسم المشروع (بالإنجليزية) مطلوب",
+      "datesRequired": "تاريخ البدء والانتهاء مطلوبان"
     },
     "sdgAnalytics": {
       "title": "تحليلات أهداف التنمية",
@@ -210,11 +222,19 @@
       "outOfScope": "خارج النطاق",
       "assumptions": "الافتراضات",
       "constraints": "القيود",
-      "wbs": "هيكل تجزئة العمل (WBS)"
+      "wbs": "هيكل تجزئة العمل (WBS)",
+      "addItem": "إضافة بند",
+      "editItem": "تعديل البند",
+      "newItem": "بند جديد..."
     },
     "schedule": {
       "gantt": "الجدول الزمني (Gantt)",
-      "timeline": "المدة الزمنية"
+      "timeline": "المدة الزمنية",
+      "task": "المهمة",
+      "startDate": "البداية",
+      "endDate": "النهاية",
+      "addTask": "إضافة مهمة",
+      "taskName": "اسم المهمة"
     },
     "cost": {
       "dashboard": "لوحة التكلفة",
@@ -230,10 +250,17 @@
       "actual": "الفعلي",
       "variance": "الانحراف",
       "expenseLog": "سجل المصروفات",
+      "logExpense": "تسجيل مصروف",
       "date": "التاريخ",
       "description": "الوصف",
       "wbs_link": "ربط WBS",
-      "amount": "المبلغ"
+      "amount": "المبلغ",
+      "categories": {
+        "equipment": "معدات",
+        "salaries": "رواتب",
+        "travel": "سفر",
+        "other": "أخرى"
+      }
     },
     "hr": {
       "effort": "الجهد",
@@ -242,7 +269,12 @@
       "task": "المهمة",
       "timesheet": "سجل الساعات",
       "member": "العضو",
-      "hours": "الساعات"
+      "hours": "الساعات",
+      "addEntry": "إضافة قيد",
+      "responsible": "مسؤول",
+      "accountable": "محاسَب",
+      "consulted": "مستشار",
+      "informed": "مُبلَّغ"
     },
     "risks": {
       "dashboard": "لوحة المخاطر",
@@ -256,7 +288,34 @@
       "probability": "الاحتمالية",
       "response": "الاستجابة",
       "owner": "المالك",
-      "status": "الحالة"
+      "status": "الحالة",
+      "contingencyPlan": "خطة الطوارئ",
+      "addRisk": "إضافة مخاطرة",
+      "editRisk": "تعديل المخاطرة",
+      "deleteRisk": "حذف المخاطرة",
+      "levels": {
+        "low": "منخفض",
+        "medium": "متوسط",
+        "high": "عالٍ"
+      },
+      "categories": {
+        "financial": "مالي",
+        "security": "أمني",
+        "operational": "تشغيلي",
+        "political": "سياسي",
+        "reputational": "سمعة"
+      },
+      "responses": {
+        "avoid": "تجنب",
+        "mitigate": "تخفيف",
+        "transfer": "نقل",
+        "accept": "قبول"
+      },
+      "statuses": {
+        "open": "مفتوح",
+        "in-progress": "قيد التنفيذ",
+        "closed": "مغلق"
+      }
     },
     "quality": {
       "standards": "معايير الجودة",
@@ -266,7 +325,10 @@
       "positive": "ما تم بشكل جيد",
       "negative": "ما يحتاج تحسين",
       "checklist": "قائمة التحقق",
-      "recommendation": "التوصية"
+      "recommendation": "التوصية",
+      "addLesson": "إضافة درس",
+      "lessonDescription": "وصف الدرس",
+      "lessonCategory": "الفئة"
     },
     "documents": {
       "search": {
@@ -304,7 +366,13 @@
       "impact": "الأثر",
       "scopeImpact": "النطاق",
       "timeImpact": "الوقت",
-      "costImpact": "التكلفة"
+      "costImpact": "التكلفة",
+      "statuses": {
+        "pending": "معلّق",
+        "approved": "مقبول",
+        "rejected": "مرفوض",
+        "implemented": "منفّذ"
+      }
     },
     "reporting": {
       "reportCardsTitle": "تقارير المشروع",

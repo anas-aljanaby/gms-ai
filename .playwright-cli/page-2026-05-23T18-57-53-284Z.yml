@@ -1,0 +1,295 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - button "Collapse sidebar" [expanded] [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+    - generic [ref=e8]:
+      - generic [ref=e10]: M
+      - heading "MSS.2" [level=1] [ref=e11]
+    - list [ref=e13]:
+      - listitem [ref=e650]:
+        - link "لوحة القيادة" [ref=e651] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e653]
+          - generic [ref=e658]: لوحة القيادة
+      - listitem [ref=e659]:
+        - link "بوصلة" [ref=e660] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e662]
+          - generic [ref=e665]: بوصلة
+      - listitem [ref=e666]:
+        - link "إدارة أصحاب المصلحة" [ref=e667] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e669]
+          - generic [ref=e674]: إدارة أصحاب المصلحة
+      - listitem [ref=e675]:
+        - link "إدارة المانحين" [ref=e676] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e678]
+          - generic [ref=e680]: إدارة المانحين
+      - listitem [ref=e681]:
+        - link "المؤسسات المانحة" [ref=e682] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e684]
+          - generic [ref=e686]: المؤسسات المانحة
+      - listitem [ref=e687]:
+        - link "إدارة المستفيدين" [ref=e688] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e690]
+          - generic [ref=e695]: إدارة المستفيدين
+      - listitem [ref=e696]:
+        - link "إدارة المشاريع" [ref=e697] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e699]
+          - generic [ref=e703]: إدارة المشاريع
+      - listitem [ref=e704]:
+        - link "الإدارة المالية" [ref=e705] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e707]
+          - generic [ref=e709]: الإدارة المالية
+      - listitem [ref=e710]:
+        - link "المساعدة والدعم" [ref=e711] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e713]
+          - generic [ref=e716]: المساعدة والدعم
+      - listitem [ref=e717]:
+        - link "الإعدادات" [ref=e718] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e720]
+          - generic [ref=e723]: الإعدادات
+    - list [ref=e89]:
+      - listitem [ref=e724]:
+        - link "تسجيل الخروج" [ref=e725] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e727]
+          - generic [ref=e730]: تسجيل الخروج
+  - generic [ref=e97]:
+    - banner [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - heading "إدارة المستفيدين" [level=1] [ref=e557]
+          - button "liveIndicator.live" [ref=e649] [cursor=pointer]
+        - generic [ref=e106]:
+          - generic:
+            - img
+          - searchbox "ابحث في كل شيء..." [ref=e564]
+          - button "بحث صوتي" [ref=e565] [cursor=pointer]:
+            - img [ref=e110]
+      - generic [ref=e113]:
+        - button "المساعدة والدعم" [ref=e566] [cursor=pointer]:
+          - img [ref=e116]
+        - button "Change language" [ref=e122] [cursor=pointer]:
+          - img [ref=e123]
+          - img "Arabic (Saudi Arabia) Flag" [ref=e567]:
+            - generic [ref=e570]: لَا إِلٰهَ إِلَّا الله، مُحَمَّدٌ رَسُولُ الله
+        - button "Switch to light mode" [active] [ref=e731] [cursor=pointer]:
+          - img [ref=e732]
+        - button "View announcements" [ref=e136] [cursor=pointer]:
+          - img [ref=e137]
+        - button "User مرحباً! Admin" [ref=e572] [cursor=pointer]:
+          - img "User" [ref=e145]
+          - generic [ref=e146]:
+            - generic [ref=e147]: مرحباً!
+            - generic [ref=e148]: Admin
+          - img [ref=e149]
+    - main [ref=e151]:
+      - generic [ref=e236]:
+        - generic [ref=e237]:
+          - heading "إدارة المستفيدين" [level=1] [ref=e573]
+          - button "إضافة مستفيد" [ref=e574] [cursor=pointer]:
+            - img [ref=e240]
+            - text: إضافة مستفيد
+        - generic [ref=e241]:
+          - generic [ref=e575]:
+            - generic [ref=e576]: "الإجمالي:"
+            - generic [ref=e577]: "8"
+          - generic [ref=e578]: "|"
+          - generic [ref=e579]:
+            - generic [ref=e580]: "النشطون:"
+            - generic [ref=e581]: "8"
+          - generic [ref=e582]: "|"
+          - generic [ref=e583]:
+            - generic [ref=e584]: "المكفولون:"
+            - generic [ref=e585]: "3"
+          - generic [ref=e586]: "|"
+          - generic [ref=e587]:
+            - generic [ref=e588]: "الدعم المباشر:"
+            - generic [ref=e589]: "5"
+        - generic [ref=e257]:
+          - generic [ref=e258]:
+            - img
+            - textbox "ابحث بالاسم، البلد، البريد أو الهاتف..." [ref=e590]
+          - combobox [ref=e260]:
+            - option "كل الأنواع" [selected]
+            - option "طالب"
+            - option "يتيم"
+            - option "حافظ"
+            - option "أسرة"
+            - option "مؤسسة"
+            - option "مجتمع"
+          - combobox [ref=e261]:
+            - option "كل الحالات" [selected]
+            - option "نشط"
+            - option "غير نشط"
+            - option "متخرج"
+            - option "موقوف"
+            - option "معلّق"
+          - combobox [ref=e262]:
+            - option "كل الدول" [selected]
+            - option "Egypt"
+            - option "Jordan"
+            - option "Lebanon"
+            - option "Syria"
+            - option "Turkey"
+        - table [ref=e264]:
+          - rowgroup [ref=e265]:
+            - row "الاسم النوع الحالة البلد المشروع آخر مساعدة" [ref=e591]:
+              - columnheader "الاسم" [ref=e592] [cursor=pointer]:
+                - generic [ref=e268]: الاسم
+              - columnheader "النوع" [ref=e593] [cursor=pointer]:
+                - generic [ref=e270]: النوع
+              - columnheader "الحالة" [ref=e594] [cursor=pointer]:
+                - generic [ref=e272]: الحالة
+              - columnheader "البلد" [ref=e595] [cursor=pointer]:
+                - generic [ref=e274]: البلد
+              - columnheader "المشروع" [ref=e596]:
+                - generic [ref=e276]: المشروع
+              - columnheader "آخر مساعدة" [ref=e597]:
+                - generic [ref=e278]: آخر مساعدة
+              - columnheader [ref=e279]
+          - rowgroup [ref=e280]:
+            - row "مخيم الزعتري للاجئين مخيم الزعتري للاجئين refugee camp مجتمع نشط Jordan برنامج خدمة المجتمع 1 يونيو 2024 Row actions" [ref=e598] [cursor=pointer]:
+              - cell "مخيم الزعتري للاجئين مخيم الزعتري للاجئين refugee camp" [ref=e599]:
+                - generic [ref=e283]:
+                  - img "مخيم الزعتري للاجئين" [ref=e600]
+                  - generic [ref=e285]:
+                    - paragraph [ref=e286]: مخيم الزعتري للاجئين
+                    - paragraph [ref=e287]: refugee camp
+              - cell "مجتمع" [ref=e601]:
+                - generic [ref=e289]: مجتمع
+              - cell "نشط" [ref=e602]
+              - cell "Jordan" [ref=e291]
+              - cell "برنامج خدمة المجتمع" [ref=e603]:
+                - generic [ref=e293]: برنامج خدمة المجتمع
+              - cell "1 يونيو 2024" [ref=e604]
+              - cell "Row actions" [ref=e295]:
+                - button "Row actions" [ref=e298]:
+                  - img [ref=e299]
+            - row "مدرسة الأمل مدرسة الأمل school مؤسسة نشط Turkey مبادرة الدعم التعليمي — Row actions" [ref=e605] [cursor=pointer]:
+              - cell "مدرسة الأمل مدرسة الأمل school" [ref=e606]:
+                - generic [ref=e305]:
+                  - img "مدرسة الأمل" [ref=e607]
+                  - generic [ref=e307]:
+                    - paragraph [ref=e308]: مدرسة الأمل
+                    - paragraph [ref=e309]: school
+              - cell "مؤسسة" [ref=e608]:
+                - generic [ref=e311]: مؤسسة
+              - cell "نشط" [ref=e609]
+              - cell "Turkey" [ref=e313]
+              - cell "مبادرة الدعم التعليمي" [ref=e610]:
+                - generic [ref=e315]: مبادرة الدعم التعليمي
+              - cell "—" [ref=e316]
+              - cell "Row actions" [ref=e317]:
+                - button "Row actions" [ref=e320]:
+                  - img [ref=e321]
+            - row "عبد الرحمن محمود عبد الرحمن محمود حلقة تحفيظ قرآن حافظ نشط Egypt — — Row actions" [ref=e611] [cursor=pointer]:
+              - cell "عبد الرحمن محمود عبد الرحمن محمود حلقة تحفيظ قرآن" [ref=e612]:
+                - generic [ref=e327]:
+                  - img "عبد الرحمن محمود" [ref=e613]
+                  - generic [ref=e329]:
+                    - paragraph [ref=e330]: عبد الرحمن محمود
+                    - paragraph [ref=e331]: حلقة تحفيظ قرآن
+              - cell "حافظ" [ref=e614]:
+                - generic [ref=e333]: حافظ
+              - cell "نشط" [ref=e615]
+              - cell "Egypt" [ref=e335]
+              - cell "—" [ref=e336]:
+                - generic [ref=e337]: —
+              - cell "—" [ref=e338]
+              - cell "Row actions" [ref=e339]:
+                - button "Row actions" [ref=e342]:
+                  - img [ref=e343]
+            - row "عائلة الأحمد عائلة الأحمد أسرة مكونة من 5 أفراد أسرة نشط Syria برنامج خدمة المجتمع 1 يوليو 2024 Row actions" [ref=e616] [cursor=pointer]:
+              - cell "عائلة الأحمد عائلة الأحمد أسرة مكونة من 5 أفراد" [ref=e617]:
+                - generic [ref=e349]:
+                  - img "عائلة الأحمد" [ref=e618]
+                  - generic [ref=e351]:
+                    - paragraph [ref=e352]: عائلة الأحمد
+                    - paragraph [ref=e353]: أسرة مكونة من 5 أفراد
+              - cell "أسرة" [ref=e619]:
+                - generic [ref=e355]: أسرة
+              - cell "نشط" [ref=e620]
+              - cell "Syria" [ref=e357]
+              - cell "برنامج خدمة المجتمع" [ref=e621]:
+                - generic [ref=e359]: برنامج خدمة المجتمع
+              - cell "1 يوليو 2024" [ref=e622]
+              - cell "Row actions" [ref=e361]:
+                - button "Row actions" [ref=e364]:
+                  - img [ref=e365]
+            - row "علي خالد علي خالد 6th Grade يتيم نشط Jordan — 10 يوليو 2024 Row actions" [ref=e623] [cursor=pointer]:
+              - cell "علي خالد علي خالد 6th Grade" [ref=e624]:
+                - generic [ref=e371]:
+                  - img "علي خالد" [ref=e625]
+                  - generic [ref=e373]:
+                    - paragraph [ref=e374]: علي خالد
+                    - paragraph [ref=e375]: 6th Grade
+              - cell "يتيم" [ref=e626]:
+                - generic [ref=e377]: يتيم
+              - cell "نشط" [ref=e627]
+              - cell "Jordan" [ref=e379]
+              - cell "—" [ref=e380]:
+                - generic [ref=e381]: —
+              - cell "10 يوليو 2024" [ref=e628]
+              - cell "Row actions" [ref=e383]:
+                - button "Row actions" [ref=e386]:
+                  - img [ref=e387]
+            - row "أحمد حسين أحمد حسين Business Administration في METU طالب نشط Turkey مشروع البناء القيادي — Row actions" [ref=e629] [cursor=pointer]:
+              - cell "أحمد حسين أحمد حسين Business Administration في METU" [ref=e630]:
+                - generic [ref=e393]:
+                  - img "أحمد حسين" [ref=e631]
+                  - generic [ref=e395]:
+                    - paragraph [ref=e396]: أحمد حسين
+                    - paragraph [ref=e397]: Business Administration في METU
+              - cell "طالب" [ref=e632]:
+                - generic [ref=e399]: طالب
+              - cell "نشط" [ref=e633]
+              - cell "Turkey" [ref=e401]
+              - cell "مشروع البناء القيادي" [ref=e634]:
+                - generic [ref=e403]: مشروع البناء القيادي
+              - cell "—" [ref=e404]
+              - cell "Row actions" [ref=e405]:
+                - button "Row actions" [ref=e408]:
+                  - img [ref=e409]
+            - row "فاطمة الجميل فاطمة الجميل Science Stream في Beirut International School طالب نشط Lebanon مبادرة الدعم التعليمي 5 يوليو 2024 Row actions" [ref=e635] [cursor=pointer]:
+              - cell "فاطمة الجميل فاطمة الجميل Science Stream في Beirut International School" [ref=e636]:
+                - generic [ref=e415]:
+                  - img "فاطمة الجميل" [ref=e637]
+                  - generic [ref=e417]:
+                    - paragraph [ref=e418]: فاطمة الجميل
+                    - paragraph [ref=e419]: Science Stream في Beirut International School
+              - cell "طالب" [ref=e638]:
+                - generic [ref=e421]: طالب
+              - cell "نشط" [ref=e639]
+              - cell "Lebanon" [ref=e423]
+              - cell "مبادرة الدعم التعليمي" [ref=e640]:
+                - generic [ref=e425]: مبادرة الدعم التعليمي
+              - cell "5 يوليو 2024" [ref=e641]
+              - cell "Row actions" [ref=e427]:
+                - button "Row actions" [ref=e430]:
+                  - img [ref=e431]
+            - row "يوسف الأحمد يوسف الأحمد Computer Engineering في Istanbul University طالب نشط Turkey مبادرة الدعم التعليمي 23 مايو 2026 Row actions" [ref=e642] [cursor=pointer]:
+              - cell "يوسف الأحمد يوسف الأحمد Computer Engineering في Istanbul University" [ref=e643]:
+                - generic [ref=e437]:
+                  - img "يوسف الأحمد" [ref=e644]
+                  - generic [ref=e439]:
+                    - paragraph [ref=e440]: يوسف الأحمد
+                    - paragraph [ref=e441]: Computer Engineering في Istanbul University
+              - cell "طالب" [ref=e645]:
+                - generic [ref=e443]: طالب
+              - cell "نشط" [ref=e646]
+              - cell "Turkey" [ref=e445]
+              - cell "مبادرة الدعم التعليمي" [ref=e647]:
+                - generic [ref=e447]: مبادرة الدعم التعليمي
+              - cell "23 مايو 2026" [ref=e648]
+              - cell "Row actions" [ref=e449]:
+                - button "Row actions" [ref=e452]:
+                  - img [ref=e453]

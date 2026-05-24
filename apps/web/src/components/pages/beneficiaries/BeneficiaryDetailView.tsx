@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import type { Beneficiary, BeneficiaryType, Language } from '../../../types';
+import type { Beneficiary, BeneficiaryType, Language, ProgramProject } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency, formatNumber } from '../../../lib/utils';
 import { GraduationCapIcon, DollarSignCircleIcon, DocumentTextIcon } from '../../icons/UtilityIcons';
@@ -12,7 +12,7 @@ import BeneficiaryDocumentsTab from './BeneficiaryDocumentsTab';
 import AcademicsTab from './tabs/AcademicsTab';
 import SponsorshipTab from './tabs/SponsorshipTab';
 import GuardianTab from './tabs/GuardianTab';
-import { Users, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Users, CheckCircle } from 'lucide-react';
 import { getBeneficiarySubtitle } from './beneficiaryUtils';
 
 // =================================================================
@@ -76,10 +76,51 @@ const getKpis = (b: Beneficiary, t: (k: string, o?: any) => string, language: La
 // =================================================================
 interface BeneficiaryDetailViewProps {
     beneficiary: Beneficiary;
+    onBack: () => void;
     onUpdate: (beneficiary: Beneficiary) => void;
+    projects?: ProgramProject[];
+    existingCountries?: string[];
 }
 
-const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onUpdate }) => {
+export const BeneficiaryProfileRoute: React.FC<{
+    beneficiaryId: string;
+    beneficiaries: Beneficiary[];
+    isLoading: boolean;
+    onBack: () => void;
+    onUpdate: (beneficiary: Beneficiary) => void;
+    projects?: ProgramProject[];
+    existingCountries?: string[];
+}> = ({ beneficiaryId, beneficiaries, isLoading, onBack, onUpdate, projects, existingCountries }) => {
+    const { t } = useLocalization(['common', 'beneficiaries']);
+
+    if (isLoading) {
+        return (
+            <div className="space-y-4">
+                <div className="h-10 w-40 animate-pulse rounded-lg bg-gray-100 dark:bg-slate-800" />
+                <div className="h-40 animate-pulse rounded-2xl bg-gray-100 dark:bg-slate-800" />
+                <div className="h-80 animate-pulse rounded-2xl bg-gray-100 dark:bg-slate-800" />
+            </div>
+        );
+    }
+
+    const beneficiary = beneficiaries.find((b) => b.id === beneficiaryId);
+    if (!beneficiary) {
+        return (
+            <div className="space-y-4">
+                <button onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+                    <ArrowLeft className="h-4 w-4 rtl:rotate-180" /> {t('beneficiaries.backToList')}
+                </button>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {t('beneficiaries.profileLoadFailed', 'Unable to load this beneficiary profile.')}
+                </p>
+            </div>
+        );
+    }
+
+    return <BeneficiaryDetailView beneficiary={beneficiary} onBack={onBack} onUpdate={onUpdate} projects={projects} existingCountries={existingCountries} />;
+};
+
+const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onBack, onUpdate, projects, existingCountries }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
     const [activeTab, setActiveTab] = useState('overview');
 
@@ -109,26 +150,42 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
     const renderTabContent = () => {
         switch (activeTab) {
             case 'overview':
-                return <OverviewTab beneficiary={beneficiary} onUpdate={onUpdate} />;
+                return <OverviewTab beneficiary={beneficiary} onUpdate={onUpdate} projects={projects} existingCountries={existingCountries} />;
             case 'academics':
                 return beneficiary.profile.type === 'student' ? <AcademicsTab profile={beneficiary.profile} onUpdate={handleProfileUpdate} /> : null;
             case 'sponsorship':
-                return <SponsorshipTab beneficiary={beneficiary} />;
+                return <SponsorshipTab beneficiary={beneficiary} onUpdate={onUpdate} />;
             case 'guardian':
                 return beneficiary.profile.type === 'orphan' ? <GuardianTab profile={beneficiary.profile} onUpdate={handleProfileUpdate} /> : null;
             case 'aid_log':
-                return <AidLogTab aidLog={Array.isArray(beneficiary.aidLog) ? beneficiary.aidLog : []} />;
+                return (
+                    <AidLogTab
+                        beneficiary={beneficiary}
+                        onUpdate={(aidLog) => onUpdate({ ...beneficiary, aidLog })}
+                        projects={projects}
+                    />
+                );
             case 'needs_assessment':
                 return <NeedsAssessmentTab beneficiary={beneficiary} onUpdate={onUpdate} />;
             case 'documents':
-                return <BeneficiaryDocumentsTab documents={beneficiary.documents} beneficiaryName={name} />;
+                return (
+                    <BeneficiaryDocumentsTab
+                        documents={beneficiary.documents}
+                        beneficiaryName={name}
+                        onUpdate={(documents) => onUpdate({ ...beneficiary, documents })}
+                    />
+                );
             default:
                 return null;
         }
     };
 
     return (
-        <div className="animate-fade-in space-y-6">
+        <div className="animate-fade-in space-y-6 pb-24 md:pb-0">
+            <button onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+                <ArrowLeft className="h-4 w-4 rtl:rotate-180" /> {t('beneficiaries.backToList')}
+            </button>
+
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start gap-5">
                 <img

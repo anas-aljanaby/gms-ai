@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { Beneficiary, BeneficiaryStatus, ProgramProject } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatDate } from '../../../lib/utils';
@@ -6,10 +6,12 @@ import DataTable, { type Column } from '../financials/shared/DataTable';
 import BeneficiaryStatusBadge from './BeneficiaryStatusBadge';
 import BeneficiaryRowActions from './BeneficiaryRowActions';
 import { getBeneficiarySubtitle } from './beneficiaryUtils';
+import { isOptimisticBeneficiary } from '../../../lib/beneficiaryOptimistic';
 
 interface BeneficiaryDataTableProps {
   beneficiaries: Beneficiary[];
   projects: ProgramProject[];
+  highlightedId?: string | null;
   onSelect: (beneficiary: Beneficiary) => void;
   onStatusChange: (beneficiary: Beneficiary, status: BeneficiaryStatus) => void;
   onRemove: (beneficiary: Beneficiary) => void;
@@ -27,11 +29,12 @@ const typeColor: Record<string, string> = {
 const BeneficiaryDataTable: React.FC<BeneficiaryDataTableProps> = ({
   beneficiaries,
   projects,
+  highlightedId = null,
   onSelect,
   onStatusChange,
   onRemove,
 }) => {
-  const { t, language } = useLocalization(['beneficiaries']);
+  const { t, language } = useLocalization(['common', 'beneficiaries']);
 
   const getLastAidDate = (beneficiary: Beneficiary): string | null => {
     const aidLog = Array.isArray(beneficiary.aidLog) ? beneficiary.aidLog : [];
@@ -52,7 +55,8 @@ const BeneficiaryDataTable: React.FC<BeneficiaryDataTableProps> = ({
         sortable: true,
         render: (beneficiary) => {
           const name = beneficiary.name[language] || beneficiary.name.en || beneficiary.name.ar;
-          const subtitle = getBeneficiarySubtitle(beneficiary, language, t);
+          const optimistic = isOptimisticBeneficiary(beneficiary.id);
+          const subtitle = optimistic ? t('common.saving') : getBeneficiarySubtitle(beneficiary, language, t);
 
           return (
             <div className="flex min-w-0 items-center gap-3">
@@ -119,7 +123,10 @@ const BeneficiaryDataTable: React.FC<BeneficiaryDataTableProps> = ({
         key: 'actions',
         label: '',
         align: 'right',
-        render: (beneficiary) => (
+        render: (beneficiary) =>
+          isOptimisticBeneficiary(beneficiary.id) ? (
+            <span className="text-xs text-gray-400 dark:text-gray-500">—</span>
+          ) : (
           <div onClick={(event) => event.stopPropagation()}>
             <BeneficiaryRowActions
               beneficiary={beneficiary}
@@ -134,11 +141,25 @@ const BeneficiaryDataTable: React.FC<BeneficiaryDataTableProps> = ({
     [language, onRemove, onSelect, onStatusChange, projects, t]
   );
 
+  const getRowClassName = useCallback(
+    (beneficiary: Beneficiary) => {
+      if (isOptimisticBeneficiary(beneficiary.id)) {
+        return 'opacity-70 animate-pulse bg-blue-50/60 dark:bg-blue-950/30';
+      }
+      if (highlightedId === beneficiary.id) {
+        return 'bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-inset ring-emerald-200/80 dark:ring-emerald-800/60';
+      }
+      return '';
+    },
+    [highlightedId]
+  );
+
   return (
     <DataTable
       columns={columns}
       data={beneficiaries}
       onRowClick={onSelect}
+      getRowClassName={getRowClassName}
       emptyMessage={t('beneficiaries.noResults')}
     />
   );

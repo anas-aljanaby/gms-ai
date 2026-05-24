@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useLocalization } from '../../hooks/useLocalization';
+import { useToast } from '../../hooks/useToast';
 import { MOCK_PROJECTS } from '../../data/projectData';
 import type { Project, Beneficiary } from '../../types';
 import ProjectList from './projects/ProjectList';
@@ -7,6 +8,8 @@ import CreateProjectWizard from './projects/CreateProjectWizard';
 import ProjectDetailView from './projects/ProjectDetailView';
 import SDGAlignmentDashboard from './projects/SDGAlignmentDashboard';
 import { formatCurrency } from '../../lib/utils';
+import { buildOptimisticProject, isOptimisticProject } from '../../lib/projectOptimistic';
+import { OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../lib/optimisticSubmit';
 import { List, Target, PlusCircle, FolderKanban, DollarSign, TrendingUp, CheckCircle2 } from 'lucide-react';
 
 interface ProjectManagementProps {
@@ -16,10 +19,25 @@ interface ProjectManagementProps {
 
 const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, deepLinkTarget }) => {
     const { t, language } = useLocalization(['common', 'projects', 'beneficiaries', 'misc']);
+    const toast = useToast();
     const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
     const [isWizardOpen, setIsWizardOpen] = useState(false);
     const [selectedProjectInfo, setSelectedProjectInfo] = useState<{ project: Project; initialTab?: string } | null>(null);
     const [activeView, setActiveView] = useState('list');
+    const [highlightedId, setHighlightedId] = useState<string | null>(null);
+    const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        };
+    }, []);
+
+    const flashHighlight = useCallback((id: string) => {
+        if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        setHighlightedId(id);
+        highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
+    }, []);
 
     useEffect(() => {
         if (deepLinkTarget?.id) {
@@ -31,21 +49,38 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
     }, [deepLinkTarget, projects]);
 
     const stats = useMemo(() => {
-        const totalBudget = projects.reduce((sum, p) => sum + p.budget, 0);
-        const totalSpent = projects.reduce((sum, p) => sum + p.spent, 0);
-        const activeCount = projects.filter(p => p.stage === 'implementation' || p.stage === 'monitoring').length;
-        const completedCount = projects.filter(p => p.stage === 'closure').length;
-        const avgProgress = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length);
-        return { totalBudget, totalSpent, activeCount, completedCount, avgProgress, total: projects.length };
+        const realProjects = projects.filter((p) => !isOptimisticProject(p.id));
+        const totalBudget = realProjects.reduce((sum, p) => sum + p.budget, 0);
+        const totalSpent = realProjects.reduce((sum, p) => sum + p.spent, 0);
+        const activeCount = realProjects.filter(p => p.stage === 'implementation' || p.stage === 'monitoring').length;
+        const completedCount = realProjects.filter(p => p.stage === 'closure').length;
+        const avgProgress = realProjects.length > 0
+            ? Math.round(realProjects.reduce((sum, p) => sum + p.progress, 0) / realProjects.length)
+            : 0;
+        return { totalBudget, totalSpent, activeCount, completedCount, avgProgress, total: realProjects.length };
     }, [projects]);
 
     const handleCreateProject = (newProjectData: Omit<Project, 'id'>) => {
-        const newProject: Project = {
-            ...newProjectData,
-            id: `PROJ-${new Date().getFullYear()}-${String(projects.length + 1).padStart(3, '0')}`,
-        } as Project;
-        setProjects(prev => [newProject, ...prev]);
-        setIsWizardOpen(false);
+        const optimistic = buildOptimisticProject(newProjectData);
+        const realCount = projects.filter((p) => !isOptimisticProject(p.id)).length;
+        setProjects((prev) => [optimistic, ...prev]);
+
+        void simulateLocalPersist(() => ({
+            ...optimistic,
+            id: `PROJ-${new Date().getFullYear()}-${String(realCount + 1).padStart(3, '0')}`,
+        })).then((created) => {
+            setProjects((prev) => prev.map((p) => (p.id === optimistic.id ? created : p)));
+            flashHighlight(created.id);
+            toast.showSuccess(t('projects.createSuccess', 'Project created successfully'));
+        }).catch(() => {
+            setProjects((prev) => prev.filter((p) => p.id !== optimistic.id));
+            toast.showError(t('projects.createFailed', 'Unable to create project. Please try again.'));
+        });
+    };
+
+    const handleUpdateProject = (updated: Project) => {
+        setProjects(prev => prev.map(p => p.id === updated.id ? updated : p));
+        setSelectedProjectInfo(prev => prev && prev.project.id === updated.id ? { ...prev, project: updated } : prev);
     };
 
     if (selectedProjectInfo) {
@@ -53,6 +88,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
                     project={selectedProjectInfo.project}
                     beneficiaries={beneficiaries}
                     onBack={() => setSelectedProjectInfo(null)}
+                    onUpdate={handleUpdateProject}
                     initialTab={selectedProjectInfo.initialTab}
                 />;
     }
@@ -118,7 +154,14 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
                 </div>
 
                 {activeView === 'list' && (
-                    <ProjectList projects={projects} onProjectSelect={(project) => setSelectedProjectInfo({ project, initialTab: 'overview' })} />
+                    <ProjectList
+                        projects={projects}
+                        highlightedId={highlightedId}
+                        onProjectSelect={(project) => {
+                            if (isOptimisticProject(project.id)) return;
+                            setSelectedProjectInfo({ project, initialTab: 'overview' });
+                        }}
+                    />
                 )}
 
                 {activeView === 'sdg' && (

@@ -6,7 +6,7 @@ import { XIcon } from '../../icons/GenericIcons';
 interface SendEmailModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSend: (data: { to: string; subject: string; body: string }) => void | Promise<void>;
+    onSend: (data: { to: string; subject: string; body: string }) => void;
     donorEmail: string;
 }
 
@@ -14,21 +14,15 @@ const SendEmailModal: React.FC<SendEmailModalProps> = ({ isOpen, onClose, onSend
     const { t } = useLocalization(['common', 'individual_donors']);
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
-    const [isSending, setIsSending] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!subject.trim() || !body.trim()) return;
 
-        setIsSending(true);
-        try {
-            await onSend({ to: donorEmail, subject: subject.trim(), body: body.trim() });
-            setSubject('');
-            setBody('');
-            onClose();
-        } finally {
-            setIsSending(false);
-        }
+        onSend({ to: donorEmail, subject: subject.trim(), body: body.trim() });
+        setSubject('');
+        setBody('');
+        onClose();
     };
 
     return (
@@ -58,8 +52,8 @@ const SendEmailModal: React.FC<SendEmailModalProps> = ({ isOpen, onClose, onSend
                     </div>
                     <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-xl flex justify-end gap-3 flex-shrink-0">
                         <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.cancel')}</button>
-                        <button type="submit" disabled={isSending || !subject.trim() || !body.trim()} className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold disabled:opacity-50">
-                            {isSending ? t('common.loading') : t('individual_donors.modals.send_email.send')}
+                        <button type="submit" disabled={!subject.trim() || !body.trim()} className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold disabled:opacity-50">
+                            {t('individual_donors.modals.send_email.send')}
                         </button>
                     </div>
                 </form>

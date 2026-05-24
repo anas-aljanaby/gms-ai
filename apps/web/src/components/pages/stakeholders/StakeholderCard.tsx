@@ -3,10 +3,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { Stakeholder, StakeholderType } from '../../../types';
+import { isOptimisticStakeholder } from '../../../lib/stakeholderOptimistic';
 import { Heart, UserCheck, Handshake, Users, Building2, Package, Globe, Newspaper, Award, Shield, Info, CheckCircle, DollarSign, BrainCircuit } from 'lucide-react';
 
 interface StakeholderCardProps {
     stakeholder: Stakeholder;
+    highlighted?: boolean;
     onClick: () => void;
 }
 
@@ -64,8 +66,9 @@ const InfoItem: React.FC<{ icon: React.ReactNode; label: string; value: string; 
 );
 
 
-const StakeholderCard: React.FC<StakeholderCardProps> = ({ stakeholder, onClick }) => {
-    const { t, language } = useLocalization();
+const StakeholderCard: React.FC<StakeholderCardProps> = ({ stakeholder, highlighted = false, onClick }) => {
+    const { t, language } = useLocalization(['common', 'stakeholders']);
+    const optimistic = isOptimisticStakeholder(stakeholder.id);
     
     // FIX: Added missing stakeholder types to satisfy the Record<StakeholderType, ...> constraint.
     const stakeholderTypes: Record<StakeholderType, { icon: React.ElementType }> = {
@@ -100,7 +103,12 @@ const StakeholderCard: React.FC<StakeholderCardProps> = ({ stakeholder, onClick 
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="bg-card dark:bg-dark-card rounded-2xl shadow-soft transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col cursor-pointer border dark:border-slate-700/50"
+            onClick={() => !optimistic && onClick()}
+            className={`bg-card dark:bg-dark-card rounded-2xl shadow-soft transition-all duration-300 flex flex-col border dark:border-slate-700/50 ${
+                optimistic
+                    ? 'opacity-70 animate-pulse cursor-default'
+                    : 'cursor-pointer hover:shadow-lg hover:-translate-y-1'
+            } ${highlighted ? 'ring-2 ring-emerald-300 dark:ring-emerald-700' : ''}`}
         >
             <div className="p-4 border-b dark:border-slate-700/50">
                 <div className="flex justify-between items-start">

@@ -24,11 +24,11 @@ const AddKpiModal: React.FC<AddKpiModalProps> = ({ isOpen, onClose, onAdd, goalI
             return;
         }
         onAdd({ title, value, target, unit, goalId });
-        // Reset form
         setTitle('');
         setValue(0);
         setTarget(0);
         setUnit('');
+        onClose();
     };
 
     return (

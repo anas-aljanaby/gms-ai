@@ -2,14 +2,17 @@
 import React, { useState, useMemo } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { Project } from '../../../types';
+import { projectListKey } from '../../../data/projectData';
 import { formatCurrency } from '../../../lib/utils';
+import { isOptimisticProject } from '../../../lib/projectOptimistic';
 import EmptyState from '../../common/EmptyState';
 import ProjectListControls from './ProjectListControls';
 import ProjectCard from './ProjectCard';
-import { MapPin, Calendar, ChevronRight } from 'lucide-react';
+import { MapPin, ChevronRight } from 'lucide-react';
 
 interface ProjectListProps {
     projects: Project[];
+    highlightedId?: string | null;
     onProjectSelect: (project: Project) => void;
 }
 
@@ -28,20 +31,25 @@ const progressColor = (progress: number) => {
     return 'bg-gray-300 dark:bg-slate-600';
 };
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, highlightedId, onProjectSelect }) => {
     const { t, language, dir } = useLocalization();
     const [view, setView] = useState<'list' | 'card'>('list');
     const [searchTerm, setSearchTerm] = useState('');
 
     const filteredProjects = useMemo(() => {
-        if (!searchTerm) return projects;
-        const lower = searchTerm.toLowerCase();
-        return projects.filter(p =>
-            (p.name[language] || p.name.en)?.toLowerCase().includes(lower) ||
-            p.id.toLowerCase().includes(lower) ||
-            p.location?.country?.toLowerCase().includes(lower) ||
-            p.location?.city?.toLowerCase().includes(lower)
-        );
+        const optimistic = projects.filter((p) => isOptimisticProject(p.id));
+        const rest = projects.filter((p) => !isOptimisticProject(p.id));
+        const applySearch = (items: Project[]) => {
+            if (!searchTerm) return items;
+            const lower = searchTerm.toLowerCase();
+            return items.filter(p =>
+                (p.name[language] || p.name.en)?.toLowerCase().includes(lower) ||
+                p.id.toLowerCase().includes(lower) ||
+                p.location?.country?.toLowerCase().includes(lower) ||
+                p.location?.city?.toLowerCase().includes(lower)
+            );
+        };
+        return [...optimistic, ...applySearch(rest)];
     }, [projects, searchTerm, language]);
     const formatProjectLocation = (city?: string, country?: string) => {
         if (!city && !country) return '';
@@ -64,18 +72,29 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) 
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50 dark:divide-slate-800">
-                        {filteredProjects.map(project => {
+                        {filteredProjects.map((project, index) => {
                             const stage = stageConfig[project.stage] || stageConfig.design;
+                            const optimistic = isOptimisticProject(project.id);
+                            const highlighted = highlightedId === project.id;
                             return (
                                 <tr
-                                    key={project.id}
-                                    className="hover:bg-gray-50/80 dark:hover:bg-slate-800/40 cursor-pointer transition-colors group"
-                                    onClick={() => onProjectSelect(project)}
+                                    key={projectListKey(project, index)}
+                                    className={`transition-colors group border-b border-gray-50 dark:divide-slate-800 ${
+                                        optimistic
+                                            ? 'opacity-70 animate-pulse cursor-default'
+                                            : highlighted
+                                                ? 'bg-primary-light/40 dark:bg-primary/10 cursor-pointer'
+                                                : 'hover:bg-gray-50/80 dark:hover:bg-slate-800/40 cursor-pointer'
+                                    }`}
+                                    onClick={() => !optimistic && onProjectSelect(project)}
                                 >
                                     <td className="p-4">
                                         <p className="font-semibold text-foreground dark:text-dark-foreground group-hover:text-primary dark:group-hover:text-secondary transition-colors">
                                             {project.name[language] || project.name.en}
                                         </p>
+                                        {optimistic ? (
+                                            <p className="text-xs text-gray-400 mt-1">{t('common.saving')}</p>
+                                        ) : (
                                         <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
                                             {project.location && (
                                                 <span className="flex items-center gap-1">
@@ -84,6 +103,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) 
                                                 </span>
                                             )}
                                         </div>
+                                        )}
                                     </td>
                                     <td className="p-4">
                                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${stage.bg} ${stage.text}`}>
@@ -117,8 +137,13 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectSelect }) 
 
     const renderCardView = () => (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredProjects.map(project => (
-                <ProjectCard key={project.id} project={project} onSelect={() => onProjectSelect(project)} />
+            {filteredProjects.map((project, index) => (
+                <ProjectCard
+                    key={projectListKey(project, index)}
+                    project={project}
+                    highlighted={highlightedId === project.id}
+                    onSelect={() => onProjectSelect(project)}
+                />
             ))}
         </div>
     );

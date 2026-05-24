@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../../lib/optimisticSubmit';
+import { buildOptimisticContact, isOptimisticContact } from '../../../lib/contactOptimistic';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { InstitutionalDonor } from '../../../types';
@@ -13,6 +15,7 @@ const WhatsappIcon: React.FC<{className?: string}> = ({className}) => (
 );
 
 export interface Contact {
+  id: string;
   name: string;
   position: string;
   email: string;
@@ -35,7 +38,7 @@ const InfoItem: React.FC<{ icon: React.ReactNode; label: string; value: React.Re
 const ContactInfoCard: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
     const socialPlatforms = donor.socialMedia ? Object.entries(donor.socialMedia).filter(([, url]) => url) : [];
-    const NA_Component = <span className="text-gray-400 dark:text-gray-500 italic">N/A</span>;
+    const NA_Component = <span className="text-gray-400 dark:text-gray-500 italic">{t('common.notAvailable')}</span>;
 
     return (
         <div className="bg-card dark:bg-dark-card p-6 rounded-xl shadow-inner border dark:border-slate-700/50">
@@ -78,7 +81,7 @@ const ContactInfoCard: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => 
                     ) : (
                         <div className="text-center text-gray-500">
                             <MapPin size={32} className="mx-auto mb-2"/>
-                            No location data provided.
+                            {t('institutional_donors.detail.noLocation')}
                         </div>
                     )}
                 </div>
@@ -92,6 +95,7 @@ const ContactInfoCard: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => 
 const getMockContacts = (donor: InstitutionalDonor): Contact[] => {
     return [
         {
+            id: `contact-primary-${donor.id}`,
             name: donor.primaryContact.name,
             position: 'Program Director, MENA', // Mock position
             email: donor.primaryContact.email,
@@ -101,6 +105,7 @@ const getMockContacts = (donor: InstitutionalDonor): Contact[] => {
             photoUrl: `https://picsum.photos/seed/${donor.primaryContact.name.split(' ')[0]}/200/200`,
         },
         {
+            id: `contact-${donor.id}-2`,
             name: 'Jean-Luc Picard',
             position: 'Grants Officer',
             email: 'jl.picard@eda.eu',
@@ -109,6 +114,7 @@ const getMockContacts = (donor: InstitutionalDonor): Contact[] => {
             photoUrl: 'https://picsum.photos/seed/Picard/200/200',
         },
         {
+            id: `contact-${donor.id}-3`,
             name: 'Catherine Janeway',
             position: 'Head of Compliance',
             email: 'c.janeway@eda.eu',
@@ -122,10 +128,15 @@ interface ContactsTabProps {
     donor: InstitutionalDonor;
 }
 
-const ContactCard: React.FC<{ contact: Contact }> = ({ contact }) => {
+const ContactCard: React.FC<{ contact: Contact; highlighted?: boolean }> = ({ contact, highlighted = false }) => {
     const { t } = useLocalization(['common', 'institutional_donors']);
+    const optimistic = isOptimisticContact(contact.id);
     return (
-        <div className="bg-card dark:bg-dark-card rounded-lg p-4 border border-gray-200 dark:border-slate-700 shadow-sm relative hover:shadow-md transition-shadow">
+        <div className={`bg-card dark:bg-dark-card rounded-lg p-4 border border-gray-200 dark:border-slate-700 shadow-sm relative transition-shadow ${
+            optimistic
+                ? 'opacity-70 animate-pulse'
+                : 'hover:shadow-md'
+        } ${highlighted ? 'ring-2 ring-emerald-300 dark:ring-emerald-700' : ''}`}>
             {contact.isPrimary && (
                 <div className="absolute top-3 right-3 text-xs font-bold px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
                     {t('institutional_donors.detail.form.isPrimary')}
@@ -138,7 +149,7 @@ const ContactCard: React.FC<{ contact: Contact }> = ({ contact }) => {
                     className="w-20 h-20 rounded-full bg-gray-200 dark:bg-slate-600 mb-3"
                 />
                 <h4 className="font-bold text-lg text-foreground dark:text-dark-foreground">{contact.name}</h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{contact.position}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{optimistic ? t('common.saving') : contact.position}</p>
             </div>
             <div className="mt-4 pt-4 border-t dark:border-slate-600 space-y-2 text-sm">
                 <div className="flex items-center gap-2">
@@ -168,15 +179,36 @@ const ContactsTab: React.FC<ContactsTabProps> = ({ donor }) => {
     const mockContacts = getMockContacts(donor);
     const [contacts, setContacts] = useState<Contact[]>(mockContacts);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [highlightedId, setHighlightedId] = useState<string | null>(null);
+    const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const handleAddContact = (newContactData: Omit<Contact, 'isPrimary'> & { isPrimary?: boolean }) => {
-        const newContact: Contact = {
-            ...newContactData,
-            isPrimary: newContactData.isPrimary || false,
+    useEffect(() => {
+        return () => {
+            if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
         };
-        setContacts(prev => [newContact, ...prev]);
-        toast.showSuccess('Contact added successfully!');
-        setIsModalOpen(false);
+    }, []);
+
+    const flashHighlight = useCallback((id: string) => {
+        if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        setHighlightedId(id);
+        highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
+    }, []);
+
+    const handleAddContact = (newContactData: Omit<Contact, 'id' | 'isPrimary'> & { isPrimary?: boolean }) => {
+        const optimistic = buildOptimisticContact(newContactData);
+        setContacts(prev => [optimistic, ...prev]);
+
+        void simulateLocalPersist((): Contact => ({
+            ...optimistic,
+            id: `contact-${donor.id}-${Date.now()}`,
+        })).then((created) => {
+            setContacts(prev => prev.map(c => (c.id === optimistic.id ? created : c)));
+            flashHighlight(created.id);
+            toast.showSuccess(t('institutional_donors.detail.contactAdded'));
+        }).catch(() => {
+            setContacts(prev => prev.filter(c => c.id !== optimistic.id));
+            toast.showError(t('institutional_donors.errors.generic'));
+        });
     };
 
 
@@ -192,8 +224,8 @@ const ContactsTab: React.FC<ContactsTabProps> = ({ donor }) => {
                     </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {contacts.map((contact, index) => (
-                        <ContactCard key={index} contact={contact} />
+                    {contacts.map((contact) => (
+                        <ContactCard key={contact.id} contact={contact} highlighted={highlightedId === contact.id} />
                     ))}
                 </div>
             </div>

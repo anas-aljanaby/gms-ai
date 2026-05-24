@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { DollarSign, Clock, Calendar, AlertTriangle } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
@@ -7,7 +7,12 @@ import DataTable, { type Column } from './shared/DataTable';
 import FilterBar, { type FilterDef } from './shared/FilterBar';
 import StatusBadge from './shared/StatusBadge';
 import FinancialKpiCard from './shared/FinancialKpiCard';
-import { useCreateDisbursement, useDisbursements } from '../../../hooks/useDisbursements';
+import {
+  useCreateDisbursement,
+  useDisbursements,
+  isOptimisticDisbursement,
+} from '../../../hooks/useDisbursements';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../../lib/optimisticSubmit';
 import type {
   Disbursement,
   DisbursementType,
@@ -56,6 +61,28 @@ const DisbursementsTab: React.FC = () => {
   const [type, setType] = useState<DisbursementType>('aid_payment');
   const [method, setMethod] = useState<'bank_transfer' | 'cash' | 'mobile_money' | 'voucher'>('bank_transfer');
   const [scheduledDate, setScheduledDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    };
+  }, []);
+
+  const flashHighlight = useCallback((id: string) => {
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    setHighlightedId(id);
+    highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
+  }, []);
+
+  const resetCreateForm = useCallback(() => {
+    setBeneficiaryNameEn('');
+    setAmount('');
+    setType('aid_payment');
+    setMethod('bank_transfer');
+    setScheduledDate(new Date().toISOString().split('T')[0]);
+  }, []);
 
   // --- KPI calculations ---
   const kpiData = useMemo(() => {
@@ -106,7 +133,9 @@ const DisbursementsTab: React.FC = () => {
   );
 
   const filteredData = useMemo(() => {
-    return disbursements.filter((dis) => {
+    const optimistic = disbursements.filter((d) => isOptimisticDisbursement(d.id));
+    const rest = disbursements.filter((d) => !isOptimisticDisbursement(d.id));
+    const filtered = rest.filter((dis) => {
       if (searchTerm) {
         const term = searchTerm.toLowerCase();
         const matchesName =
@@ -117,34 +146,52 @@ const DisbursementsTab: React.FC = () => {
       if (statusFilter && dis.status !== statusFilter) return false;
       return true;
     });
+    return [...optimistic, ...filtered];
   }, [searchTerm, typeFilter, statusFilter, language, disbursements]);
 
-  const handleCreateDisbursement = async () => {
+  const handleCreateDisbursement = () => {
     const parsedAmount = Number(amount);
     if (!beneficiaryNameEn.trim() || !Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       showError(t('common.error', 'Error'));
       return;
     }
 
-    try {
-      await createDisbursement.mutateAsync({
-        beneficiaryNameEn: beneficiaryNameEn.trim(),
-        amount: parsedAmount,
-        type,
-        method,
-        scheduledDate,
-      });
-      showSuccess(t('financials.disbursements.createSuccess', 'Disbursement submitted for approval'));
-      setBeneficiaryNameEn('');
-      setAmount('');
-      setType('aid_payment');
-      setMethod('bank_transfer');
-      setScheduledDate(new Date().toISOString().split('T')[0]);
-      setIsCreateOpen(false);
-    } catch (error) {
-      showError(error instanceof Error ? error.message : t('common.error', 'Error'));
-    }
+    const payload = {
+      beneficiaryNameEn: beneficiaryNameEn.trim(),
+      amount: parsedAmount,
+      type,
+      method,
+      scheduledDate,
+    };
+    resetCreateForm();
+    setIsCreateOpen(false);
+
+    createDisbursement.mutate(
+      payload,
+      {
+        onSuccess: (created) => {
+          showSuccess(t('financials.disbursements.createSuccess', 'Disbursement submitted for approval'));
+          flashHighlight(created.id);
+        },
+        onError: (error) => {
+          showError(error instanceof Error ? error.message : t('common.error', 'Error'));
+        },
+      }
+    );
   };
+
+  const getRowClassName = useCallback(
+    (row: Disbursement) => {
+      if (isOptimisticDisbursement(row.id)) {
+        return 'opacity-70 animate-pulse bg-blue-50/60 dark:bg-blue-950/30';
+      }
+      if (highlightedId === row.id) {
+        return 'bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-inset ring-emerald-200/80 dark:ring-emerald-800/60';
+      }
+      return '';
+    },
+    [highlightedId]
+  );
 
   // --- Table columns ---
   const columns: Column<Disbursement>[] = useMemo(
@@ -211,7 +258,14 @@ const DisbursementsTab: React.FC = () => {
       {
         key: 'status',
         label: t('financials.disbursements.status'),
-        render: (row) => <StatusBadge status={row.status} />,
+        render: (row) =>
+          isOptimisticDisbursement(row.id) ? (
+            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+              {t('common.saving')}
+            </span>
+          ) : (
+            <StatusBadge status={row.status} />
+          ),
       },
     ],
     [t, language]
@@ -255,7 +309,6 @@ const DisbursementsTab: React.FC = () => {
       <div className="flex justify-end">
         <button
           onClick={() => setIsCreateOpen(true)}
-          disabled={createDisbursement.isPending}
           className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
         >
           {t('financials.disbursements.create', 'Create Disbursement')}
@@ -273,14 +326,13 @@ const DisbursementsTab: React.FC = () => {
       <DataTable<Disbursement>
         columns={columns}
         data={filteredData}
+        getRowClassName={getRowClassName}
         emptyMessage={t('financials.disbursements.noDisbursements')}
       />
 
       <ModalPortal
         isOpen={isCreateOpen}
-        onClose={() => {
-          if (!createDisbursement.isPending) setIsCreateOpen(false);
-        }}
+        onClose={() => setIsCreateOpen(false)}
         overlayClassName="fixed inset-0 bg-black/40 modal-overlay animate-fade-in"
       >
           <div className="w-full max-w-lg rounded-xl border border-gray-200 bg-card p-5 dark:border-slate-700/50 dark:bg-dark-card" onClick={(e) => e.stopPropagation()}>
@@ -333,26 +385,27 @@ const DisbursementsTab: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="mt-5 flex justify-end gap-2">
+            <form
+              className="mt-5 flex justify-end gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCreateDisbursement();
+              }}
+            >
               <button
-                onClick={() => {
-                  if (!createDisbursement.isPending) setIsCreateOpen(false);
-                }}
-                disabled={createDisbursement.isPending}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-800"
+                type="button"
+                onClick={() => setIsCreateOpen(false)}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-800"
               >
                 {t('common.cancel', 'Cancel')}
               </button>
               <button
-                onClick={handleCreateDisbursement}
-                disabled={createDisbursement.isPending}
-                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-60"
+                type="submit"
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
               >
-                {createDisbursement.isPending
-                  ? t('common.loading', 'Loading...')
-                  : t('financials.disbursements.create', 'Create Disbursement')}
+                {t('financials.disbursements.create', 'Create Disbursement')}
               </button>
-            </div>
+            </form>
         </div>
       </ModalPortal>
     </div>

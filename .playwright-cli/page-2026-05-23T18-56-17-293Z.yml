@@ -1,0 +1,317 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - button "Collapse sidebar" [expanded] [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+    - generic [ref=e8]:
+      - generic [ref=e10]: M
+      - heading "MSS.2" [level=1] [ref=e11]
+    - list [ref=e13]:
+      - listitem [ref=e154]:
+        - link "Dashboard" [ref=e155] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e157]
+          - generic [ref=e162]: Dashboard
+      - listitem [ref=e163]:
+        - link "Bousala" [ref=e164] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e166]
+          - generic [ref=e169]: Bousala
+      - listitem [ref=e170]:
+        - link "Stakeholder Management" [ref=e171] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e173]
+          - generic [ref=e178]: Stakeholder Management
+      - listitem [ref=e179]:
+        - link "Donor Management" [ref=e180] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e182]
+          - generic [ref=e184]: Donor Management
+      - listitem [ref=e185]:
+        - link "Institutional Donors" [ref=e186] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e188]
+          - generic [ref=e190]: Institutional Donors
+      - listitem [ref=e191]:
+        - link "Beneficiary Management" [ref=e192] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e194]
+          - generic [ref=e199]: Beneficiary Management
+      - listitem [ref=e200]:
+        - link "Project Management" [ref=e201] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e203]
+          - generic [ref=e207]: Project Management
+      - listitem [ref=e208]:
+        - link "Financial Management" [ref=e209] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e211]
+          - generic [ref=e213]: Financial Management
+      - listitem [ref=e214]:
+        - link "Help & Support" [ref=e215] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e217]
+          - generic [ref=e220]: Help & Support
+      - listitem [ref=e221]:
+        - link "Settings" [ref=e222] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e224]
+          - generic [ref=e227]: Settings
+    - list [ref=e89]:
+      - listitem [ref=e228]:
+        - link "Logout" [ref=e229] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e231]
+          - generic [ref=e234]: Logout
+  - generic [ref=e97]:
+    - banner [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - heading "Beneficiary Management" [level=1] [ref=e101]
+          - button "liveIndicator.live" [ref=e479] [cursor=pointer]
+        - generic [ref=e106]:
+          - generic:
+            - img
+          - searchbox "Search everything..." [ref=e107]
+          - button "Search by voice" [ref=e109] [cursor=pointer]:
+            - img [ref=e110]
+      - generic [ref=e113]:
+        - button "Help & Support" [ref=e115] [cursor=pointer]:
+          - img [ref=e116]
+        - button "Change language" [ref=e122] [cursor=pointer]:
+          - img [ref=e123]
+          - img "English (US) Flag" [ref=e126]
+        - button "Switch to dark mode" [ref=e132] [cursor=pointer]:
+          - img [ref=e133]
+        - button "View announcements" [ref=e136] [cursor=pointer]:
+          - img [ref=e137]
+        - button "User Welcome! Admin" [ref=e144] [cursor=pointer]:
+          - img "User" [ref=e145]
+          - generic [ref=e146]:
+            - generic [ref=e147]: Welcome!
+            - generic [ref=e148]: Admin
+          - img [ref=e149]
+    - main [ref=e151]:
+      - generic [ref=e236]:
+        - generic [ref=e237]:
+          - heading "Beneficiary Management" [level=1] [ref=e238]
+          - button "Add Beneficiary" [ref=e239] [cursor=pointer]:
+            - img [ref=e240]
+            - text: Add Beneficiary
+        - generic [ref=e241]:
+          - generic [ref=e242]:
+            - generic [ref=e243]: "Total:"
+            - generic [ref=e244]: "9"
+          - generic [ref=e245]: "|"
+          - generic [ref=e246]:
+            - generic [ref=e247]: "Active:"
+            - generic [ref=e248]: "8"
+          - generic [ref=e249]: "|"
+          - generic [ref=e250]:
+            - generic [ref=e251]: "Sponsored:"
+            - generic [ref=e252]: "3"
+          - generic [ref=e253]: "|"
+          - generic [ref=e254]:
+            - generic [ref=e255]: "Direct Support:"
+            - generic [ref=e256]: "6"
+        - generic [ref=e257]:
+          - generic [ref=e258]:
+            - img
+            - textbox "Search by name, country, email, or phone..." [ref=e259]
+          - combobox [ref=e260]:
+            - option "All Types" [selected]
+            - option "Student"
+            - option "Orphan"
+            - option "Hafiz"
+            - option "Family"
+            - option "Institution"
+            - option "Community"
+          - combobox [ref=e261]:
+            - option "All Statuses" [selected]
+            - option "Active"
+            - option "Inactive"
+            - option "Graduated"
+            - option "Suspended"
+            - option "On Hold"
+          - combobox [ref=e262]:
+            - option "All Countries" [selected]
+            - option "Egypt"
+            - option "Jordan"
+            - option "Lebanon"
+            - option "Syria"
+            - option "Turkey"
+            - option "UAE"
+        - table [ref=e264]:
+          - rowgroup [ref=e265]:
+            - row "Name Type Status Country Project Last Aid" [ref=e266]:
+              - columnheader "Name" [ref=e267] [cursor=pointer]:
+                - generic [ref=e268]: Name
+              - columnheader "Type" [ref=e269] [cursor=pointer]:
+                - generic [ref=e270]: Type
+              - columnheader "Status" [ref=e271] [cursor=pointer]:
+                - generic [ref=e272]: Status
+              - columnheader "Country" [ref=e273] [cursor=pointer]:
+                - generic [ref=e274]: Country
+              - columnheader "Project" [ref=e275]:
+                - generic [ref=e276]: Project
+              - columnheader "Last Aid" [ref=e277]:
+                - generic [ref=e278]: Last Aid
+              - columnheader [ref=e279]
+          - rowgroup [ref=e280]:
+            - row "QA Beneficiary EN QA Beneficiary EN UAE Student Suspended UAE — — Row actions View Details Change Status Remove" [ref=e480] [cursor=pointer]:
+              - cell "QA Beneficiary EN QA Beneficiary EN UAE" [ref=e282]:
+                - generic [ref=e283]:
+                  - img "QA Beneficiary EN" [ref=e284]
+                  - generic [ref=e285]:
+                    - paragraph [ref=e286]: QA Beneficiary EN
+                    - paragraph [ref=e287]: UAE
+              - cell "Student" [ref=e288]:
+                - generic [ref=e289]: Student
+              - cell "Suspended" [ref=e290]
+              - cell "UAE" [ref=e291]
+              - cell "—" [ref=e292]:
+                - generic [ref=e293]: —
+              - cell "—" [ref=e294]
+              - cell "Row actions View Details Change Status Remove" [ref=e481]:
+                - generic [ref=e297]:
+                  - button "Row actions" [active] [ref=e298]:
+                    - img [ref=e299]
+                  - generic [ref=e482]:
+                    - button "View Details" [ref=e483]
+                    - button "Change Status" [ref=e485]
+                    - button "Remove" [ref=e486]
+            - row "Zaatari Refugee Camp Zaatari Refugee Camp refugee camp Community Active Jordan Community Service Program Jun 1, 2024 Row actions" [ref=e303] [cursor=pointer]:
+              - cell "Zaatari Refugee Camp Zaatari Refugee Camp refugee camp" [ref=e304]:
+                - generic [ref=e305]:
+                  - img "Zaatari Refugee Camp" [ref=e306]
+                  - generic [ref=e307]:
+                    - paragraph [ref=e308]: Zaatari Refugee Camp
+                    - paragraph [ref=e309]: refugee camp
+              - cell "Community" [ref=e310]:
+                - generic [ref=e311]: Community
+              - cell "Active" [ref=e312]
+              - cell "Jordan" [ref=e313]
+              - cell "Community Service Program" [ref=e314]:
+                - generic [ref=e315]: Community Service Program
+              - cell "Jun 1, 2024" [ref=e316]
+              - cell "Row actions" [ref=e317]:
+                - button "Row actions" [ref=e320]:
+                  - img [ref=e321]
+            - row "Al-Amal School Al-Amal School school Institution Active Turkey Educational Support Initiative — Row actions" [ref=e325] [cursor=pointer]:
+              - cell "Al-Amal School Al-Amal School school" [ref=e326]:
+                - generic [ref=e327]:
+                  - img "Al-Amal School" [ref=e328]
+                  - generic [ref=e329]:
+                    - paragraph [ref=e330]: Al-Amal School
+                    - paragraph [ref=e331]: school
+              - cell "Institution" [ref=e332]:
+                - generic [ref=e333]: Institution
+              - cell "Active" [ref=e334]
+              - cell "Turkey" [ref=e335]
+              - cell "Educational Support Initiative" [ref=e336]:
+                - generic [ref=e337]: Educational Support Initiative
+              - cell "—" [ref=e338]
+              - cell "Row actions" [ref=e339]:
+                - button "Row actions" [ref=e342]:
+                  - img [ref=e343]
+            - row "Abdulrahman Mahmoud Abdulrahman Mahmoud Quran Memorization Circle Hafiz Active Egypt — — Row actions" [ref=e347] [cursor=pointer]:
+              - cell "Abdulrahman Mahmoud Abdulrahman Mahmoud Quran Memorization Circle" [ref=e348]:
+                - generic [ref=e349]:
+                  - img "Abdulrahman Mahmoud" [ref=e350]
+                  - generic [ref=e351]:
+                    - paragraph [ref=e352]: Abdulrahman Mahmoud
+                    - paragraph [ref=e353]: Quran Memorization Circle
+              - cell "Hafiz" [ref=e354]:
+                - generic [ref=e355]: Hafiz
+              - cell "Active" [ref=e356]
+              - cell "Egypt" [ref=e357]
+              - cell "—" [ref=e358]:
+                - generic [ref=e359]: —
+              - cell "—" [ref=e360]
+              - cell "Row actions" [ref=e361]:
+                - button "Row actions" [ref=e364]:
+                  - img [ref=e365]
+            - row "Al-Ahmad Family Al-Ahmad Family Family of 5 members Family Active Syria Community Service Program Jul 1, 2024 Row actions" [ref=e369] [cursor=pointer]:
+              - cell "Al-Ahmad Family Al-Ahmad Family Family of 5 members" [ref=e370]:
+                - generic [ref=e371]:
+                  - img "Al-Ahmad Family" [ref=e372]
+                  - generic [ref=e373]:
+                    - paragraph [ref=e374]: Al-Ahmad Family
+                    - paragraph [ref=e375]: Family of 5 members
+              - cell "Family" [ref=e376]:
+                - generic [ref=e377]: Family
+              - cell "Active" [ref=e378]
+              - cell "Syria" [ref=e379]
+              - cell "Community Service Program" [ref=e380]:
+                - generic [ref=e381]: Community Service Program
+              - cell "Jul 1, 2024" [ref=e382]
+              - cell "Row actions" [ref=e383]:
+                - button "Row actions" [ref=e386]:
+                  - img [ref=e387]
+            - row "Ali Khaled Ali Khaled 6th Grade Orphan Active Jordan — Jul 10, 2024 Row actions" [ref=e391] [cursor=pointer]:
+              - cell "Ali Khaled Ali Khaled 6th Grade" [ref=e392]:
+                - generic [ref=e393]:
+                  - img "Ali Khaled" [ref=e394]
+                  - generic [ref=e395]:
+                    - paragraph [ref=e396]: Ali Khaled
+                    - paragraph [ref=e397]: 6th Grade
+              - cell "Orphan" [ref=e398]:
+                - generic [ref=e399]: Orphan
+              - cell "Active" [ref=e400]
+              - cell "Jordan" [ref=e401]
+              - cell "—" [ref=e402]:
+                - generic [ref=e403]: —
+              - cell "Jul 10, 2024" [ref=e404]
+              - cell "Row actions" [ref=e405]:
+                - button "Row actions" [ref=e408]:
+                  - img [ref=e409]
+            - row "Ahmad Hussein Ahmad Hussein Business Administration at METU Student Active Turkey Leadership Building Project — Row actions" [ref=e413] [cursor=pointer]:
+              - cell "Ahmad Hussein Ahmad Hussein Business Administration at METU" [ref=e414]:
+                - generic [ref=e415]:
+                  - img "Ahmad Hussein" [ref=e416]
+                  - generic [ref=e417]:
+                    - paragraph [ref=e418]: Ahmad Hussein
+                    - paragraph [ref=e419]: Business Administration at METU
+              - cell "Student" [ref=e420]:
+                - generic [ref=e421]: Student
+              - cell "Active" [ref=e422]
+              - cell "Turkey" [ref=e423]
+              - cell "Leadership Building Project" [ref=e424]:
+                - generic [ref=e425]: Leadership Building Project
+              - cell "—" [ref=e426]
+              - cell "Row actions" [ref=e427]:
+                - button "Row actions" [ref=e430]:
+                  - img [ref=e431]
+            - row "Fatima Al-Jamil Fatima Al-Jamil Science Stream at Beirut International School Student Active Lebanon Educational Support Initiative Jul 5, 2024 Row actions" [ref=e435] [cursor=pointer]:
+              - cell "Fatima Al-Jamil Fatima Al-Jamil Science Stream at Beirut International School" [ref=e436]:
+                - generic [ref=e437]:
+                  - img "Fatima Al-Jamil" [ref=e438]
+                  - generic [ref=e439]:
+                    - paragraph [ref=e440]: Fatima Al-Jamil
+                    - paragraph [ref=e441]: Science Stream at Beirut International School
+              - cell "Student" [ref=e442]:
+                - generic [ref=e443]: Student
+              - cell "Active" [ref=e444]
+              - cell "Lebanon" [ref=e445]
+              - cell "Educational Support Initiative" [ref=e446]:
+                - generic [ref=e447]: Educational Support Initiative
+              - cell "Jul 5, 2024" [ref=e448]
+              - cell "Row actions" [ref=e449]:
+                - button "Row actions" [ref=e452]:
+                  - img [ref=e453]
+            - row "Yusuf Al-Ahmad Yusuf Al-Ahmad Computer Engineering at Istanbul University Student Active Turkey Educational Support Initiative May 23, 2026 Row actions" [ref=e457] [cursor=pointer]:
+              - cell "Yusuf Al-Ahmad Yusuf Al-Ahmad Computer Engineering at Istanbul University" [ref=e458]:
+                - generic [ref=e459]:
+                  - img "Yusuf Al-Ahmad" [ref=e460]
+                  - generic [ref=e461]:
+                    - paragraph [ref=e462]: Yusuf Al-Ahmad
+                    - paragraph [ref=e463]: Computer Engineering at Istanbul University
+              - cell "Student" [ref=e464]:
+                - generic [ref=e465]: Student
+              - cell "Active" [ref=e466]
+              - cell "Turkey" [ref=e467]
+              - cell "Educational Support Initiative" [ref=e468]:
+                - generic [ref=e469]: Educational Support Initiative
+              - cell "May 23, 2026" [ref=e470]
+              - cell "Row actions" [ref=e471]:
+                - button "Row actions" [ref=e474]:
+                  - img [ref=e475]

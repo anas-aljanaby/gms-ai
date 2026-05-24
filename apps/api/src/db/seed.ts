@@ -1,7 +1,9 @@
 import 'dotenv/config';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
+import { eq } from 'drizzle-orm';
 import * as schema from './schema';
+import { SEED_BENEFICIARIES } from './beneficiarySeed';
 
 const client = postgres(process.env.DIRECT_URL || process.env.DATABASE_URL!);
 const db = drizzle(client, { schema });
@@ -193,6 +195,7 @@ async function reset() {
     await db.delete(schema.donor_tasks);
     await db.delete(schema.donations);
     await db.delete(schema.individual_donors);
+    await db.delete(schema.beneficiaries);
     await db.delete(schema.audit_log);
     await db.delete(schema.modules);
     await db.delete(schema.memberships);
@@ -486,10 +489,17 @@ async function seedFinancials(orgId: string, requestedBy: string) {
         },
     ]);
 
+    const beneficiaryRows = await db
+        .select({ id: schema.beneficiaries.id, name_en: schema.beneficiaries.name_en, name_ar: schema.beneficiaries.name_ar })
+        .from(schema.beneficiaries)
+        .where(eq(schema.beneficiaries.org_id, orgId));
+    const beneficiaryIdByName = Object.fromEntries(beneficiaryRows.map((row) => [row.name_en, row.id]));
+    const beneficiaryNameByEn = Object.fromEntries(beneficiaryRows.map((row) => [row.name_en, row.name_ar || '']));
+
     const [completedDisbursement, pendingDisbursement] = await db.insert(schema.disbursements).values([
         {
             org_id: orgId,
-            beneficiary_id: 'BEN-001',
+            beneficiary_id: beneficiaryIdByName['Yusuf Al-Ahmad'] ?? '',
             beneficiary_name_en: 'Yusuf Al-Ahmad',
             beneficiary_name_ar: 'يوسف الأحمد',
             type: 'sponsorship_stipend',
@@ -505,9 +515,9 @@ async function seedFinancials(orgId: string, requestedBy: string) {
         },
         {
             org_id: orgId,
-            beneficiary_id: 'BEN-007',
-            beneficiary_name_en: 'Ahmad Saleh',
-            beneficiary_name_ar: 'أحمد صالح',
+            beneficiary_id: beneficiaryIdByName['Ahmad Hussein'] ?? '',
+            beneficiary_name_en: 'Ahmad Hussein',
+            beneficiary_name_ar: beneficiaryNameByEn['Ahmad Hussein'] || 'أحمد حسين',
             type: 'emergency_relief',
             amount: '800',
             currency: 'USD',
@@ -522,7 +532,7 @@ async function seedFinancials(orgId: string, requestedBy: string) {
         {
             org_id: orgId,
             type: 'disbursement',
-            title: 'Emergency relief disbursement for Ahmad Saleh',
+            title: 'Emergency relief disbursement for Ahmad Hussein',
             description: 'Approve mobile money emergency disbursement',
             amount: '800',
             currency: 'USD',
@@ -671,11 +681,13 @@ async function seed() {
     );
     console.log(`Registered ${moduleNames.length} modules`);
 
+    const seededDonorIds: string[] = [];
     for (const donor of SEED_DONORS) {
         const [inserted] = await db
             .insert(schema.individual_donors)
             .values({ org_id: org.id, ...donor })
             .returning();
+        seededDonorIds.push(inserted.id);
 
         const donationCount = Math.floor(Math.random() * 5) + 2;
         await db.insert(schema.donations).values(
@@ -700,6 +712,36 @@ async function seed() {
             notes: `Latest stewardship touchpoint for ${donor.full_name_en}.`,
         });
         console.log(`  Donor: ${inserted.full_name_en} + ${donationCount} donations`);
+    }
+
+    const resolveSponsorshipDonorId = (raw: unknown): string | undefined => {
+        if (raw == null) return undefined;
+        if (raw === 'DN-001') return seededDonorIds[0];
+        const asNumber = typeof raw === 'number' ? raw : Number.parseInt(String(raw), 10);
+        if (Number.isInteger(asNumber) && asNumber > 0 && asNumber <= seededDonorIds.length) {
+            return seededDonorIds[asNumber - 1];
+        }
+        return undefined;
+    };
+
+    const patchBeneficiaryProfile = (profile: Record<string, unknown>) => {
+        const sponsorship = profile.sponsorship as { donorId?: unknown } | undefined;
+        if (!sponsorship?.donorId) return profile;
+        const resolvedDonorId = resolveSponsorshipDonorId(sponsorship.donorId);
+        if (!resolvedDonorId) return profile;
+        return {
+            ...profile,
+            sponsorship: { ...sponsorship, donorId: resolvedDonorId },
+        };
+    };
+
+    for (const beneficiary of SEED_BENEFICIARIES) {
+        const profile = patchBeneficiaryProfile(beneficiary.profile as Record<string, unknown>);
+        const [inserted] = await db
+            .insert(schema.beneficiaries)
+            .values({ org_id: org.id, ...beneficiary, profile })
+            .returning();
+        console.log(`  Beneficiary: ${inserted.name_en} (${inserted.beneficiary_type})`);
     }
 
     await seedFinancials(org.id, userEmail);

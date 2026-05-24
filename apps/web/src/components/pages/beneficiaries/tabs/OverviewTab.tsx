@@ -1,40 +1,117 @@
-import React, { useState } from 'react';
-import type { Beneficiary } from '../../../../types';
+import React, { useEffect, useState } from 'react';
+import type { Beneficiary, Milestone, ProgramProject } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
+import { useToast } from '../../../../hooks/useToast';
 import { formatDate, formatNumber } from '../../../../lib/utils';
-import { Check, X, User, Phone, Award } from 'lucide-react';
+import { Check, X, User, Phone, Award, PlusCircle, Pencil, Trash2 } from 'lucide-react';
 import Section from '../shared/Section';
 import InfoRow from '../shared/InfoRow';
 import EditableField from '../shared/EditableField';
+import CountryCombobox from '../../../common/CountryCombobox';
+import ConfirmationModal from '../../../common/ConfirmationModal';
 
-/* ------------------------------------------------------------------ */
-/* Main OverviewTab                                                    */
-/* ------------------------------------------------------------------ */
 interface OverviewTabProps {
     beneficiary: Beneficiary;
     onUpdate?: (updated: Beneficiary) => void;
+    // TODO: Replace with real API when projects module is activated
+    projects?: ProgramProject[];
+    existingCountries?: string[];
 }
 
-const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
+type MilestoneFormState = {
+    titleEn: string;
+    titleAr: string;
+    status: Milestone['status'];
+    date: string;
+};
+
+const GENDER_OPTIONS = ['Male', 'Female', 'Other'] as const;
+
+const emptyMilestoneForm = (): MilestoneFormState => ({
+    titleEn: '',
+    titleAr: '',
+    status: 'pending',
+    date: '',
+});
+
+const milestoneToForm = (m: Milestone): MilestoneFormState => ({
+    titleEn: m.title.en || '',
+    titleAr: m.title.ar || '',
+    status: m.status,
+    date: m.date || '',
+});
+
+const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projects = [], existingCountries = [] }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const toast = useToast();
     const p = beneficiary.profile;
 
-    // ---- Contact editing state ----
     const [isContactEditing, setIsContactEditing] = useState(false);
-    const [contactForm, setContactForm] = useState({
+    const [contactForm, setContactForm] = useState(() => ({
         email: p.contact?.email || '',
         phone: p.contact?.phone || '',
         address: p.contact?.address || '',
-    });
+        country: beneficiary.country || '',
+        projectId: beneficiary.projectId || '',
+    }));
 
-    // ---- Details editing state ----
     const [isDetailsEditing, setIsDetailsEditing] = useState(false);
     const [detailsForm, setDetailsForm] = useState(() => getDetailsFormDefaults(beneficiary));
 
+    const [milestoneMode, setMilestoneMode] = useState<'none' | 'add' | 'edit'>('none');
+    const [editingMilestoneId, setEditingMilestoneId] = useState<string | null>(null);
+    const [milestoneForm, setMilestoneForm] = useState<MilestoneFormState>(emptyMilestoneForm);
+    const [milestoneToRemove, setMilestoneToRemove] = useState<Milestone | null>(null);
+
+    useEffect(() => {
+        if (!isContactEditing) {
+            setContactForm({
+                email: p.contact?.email || '',
+                phone: p.contact?.phone || '',
+                address: p.contact?.address || '',
+                country: beneficiary.country || '',
+                projectId: beneficiary.projectId || '',
+            });
+        }
+    }, [beneficiary, p.contact, isContactEditing]);
+
+    useEffect(() => {
+        if (!isDetailsEditing) {
+            setDetailsForm(getDetailsFormDefaults(beneficiary));
+        }
+    }, [beneficiary, isDetailsEditing]);
+
+    const validateEmail = (email: string) => !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const validateDetailsForm = (): boolean => {
+        if (p.type === 'student' && detailsForm.gpa) {
+            const gpa = parseFloat(detailsForm.gpa);
+            if (Number.isNaN(gpa) || gpa < 0 || gpa > 4) {
+                toast.showError(t('beneficiaries.validation.invalidGpa'));
+                return false;
+            }
+        }
+        if (p.type === 'hafiz' && detailsForm.juzCompleted) {
+            const juz = parseInt(detailsForm.juzCompleted, 10);
+            if (Number.isNaN(juz) || juz < 0 || juz > 30) {
+                toast.showError(t('beneficiaries.validation.invalidJuz'));
+                return false;
+            }
+        }
+        return true;
+    };
+
     const handleContactSave = () => {
         if (!onUpdate) return;
-        const updated: Beneficiary = {
+        if (!validateEmail(contactForm.email)) {
+            toast.showError(t('beneficiaries.validation.invalidEmail'));
+            return;
+        }
+
+        onUpdate({
             ...beneficiary,
+            country: contactForm.country.trim(),
+            projectId: contactForm.projectId || undefined,
             profile: {
                 ...beneficiary.profile,
                 contact: {
@@ -44,16 +121,16 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                     address: contactForm.address,
                 },
             } as typeof beneficiary.profile,
-        };
-        onUpdate(updated);
+        });
         setIsContactEditing(false);
+        toast.showSuccess(t('beneficiaries.actions.saved'));
     };
 
     const handleDetailsSave = () => {
-        if (!onUpdate) return;
-        const updated = applyDetailsForm(beneficiary, detailsForm);
-        onUpdate(updated);
+        if (!onUpdate || !validateDetailsForm()) return;
+        onUpdate(applyDetailsForm(beneficiary, detailsForm));
         setIsDetailsEditing(false);
+        toast.showSuccess(t('beneficiaries.actions.saved'));
     };
 
     const handleContactCancel = () => {
@@ -61,6 +138,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
             email: p.contact?.email || '',
             phone: p.contact?.phone || '',
             address: p.contact?.address || '',
+            country: beneficiary.country || '',
+            projectId: beneficiary.projectId || '',
         });
         setIsContactEditing(false);
     };
@@ -70,7 +149,68 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
         setIsDetailsEditing(false);
     };
 
-    /* ---------- Contact Section ---------- */
+    const handleMilestoneSave = () => {
+        if (!onUpdate || !milestoneForm.titleEn.trim()) return;
+
+        const milestone: Milestone = {
+            id: editingMilestoneId || `m-${Date.now()}`,
+            title: { en: milestoneForm.titleEn, ar: milestoneForm.titleAr || milestoneForm.titleEn },
+            status: milestoneForm.status,
+            date: milestoneForm.date || undefined,
+        };
+
+        const milestones =
+            milestoneMode === 'edit' && editingMilestoneId
+                ? beneficiary.milestones.map((m) => (m.id === editingMilestoneId ? milestone : m))
+                : [milestone, ...beneficiary.milestones];
+
+        onUpdate({ ...beneficiary, milestones });
+        setMilestoneMode('none');
+        setEditingMilestoneId(null);
+        setMilestoneForm(emptyMilestoneForm());
+        toast.showSuccess(t('beneficiaries.actions.saved'));
+    };
+
+    const handleMilestoneCancel = () => {
+        setMilestoneMode('none');
+        setEditingMilestoneId(null);
+        setMilestoneForm(emptyMilestoneForm());
+    };
+
+    const startEditMilestone = (m: Milestone) => {
+        setMilestoneMode('edit');
+        setEditingMilestoneId(m.id);
+        setMilestoneForm(milestoneToForm(m));
+    };
+
+    const confirmRemoveMilestone = () => {
+        if (!onUpdate || !milestoneToRemove) return;
+        onUpdate({
+            ...beneficiary,
+            milestones: beneficiary.milestones.filter((m) => m.id !== milestoneToRemove.id),
+        });
+        setMilestoneToRemove(null);
+        toast.showSuccess(t('beneficiaries.actions.saved'));
+    };
+
+    const projectName = projects.find((proj) => proj.id === beneficiary.projectId)?.name[language];
+
+    const renderGenderField = (value: string, onChange: (v: string) => void) => (
+        <label className="block min-w-0">
+            <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.gender')}</span>
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
+            >
+                <option value="">—</option>
+                {GENDER_OPTIONS.map((option) => (
+                    <option key={option} value={option}>{t(`beneficiaries.genderOptions.${option.toLowerCase()}`, option)}</option>
+                ))}
+            </select>
+        </label>
+    );
+
     const renderContactSection = () => {
         if (isContactEditing) {
             return (
@@ -79,6 +219,30 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <EditableField label={t('beneficiaries.fields.email')} value={contactForm.email} onChange={v => setContactForm(f => ({ ...f, email: v }))} type="email" />
                             <EditableField label={t('beneficiaries.fields.phone')} value={contactForm.phone} onChange={v => setContactForm(f => ({ ...f, phone: v }))} type="tel" />
+                            <label className="block min-w-0">
+                                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.country')}</span>
+                                <CountryCombobox
+                                    value={contactForm.country}
+                                    onChange={(v) => setContactForm((f) => ({ ...f, country: v }))}
+                                    existingCountries={existingCountries}
+                                    placeholder={t('common.countryField.placeholder')}
+                                    noResultsText={t('common.countryField.noResults')}
+                                    className="mt-1"
+                                />
+                            </label>
+                            <label className="block min-w-0">
+                                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.project')}</span>
+                                <select
+                                    value={contactForm.projectId}
+                                    onChange={(e) => setContactForm(f => ({ ...f, projectId: e.target.value }))}
+                                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
+                                >
+                                    <option value="">{t('beneficiaries.fields.noProject')}</option>
+                                    {projects.map((proj) => (
+                                        <option key={proj.id} value={proj.id}>{proj.name[language] || proj.name.en}</option>
+                                    ))}
+                                </select>
+                            </label>
                         </div>
                         <EditableField label={t('beneficiaries.fields.address')} value={contactForm.address} onChange={v => setContactForm(f => ({ ...f, address: v }))} />
                         <div className="flex flex-wrap justify-end gap-2 pt-2">
@@ -102,8 +266,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                 editLabel={t('beneficiaries.actions.editContact')}
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <InfoRow label={t('beneficiaries.fields.id')} value={beneficiary.id} muted />
                     <InfoRow label={t('beneficiaries.fields.country')} value={beneficiary.country} />
+                    <InfoRow label={t('beneficiaries.fields.project')} value={projectName} />
                     <div className="min-w-0">
                         <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.email')}</p>
                         <div className="mt-1 text-sm font-bold leading-6">
@@ -126,7 +290,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
         );
     };
 
-    /* ---------- Details Section ---------- */
     const renderDetailsSection = () => {
         if (isDetailsEditing) {
             return (
@@ -163,7 +326,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
         );
     };
 
-    /* ---------- Type-specific read-only fields ---------- */
     const renderTypeSpecificFields = () => {
         switch (p.type) {
             case 'student':
@@ -192,6 +354,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                     <>
                         <InfoRow label={t('beneficiaries.fields.dob')} value={p.dob} />
                         <InfoRow label={t('beneficiaries.fields.gender')} value={p.gender} />
+                        <InfoRow label={t('beneficiaries.fields.memorizationLevel')} value={p.memorization?.level?.[language]} />
                         <InfoRow label={t('beneficiaries.fields.circle')} value={p.memorization?.circle} />
                         <InfoRow label={t('beneficiaries.fields.juzCompleted')} value={p.memorization?.juzCompleted ? `${p.memorization.juzCompleted} / 30` : null} />
                     </>
@@ -226,7 +389,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
         }
     };
 
-    /* ---------- Type-specific editable fields ---------- */
     const renderEditableDetailsFields = () => {
         const set = (key: string, val: string) => setDetailsForm(f => ({ ...f, [key]: val }));
 
@@ -235,9 +397,11 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                 return (
                     <>
                         <EditableField label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
-                        <EditableField label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
+                        {renderGenderField(detailsForm.gender || '', v => set('gender', v))}
                         <EditableField label={t('beneficiaries.fields.university')} value={detailsForm.university || ''} onChange={v => set('university', v)} />
                         <EditableField label={t('beneficiaries.fields.major')} value={detailsForm.field || ''} onChange={v => set('field', v)} />
+                        <EditableField label={t('beneficiaries.fields.academicYearEn')} value={detailsForm.levelEn || ''} onChange={v => set('levelEn', v)} />
+                        <EditableField label={t('beneficiaries.fields.academicYearAr')} value={detailsForm.levelAr || ''} onChange={v => set('levelAr', v)} dir="rtl" />
                         <EditableField label={t('beneficiaries.fields.gpa')} value={detailsForm.gpa || ''} onChange={v => set('gpa', v)} type="number" />
                     </>
                 );
@@ -245,7 +409,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                 return (
                     <>
                         <EditableField label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
-                        <EditableField label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
+                        {renderGenderField(detailsForm.gender || '', v => set('gender', v))}
                         <EditableField label={t('beneficiaries.fields.school')} value={detailsForm.school || ''} onChange={v => set('school', v)} />
                         <EditableField label={t('beneficiaries.fields.grade')} value={detailsForm.grade || ''} onChange={v => set('grade', v)} />
                         <EditableField label={t('beneficiaries.fields.attendance')} value={detailsForm.attendance || ''} onChange={v => set('attendance', v)} />
@@ -255,7 +419,9 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                 return (
                     <>
                         <EditableField label={t('beneficiaries.fields.dob')} value={detailsForm.dob || ''} onChange={v => set('dob', v)} type="date" />
-                        <EditableField label={t('beneficiaries.fields.gender')} value={detailsForm.gender || ''} onChange={v => set('gender', v)} />
+                        {renderGenderField(detailsForm.gender || '', v => set('gender', v))}
+                        <EditableField label={t('beneficiaries.fields.memorizationLevelEn')} value={detailsForm.levelEn || ''} onChange={v => set('levelEn', v)} />
+                        <EditableField label={t('beneficiaries.fields.memorizationLevelAr')} value={detailsForm.levelAr || ''} onChange={v => set('levelAr', v)} dir="rtl" />
                         <EditableField label={t('beneficiaries.fields.circle')} value={detailsForm.circle || ''} onChange={v => set('circle', v)} />
                         <EditableField label={t('beneficiaries.fields.juzCompleted')} value={detailsForm.juzCompleted || ''} onChange={v => set('juzCompleted', v)} type="number" />
                     </>
@@ -290,12 +456,58 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
         }
     };
 
-    /* ---------- Milestones ---------- */
-    const renderMilestones = () => {
-        if (beneficiary.milestones.length === 0) return null;
+    const renderMilestones = () => (
+        <Section title={t('beneficiaries.sections.milestones')} icon={<Award size={18} />} accent="bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-300">
+            {onUpdate && milestoneMode === 'none' && (
+                <div className="mb-4 flex justify-end">
+                    <button
+                        onClick={() => {
+                            setMilestoneMode('add');
+                            setMilestoneForm(emptyMilestoneForm());
+                        }}
+                        className="inline-flex items-center gap-2 rounded-lg bg-secondary px-3 py-2 text-xs font-bold text-white hover:bg-secondary-dark transition-colors"
+                    >
+                        <PlusCircle size={14} /> {t('beneficiaries.milestones.add')}
+                    </button>
+                </div>
+            )}
 
-        return (
-            <Section title={t('beneficiaries.sections.milestones')} icon={<Award size={18} />} accent="bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-300">
+            {milestoneMode !== 'none' && (
+                <div className="mb-4 space-y-3 rounded-lg border border-gray-200 bg-gray-50/80 p-4 dark:border-slate-700 dark:bg-slate-800/30">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <EditableField label={t('beneficiaries.milestones.titleEn')} value={milestoneForm.titleEn} onChange={v => setMilestoneForm(f => ({ ...f, titleEn: v }))} />
+                        <EditableField label={t('beneficiaries.milestones.titleAr')} value={milestoneForm.titleAr} onChange={v => setMilestoneForm(f => ({ ...f, titleAr: v }))} dir="rtl" />
+                        <label className="block min-w-0">
+                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.milestones.status')}</span>
+                            <select
+                                value={milestoneForm.status}
+                                onChange={(e) => setMilestoneForm(f => ({ ...f, status: e.target.value as Milestone['status'] }))}
+                                className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
+                            >
+                                {(['achieved', 'in-progress', 'pending'] as const).map((status) => (
+                                    <option key={status} value={status}>{t(`beneficiaries.milestoneStatus.${status}`)}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <EditableField label={t('beneficiaries.milestones.date')} value={milestoneForm.date} onChange={v => setMilestoneForm(f => ({ ...f, date: v }))} type="date" />
+                    </div>
+                    <div className="flex flex-wrap justify-end gap-2">
+                        <button onClick={handleMilestoneSave} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-white hover:bg-primary-dark transition-colors">
+                            <Check size={14} /> {t('common.save')}
+                        </button>
+                        <button onClick={handleMilestoneCancel} className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-xs font-bold hover:bg-gray-100 dark:border-slate-600 dark:hover:bg-slate-700 transition-colors">
+                            <X size={14} /> {t('common.cancel')}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {beneficiary.milestones.length === 0 ? (
+                <div className="py-6 text-center">
+                    <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">{t('beneficiaries.milestones.empty')}</p>
+                    <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{t('beneficiaries.milestones.emptyDesc')}</p>
+                </div>
+            ) : (
                 <div className="space-y-2">
                     {beneficiary.milestones.map(m => {
                         const cfg = {
@@ -318,26 +530,48 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate }) => {
                                         {formatDate(m.date, language, { year: 'numeric', month: 'short' })}
                                     </span>
                                 )}
+                                {onUpdate && milestoneMode === 'none' && (
+                                    <div className="flex flex-shrink-0 items-center gap-1">
+                                        <button
+                                            onClick={() => startEditMilestone(m)}
+                                            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-gray-500 hover:bg-white/80 dark:hover:bg-slate-700"
+                                            aria-label={t('beneficiaries.milestones.edit')}
+                                        >
+                                            <Pencil size={13} />
+                                        </button>
+                                        <button
+                                            onClick={() => setMilestoneToRemove(m)}
+                                            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                            aria-label={t('beneficiaries.milestones.remove')}
+                                        >
+                                            <Trash2 size={13} />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         );
                     })}
                 </div>
-            </Section>
-        );
-    };
+            )}
+        </Section>
+    );
 
     return (
         <div className="space-y-5">
             {renderContactSection()}
             {renderDetailsSection()}
             {renderMilestones()}
+            <ConfirmationModal
+                isOpen={!!milestoneToRemove}
+                onClose={() => setMilestoneToRemove(null)}
+                onConfirm={confirmRemoveMilestone}
+                title={t('beneficiaries.milestones.remove')}
+                message={t('beneficiaries.milestones.removeConfirm')}
+            />
         </div>
     );
 };
 
-/* ------------------------------------------------------------------ */
-/* Helpers — extract form defaults & apply form back                   */
-/* ------------------------------------------------------------------ */
 function getDetailsFormDefaults(b: Beneficiary): Record<string, string> {
     const p = b.profile;
     switch (p.type) {
@@ -345,6 +579,7 @@ function getDetailsFormDefaults(b: Beneficiary): Record<string, string> {
             return {
                 dob: p.dob || '', gender: p.gender || '',
                 university: p.academicInfo?.university || '', field: p.academicInfo?.field || '',
+                levelEn: p.academicInfo?.level?.en || '', levelAr: p.academicInfo?.level?.ar || '',
                 gpa: p.academicInfo?.gpa?.toString() || '',
             };
         case 'orphan':
@@ -356,6 +591,7 @@ function getDetailsFormDefaults(b: Beneficiary): Record<string, string> {
         case 'hafiz':
             return {
                 dob: p.dob || '', gender: p.gender || '',
+                levelEn: p.memorization?.level?.en || '', levelAr: p.memorization?.level?.ar || '',
                 circle: p.memorization?.circle || '',
                 juzCompleted: p.memorization?.juzCompleted?.toString() || '',
             };
@@ -394,6 +630,7 @@ function applyDetailsForm(b: Beneficiary, form: Record<string, string>): Benefic
                 ...p.academicInfo,
                 university: form.university || p.academicInfo?.university,
                 field: form.field || p.academicInfo?.field,
+                level: { en: form.levelEn, ar: form.levelAr || form.levelEn },
                 gpa: form.gpa ? parseFloat(form.gpa) : p.academicInfo?.gpa,
             };
             break;
@@ -412,23 +649,24 @@ function applyDetailsForm(b: Beneficiary, form: Record<string, string>): Benefic
             p.gender = form.gender || p.gender;
             p.memorization = {
                 ...p.memorization,
+                level: { en: form.levelEn, ar: form.levelAr || form.levelEn },
                 circle: form.circle || p.memorization?.circle,
-                juzCompleted: form.juzCompleted ? parseInt(form.juzCompleted) : p.memorization?.juzCompleted,
+                juzCompleted: form.juzCompleted ? parseInt(form.juzCompleted, 10) : p.memorization?.juzCompleted,
             };
             break;
         case 'family':
             p.headOfHousehold = form.headOfHousehold || p.headOfHousehold;
-            p.memberCount = form.memberCount ? parseInt(form.memberCount) : p.memberCount;
+            p.memberCount = form.memberCount ? parseInt(form.memberCount, 10) : p.memberCount;
             p.monthlyIncome = form.monthlyIncome || p.monthlyIncome;
             p.housingType = form.housingType || p.housingType;
             break;
         case 'institution':
             p.directorName = form.directorName || p.directorName;
-            p.capacity = form.capacity ? parseInt(form.capacity) : p.capacity;
+            p.capacity = form.capacity ? parseInt(form.capacity, 10) : p.capacity;
             p.institutionType = form.institutionType || p.institutionType;
             break;
         case 'community':
-            p.populationEstimate = form.populationEstimate ? parseInt(form.populationEstimate) : p.populationEstimate;
+            p.populationEstimate = form.populationEstimate ? parseInt(form.populationEstimate, 10) : p.populationEstimate;
             p.fieldOfficer = form.fieldOfficer || p.fieldOfficer;
             p.areaType = form.areaType || p.areaType;
             break;

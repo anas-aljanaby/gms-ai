@@ -32,6 +32,8 @@ const LinkProjectModal: React.FC<LinkProjectModalProps> = ({ isOpen, onClose, on
     
     const handleSubmit = () => {
         onLink(Array.from(selectedIds));
+        setSelectedIds(new Set());
+        onClose();
     };
 
     return (

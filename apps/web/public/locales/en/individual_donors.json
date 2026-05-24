@@ -75,7 +75,9 @@
       "phone": "Phone",
       "country": "Country",
       "saveDonor": "Save Donor",
-      "requiredFields": "Full Name (English) and Email are required."
+      "nameRequired": "Enter at least one name in English or Arabic.",
+      "requiredFields": "Full Name (English) is required.",
+      "emailRequired": "Email is required."
     },
     "modals": {
       "send_email": {

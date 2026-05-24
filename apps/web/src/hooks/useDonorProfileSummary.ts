@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { normalizeDonorEmail } from '../lib/donorEmail';
 import type {
     DonorProfileDocument,
     DonorProfileInteraction,
@@ -84,7 +85,7 @@ export const mapApiDonorToIndividualDonor = (row: ApiIndividualDonor): Individua
             en: fullNameEn,
             ar: row.full_name_ar || fullNameEn,
         },
-        email: row.email,
+        email: normalizeDonorEmail(row.email),
         phone: row.phone || '',
         totalDonations: asNumber(row.total_donations),
         lastDonationDate: row.last_donation_date || '',
@@ -93,7 +94,9 @@ export const mapApiDonorToIndividualDonor = (row: ApiIndividualDonor): Individua
         country: row.country || '',
         tags,
         assignedManager: row.assigned_manager || '',
-        avatar: row.avatar || `https://i.pravatar.cc/150?u=${encodeURIComponent(row.email)}`,
+        avatar: row.avatar || (normalizeDonorEmail(row.email)
+            ? `https://i.pravatar.cc/150?u=${encodeURIComponent(normalizeDonorEmail(row.email))}`
+            : ''),
         donorSince: row.donor_since || '',
         donorCategory,
         donationsCount: row.donations_count || 0,

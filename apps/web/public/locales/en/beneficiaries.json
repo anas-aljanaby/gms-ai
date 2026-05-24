@@ -2,6 +2,7 @@
   "beneficiaries": {
     "title": "Beneficiary Management",
     "backToList": "Back to Beneficiaries",
+    "profileLoadFailed": "Unable to load this beneficiary profile.",
     "searchPlaceholder": "Search by name, country, email, or phone...",
     "addBeneficiary": "Add Beneficiary",
     "addedSuccess": "Beneficiary {{name}} added.",
@@ -119,9 +120,73 @@
       "startDate": "Start Date",
       "monthlyAmount": "Monthly Amount",
       "donorId": "Donor ID",
+      "donor": "Sponsor / Donor",
+      "currency": "Currency",
       "guardianName": "Guardian Name",
       "relation": "Relation",
-      "age": "Age"
+      "age": "Age",
+      "project": "Project",
+      "noProject": "No project",
+      "academicYearEn": "Academic Year (English)",
+      "academicYearAr": "Academic Year (Arabic)",
+      "memorizationLevel": "Memorization Level",
+      "memorizationLevelEn": "Memorization Level (English)",
+      "memorizationLevelAr": "Memorization Level (Arabic)"
+    },
+
+    "genderOptions": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+
+    "validation": {
+      "invalidGpa": "GPA must be between 0 and 4.",
+      "invalidJuz": "Juz completed must be between 0 and 30.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidAmount": "Amount must be zero or greater.",
+      "amountRequired": "Enter the amount.",
+      "quantityRequired": "Enter the quantity.",
+      "currencyRequired": "Select a currency.",
+      "unitRequired": "Enter the unit.",
+      "descriptionRequired": "Enter a description in at least one language.",
+      "invalidPovertyScore": "Poverty score must be between 1 and 5.",
+      "guardianNameRequired": "Guardian name is required.",
+      "memberNameRequired": "Family member name is required.",
+      "folderNameRequired": "Folder name is required.",
+      "fileNameRequired": "File name is required."
+    },
+
+    "guardian": {
+      "empty": "No guardian information recorded.",
+      "emptyDesc": "Add the legal guardian or caregiver for this orphan.",
+      "add": "Add Guardian",
+      "addMember": "Add Family Member",
+      "editMember": "Edit Family Member",
+      "removeMember": "Remove Family Member",
+      "removeMemberConfirm": "Remove this family member?",
+      "noMembers": "No family members recorded.",
+      "noMembersDesc": "Add siblings or other household members.",
+      "actions": "Actions"
+    },
+
+    "academics": {
+      "empty": "No academic information recorded.",
+      "emptyDesc": "Add university, major, and GPA details.",
+      "add": "Add Academic Info"
+    },
+
+    "milestones": {
+      "empty": "No milestones recorded.",
+      "emptyDesc": "Track key achievements for this beneficiary.",
+      "add": "Add Milestone",
+      "edit": "Edit Milestone",
+      "remove": "Remove Milestone",
+      "removeConfirm": "Remove this milestone?",
+      "titleEn": "Title (English)",
+      "titleAr": "Title (Arabic)",
+      "date": "Date",
+      "status": "Status"
     },
 
     "filters": {
@@ -131,6 +196,9 @@
     "assessment": {
       "title": "Needs Assessment History",
       "newAssessment": "New Assessment",
+      "editAssessment": "Edit Assessment",
+      "removeAssessment": "Remove Assessment",
+      "removeConfirm": "Remove this needs assessment?",
       "by": "By",
       "povertyScore": "Poverty Score",
       "foodSecurity": "Food Security",
@@ -146,8 +214,10 @@
         "saveWithSuggestions": "Save and get suggestions"
       },
       "toasts": {
+        "saved": "Assessment saved.",
         "savedWithSuggestions": "Assessment saved with AI suggestions!",
-        "savedWithoutSuggestions": "Failed to get AI suggestions, but the assessment was saved."
+        "savedWithoutSuggestions": "Assessment saved without AI suggestions.",
+        "saveFailed": "Failed to save the assessment."
       },
       "foodStatus": {
         "secure": "Secure",
@@ -163,21 +233,73 @@
     "aidLog": {
       "title": "Aid & Services Log",
       "noItems": "No aid or services logged yet.",
+      "noItemsDesc": "Record financial, in-kind, or service assistance provided to this beneficiary.",
+      "addItem": "Add Aid Entry",
+      "editItem": "Edit Aid Entry",
+      "removeItem": "Remove Aid Entry",
+      "removeConfirm": "Remove this aid entry?",
+      "type": "Type",
+      "date": "Date",
+      "statusLabel": "Status",
+      "descriptionEn": "Description (English)",
+      "descriptionAr": "Description (Arabic)",
+      "unit": "Unit",
       "value": "Value",
+      "amount": "Amount",
+      "quantity": "Quantity",
+      "currency": "Currency",
+      "requiredHint": "Fields marked with * are required.",
+      "descriptionHint": "Enter a description in English or Arabic.",
+      "inventoryRef": "Inventory Item",
+      "types": {
+        "financial": "Financial",
+        "in-kind": "In-Kind",
+        "service": "Service"
+      },
       "status": {
         "delivered": "Delivered",
         "pending": "Pending",
         "scheduled": "Scheduled"
-      }
+      },
+      "fromFinancials": "From Financials",
+      "viewInFinancials": "View in Financials",
+      "linkedDisbursement": "Linked disbursement",
+      "requestDisbursement": "Submit disbursement for approval",
+      "requestDisbursementHint": "Creates a pending disbursement in Financials linked to this beneficiary.",
+      "disbursementRequested": "Disbursement submitted for approval.",
+      "disbursementRequestFailed": "Could not submit disbursement. Please try again.",
+      "notes": "Notes"
+    },
+
+    "sponsorship": {
+      "empty": "No sponsorship details recorded.",
+      "emptyDesc": "Link a donor and set monthly support amounts.",
+      "add": "Add Sponsorship",
+      "noDonor": "No donor linked",
+      "donorNotFound": "Linked donor not found",
+      "donorSearchPlaceholder": "Search donors…",
+      "donorSearchNoResults": "No donors found",
+      "linkedNote": "Donor profile is linked from Donor Management."
     },
     "documents": {
-      "uploadFile": "Upload File",
+      "uploadFile": "Add File Record",
       "newFolder": "New Folder",
+      "editFolder": "Edit Folder",
+      "editFile": "Edit File Record",
+      "editItem": "Edit item",
+      "removeItem": "Remove Item",
+      "removeConfirm": "Remove this document or folder?",
       "name": "Name",
       "uploader": "Uploader",
       "lastModified": "Last Modified",
-      "size": "Size",
-      "officialDocuments": "Official Documents"
+      "size": "Size (KB)",
+      "description": "Description",
+      "fileType": "File Type",
+      "officialDocuments": "Official Documents",
+      "empty": "No documents in this folder.",
+      "emptyDesc": "Add folders or file records for this beneficiary.",
+      "storageNote": "File records are stored locally for now. Actual file upload will connect to storage in a later phase.",
+      "systemUser": "System User"
     },
 
     "addModal": {
@@ -186,6 +308,8 @@
       "nameAr": "Name (Arabic)",
       "type": "Type",
       "supportType": "Support Type",
+      "countryPlaceholder": "Search or type a country",
+      "countryNoResults": "No matches — your entry will be saved as typed",
       "submit": "Add Beneficiary"
     },
 
@@ -204,13 +328,14 @@
       "editDetails": "Edit Details",
       "editAcademics": "Edit Academics",
       "editGuardian": "Edit Guardian",
+      "editSponsorship": "Edit Sponsorship",
       "saved": "Changes saved."
     },
     "drawer": {
       "close": "Close details panel"
     },
 
-    "sponsorshipNote": "Sponsorship details will be linked from the donor management module.",
+    "sponsorshipNote": "Sponsorship is linked to the donor profile in Donor Management.",
     "milestoneStatus": {
       "achieved": "Achieved",
       "in-progress": "In Progress",

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import type { InstitutionalDonor } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency } from '../../../lib/utils';
+import { formatInstitutionalCountry } from './countryDisplay';
 
 // Approximate coordinates for countries on a world map image
 const countryCoordinates: Record<string, { top: string; left: string }> = {
@@ -89,9 +90,9 @@ export const InstitutionalDonorsMap: React.FC<InstitutionalDonorsMapProps> = ({ 
             })}
             {hoveredData && (
                 <div className="absolute top-4 right-4 bg-white/80 dark:bg-dark-card/80 p-3 rounded-lg shadow-xl backdrop-blur-sm max-w-xs animate-fade-in-fast">
-                    <h4 className="font-bold">{hoveredCountry}</h4>
-                    <p className="text-sm">{hoveredData.length} organization(s)</p>
-                    <p className="text-sm font-semibold">{formatCurrency(hoveredData.reduce((s,d) => s + d.totalGrantsAwarded, 0), language)} total funding</p>
+                    <h4 className="font-bold">{formatInstitutionalCountry(hoveredCountry, t)}</h4>
+                    <p className="text-sm">{t('institutional_donors.map.organizations', { count: hoveredData.length })}</p>
+                    <p className="text-sm font-semibold">{t('institutional_donors.map.totalFunding', { amount: formatCurrency(hoveredData.reduce((s, d) => s + d.totalGrantsAwarded, 0), language) })}</p>
                 </div>
             )}
         </div>

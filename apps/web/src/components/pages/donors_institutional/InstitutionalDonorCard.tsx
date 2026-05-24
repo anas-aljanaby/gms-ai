@@ -3,14 +3,18 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import type { InstitutionalDonor, GrantmakerRelationshipStatus, PriorityLevel } from '../../../types';
 import { formatDate, formatCurrency } from '../../../lib/utils';
 import { Clock, Tag, DollarSign, Package, MapPin } from 'lucide-react';
+import { isOptimisticInstitution } from '../../../lib/institutionOptimistic';
+import { formatInstitutionalCountry } from './countryDisplay';
 
 interface InstitutionalDonorCardProps {
     donor: InstitutionalDonor;
+    highlighted?: boolean;
     onSelect: (donor: InstitutionalDonor) => void;
 }
 
-const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, onSelect }) => {
+const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, highlighted = false, onSelect }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
+    const optimistic = isOptimisticInstitution(donor.id);
 
     const priorityClasses: Record<PriorityLevel, string> = {
         'High': 'border-red-500',
@@ -28,8 +32,12 @@ const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, 
 
     return (
         <div 
-            onClick={() => onSelect(donor)}
-            className={`bg-card dark:bg-dark-card rounded-xl shadow-soft transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-s-4 ${priorityClasses[donor.priority]} flex flex-col cursor-pointer`}
+            onClick={() => !optimistic && onSelect(donor)}
+            className={`bg-card dark:bg-dark-card rounded-xl shadow-soft transition-all duration-300 border-s-4 ${priorityClasses[donor.priority]} flex flex-col ${
+                optimistic
+                    ? 'opacity-70 animate-pulse cursor-default'
+                    : 'cursor-pointer hover:shadow-lg hover:-translate-y-1'
+            } ${highlighted ? 'ring-2 ring-emerald-300 dark:ring-emerald-700' : ''}`}
         >
             <div className="p-4 flex-grow">
                 <div className="flex justify-between items-start">
@@ -38,7 +46,7 @@ const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, 
                         <div>
                             <h3 className="font-bold text-lg text-foreground dark:text-dark-foreground">{donor.organizationName[language] || donor.organizationName.en}</h3>
                             <p className="text-xs text-gray-500 flex items-center gap-1">
-                                <MapPin size={12}/> {t(`institutional_donors.types.${donor.type}`)} &bull; {donor.country}
+                                <MapPin size={12}/> {optimistic ? t('common.saving') : `${t(`institutional_donors.types.${donor.type}`)} • ${formatInstitutionalCountry(donor.country, t)}`}
                             </p>
                         </div>
                     </div>
@@ -68,7 +76,7 @@ const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, 
                     <div className="flex items-start gap-2">
                         <Package size={16} className="text-primary mt-1"/>
                         <div>
-                            <p className="text-xs text-gray-500">{t('institutional_donors.active.other', { count: '' })}</p>
+                            <p className="text-xs text-gray-500">{t('institutional_donors.detail.activeGrants')}</p>
                             <p className="font-semibold">{donor.activeGrants}</p>
                         </div>
                     </div>
@@ -80,7 +88,7 @@ const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, 
                     <Clock size={16} className="text-primary"/>
                     <div>
                         <p className="text-xs text-gray-500">{t('institutional_donors.nextDeadline')}</p>
-                        <p className="font-semibold">{donor.nextDeadline ? formatDate(donor.nextDeadline, language, 'medium') : 'N/A'}</p>
+                        <p className="font-semibold">{donor.nextDeadline ? formatDate(donor.nextDeadline, language, 'medium') : t('common.notAvailable')}</p>
                     </div>
                 </div>
             </div>

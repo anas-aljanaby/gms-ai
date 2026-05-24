@@ -8,7 +8,10 @@ import {
     useCreateDonor,
     useDonors,
     useUpdateDonorPipelineStage,
+    isOptimisticDonor,
 } from '../../hooks/useDonors';
+import { normalizeDonorEmail } from '../../lib/donorEmail';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../lib/optimisticSubmit';
 import { individualDonorToKanbanDonor } from '../../lib/individualDonorPipeline';
 
 import type { Donor, DonorPipelineType, DonorStageId, IndividualDonor, Role, SortDirection } from '../../types';
@@ -95,6 +98,8 @@ const RegistryTab: React.FC<{
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [filters, setFilters] = useState<DonorFilters>(DEFAULT_DONOR_FILTERS);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [highlightedDonorId, setHighlightedDonorId] = useState<string | null>(null);
+    const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [kanbanDensity, setKanbanDensity] = useState<KanbanDensity>('compact');
     const [pipelineOwnerFilter, setPipelineOwnerFilter] = useState('all');
@@ -122,6 +127,18 @@ const RegistryTab: React.FC<{
         setSelectedDonor(updatedDonor);
         setSelectedDonorId(updatedDonor.id);
     }, [queryClient]);
+
+    useEffect(() => {
+        return () => {
+            if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        };
+    }, []);
+
+    const flashDonorHighlight = useCallback((id: string) => {
+        if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        setHighlightedDonorId(id);
+        highlightTimerRef.current = setTimeout(() => setHighlightedDonorId(null), OPTIMISTIC_HIGHLIGHT_MS);
+    }, []);
 
     useEffect(() => {
         if (deepLinkTarget?.id && donors.length > 0) {
@@ -185,9 +202,23 @@ const RegistryTab: React.FC<{
         }
     }, [isListening, language, t, toast]);
 
+    const getDonorRecencyTimestamp = (donor: IndividualDonor): number => {
+        if (donor.lastDonationDate) {
+            const lastGift = new Date(donor.lastDonationDate).getTime();
+            if (Number.isFinite(lastGift)) return lastGift;
+        }
+        if (donor.donorSince) {
+            const since = new Date(donor.donorSince).getTime();
+            if (Number.isFinite(since)) return since;
+        }
+        return 0;
+    };
+
     const filteredAndSortedDonors = useMemo(() => {
         const searchLower = searchTerm.trim().toLowerCase();
-        let filtered = donors.filter((donor) => {
+        const optimistic = donors.filter((donor) => isOptimisticDonor(donor.id));
+        const rest = donors.filter((donor) => !isOptimisticDonor(donor.id));
+        let filtered = rest.filter((donor) => {
             const openTasks = donor.relationshipTasks?.filter((task) => !task.completed) || [];
             const today = new Date().toISOString().split('T')[0];
             const hasOverdueTask = openTasks.some((task) => task.dueDate < today);
@@ -228,6 +259,16 @@ const RegistryTab: React.FC<{
 
         if (sortColumn) {
             filtered.sort((a, b) => {
+                if (sortColumn === 'lastDonationDate' || sortColumn === 'donorSince') {
+                    const aTime = sortColumn === 'lastDonationDate'
+                        ? getDonorRecencyTimestamp(a)
+                        : (a.donorSince ? new Date(a.donorSince).getTime() : 0);
+                    const bTime = sortColumn === 'lastDonationDate'
+                        ? getDonorRecencyTimestamp(b)
+                        : (b.donorSince ? new Date(b.donorSince).getTime() : 0);
+                    return sortDirection === 'asc' ? aTime - bTime : bTime - aTime;
+                }
+
                 const aVal = a[sortColumn];
                 const bVal = b[sortColumn];
 
@@ -236,13 +277,6 @@ const RegistryTab: React.FC<{
                 }
 
                 if (typeof aVal === 'string' && typeof bVal === 'string') {
-                    if (sortColumn === 'lastDonationDate' || sortColumn === 'donorSince') {
-                        if (!aVal) return 1;
-                        if (!bVal) return -1;
-                        return sortDirection === 'asc'
-                            ? new Date(aVal).getTime() - new Date(bVal).getTime()
-                            : new Date(bVal).getTime() - new Date(aVal).getTime();
-                    }
                     return sortDirection === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
                 }
 
@@ -256,7 +290,7 @@ const RegistryTab: React.FC<{
             });
         }
 
-        return filtered;
+        return [...optimistic, ...filtered];
     }, [donors, filters, searchTerm, sortColumn, sortDirection, language]);
 
     const filteredPipelineDonors = useMemo(() => {
@@ -273,8 +307,8 @@ const RegistryTab: React.FC<{
             });
     }, [filteredAndSortedDonors, pipelineOwnerFilter, searchTerm]);
 
-    const stageByEmail = useMemo(
-        () => new Map(filteredAndSortedDonors.map((donor) => [donor.email.toLowerCase(), donor.relationshipStage || 'prospect'])),
+    const stageByDonorId = useMemo(
+        () => new Map(filteredAndSortedDonors.map((donor) => [donor.id, donor.relationshipStage || 'prospect'])),
         [filteredAndSortedDonors],
     );
 
@@ -348,19 +382,21 @@ const RegistryTab: React.FC<{
         }
     }, [donors, selectedDonor?.id, t, toast, updatePipelineMutation]);
 
-    const handleAddDonor = async (newDonorData: Omit<IndividualDonor, 'id' | 'totalDonations' | 'lastDonationDate' | 'status' | 'tier' | 'tags' | 'assignedManager' | 'avatar' | 'donorSince'>) => {
-        try {
-            const created = await createDonorMutation.mutateAsync({
-                fullName: newDonorData.fullName,
-                email: newDonorData.email,
-                phone: newDonorData.phone,
-                country: newDonorData.country,
-            });
-            toast.showSuccess(t('individual_donors.modal.saveDonor'));
-            handleDonorSelect(created);
-        } catch (error) {
-            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.headerSaveFailed'));
-        }
+    const handleAddDonor = (newDonorData: Omit<IndividualDonor, 'id' | 'totalDonations' | 'lastDonationDate' | 'status' | 'tier' | 'tags' | 'assignedManager' | 'avatar' | 'donorSince'>) => {
+        createDonorMutation.mutate({
+            fullName: newDonorData.fullName,
+            email: newDonorData.email,
+            phone: newDonorData.phone,
+            country: newDonorData.country,
+        }, {
+            onSuccess: (created) => {
+                toast.showSuccess(t('individual_donors.modal.saveDonor'));
+                flashDonorHighlight(created.id);
+            },
+            onError: (error) => {
+                toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.headerSaveFailed'));
+            },
+        });
     };
 
     const handleSort = useCallback((column: keyof IndividualDonor) => {
@@ -379,11 +415,11 @@ const RegistryTab: React.FC<{
     );
 
     if (selectedDonor) {
-        return <DonorDetailView donor={selectedDonor} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} />;
+        return <DonorDetailView donor={selectedDonor} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} existingCountries={filterOptions.countries} />;
     }
 
     if (selectedDonorId) {
-        return <DonorProfileRoute donorId={selectedDonorId} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} />;
+        return <DonorProfileRoute donorId={selectedDonorId} onBack={handleDonorBack} onDonorUpdated={handleDonorUpdated} existingCountries={filterOptions.countries} />;
     }
 
     return (
@@ -392,6 +428,7 @@ const RegistryTab: React.FC<{
                 isOpen={isAddModalOpen}
                 onClose={() => setIsAddModalOpen(false)}
                 onAdd={handleAddDonor}
+                existingCountries={filterOptions.countries}
             />
             <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -465,8 +502,7 @@ const RegistryTab: React.FC<{
                             </button>
                             <button
                                 onClick={() => setIsAddModalOpen(true)}
-                                disabled={createDonorMutation.isPending}
-                                className="px-4 py-2 text-sm font-medium text-white bg-secondary hover:bg-secondary-dark rounded-lg transition-colors disabled:opacity-60"
+                                className="px-4 py-2 text-sm font-medium text-white bg-secondary hover:bg-secondary-dark rounded-lg transition-colors"
                             >
                                 {t('individual_donors.addDonor')}
                             </button>
@@ -575,13 +611,22 @@ const RegistryTab: React.FC<{
                                 sortColumn={sortColumn}
                                 sortDirection={sortDirection}
                                 onSort={handleSort}
-                                stageByEmail={stageByEmail}
+                                stageByDonorId={stageByDonorId}
+                                highlightedId={highlightedDonorId}
                             />
                         )}
                         {view === 'card' && (
                             <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,23rem),1fr))] items-start gap-5">
                                 {filteredAndSortedDonors.map((donor) => (
-                                    <DonorCard key={donor.id} donor={donor} onClick={() => handleDonorSelect(donor)} />
+                                    <DonorCard
+                                        key={donor.id}
+                                        donor={donor}
+                                        highlighted={highlightedDonorId === donor.id}
+                                        onClick={() => {
+                                            if (isOptimisticDonor(donor.id)) return;
+                                            handleDonorSelect(donor);
+                                        }}
+                                    />
                                 ))}
                             </div>
                         )}

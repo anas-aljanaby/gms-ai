@@ -1,0 +1,294 @@
+- generic [ref=e1]:
+  - generic [ref=e17]:
+    - navigation [ref=e18]:
+      - button "Collapse sidebar" [expanded] [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+      - generic [ref=e22]:
+        - generic [ref=e24]: M
+        - heading "MSS.2" [level=1] [ref=e25]
+      - list [ref=e27]:
+        - listitem [ref=e453]:
+          - link "Dashboard" [ref=e454] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e456]
+            - generic [ref=e461]: Dashboard
+        - listitem [ref=e462]:
+          - link "Bousala" [ref=e463] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e465]
+            - generic [ref=e468]: Bousala
+        - listitem [ref=e469]:
+          - link "Stakeholder Management" [ref=e470] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e472]
+            - generic [ref=e477]: Stakeholder Management
+        - listitem [ref=e478]:
+          - link "Donor Management" [ref=e479] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e481]
+            - generic [ref=e483]: Donor Management
+        - listitem [ref=e484]:
+          - link "Institutional Donors" [ref=e485] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e487]
+            - generic [ref=e489]: Institutional Donors
+        - listitem [ref=e490]:
+          - link "Beneficiary Management" [ref=e491] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e493]
+            - generic [ref=e498]: Beneficiary Management
+        - listitem [ref=e499]:
+          - link "Project Management" [ref=e500] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e502]
+            - generic [ref=e506]: Project Management
+        - listitem [ref=e507]:
+          - link "Financial Management" [ref=e508] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e510]
+            - generic [ref=e512]: Financial Management
+        - listitem [ref=e513]:
+          - link "Help & Support" [ref=e514] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e516]
+            - generic [ref=e519]: Help & Support
+        - listitem [ref=e520]:
+          - link "Settings" [ref=e521] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e523]
+            - generic [ref=e526]: Settings
+      - list [ref=e103]:
+        - listitem [ref=e527]:
+          - link "Logout" [ref=e528] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e530]
+            - generic [ref=e533]: Logout
+    - generic [ref=e111]:
+      - banner [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - heading "Beneficiary Management" [level=1] [ref=e115]
+            - button "liveIndicator.live" [ref=e718] [cursor=pointer]
+          - generic [ref=e120]:
+            - generic:
+              - img
+            - searchbox "Search everything..." [ref=e121]
+            - button "Search by voice" [ref=e123] [cursor=pointer]:
+              - img [ref=e124]
+        - generic [ref=e127]:
+          - button "Help & Support" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - button "Change language" [ref=e136] [cursor=pointer]:
+            - img [ref=e137]
+            - img "English (US) Flag" [ref=e140]
+          - button "Switch to dark mode" [ref=e146] [cursor=pointer]:
+            - img [ref=e147]
+          - button "View announcements" [ref=e150] [cursor=pointer]:
+            - img [ref=e151]
+          - button "User Welcome! Admin" [ref=e158] [cursor=pointer]:
+            - img "User" [ref=e159]
+            - generic [ref=e160]:
+              - generic [ref=e161]: Welcome!
+              - generic [ref=e162]: Admin
+            - img [ref=e163]
+      - main [ref=e165]:
+        - generic [ref=e535]:
+          - button "Back to Beneficiaries" [ref=e536] [cursor=pointer]:
+            - img [ref=e537]
+            - text: Back to Beneficiaries
+          - generic [ref=e539]:
+            - img "Yusuf Al-Ahmad" [ref=e540]
+            - generic [ref=e541]:
+              - heading "Yusuf Al-Ahmad" [level=1] [ref=e542]
+              - paragraph [ref=e543]: Computer Engineering at Istanbul University
+              - generic [ref=e544]:
+                - generic [ref=e545]: Active
+                - generic [ref=e546]: Student
+                - generic [ref=e547]: Turkey
+          - generic [ref=e548]:
+            - generic [ref=e549]:
+              - img [ref=e551]
+              - generic [ref=e554]:
+                - paragraph [ref=e555]: Current GPA
+                - paragraph [ref=e556]: "3.40"
+            - generic [ref=e557]:
+              - img [ref=e559]
+              - generic [ref=e562]:
+                - paragraph [ref=e563]: Aid Received
+                - paragraph [ref=e564]: $250
+            - generic [ref=e565]:
+              - img [ref=e567]
+              - generic [ref=e570]:
+                - paragraph [ref=e571]: Milestones
+                - paragraph [ref=e572]: 2/4
+          - generic [ref=e573]:
+            - navigation [ref=e576]:
+              - button "Overview" [ref=e577] [cursor=pointer]
+              - button "Academics" [ref=e578] [cursor=pointer]
+              - button "Sponsorship" [ref=e579] [cursor=pointer]
+              - button "Aid & Services" [ref=e580] [cursor=pointer]
+              - button "Needs Assessment" [ref=e581] [cursor=pointer]
+              - button "Documents" [ref=e582] [cursor=pointer]
+            - generic [ref=e719]:
+              - generic [ref=e720]:
+                - heading "Aid & Services Log" [level=2] [ref=e721]
+                - button "Add Aid Entry" [active] [ref=e722] [cursor=pointer]:
+                  - img [ref=e723]
+                  - text: Add Aid Entry
+              - generic [ref=e725]:
+                - generic [ref=e726]:
+                  - img [ref=e728]
+                  - generic [ref=e731]:
+                    - generic [ref=e732]:
+                      - paragraph [ref=e733]: QA Test Aid Entry
+                      - paragraph [ref=e734]: May 23, 2026
+                    - generic [ref=e735]:
+                      - generic [ref=e736]: Financial
+                      - generic [ref=e737]:
+                        - img [ref=e738]
+                        - text: Delivered
+                      - generic [ref=e741]:
+                        - button "Edit Aid Entry" [ref=e742] [cursor=pointer]:
+                          - img [ref=e743]
+                        - button "Remove Aid Entry" [ref=e746] [cursor=pointer]:
+                          - img [ref=e747]
+                - generic [ref=e751]:
+                  - img [ref=e753]
+                  - generic [ref=e755]:
+                    - generic [ref=e756]:
+                      - generic [ref=e757]:
+                        - paragraph [ref=e758]: Monthly Stipend
+                        - paragraph [ref=e759]: July 1, 2024
+                      - generic [ref=e760]:
+                        - generic [ref=e761]: Financial
+                        - generic [ref=e762]:
+                          - img [ref=e763]
+                          - text: Delivered
+                        - generic [ref=e766]:
+                          - button "Edit Aid Entry" [ref=e767] [cursor=pointer]:
+                            - img [ref=e768]
+                          - button "Remove Aid Entry" [ref=e771] [cursor=pointer]:
+                            - img [ref=e772]
+                    - generic [ref=e775]:
+                      - paragraph [ref=e776]:
+                        - strong [ref=e777]: "Value:"
+                        - text: $250
+                      - paragraph [ref=e778]:
+                        - strong [ref=e779]: "Project:"
+                        - text: Educational Support Initiative
+                - generic [ref=e780]:
+                  - img [ref=e782]
+                  - generic [ref=e786]:
+                    - generic [ref=e787]:
+                      - generic [ref=e788]:
+                        - paragraph [ref=e789]: Laptop for Studies
+                        - paragraph [ref=e790]: June 15, 2024
+                      - generic [ref=e791]:
+                        - generic [ref=e792]: In-Kind
+                        - generic [ref=e793]:
+                          - img [ref=e794]
+                          - text: Delivered
+                        - generic [ref=e797]:
+                          - button "Edit Aid Entry" [ref=e798] [cursor=pointer]:
+                            - img [ref=e799]
+                          - button "Remove Aid Entry" [ref=e802] [cursor=pointer]:
+                            - img [ref=e803]
+                    - generic [ref=e806]:
+                      - paragraph [ref=e807]:
+                        - strong [ref=e808]: "Value:"
+                        - text: 1 pcs
+                      - paragraph [ref=e809]:
+                        - strong [ref=e810]: "Inventory Item:"
+                        - text: ELEC-LAP-01
+                - generic [ref=e811]:
+                  - img [ref=e813]
+                  - generic [ref=e816]:
+                    - generic [ref=e817]:
+                      - generic [ref=e818]:
+                        - paragraph [ref=e819]: Leadership Workshop Attendance
+                        - paragraph [ref=e820]: May 20, 2024
+                      - generic [ref=e821]:
+                        - generic [ref=e822]: Service
+                        - generic [ref=e823]:
+                          - img [ref=e824]
+                          - text: Delivered
+                        - generic [ref=e827]:
+                          - button "Edit Aid Entry" [ref=e828] [cursor=pointer]:
+                            - img [ref=e829]
+                          - button "Remove Aid Entry" [ref=e832] [cursor=pointer]:
+                            - img [ref=e833]
+                    - paragraph [ref=e837]:
+                      - strong [ref=e838]: "Value:"
+                      - text: 8 hours
+                - generic [ref=e839]:
+                  - img [ref=e841]
+                  - generic [ref=e843]:
+                    - generic [ref=e844]:
+                      - generic [ref=e845]:
+                        - paragraph [ref=e846]: August Stipend
+                        - paragraph [ref=e847]: August 1, 2024
+                      - generic [ref=e848]:
+                        - generic [ref=e849]: Financial
+                        - generic [ref=e850]:
+                          - img [ref=e851]
+                          - text: Scheduled
+                        - generic [ref=e854]:
+                          - button "Edit Aid Entry" [ref=e855] [cursor=pointer]:
+                            - img [ref=e856]
+                          - button "Remove Aid Entry" [ref=e859] [cursor=pointer]:
+                            - img [ref=e860]
+                    - paragraph [ref=e864]:
+                      - strong [ref=e865]: "Value:"
+                      - text: $250
+  - dialog [ref=e866]:
+    - generic [ref=e869]:
+      - generic [ref=e870]:
+        - heading "Add Aid Entry" [level=2] [ref=e871]
+        - button "Close" [ref=e872] [cursor=pointer]:
+          - img [ref=e873]
+      - generic [ref=e876]:
+        - generic [ref=e877]:
+          - generic [ref=e878]:
+            - generic [ref=e879]:
+              - text: Type
+              - combobox "Type" [ref=e880]:
+                - option "Financial" [selected]
+                - option "In-Kind"
+                - option "Service"
+            - generic [ref=e881]:
+              - text: Date
+              - textbox "Date" [ref=e882]: 2026-05-24
+            - generic [ref=e883]:
+              - text: Status
+              - combobox "Status" [ref=e884]:
+                - option "Delivered" [selected]
+                - option "Pending"
+                - option "Scheduled"
+            - generic [ref=e885]:
+              - text: Project
+              - combobox "Project" [ref=e886]:
+                - option "No project" [selected]
+                - option "Leadership Building Project"
+                - option "Educational Support Initiative"
+                - option "Community Service Program"
+          - generic [ref=e887]:
+            - generic [ref=e888]:
+              - text: Description (English)
+              - textbox "Description (English)" [ref=e889]
+            - generic [ref=e890]:
+              - text: Description (Arabic)
+              - textbox "Description (Arabic)" [ref=e891]
+          - generic [ref=e892]:
+            - generic [ref=e893]:
+              - text: Amount
+              - spinbutton "Amount" [ref=e894]
+            - generic [ref=e895]:
+              - text: Currency
+              - combobox "Currency" [ref=e896]:
+                - option "USD" [selected]
+                - option "SAR"
+                - option "AED"
+                - option "EUR"
+        - generic [ref=e897]:
+          - button "Cancel" [ref=e898] [cursor=pointer]
+          - button "Save" [ref=e899] [cursor=pointer]

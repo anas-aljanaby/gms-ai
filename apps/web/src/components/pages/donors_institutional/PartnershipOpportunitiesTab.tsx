@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { Project, InstitutionalDonor } from '../../../types';
-import { MOCK_PROJECTS } from '../../../data/projectData';
+import { MOCK_PROJECTS, projectListKey } from '../../../data/projectData';
 import AiCard from '../ai/AiCard';
 import Spinner from '../../common/Spinner';
 import { Lightbulb, Search } from 'lucide-react';
@@ -96,7 +96,9 @@ Base your matching primarily on 'focusAreas' and 'geographicFocus'. Consider the
                             className="w-full p-2 border rounded-lg bg-gray-50 dark:bg-slate-800 dark:border-slate-700"
                         >
                             <option value="" disabled>{t('institutional_donors.opportunities.selectProject')}</option>
-                            {MOCK_PROJECTS.map(p => <option key={p.id} value={p.id}>{p.name[language] || p.name.en}</option>)}
+                            {MOCK_PROJECTS.map((p, index) => (
+                                <option key={projectListKey(p, index)} value={p.id}>{p.name[language] || p.name.en}</option>
+                            ))}
                         </select>
                         <button
                             onClick={handleFindMatches}

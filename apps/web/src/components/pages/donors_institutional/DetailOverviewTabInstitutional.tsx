@@ -3,6 +3,7 @@ import type { InstitutionalDonor, GrantmakerRelationshipStatus, PriorityLevel } 
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency, formatDate, formatNumber, formatRelativeTime } from '../../../lib/utils';
 import { Building2, CalendarClock, CircleDollarSign, Flag, Globe2, Handshake, MapPin, Sparkles, UserRound, WalletCards } from 'lucide-react';
+import { formatInstitutionalLocation } from './countryDisplay';
 
 const Panel: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; className?: string }> = ({ title, icon, children, className = '' }) => (
     <section className={`min-w-0 rounded-xl border border-gray-200/80 bg-card p-5 shadow-sm dark:border-slate-700/70 dark:bg-dark-card ${className}`}>
@@ -27,10 +28,10 @@ const MetricCard: React.FC<{ title: string; value: React.ReactNode; icon: React.
     </div>
 );
 
-const InfoRow: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+const InfoRow: React.FC<{ label: string; value: React.ReactNode; emptyText?: string }> = ({ label, value, emptyText }) => (
     <div className="min-w-0">
         <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{label}</p>
-        <div className="mt-1 break-words text-sm font-bold leading-6 text-foreground dark:text-dark-foreground">{value || 'N/A'}</div>
+        <div className="mt-1 break-words text-sm font-bold leading-6 text-foreground dark:text-dark-foreground">{value || emptyText}</div>
     </div>
 );
 
@@ -84,13 +85,14 @@ const PriorityBadge: React.FC<{ priority: PriorityLevel }> = ({ priority }) => {
 const DetailOverviewTabInstitutional: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
     const organizationName = donor.organizationName[language] || donor.organizationName.en;
-    const location = [donor.city, donor.country].filter(Boolean).join(', ');
+    const location = formatInstitutionalLocation(donor.city, donor.country, t);
+    const notAvailable = t('common.notAvailable');
     const nextDeadlineDate = donor.nextDeadline ? new Date(donor.nextDeadline) : null;
     const nextDeadlineState = nextDeadlineDate
         ? nextDeadlineDate.getTime() < Date.now()
-            ? t('institutional_donors.detail.deadlinePassed', 'Deadline passed')
+            ? t('institutional_donors.detail.deadlinePassed')
             : formatRelativeTime(donor.nextDeadline, language)
-        : t('institutional_donors.detail.noDeadline', 'No deadline set');
+        : t('institutional_donors.detail.noDeadline');
     const donationsThisYear = donor.totalGrantsAwarded / 4;
     const completionRate = Math.min(98, Math.max(65, Math.round(82 + donor.activeGrants / 20)));
 
@@ -99,29 +101,29 @@ const DetailOverviewTabInstitutional: React.FC<{ donor: InstitutionalDonor }> = 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <MetricCard title={t('institutional_donors.detail.totalAwarded')} value={formatCurrency(donor.totalGrantsAwarded, language, 'USD')} icon={<CircleDollarSign size={19} />} accent="text-emerald-600 dark:text-emerald-300" />
                 <MetricCard title={t('institutional_donors.detail.activeGrants')} value={formatNumber(donor.activeGrants, language)} icon={<WalletCards size={19} />} accent="text-blue-600 dark:text-blue-300" />
-                <MetricCard title={t('institutional_donors.detail.nextDeadline')} value={donor.nextDeadline ? formatDate(donor.nextDeadline, language) : 'N/A'} icon={<CalendarClock size={19} />} subtext={nextDeadlineState} accent="text-amber-600 dark:text-amber-300" />
+                <MetricCard title={t('institutional_donors.detail.nextDeadline')} value={donor.nextDeadline ? formatDate(donor.nextDeadline, language) : notAvailable} icon={<CalendarClock size={19} />} subtext={nextDeadlineState} accent="text-amber-600 dark:text-amber-300" />
                 <MetricCard title={t('institutional_donors.detail.priority')} value={<PriorityBadge priority={donor.priority} />} icon={<Flag size={19} />} accent="text-red-600 dark:text-red-300" />
             </div>
 
             <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-                <Panel title={t('institutional_donors.detail.relationshipBrief', 'Relationship Brief')} icon={<Handshake size={18} />}>
+                <Panel title={t('institutional_donors.detail.relationshipBrief')} icon={<Handshake size={18} />}>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <InfoRow label={t('institutional_donors.detail.status')} value={<StatusBadge status={donor.relationshipStatus} />} />
                         <InfoRow label={t('institutional_donors.detail.assignedManager')} value={donor.assignedManager} />
-                        <InfoRow label={t('institutional_donors.detail.primaryContact', 'Primary Contact')} value={donor.primaryContact.name} />
+                        <InfoRow label={t('institutional_donors.detail.primaryContact')} value={donor.primaryContact.name} />
                         <InfoRow label={t('institutional_donors.detail.email')} value={<a href={`mailto:${donor.primaryContact.email}`} className="text-primary hover:underline dark:text-secondary">{donor.primaryContact.email}</a>} />
-                        <InfoRow label={t('institutional_donors.detail.lastContact', 'Last Contact')} value={donor.lastContactDate ? formatRelativeTime(donor.lastContactDate, language) : 'N/A'} />
+                        <InfoRow label={t('institutional_donors.detail.lastContact')} value={donor.lastContactDate ? formatRelativeTime(donor.lastContactDate, language) : notAvailable} />
                         <InfoRow label={t('institutional_donors.detail.type')} value={t(`institutional_donors.types.${donor.type}`)} />
                     </div>
                 </Panel>
 
-                <Panel title={t('institutional_donors.detail.nextMove', 'Next Move')} icon={<Sparkles size={18} />}>
+                <Panel title={t('institutional_donors.detail.nextMove')} icon={<Sparkles size={18} />}>
                     <div className="rounded-lg bg-primary-light/60 p-4 dark:bg-primary/10">
                         <p className="text-xs font-semibold uppercase tracking-wide text-primary dark:text-secondary">{organizationName}</p>
                         <p className="mt-2 break-words text-base font-bold leading-6 text-foreground dark:text-dark-foreground">
                             {donor.nextDeadline
-                                ? t('institutional_donors.detail.prepareDeadline', { date: formatDate(donor.nextDeadline, language), defaultValue: `Prepare next submission before ${formatDate(donor.nextDeadline, language)}.` })
-                                : t('institutional_donors.detail.scheduleStewardship', 'Schedule a stewardship touchpoint and confirm the next funding window.')}
+                                ? t('institutional_donors.detail.prepareDeadline', { date: formatDate(donor.nextDeadline, language) })
+                                : t('institutional_donors.detail.scheduleStewardship')}
                         </p>
                     </div>
                     <div className="mt-4 grid grid-cols-2 gap-3">
@@ -132,25 +134,25 @@ const DetailOverviewTabInstitutional: React.FC<{ donor: InstitutionalDonor }> = 
             </div>
 
             <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
-                <Panel title={t('institutional_donors.detail.focusFit', 'Focus Fit')} icon={<Globe2 size={18} />} className="xl:col-span-1">
+                <Panel title={t('institutional_donors.detail.focusFit')} icon={<Globe2 size={18} />} className="xl:col-span-1">
                     <div className="space-y-4">
                         <div>
                             <p className="mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.columns.focus')}</p>
-                            <ChipList items={donor.focusAreas} emptyText="N/A" tone="blue" />
+                            <ChipList items={donor.focusAreas} emptyText={notAvailable} tone="blue" />
                         </div>
                         <div>
-                            <p className="mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.geographicFocus', 'Geographic Focus')}</p>
-                            <ChipList items={donor.geographicFocus} emptyText="N/A" tone="green" />
+                            <p className="mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.geographicFocus')}</p>
+                            <ChipList items={donor.geographicFocus} emptyText={notAvailable} tone="green" />
                         </div>
                     </div>
                 </Panel>
 
-                <Panel title={t('institutional_donors.detail.organizationProfile', 'Organization Profile')} icon={<Building2 size={18} />} className="xl:col-span-2">
+                <Panel title={t('institutional_donors.detail.organizationProfile')} icon={<Building2 size={18} />} className="xl:col-span-2">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        <InfoRow label={t('institutional_donors.detail.country')} value={<span className="inline-flex items-center gap-1"><MapPin size={14} /> {location || donor.country}</span>} />
-                        <InfoRow label={t('institutional_donors.detail.registrationNumber')} value={donor.registrationNumber || 'N/A'} />
-                        <InfoRow label={t('institutional_donors.detail.establishmentDate')} value={donor.establishmentDate ? formatDate(donor.establishmentDate, language) : 'N/A'} />
-                        <InfoRow label={t('institutional_donors.detail.createdDate', 'Added To CRM')} value={formatDate(donor.createdDate, language)} />
+                        <InfoRow label={t('institutional_donors.detail.country')} value={<span className="inline-flex items-center gap-1"><MapPin size={14} /> {location || notAvailable}</span>} />
+                        <InfoRow label={t('institutional_donors.detail.registrationNumber')} value={donor.registrationNumber || notAvailable} />
+                        <InfoRow label={t('institutional_donors.detail.establishmentDate')} value={donor.establishmentDate ? formatDate(donor.establishmentDate, language) : notAvailable} />
+                        <InfoRow label={t('institutional_donors.detail.createdDate')} value={formatDate(donor.createdDate, language)} />
                     </div>
                 </Panel>
             </div>
@@ -159,7 +161,7 @@ const DetailOverviewTabInstitutional: React.FC<{ donor: InstitutionalDonor }> = 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     <InfoRow label={t('institutional_donors.analyticsDashboard.donationGrowth')} value="+15.2%" />
                     <InfoRow label={t('institutional_donors.analyticsDashboard.projectCompletion')} value={`${formatNumber(completionRate, language)}%`} />
-                    <InfoRow label={t('institutional_donors.analyticsDashboard.communicationFrequency')} value={t('institutional_donors.detail.every45Days', 'Every 45 days')} />
+                    <InfoRow label={t('institutional_donors.analyticsDashboard.communicationFrequency')} value={t('institutional_donors.detail.every45Days')} />
                     <InfoRow label={t('institutional_donors.analyticsDashboard.satisfactionScore')} value="4.8 / 5" />
                 </div>
             </Panel>

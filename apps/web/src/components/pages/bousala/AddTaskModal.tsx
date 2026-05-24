@@ -42,6 +42,11 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onAdd, goa
             return;
         }
         onAdd({ title, goalId, dueDate, priority });
+        setTitle('');
+        setGoalId(goals[0]?.id || '');
+        setDueDate(new Date().toISOString().split('T')[0]);
+        setPriority('medium');
+        onClose();
     };
 
     return (

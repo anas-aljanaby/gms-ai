@@ -2,6 +2,7 @@
   "beneficiaries": {
     "title": "إدارة المستفيدين",
     "backToList": "العودة إلى القائمة",
+    "profileLoadFailed": "تعذر تحميل ملف المستفيد.",
     "searchPlaceholder": "ابحث بالاسم، البلد، البريد أو الهاتف...",
     "addBeneficiary": "إضافة مستفيد",
     "addedSuccess": "تمت إضافة المستفيد {{name}}.",
@@ -119,9 +120,73 @@
       "startDate": "تاريخ البدء",
       "monthlyAmount": "المبلغ الشهري",
       "donorId": "معرّف المتبرع",
+      "donor": "الكافل / المتبرع",
+      "currency": "العملة",
       "guardianName": "اسم الولي",
       "relation": "صلة القرابة",
-      "age": "العمر"
+      "age": "العمر",
+      "project": "المشروع",
+      "noProject": "بدون مشروع",
+      "academicYearEn": "المرحلة الدراسية (إنجليزي)",
+      "academicYearAr": "المرحلة الدراسية (عربي)",
+      "memorizationLevel": "مستوى الحفظ",
+      "memorizationLevelEn": "مستوى الحفظ (إنجليزي)",
+      "memorizationLevelAr": "مستوى الحفظ (عربي)"
+    },
+
+    "genderOptions": {
+      "male": "ذكر",
+      "female": "أنثى",
+      "other": "أخرى"
+    },
+
+    "validation": {
+      "invalidGpa": "يجب أن يكون المعدل بين 0 و 4.",
+      "invalidJuz": "يجب أن يكون عدد الأجزاء بين 0 و 30.",
+      "invalidEmail": "أدخل بريداً إلكترونياً صالحاً.",
+      "invalidAmount": "يجب أن يكون المبلغ صفراً أو أكثر.",
+      "amountRequired": "يرجى إدخال المبلغ.",
+      "quantityRequired": "يرجى إدخال الكمية.",
+      "currencyRequired": "يرجى اختيار العملة.",
+      "unitRequired": "يرجى إدخال الوحدة.",
+      "descriptionRequired": "أدخل وصفاً بلغة واحدة على الأقل.",
+      "invalidPovertyScore": "يجب أن تكون درجة الفقر بين 1 و 5.",
+      "guardianNameRequired": "اسم الولي مطلوب.",
+      "memberNameRequired": "اسم فرد الأسرة مطلوب.",
+      "folderNameRequired": "اسم المجلد مطلوب.",
+      "fileNameRequired": "اسم الملف مطلوب."
+    },
+
+    "guardian": {
+      "empty": "لا توجد بيانات ولي مسجّلة.",
+      "emptyDesc": "أضف الولي أو مقدّم الرعاية لهذا اليتيم.",
+      "add": "إضافة ولي",
+      "addMember": "إضافة فرد من الأسرة",
+      "editMember": "تعديل فرد من الأسرة",
+      "removeMember": "حذف فرد من الأسرة",
+      "removeMemberConfirm": "هل تريد حذف هذا الفرد؟",
+      "noMembers": "لا يوجد أفراد مسجّلون.",
+      "noMembersDesc": "أضف الإخوة أو أفراد الأسرة الآخرين.",
+      "actions": "إجراءات"
+    },
+
+    "academics": {
+      "empty": "لا توجد بيانات أكاديمية.",
+      "emptyDesc": "أضف الجامعة والتخصص والمعدل.",
+      "add": "إضافة بيانات أكاديمية"
+    },
+
+    "milestones": {
+      "empty": "لا توجد إنجازات مسجّلة.",
+      "emptyDesc": "تتبّع الإنجازات الرئيسية لهذا المستفيد.",
+      "add": "إضافة إنجاز",
+      "edit": "تعديل الإنجاز",
+      "remove": "حذف الإنجاز",
+      "removeConfirm": "هل تريد حذف هذا الإنجاز؟",
+      "titleEn": "العنوان (إنجليزي)",
+      "titleAr": "العنوان (عربي)",
+      "date": "التاريخ",
+      "status": "الحالة"
     },
 
     "filters": {
@@ -131,6 +196,9 @@
     "assessment": {
       "title": "سجل تقييم الاحتياجات",
       "newAssessment": "تقييم جديد",
+      "editAssessment": "تعديل التقييم",
+      "removeAssessment": "حذف التقييم",
+      "removeConfirm": "هل تريد حذف هذا التقييم؟",
       "by": "بواسطة",
       "povertyScore": "درجة الفقر",
       "foodSecurity": "الأمن الغذائي",
@@ -146,8 +214,10 @@
         "saveWithSuggestions": "حفظ والحصول على اقتراحات"
       },
       "toasts": {
+        "saved": "تم حفظ التقييم.",
         "savedWithSuggestions": "تم حفظ التقييم مع اقتراحات الذكاء الاصطناعي.",
-        "savedWithoutSuggestions": "تعذّر جلب اقتراحات الذكاء الاصطناعي، لكن تم حفظ التقييم."
+        "savedWithoutSuggestions": "تم حفظ التقييم بدون اقتراحات الذكاء الاصطناعي.",
+        "saveFailed": "تعذّر حفظ التقييم."
       },
       "foodStatus": {
         "secure": "آمن",
@@ -163,21 +233,73 @@
     "aidLog": {
       "title": "سجل المساعدات والخدمات",
       "noItems": "لم يتم تسجيل أي مساعدات بعد.",
+      "noItemsDesc": "سجّل المساعدات المالية أو العينية أو الخدمات المقدمة لهذا المستفيد.",
+      "addItem": "إضافة مساعدة",
+      "editItem": "تعديل المساعدة",
+      "removeItem": "حذف المساعدة",
+      "removeConfirm": "هل تريد حذف هذا السجل؟",
+      "type": "النوع",
+      "date": "التاريخ",
+      "statusLabel": "الحالة",
+      "descriptionEn": "الوصف (إنجليزي)",
+      "descriptionAr": "الوصف (عربي)",
+      "unit": "الوحدة",
       "value": "القيمة",
+      "amount": "المبلغ",
+      "quantity": "الكمية",
+      "currency": "العملة",
+      "requiredHint": "الحقول التي بجانبها * إلزامية.",
+      "descriptionHint": "أدخل وصفاً باللغة الإنجليزية أو العربية.",
+      "inventoryRef": "صنف المخزون",
+      "types": {
+        "financial": "مالي",
+        "in-kind": "عيني",
+        "service": "خدمة"
+      },
       "status": {
         "delivered": "تم التسليم",
         "pending": "قيد الانتظار",
         "scheduled": "مجدول"
-      }
+      },
+      "fromFinancials": "من المالية",
+      "viewInFinancials": "عرض في المالية",
+      "linkedDisbursement": "صرف مرتبط",
+      "requestDisbursement": "إرسال طلب صرف للموافقة",
+      "requestDisbursementHint": "ينشئ صرفاً معلقاً في المالية مرتبطاً بهذا المستفيد.",
+      "disbursementRequested": "تم إرسال طلب الصرف للموافقة.",
+      "disbursementRequestFailed": "تعذر إرسال طلب الصرف. حاول مرة أخرى.",
+      "notes": "ملاحظات"
+    },
+
+    "sponsorship": {
+      "empty": "لا توجد بيانات كفالة مسجّلة.",
+      "emptyDesc": "اربط متبرعاً وحدّد مبالغ الدعم الشهري.",
+      "add": "إضافة كفالة",
+      "noDonor": "لا يوجد متبرع مرتبط",
+      "donorNotFound": "المتبرع المرتبط غير موجود",
+      "donorSearchPlaceholder": "ابحث عن متبرع…",
+      "donorSearchNoResults": "لم يُعثر على متبرعين",
+      "linkedNote": "ملف المتبرع مرتبط من إدارة المتبرعين."
     },
     "documents": {
-      "uploadFile": "رفع ملف",
+      "uploadFile": "إضافة سجل ملف",
       "newFolder": "مجلد جديد",
+      "editFolder": "تعديل المجلد",
+      "editFile": "تعديل سجل الملف",
+      "editItem": "تعديل العنصر",
+      "removeItem": "حذف العنصر",
+      "removeConfirm": "هل تريد حذف هذا المستند أو المجلد؟",
       "name": "الاسم",
       "uploader": "الرافع",
       "lastModified": "آخر تعديل",
-      "size": "الحجم",
-      "officialDocuments": "المستندات الرسمية"
+      "size": "الحجم (KB)",
+      "description": "الوصف",
+      "fileType": "نوع الملف",
+      "officialDocuments": "المستندات الرسمية",
+      "empty": "لا توجد مستندات في هذا المجلد.",
+      "emptyDesc": "أضف مجلدات أو سجلات ملفات لهذا المستفيد.",
+      "storageNote": "سجلات الملفات محفوظة محلياً حالياً. رفع الملفات الفعلي سيرتبط بالتخزين في مرحلة لاحقة.",
+      "systemUser": "مستخدم النظام"
     },
 
     "addModal": {
@@ -186,6 +308,8 @@
       "nameAr": "الاسم (عربي)",
       "type": "النوع",
       "supportType": "نوع الدعم",
+      "countryPlaceholder": "ابحث أو اكتب اسم البلد",
+      "countryNoResults": "لا توجد نتائج — سيتم حفظ ما كتبته كما هو",
       "submit": "إضافة المستفيد"
     },
 
@@ -204,13 +328,14 @@
       "editDetails": "تعديل التفاصيل",
       "editAcademics": "تعديل الأكاديمي",
       "editGuardian": "تعديل الولي",
+      "editSponsorship": "تعديل الكفالة",
       "saved": "تم حفظ التغييرات."
     },
     "drawer": {
       "close": "إغلاق لوحة التفاصيل"
     },
 
-    "sponsorshipNote": "سيتم ربط تفاصيل الكفالة من وحدة إدارة المتبرعين.",
+    "sponsorshipNote": "الكفالة مرتبطة بملف المتبرع في إدارة المتبرعين.",
     "milestoneStatus": {
       "achieved": "تحقّق",
       "in-progress": "قيد التنفيذ",

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import {
   Target,
   DollarSign,
@@ -23,7 +23,8 @@ import { formatCurrency } from '../../../lib/utils';
 import StatusBadge from './shared/StatusBadge';
 import FinancialKpiCard from './shared/FinancialKpiCard';
 import DataTable, { type Column } from './shared/DataTable';
-import { useBudgets, useCreateBudget } from '../../../hooks/useBudgets';
+import { useBudgets, useCreateBudget, isOptimisticBudget } from '../../../hooks/useBudgets';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../../lib/optimisticSubmit';
 import type { BudgetLine } from '../../../types/financials';
 import ModalPortal from '../../common/ModalPortal';
 
@@ -41,6 +42,20 @@ const BudgetsTab: React.FC = () => {
   const [fiscalYear, setFiscalYear] = useState(() => `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`);
   const [totalPlanned, setTotalPlanned] = useState('');
   const [currency, setCurrency] = useState('USD');
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    };
+  }, []);
+
+  const flashHighlight = useCallback((id: string) => {
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    setHighlightedId(id);
+    highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
+  }, []);
 
   const normalizedSelectedBudgetId = selectedBudgetId || budgets[0]?.id || '';
   const selectedBudget = useMemo(
@@ -221,29 +236,34 @@ const BudgetsTab: React.FC = () => {
     setCurrency('USD');
   };
 
-  const handleCreateBudget = async () => {
+  const handleCreateBudget = () => {
     const plannedAmount = Number(totalPlanned);
     if (!projectNameEn.trim() || !fiscalYear.trim() || !Number.isFinite(plannedAmount) || plannedAmount < 0) {
       showError(t('common.error', 'Error'));
       return;
     }
 
-    try {
-      const created = await createBudget.mutateAsync({
-        projectNameEn: projectNameEn.trim(),
-        projectNameAr: projectNameAr.trim(),
-        fiscalYear: fiscalYear.trim(),
-        totalPlanned: plannedAmount,
-        currency,
-        status: 'draft',
-      });
-      setSelectedBudgetId(created.id);
-      setIsCreateOpen(false);
-      resetCreateForm();
-      showSuccess(t('financials.budgets.createSuccess', 'Budget created'));
-    } catch (error) {
-      showError(error instanceof Error ? error.message : t('common.error', 'Error'));
-    }
+    const payload = {
+      projectNameEn: projectNameEn.trim(),
+      projectNameAr: projectNameAr.trim(),
+      fiscalYear: fiscalYear.trim(),
+      totalPlanned: plannedAmount,
+      currency,
+      status: 'draft' as const,
+    };
+    resetCreateForm();
+    setIsCreateOpen(false);
+
+    createBudget.mutate(payload, {
+      onSuccess: (created) => {
+        setSelectedBudgetId(created.id);
+        flashHighlight(created.id);
+        showSuccess(t('financials.budgets.createSuccess', 'Budget created'));
+      },
+      onError: (error) => {
+        showError(error instanceof Error ? error.message : t('common.error', 'Error'));
+      },
+    });
   };
 
   if (!selectedBudget) {
@@ -264,9 +284,7 @@ const BudgetsTab: React.FC = () => {
 
         <ModalPortal
           isOpen={isCreateOpen}
-          onClose={() => {
-            if (!createBudget.isPending) setIsCreateOpen(false);
-          }}
+          onClose={() => setIsCreateOpen(false)}
           overlayClassName="fixed inset-0 bg-black/40 modal-overlay animate-fade-in"
         >
           <div
@@ -276,7 +294,13 @@ const BudgetsTab: React.FC = () => {
               <h3 className="mb-4 text-base font-semibold text-foreground dark:text-dark-foreground">
                 {t('financials.budgets.createBudget', 'Create Budget')}
               </h3>
-              <div className="space-y-3">
+              <form
+                className="space-y-3"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleCreateBudget();
+                }}
+              >
                 <input
                   value={projectNameEn}
                   onChange={(e) => setProjectNameEn(e.target.value)}
@@ -317,26 +341,22 @@ const BudgetsTab: React.FC = () => {
                     <option value="AED">AED</option>
                   </select>
                 </div>
-              </div>
               <div className="mt-5 flex justify-end gap-2">
                 <button
-                  onClick={() => {
-                    if (!createBudget.isPending) setIsCreateOpen(false);
-                  }}
+                  type="button"
+                  onClick={() => setIsCreateOpen(false)}
                   className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-800"
                 >
                   {t('common.cancel', 'Cancel')}
                 </button>
                 <button
-                  onClick={handleCreateBudget}
-                  disabled={createBudget.isPending}
-                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-60"
+                  type="submit"
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                 >
-                  {createBudget.isPending
-                    ? t('common.loading', 'Loading...')
-                    : t('financials.budgets.createBudget', 'Create Budget')}
+                  {t('financials.budgets.createBudget', 'Create Budget')}
                 </button>
               </div>
+              </form>
             </div>
         </ModalPortal>
       </div>
@@ -358,11 +378,16 @@ const BudgetsTab: React.FC = () => {
             id="budget-select"
             value={normalizedSelectedBudgetId}
             onChange={(e) => setSelectedBudgetId(e.target.value)}
-            className="w-full min-w-[18rem] max-w-md rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-foreground dark:text-dark-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
+            className={`w-full min-w-[18rem] max-w-md rounded-lg border bg-white dark:bg-slate-800 px-3 py-2 text-sm text-foreground dark:text-dark-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors ${
+              highlightedId === normalizedSelectedBudgetId
+                ? 'border-emerald-400 ring-1 ring-emerald-200 dark:border-emerald-700 dark:ring-emerald-800'
+                : 'border-gray-300 dark:border-slate-600'
+            }`}
           >
             {budgets.map((budget) => (
               <option key={budget.id} value={budget.id}>
-                {budget.projectName[language]} — {budget.fiscalYear}
+                {budget.projectName[language]}
+                {isOptimisticBudget(budget.id) ? ` (${t('common.saving')})` : ''} — {budget.fiscalYear}
               </option>
             ))}
           </select>
@@ -485,9 +510,7 @@ const BudgetsTab: React.FC = () => {
 
       <ModalPortal
         isOpen={isCreateOpen}
-        onClose={() => {
-          if (!createBudget.isPending) setIsCreateOpen(false);
-        }}
+        onClose={() => setIsCreateOpen(false)}
         overlayClassName="fixed inset-0 bg-black/40 modal-overlay animate-fade-in"
       >
         <div
@@ -497,7 +520,13 @@ const BudgetsTab: React.FC = () => {
             <h3 className="mb-4 text-base font-semibold text-foreground dark:text-dark-foreground">
               {t('financials.budgets.createBudget', 'Create Budget')}
             </h3>
-            <div className="space-y-3">
+            <form
+              className="space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCreateBudget();
+              }}
+            >
               <input
                 value={projectNameEn}
                 onChange={(e) => setProjectNameEn(e.target.value)}
@@ -538,26 +567,22 @@ const BudgetsTab: React.FC = () => {
                   <option value="AED">AED</option>
                 </select>
               </div>
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <button
-                onClick={() => {
-                  if (!createBudget.isPending) setIsCreateOpen(false);
-                }}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-800"
-              >
-                {t('common.cancel', 'Cancel')}
-              </button>
-              <button
-                onClick={handleCreateBudget}
-                disabled={createBudget.isPending}
-                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-60"
-              >
-                {createBudget.isPending
-                  ? t('common.loading', 'Loading...')
-                  : t('financials.budgets.createBudget', 'Create Budget')}
-              </button>
-            </div>
+              <div className="mt-5 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateOpen(false)}
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-800"
+                >
+                  {t('common.cancel', 'Cancel')}
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                >
+                  {t('financials.budgets.createBudget', 'Create Budget')}
+                </button>
+              </div>
+            </form>
         </div>
       </ModalPortal>
     </div>

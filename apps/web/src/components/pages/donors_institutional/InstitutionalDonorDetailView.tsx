@@ -8,6 +8,7 @@ import GrantsTab from './GrantsTab';
 import ContactsTab from './ContactsTab';
 import DocumentsTab from './DocumentsTab';
 import { formatCurrency, formatDate, formatRelativeTime } from '../../../lib/utils';
+import { formatInstitutionalLocation } from './countryDisplay';
 
 interface InstitutionalDonorDetailViewProps {
     donor: InstitutionalDonor;
@@ -53,7 +54,7 @@ const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> 
                         <div className="min-w-0">
                             <h1 className="break-words text-2xl font-bold leading-tight text-foreground dark:text-dark-foreground sm:text-3xl">{donor.organizationName[language] || donor.organizationName.en}</h1>
                             <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
-                                <MapPin size={15} /> {t(`institutional_donors.types.${donor.type}`)} / {[donor.city, donor.country].filter(Boolean).join(', ') || donor.country}
+                                <MapPin size={15} /> {t(`institutional_donors.types.${donor.type}`)} / {formatInstitutionalLocation(donor.city, donor.country, t) || t('common.notAvailable')}
                             </p>
                             <div className="mt-4 flex flex-wrap gap-2">
                                 <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-bold text-primary dark:bg-primary/20 dark:text-secondary">{t(`institutional_donors.statuses.${donor.relationshipStatus}`)}</span>
@@ -78,11 +79,11 @@ const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> 
                     </div>
                     <div className="min-w-0">
                         <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.nextDeadline')}</p>
-                        <p className="mt-1 flex items-center gap-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground"><CalendarClock size={14} /> {donor.nextDeadline ? formatDate(donor.nextDeadline, language) : 'N/A'}</p>
+                        <p className="mt-1 flex items-center gap-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground"><CalendarClock size={14} /> {donor.nextDeadline ? formatDate(donor.nextDeadline, language) : t('common.notAvailable')}</p>
                     </div>
                     <div className="min-w-0">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.lastContact', 'Last Contact')}</p>
-                        <p className="mt-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground">{donor.lastContactDate ? formatRelativeTime(donor.lastContactDate, language) : 'N/A'}</p>
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.detail.lastContact')}</p>
+                        <p className="mt-1 break-words text-sm font-bold text-foreground dark:text-dark-foreground">{donor.lastContactDate ? formatRelativeTime(donor.lastContactDate, language) : t('common.notAvailable')}</p>
                     </div>
                     <div className="min-w-0">
                         <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('institutional_donors.columns.focus')}</p>

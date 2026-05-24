@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { StudentProfile } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
-import { GraduationCap, Check, X, TrendingUp } from 'lucide-react';
+import { useToast } from '../../../../hooks/useToast';
+import { GraduationCap, Check, X, TrendingUp, PlusCircle } from 'lucide-react';
 import Section from '../shared/Section';
 import InfoRow from '../shared/InfoRow';
 import EditableField from '../shared/EditableField';
 
-/* ------------------------------------------------------------------ */
-/* GPA visual card                                                     */
-/* ------------------------------------------------------------------ */
 const GpaCard: React.FC<{ gpa: number; label: string; progressLabel: string }> = ({ gpa, label, progressLabel }) => {
     const pct = Math.min((gpa / 4.0) * 100, 100);
     const color = gpa >= 3.5 ? 'text-emerald-600 dark:text-emerald-400' : gpa >= 2.5 ? 'text-blue-600 dark:text-blue-400' : 'text-amber-600 dark:text-amber-400';
@@ -35,9 +33,22 @@ const GpaCard: React.FC<{ gpa: number; label: string; progressLabel: string }> =
     );
 };
 
-/* ------------------------------------------------------------------ */
-/* Main component                                                      */
-/* ------------------------------------------------------------------ */
+const emptyForm = () => ({
+    university: '',
+    field: '',
+    levelEn: '',
+    levelAr: '',
+    gpa: '',
+});
+
+const formFromProfile = (profile: StudentProfile) => ({
+    university: profile.academicInfo?.university || '',
+    field: profile.academicInfo?.field || '',
+    levelEn: profile.academicInfo?.level?.en || '',
+    levelAr: profile.academicInfo?.level?.ar || '',
+    gpa: profile.academicInfo?.gpa?.toString() || '',
+});
+
 interface AcademicsTabProps {
     profile: StudentProfile;
     onUpdate?: (updated: Partial<StudentProfile>) => void;
@@ -45,40 +56,67 @@ interface AcademicsTabProps {
 
 const AcademicsTab: React.FC<AcademicsTabProps> = ({ profile, onUpdate }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const toast = useToast();
     const info = profile.academicInfo;
     const [isEditing, setIsEditing] = useState(false);
-    const [form, setForm] = useState({
-        university: info?.university || '',
-        field: info?.field || '',
-        gpa: info?.gpa?.toString() || '',
-    });
+    const [form, setForm] = useState(() => (info ? formFromProfile(profile) : emptyForm()));
 
-    if (!info) {
-        return <p className="text-gray-500 dark:text-gray-400 text-center py-8">{t('beneficiaries.noData')}</p>;
-    }
+    useEffect(() => {
+        if (!isEditing) {
+            setForm(info ? formFromProfile(profile) : emptyForm());
+        }
+    }, [profile, info, isEditing]);
+
+    const validateForm = (): boolean => {
+        if (form.gpa) {
+            const gpa = parseFloat(form.gpa);
+            if (Number.isNaN(gpa) || gpa < 0 || gpa > 4) {
+                toast.showError(t('beneficiaries.validation.invalidGpa'));
+                return false;
+            }
+        }
+        return true;
+    };
 
     const handleSave = () => {
-        if (!onUpdate) return;
+        if (!onUpdate || !validateForm()) return;
+
         onUpdate({
             ...profile,
             academicInfo: {
                 ...info,
                 university: form.university,
                 field: form.field,
-                gpa: form.gpa ? parseFloat(form.gpa) : info.gpa,
+                level: { en: form.levelEn, ar: form.levelAr || form.levelEn },
+                gpa: form.gpa ? parseFloat(form.gpa) : info?.gpa,
             },
         });
         setIsEditing(false);
+        toast.showSuccess(t('beneficiaries.actions.saved'));
     };
 
     const handleCancel = () => {
-        setForm({
-            university: info?.university || '',
-            field: info?.field || '',
-            gpa: info?.gpa?.toString() || '',
-        });
+        setForm(info ? formFromProfile(profile) : emptyForm());
         setIsEditing(false);
     };
+
+    if (!info && !isEditing) {
+        return (
+            <div className="rounded-xl border border-dashed border-gray-300 bg-white/70 p-10 text-center dark:border-slate-700 dark:bg-slate-900/30">
+                <GraduationCap className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" />
+                <h3 className="mt-3 text-lg font-semibold text-foreground dark:text-dark-foreground">{t('beneficiaries.academics.empty')}</h3>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('beneficiaries.academics.emptyDesc')}</p>
+                {onUpdate && (
+                    <button
+                        onClick={() => setIsEditing(true)}
+                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary-dark transition-colors"
+                    >
+                        <PlusCircle size={16} /> {t('beneficiaries.academics.add')}
+                    </button>
+                )}
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-5">
@@ -93,7 +131,8 @@ const AcademicsTab: React.FC<AcademicsTabProps> = ({ profile, onUpdate }) => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <EditableField label={t('beneficiaries.fields.university')} value={form.university} onChange={v => setForm(f => ({ ...f, university: v }))} />
                             <EditableField label={t('beneficiaries.fields.major')} value={form.field} onChange={v => setForm(f => ({ ...f, field: v }))} />
-                            <InfoRow label={t('beneficiaries.fields.academicYear')} value={info.level?.[language] || '—'} />
+                            <EditableField label={t('beneficiaries.fields.academicYearEn')} value={form.levelEn} onChange={v => setForm(f => ({ ...f, levelEn: v }))} />
+                            <EditableField label={t('beneficiaries.fields.academicYearAr')} value={form.levelAr} onChange={v => setForm(f => ({ ...f, levelAr: v }))} dir="rtl" />
                             <EditableField label={t('beneficiaries.fields.gpa')} value={form.gpa} onChange={v => setForm(f => ({ ...f, gpa: v }))} type="number" />
                         </div>
                         <div className="flex flex-wrap justify-end gap-2 pt-2">
@@ -107,15 +146,15 @@ const AcademicsTab: React.FC<AcademicsTabProps> = ({ profile, onUpdate }) => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <InfoRow label={t('beneficiaries.fields.university')} value={info.university} />
-                        <InfoRow label={t('beneficiaries.fields.major')} value={info.field} />
-                        <InfoRow label={t('beneficiaries.fields.academicYear')} value={info.level?.[language]} />
+                        <InfoRow label={t('beneficiaries.fields.university')} value={info?.university} />
+                        <InfoRow label={t('beneficiaries.fields.major')} value={info?.field} />
+                        <InfoRow label={t('beneficiaries.fields.academicYear')} value={info?.level?.[language]} />
+                        <InfoRow label={t('beneficiaries.fields.gpa')} value={info?.gpa?.toFixed(2)} />
                     </div>
                 )}
             </Section>
 
-            {/* GPA card */}
-            {info.gpa !== undefined && (
+            {info?.gpa !== undefined && !isEditing && (
                 <GpaCard gpa={info.gpa} label={t('beneficiaries.fields.gpa')} progressLabel={t('beneficiaries.fields.gpaProgress')} />
             )}
         </div>

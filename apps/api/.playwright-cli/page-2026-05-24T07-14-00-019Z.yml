@@ -1,0 +1,156 @@
+- generic [ref=e1]:
+  - generic [ref=e17]:
+    - navigation [ref=e18]:
+      - button "Collapse sidebar" [expanded] [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+      - generic [ref=e22]:
+        - generic [ref=e24]: M
+        - heading "MSS.2" [level=1] [ref=e25]
+      - list [ref=e27]:
+        - listitem [ref=e1186]:
+          - link "Dashboard" [ref=e1187] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1189]
+            - generic [ref=e1194]: Dashboard
+        - listitem [ref=e1195]:
+          - link "Bousala" [ref=e1196] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1198]
+            - generic [ref=e1201]: Bousala
+        - listitem [ref=e1202]:
+          - link "Stakeholder Management" [ref=e1203] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1205]
+            - generic [ref=e1210]: Stakeholder Management
+        - listitem [ref=e1211]:
+          - link "Donor Management" [ref=e1212] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1214]
+            - generic [ref=e1216]: Donor Management
+        - listitem [ref=e1217]:
+          - link "Institutional Donors" [ref=e1218] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1220]
+            - generic [ref=e1222]: Institutional Donors
+        - listitem [ref=e1223]:
+          - link "Beneficiary Management" [ref=e1224] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1226]
+            - generic [ref=e1231]: Beneficiary Management
+        - listitem [ref=e1232]:
+          - link "Project Management" [ref=e1233] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1235]
+            - generic [ref=e1239]: Project Management
+        - listitem [ref=e1240]:
+          - link "Financial Management" [ref=e1241] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1243]
+            - generic [ref=e1245]: Financial Management
+        - listitem [ref=e1246]:
+          - link "Help & Support" [ref=e1247] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1249]
+            - generic [ref=e1252]: Help & Support
+        - listitem [ref=e1253]:
+          - link "Settings" [ref=e1254] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1256]
+            - generic [ref=e1259]: Settings
+      - list [ref=e103]:
+        - listitem [ref=e1260]:
+          - link "Logout" [ref=e1261] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e1263]
+            - generic [ref=e1266]: Logout
+    - generic [ref=e111]:
+      - banner [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - heading "Beneficiary Management" [level=1] [ref=e953]
+            - button "liveIndicator.live" [ref=e1450] [cursor=pointer]
+          - generic [ref=e120]:
+            - generic:
+              - img
+            - searchbox "Search everything..." [ref=e121]
+            - button "Search by voice" [ref=e123] [cursor=pointer]:
+              - img [ref=e124]
+        - generic [ref=e127]:
+          - button "Help & Support" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - button "Change language" [ref=e136] [cursor=pointer]:
+            - img [ref=e137]
+            - img "English (US) Flag" [ref=e140]
+          - button "Switch to dark mode" [ref=e146] [cursor=pointer]:
+            - img [ref=e147]
+          - button "View announcements" [ref=e150] [cursor=pointer]:
+            - img [ref=e151]
+          - button "User Welcome! Admin" [ref=e158] [cursor=pointer]:
+            - img "User" [ref=e159]
+            - generic [ref=e160]:
+              - generic [ref=e161]: Welcome!
+              - generic [ref=e162]: Admin
+            - img [ref=e163]
+      - main [ref=e165]:
+        - generic [ref=e1268]:
+          - button "Back to Beneficiaries" [ref=e1269] [cursor=pointer]:
+            - img [ref=e1270]
+            - text: Back to Beneficiaries
+          - generic [ref=e1272]:
+            - img "Yusuf Al-Ahmad" [ref=e1273]
+            - generic [ref=e1274]:
+              - heading "Yusuf Al-Ahmad" [level=1] [ref=e1275]
+              - paragraph [ref=e1276]: Computer Engineering at Istanbul University
+              - generic [ref=e1277]:
+                - generic [ref=e1278]: Active
+                - generic [ref=e1279]: Student
+                - generic [ref=e1280]: Turkey
+          - generic [ref=e1281]:
+            - generic [ref=e1282]:
+              - img [ref=e1284]
+              - generic [ref=e1287]:
+                - paragraph [ref=e1288]: Current GPA
+                - paragraph [ref=e1289]: "3.40"
+            - generic [ref=e1290]:
+              - img [ref=e1292]
+              - generic [ref=e1295]:
+                - paragraph [ref=e1296]: Aid Received
+                - paragraph [ref=e1297]: $250
+            - generic [ref=e1298]:
+              - img [ref=e1300]
+              - generic [ref=e1303]:
+                - paragraph [ref=e1304]: Milestones
+                - paragraph [ref=e1305]: 2/4
+          - generic [ref=e1306]:
+            - navigation [ref=e1309]:
+              - button "Overview" [ref=e1310] [cursor=pointer]
+              - button "Academics" [ref=e1311] [cursor=pointer]
+              - button "Sponsorship" [active] [ref=e1312] [cursor=pointer]
+              - button "Aid & Services" [ref=e1313] [cursor=pointer]
+              - button "Needs Assessment" [ref=e1314] [cursor=pointer]
+              - button "Documents" [ref=e1315] [cursor=pointer]
+            - generic [ref=e1451]:
+              - generic [ref=e1452]:
+                - generic [ref=e1453]:
+                  - generic [ref=e1454]:
+                    - img [ref=e1456]
+                    - heading "Sponsorship" [level=3] [ref=e1458]
+                  - button "Edit Sponsorship" [ref=e1459] [cursor=pointer]:
+                    - img [ref=e1460]
+                - generic [ref=e1463]:
+                  - generic [ref=e1464]:
+                    - paragraph [ref=e1465]: Support Type
+                    - generic [ref=e1466]: Sponsorship
+                  - generic [ref=e1467]:
+                    - paragraph [ref=e1468]: Sponsor / Donor
+                    - button "John Smith" [ref=e1470] [cursor=pointer]:
+                      - text: John Smith
+                      - img [ref=e1471]
+                  - generic [ref=e1475]:
+                    - paragraph [ref=e1476]: Start Date
+                    - generic [ref=e1477]: September 1, 2023
+                  - generic [ref=e1478]:
+                    - paragraph [ref=e1479]: Monthly Amount
+                    - generic [ref=e1480]: $250 (USD)
+              - paragraph [ref=e1481]: Donor profile is linked from Donor Management.
+  - generic [ref=e789]: $0

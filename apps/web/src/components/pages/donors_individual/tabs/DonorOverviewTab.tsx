@@ -3,6 +3,7 @@ import { Check, CheckCircle2, ClipboardList, Clock, DollarSign, Gift, MessageSqu
 import type { DonorProfileActivity, DonorProfileSummary, DonorProfileTask } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import { formatCurrency, formatDate, formatNumber, formatRelativeFromEvent, formatRelativeTime } from '../../../../lib/utils';
+import { normalizeDonorEmail } from '../../../../lib/donorEmail';
 import { EmptyPanel, InfoRow, MetricCard, Section } from './profileUi';
 
 interface DonorOverviewTabProps {
@@ -61,8 +62,9 @@ const DonorOverviewTab: React.FC<DonorOverviewTabProps> = ({
 }) => {
     const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
     const stageLabel = summary.relationship.pipelineStage ? t(`donors.stages.${summary.relationship.pipelineStage}`, summary.relationship.pipelineStage) : 'N/A';
+    const displayEmail = normalizeDonorEmail(summary.donor.email);
     const [isContactEditing, setIsContactEditing] = useState(false);
-    const [contactForm, setContactForm] = useState({ email: summary.donor.email || '', phone: summary.donor.phone || '' });
+    const [contactForm, setContactForm] = useState({ email: displayEmail, phone: summary.donor.phone || '' });
     const { openTasks, completedTasks, overdueTasks } = useMemo(() => {
         const sortedOpenTasks = tasks
             .filter((task) => !task.completed)
@@ -78,7 +80,7 @@ const DonorOverviewTab: React.FC<DonorOverviewTabProps> = ({
 
     useEffect(() => {
         if (!isContactEditing) {
-            setContactForm({ email: summary.donor.email || '', phone: summary.donor.phone || '' });
+            setContactForm({ email: normalizeDonorEmail(summary.donor.email), phone: summary.donor.phone || '' });
         }
     }, [isContactEditing, summary.donor.email, summary.donor.phone]);
 
@@ -187,7 +189,12 @@ const DonorOverviewTab: React.FC<DonorOverviewTabProps> = ({
                                     </button>
                                 )}
                             </div>
-                            <InfoRow label={t('individual_donors.modal.email')} value={<a href={`mailto:${summary.donor.email}`} className="text-primary hover:underline dark:text-secondary">{summary.donor.email}</a>} />
+                            <InfoRow
+                                label={t('individual_donors.modal.email')}
+                                value={displayEmail
+                                    ? <a href={`mailto:${displayEmail}`} className="text-primary hover:underline dark:text-secondary">{displayEmail}</a>
+                                    : t('common.notAvailable', 'N/A')}
+                            />
                             <InfoRow label={t('individual_donors.modal.phone')} value={summary.donor.phone ? <a href={`tel:${summary.donor.phone}`} className="text-primary hover:underline dark:text-secondary">{summary.donor.phone}</a> : 'N/A'} />
                         </div>
                     )}

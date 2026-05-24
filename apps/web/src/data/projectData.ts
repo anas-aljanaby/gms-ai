@@ -25,6 +25,11 @@ const mockDocuments: DocumentItem[] = [
 ];
 
 
+/** Stable React list key when legacy mock rows share the same display id/code. */
+export function projectListKey(project: Pick<Project, 'id'>, index: number): string {
+    return `${index}:${project.id}`;
+}
+
 export const MOCK_PROJECTS: Project[] = [
   {
     id: 'PROJ-2024-004',
@@ -796,7 +801,7 @@ export const MOCK_PROJECTS: Project[] = [
     ]
   },
   {
-    id: 'PROJ-2024-002',
+    id: 'PROJ-2024-008',
     name: {
       en: 'Emergency Food Aid for Conflict Zones',
       ar: 'مساعدات غذائية طارئة لمناطق النزاع'

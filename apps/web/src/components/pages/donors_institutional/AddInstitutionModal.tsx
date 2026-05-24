@@ -3,15 +3,17 @@ import React, { useState } from 'react';
 import type { InstitutionalDonor, InstitutionType, GrantmakerRelationshipStatus, PriorityLevel } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import ModalPortal from '../../common/ModalPortal';
+import CountryCombobox from '../../common/CountryCombobox';
 import { XIcon } from '../../icons/GenericIcons';
 
 interface AddInstitutionModalProps {
     isOpen: boolean;
     onClose: () => void;
     onAdd: (donorData: any) => void;
+    existingCountries?: string[];
 }
 
-const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClose, onAdd }) => {
+const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClose, onAdd, existingCountries = [] }) => {
     const { t } = useLocalization(['common', 'institutional_donors']);
     const [organizationName, setOrganizationName] = useState({ en: '', ar: '' });
     const [type, setType] = useState<InstitutionType>('Foundation');
@@ -46,12 +48,22 @@ const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClo
             relationshipStatus,
             focusAreas: focusAreas.split(',').map(s => s.trim()).filter(Boolean),
             priority,
-            country,
+            country: country.trim(),
             city,
             registrationNumber,
             establishmentDate,
         });
-        // Reset form and close
+        setOrganizationName({ en: '', ar: '' });
+        setType('Foundation');
+        setCountry('');
+        setCity('');
+        setRegistrationNumber('');
+        setEstablishmentDate('');
+        setContactName('');
+        setContactEmail('');
+        setFocusAreas('');
+        setPriority('Medium');
+        setRelationshipStatus('Prospect');
         onClose();
     };
 
@@ -88,7 +100,14 @@ const AddInstitutionModal: React.FC<AddInstitutionModalProps> = ({ isOpen, onClo
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('institutional_donors.modal.country')}</label>
-                                <input type="text" value={country} onChange={e => setCountry(e.target.value)} className="w-full p-2 mt-1 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
+                                <CountryCombobox
+                                    value={country}
+                                    onChange={setCountry}
+                                    existingCountries={existingCountries}
+                                    placeholder={t('common.countryField.placeholder')}
+                                    noResultsText={t('common.countryField.noResults')}
+                                    className="mt-1"
+                                />
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

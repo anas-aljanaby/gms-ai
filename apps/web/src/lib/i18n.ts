@@ -66,6 +66,7 @@ export const NAMESPACE_BY_ROOT_KEY: Record<string, AppNamespace> = {
   sdg_analytics: 'misc',
   matrix: 'misc',
   placeholder: 'misc',
+  emptyState: 'misc',
 };
 
 const STORAGE_KEY = 'dashboardState';

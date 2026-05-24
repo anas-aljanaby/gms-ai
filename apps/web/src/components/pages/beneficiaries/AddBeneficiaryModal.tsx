@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ModalPortal from '../../common/ModalPortal';
+import CountryCombobox from '../../common/CountryCombobox';
 import { XIcon } from '../../icons/GenericIcons';
 import type { Beneficiary, BeneficiaryType, SupportType, BeneficiaryProfile } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
@@ -8,11 +9,12 @@ interface AddBeneficiaryModalProps {
     isOpen: boolean;
     onClose: () => void;
     onAdd: (data: Partial<Beneficiary>) => void;
+    existingCountries?: string[];
 }
 
 const BENEFICIARY_TYPES: BeneficiaryType[] = ['student', 'orphan', 'hafiz', 'family', 'institution', 'community'];
 
-const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClose, onAdd }) => {
+const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClose, onAdd, existingCountries = [] }) => {
     const { t } = useLocalization(['common', 'beneficiaries']);
     const [nameEn, setNameEn] = useState('');
     const [nameAr, setNameAr] = useState('');
@@ -32,7 +34,7 @@ const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClo
             name: { en: nameEn, ar: nameAr || nameEn },
             beneficiaryType,
             supportType,
-            country,
+            country: country.trim(),
             profile,
         });
 
@@ -44,6 +46,7 @@ const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClo
         setCountry('');
         setEmail('');
         setPhone('');
+        onClose();
     };
 
     if (!isOpen) return null;
@@ -88,7 +91,13 @@ const AddBeneficiaryModal: React.FC<AddBeneficiaryModalProps> = ({ isOpen, onClo
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-1">{t('beneficiaries.fields.country')}</label>
-                            <input type="text" value={country} onChange={e => setCountry(e.target.value)} className="w-full p-2 border rounded-lg bg-gray-50 dark:bg-slate-800 dark:border-slate-700 text-sm" />
+                            <CountryCombobox
+                                value={country}
+                                onChange={setCountry}
+                                existingCountries={existingCountries}
+                                placeholder={t('common.countryField.placeholder')}
+                                noResultsText={t('common.countryField.noResults')}
+                            />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>

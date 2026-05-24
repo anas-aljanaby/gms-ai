@@ -113,6 +113,31 @@ export const donor_documents = pgTable('donor_documents', {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
+// BENEFICIARIES MODULE
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const beneficiaries = pgTable('beneficiaries', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    name_en: text('name_en').notNull(),
+    name_ar: text('name_ar').default(''),
+    beneficiary_type: text('beneficiary_type').notNull(),
+    photo: text('photo').default(''),
+    status: text('status').notNull().default('active'),
+    support_type: text('support_type').notNull().default('direct-support'),
+    country: text('country').default(''),
+    project_id: text('project_id'),
+    profile: jsonb('profile').notNull().default({}),
+    aid_log: jsonb('aid_log').default([]),
+    assessments: jsonb('assessments').default([]),
+    milestones: jsonb('milestones').default([]),
+    documents: jsonb('documents').default([]),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
 // FINANCIALS MODULE
 // ═══════════════════════════════════════════════════════════════════════════
 

@@ -2,38 +2,42 @@ import React, { useState } from 'react';
 import type { IndividualDonor } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import ModalPortal from '../../common/ModalPortal';
+import CountryCombobox from '../../common/CountryCombobox';
 import { XIcon } from '../../icons/GenericIcons';
 
 interface AddDonorModalProps {
     isOpen: boolean;
     onClose: () => void;
     onAdd: (donorData: Omit<IndividualDonor, 'id' | 'totalDonations' | 'lastDonationDate' | 'status' | 'tier' | 'tags' | 'assignedManager' | 'avatar' | 'donorSince'>) => void;
+    existingCountries?: string[];
 }
 
-const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd }) => {
+const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd, existingCountries = [] }) => {
     const { t } = useLocalization(['common', 'individual_donors']);
     const [fullName, setFullName] = useState({ en: '', ar: '' });
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('');
+    const [nameError, setNameError] = useState<string | null>(null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!fullName.en || !email) {
-            alert(t('individual_donors.modal.requiredFields'));
+        const nameEn = fullName.en.trim();
+        const nameAr = fullName.ar.trim();
+        if (!nameEn && !nameAr) {
+            setNameError(t('individual_donors.modal.nameRequired'));
             return;
         }
+        setNameError(null);
         onAdd({
             fullName: {
-                en: fullName.en,
-                ar: fullName.ar || fullName.en,
-
+                en: nameEn,
+                ar: nameAr,
             },
-            email,
-            phone,
-            country,
+            email: email.trim(),
+            phone: phone.trim(),
+            country: country.trim(),
         });
-        // Reset form and close
         setFullName({ en: '', ar: '' });
         setEmail('');
         setPhone('');
@@ -55,19 +59,39 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd })
                         <XIcon />
                     </button>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} noValidate>
                     <div className="p-6 space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.fullNameEN')}</label>
-                            <input type="text" value={fullName.en} onChange={e => setFullName(f => ({...f, en: e.target.value}))} required className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
+                            <input
+                                type="text"
+                                value={fullName.en}
+                                onChange={(e) => {
+                                    setFullName((f) => ({ ...f, en: e.target.value }));
+                                    if (nameError) setNameError(null);
+                                }}
+                                className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"
+                            />
                         </div>
                          <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.fullNameAR')}</label>
-                            <input type="text" value={fullName.ar} onChange={e => setFullName(f => ({...f, ar: e.target.value}))} dir="rtl" className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
+                            <input
+                                type="text"
+                                value={fullName.ar}
+                                onChange={(e) => {
+                                    setFullName((f) => ({ ...f, ar: e.target.value }));
+                                    if (nameError) setNameError(null);
+                                }}
+                                dir="rtl"
+                                className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"
+                            />
                         </div>
+                        {nameError && (
+                            <p className="text-sm font-semibold text-red-600 dark:text-red-400" role="alert">{nameError}</p>
+                        )}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.email')}</label>
-                            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
+                            <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.phone')}</label>
@@ -75,7 +99,14 @@ const AddDonorModal: React.FC<AddDonorModalProps> = ({ isOpen, onClose, onAdd })
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('individual_donors.modal.country')}</label>
-                            <input type="text" value={country} onChange={e => setCountry(e.target.value)} className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"/>
+                            <CountryCombobox
+                                value={country}
+                                onChange={setCountry}
+                                existingCountries={existingCountries}
+                                placeholder={t('common.countryField.placeholder')}
+                                noResultsText={t('common.countryField.noResults')}
+                                className="mt-1"
+                            />
                         </div>
                     </div>
                     <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-2xl flex justify-end gap-3">

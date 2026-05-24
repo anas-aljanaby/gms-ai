@@ -29,6 +29,13 @@ import ReportGenerationModal from './bousala/ReportGenerationModal';
 import AddTaskModal from './bousala/AddTaskModal';
 import AddGoalModal from './bousala/AddGoalModal';
 import { useToast } from '../../hooks/useToast';
+import { createOptimisticId, isOptimisticId, OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../lib/optimisticSubmit';
+
+const OPTIMISTIC_TASK_PREFIX = 'optimistic-task-';
+
+function isOptimisticBousalaTask(id: string): boolean {
+    return isOptimisticId(id, OPTIMISTIC_TASK_PREFIX);
+}
 import LinkProjectModal from './bousala/LinkProjectModal';
 import { playFeedbackSound } from '../../lib/audioFeedback';
 import Tooltip from '../common/Tooltip';
@@ -185,8 +192,9 @@ const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: 
     );
 };
 
-const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers'] }> = ({ task, volunteers }) => {
-    const { t } = useLocalization();
+const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers']; highlighted?: boolean }> = ({ task, volunteers, highlighted = false }) => {
+    const { t } = useLocalization(['common', 'bousala']);
+    const optimistic = isOptimisticBousalaTask(task.id);
     const statusConfig = {
         'in-progress': { icon: <Clock className="w-4 h-4 text-yellow-500" />, label: t('bousala.task_status.in-progress') },
         'completed': { icon: <CheckCircle className="w-4 h-4 text-green-500" />, label: t('bousala.task_status.completed') }
@@ -194,16 +202,22 @@ const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers'] }
     const config = statusConfig[task.status as keyof typeof statusConfig] || { icon: <Loader className="w-4 h-4" />, label: task.status };
 
     return (
-        <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-700/50 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+        <div className={`flex items-center justify-between p-4 bg-white dark:bg-slate-700/50 rounded-xl shadow-sm transition-shadow ${
+            optimistic
+                ? 'opacity-70 animate-pulse'
+                : 'hover:shadow-md'
+        } ${highlighted ? 'ring-2 ring-emerald-300 dark:ring-emerald-700' : ''}`}>
             <div className="flex items-center gap-3">
                 <CheckSquare className="w-5 h-5 text-gray-400 flex-shrink-0" />
                 <div>
                     <p className="font-semibold" dir="auto">{task.title}</p>
-                    <p className="text-xs text-gray-500">{t('bousala.common.assigneeLabel')}: {task.assignee}</p>
+                    <p className="text-xs text-gray-500">
+                        {optimistic ? t('common.saving') : `${t('bousala.common.assigneeLabel')}: ${task.assignee}`}
+                    </p>
                 </div>
             </div>
             <div className="flex items-center gap-4">
-                <select className="p-1 text-xs border rounded-md bg-gray-50 dark:bg-slate-800 w-32">
+                <select disabled={optimistic} className="p-1 text-xs border rounded-md bg-gray-50 dark:bg-slate-800 w-32 disabled:opacity-50">
                     <option>{t('bousala.common.assignTaskTo')}</option>
                     {volunteers.map(v => <option key={v.volunteer_id} value={v.volunteer_id}>{v.full_name}</option>)}
                 </select>
@@ -216,7 +230,7 @@ const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers'] }
     );
 };
 
-const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; isAiLoading: boolean; onSuggestTasks: () => void; onPredictRisk: () => void; mainProjects: MainProject[]; volunteers: HrData['volunteers']; }> = ({ project, tasks, isAiLoading, onSuggestTasks, onPredictRisk, mainProjects, volunteers }) => {
+const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; highlightedTaskId?: string | null; isAiLoading: boolean; onSuggestTasks: () => void; onPredictRisk: () => void; mainProjects: MainProject[]; volunteers: HrData['volunteers']; }> = ({ project, tasks, highlightedTaskId = null, isAiLoading, onSuggestTasks, onPredictRisk, mainProjects, volunteers }) => {
     const { t } = useLocalization();
     const [isExpanded, setIsExpanded] = useState(false);
      // Hardcoded mapping for demonstration
@@ -251,7 +265,7 @@ const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; isA
                     >
                         <div className="space-y-3">
                             <h5 className="font-semibold text-sm">{t('bousala.common.linkedTasks')}:</h5>
-                            {tasks.map(task => <TaskItem key={task.id} task={task} volunteers={volunteers}/>)}
+                            {tasks.map(task => <TaskItem key={task.id} task={task} volunteers={volunteers} highlighted={highlightedTaskId === task.id} />)}
                              <div className="flex gap-2 pt-2">
                                 <button disabled={isAiLoading} onClick={onSuggestTasks} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><Sparkles size={14}/> {t('bousala.common.suggestTasksAi')}</button>
                                 <button disabled={isAiLoading} onClick={onPredictRisk} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><ShieldAlert size={14}/> {t('bousala.common.predictRiskAi')}</button>
@@ -586,6 +600,8 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     const [isAlertsCenterOpen, setIsAlertsCenterOpen] = useState(false);
     const [alertCount, setAlertCount] = useState(0);
     const [initialTaskData, setInitialTaskData] = useState(null);
+    const [highlightedTaskId, setHighlightedTaskId] = useState<string | null>(null);
+    const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
      const [kpiSettings, setKpiSettings] = useState<KpiSettings>(() => {
         const saved = sessionStorage.getItem('bousalaKpiSettings');
@@ -841,6 +857,17 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
         };
     }, []);
 
+    useEffect(() => {
+        return () => {
+            if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        };
+    }, []);
+
+    const flashTaskHighlight = useCallback((id: string) => {
+        if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+        setHighlightedTaskId(id);
+        highlightTimerRef.current = setTimeout(() => setHighlightedTaskId(null), OPTIMISTIC_HIGHLIGHT_MS);
+    }, []);
 
     const handleToggle = (goalId: string) => {
         setExpandedGoal(prev => prev === goalId ? null : goalId);
@@ -848,26 +875,41 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     
     const handleAddTask = (newTaskData: { title: string; goalId: string; dueDate: string; priority: string; }) => {
         const project = bousalaState.projects.find(p => p.linkedGoal === newTaskData.goalId);
-        const newTask: BousalaTask = {
-            id: `T-${Date.now()}`,
+        const optimisticId = createOptimisticId(OPTIMISTIC_TASK_PREFIX);
+        const optimistic: BousalaTask = {
+            id: optimisticId,
             title: newTaskData.title,
             description: 'تمت إضافة مهمة جديدة عبر النافذة',
             status: 'in-progress',
             linkedProject: project?.id || '',
-            assignee: 'غير مُعيّن'
+            assignee: 'غير مُعيّن',
         };
         setBousalaState(prev => ({
             ...prev,
-            tasks: [newTask, ...prev.tasks]
+            tasks: [optimistic, ...prev.tasks],
         }));
-        toast.showSuccess(t('bousala.addTaskModal.success'));
-        if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
-        setIsAddTaskModalOpen(false);
-        setInitialTaskData(null); // Clear pre-filled data
 
-        if (kpiSettings.smartRefresh && project) {
-            refreshKpiData(project.linkedGoal);
-        }
+        void simulateLocalPersist((): BousalaTask => ({
+            ...optimistic,
+            id: `T-${Date.now()}`,
+        })).then((created) => {
+            setBousalaState(prev => ({
+                ...prev,
+                tasks: prev.tasks.map(t => (t.id === optimisticId ? created : t)),
+            }));
+            flashTaskHighlight(created.id);
+            toast.showSuccess(t('bousala.addTaskModal.success'));
+            if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
+            if (kpiSettings.smartRefresh && project) {
+                refreshKpiData(project.linkedGoal);
+            }
+        }).catch(() => {
+            setBousalaState(prev => ({
+                ...prev,
+                tasks: prev.tasks.filter(t => t.id !== optimisticId),
+            }));
+            toast.showError(t('common.error', 'Error'));
+        });
     };
     
     const handleLinkProject = (projectIds: string[]) => {
@@ -908,7 +950,6 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
 
         toast.showSuccess(t('bousala.messages.projectLinkedSuccess'));
         if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
-        setIsLinkProjectModalOpen(false);
         if (kpiSettings.smartRefresh) {
             refreshKpiData(expandedGoal);
         }
@@ -957,7 +998,6 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
         });
         toast.showSuccess(t('bousala.messages.kpiAddedSuccess'));
         if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
-        setIsAddKpiModalOpen(false);
         if (kpiSettings.smartRefresh) {
             refreshKpiData(kpiData.goalId);
         }
@@ -1098,6 +1138,7 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                                         key={project.id} 
                                                                         project={project} 
                                                                         tasks={bousalaState.tasks.filter(t => t.linkedProject === project.id)}
+                                                                        highlightedTaskId={highlightedTaskId}
                                                                         isAiLoading={aiLoading === 'tasks' || aiLoading === 'risks'}
                                                                         onSuggestTasks={() => handleAiTaskSuggestion(project)}
                                                                         onPredictRisk={() => handleAiRiskPrediction(project)}

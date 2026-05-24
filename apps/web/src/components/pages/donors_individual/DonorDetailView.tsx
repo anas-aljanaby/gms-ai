@@ -9,6 +9,7 @@ import { invalidateDonorsQueries, useDeleteDonor } from '../../../hooks/useDonor
 import { api } from '../../../lib/api';
 import { formatCurrency, formatDate, formatRelativeFromEvent, occurredAtFromDateInput } from '../../../lib/utils';
 import Tabs from '../../common/Tabs';
+import CountryCombobox from '../../common/CountryCombobox';
 import { ArrowLeft, Check, ExternalLink, FileText, Mail, MapPin, MessageSquare, Pencil, Trash2, Upload, X } from 'lucide-react';
 import LogInteractionModal, { type LogInteractionFormData } from './LogInteractionModal';
 import SendEmailModal from './SendEmailModal';
@@ -21,6 +22,7 @@ interface DonorDetailViewProps {
     donor: IndividualDonor;
     onBack: () => void;
     onDonorUpdated?: (donor: IndividualDonor) => void;
+    existingCountries?: string[];
 }
 
 const DONOR_TYPES: NonNullable<IndividualDonor['donorType']>[] = ['Individual', 'Company', 'Foundation', 'Major Donor', 'Recurring'];
@@ -217,7 +219,8 @@ export const DonorProfileRoute: React.FC<{
     donorId: string;
     onBack: () => void;
     onDonorUpdated?: (donor: IndividualDonor) => void;
-}> = ({ donorId, onBack, onDonorUpdated }) => {
+    existingCountries?: string[];
+}> = ({ donorId, onBack, onDonorUpdated, existingCountries }) => {
     const { t } = useLocalization(['common', 'individual_donors']);
     const donorQuery = useDonorProfileRecord(donorId);
 
@@ -234,10 +237,10 @@ export const DonorProfileRoute: React.FC<{
         );
     }
 
-    return <DonorDetailView donor={donorQuery.data} onBack={onBack} onDonorUpdated={onDonorUpdated} />;
+    return <DonorDetailView donor={donorQuery.data} onBack={onBack} onDonorUpdated={onDonorUpdated} existingCountries={existingCountries} />;
 };
 
-const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDonorUpdated }) => {
+const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDonorUpdated, existingCountries = [] }) => {
     const { t, language } = useLocalization(['common', 'individual_donors', 'donors', 'misc']);
     const toast = useToast();
     const queryClient = useQueryClient();
@@ -306,15 +309,16 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
     const handleHeaderSave = async (event: React.FormEvent) => {
         event.preventDefault();
         const fullNameEn = headerForm.fullNameEn.trim();
-        if (!fullNameEn) {
-            toast.showError(t('individual_donors.modal.requiredFields'));
+        const fullNameAr = headerForm.fullNameAr.trim();
+        if (!fullNameEn && !fullNameAr) {
+            toast.showError(t('individual_donors.modal.nameRequired'));
             return;
         }
 
         const tags = addTag(headerForm.tags, headerForm.pendingTagInput);
         const payload = {
-            full_name_en: fullNameEn,
-            full_name_ar: headerForm.fullNameAr.trim(),
+            full_name_en: fullNameEn || fullNameAr,
+            full_name_ar: fullNameAr || fullNameEn,
             country: headerForm.country.trim(),
             tags,
             status: headerForm.status,
@@ -430,22 +434,46 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
         });
     };
 
-    const handleSendEmail = async (emailData: { to: string; subject: string; body: string }) => {
-        try {
-            await api.post(`/donors/${editableDonor.id}/interactions`, {
-                interaction_type: 'email',
-                occurred_at: new Date().toISOString(),
-                subject: emailData.subject || 'Email sent',
-                notes: emailData.body,
-                status: 'sent',
-            });
+    const handleSendEmail = (emailData: { to: string; subject: string; body: string }) => {
+        const optimisticId = `optimistic-interaction-${Date.now()}`;
+        const optimisticInteraction: DonorProfileInteraction = {
+            id: optimisticId,
+            donor_id: editableDonor.id,
+            interaction_type: 'email',
+            occurred_at: new Date().toISOString(),
+            subject: emailData.subject || 'Email sent',
+            status: 'logged',
+            notes: emailData.body,
+        };
+        setOptimisticInteractions((current) => [optimisticInteraction, ...current]);
+
+        api.post<DonorProfileInteraction>(`/donors/${editableDonor.id}/interactions`, {
+            interaction_type: 'email',
+            occurred_at: new Date().toISOString(),
+            subject: emailData.subject || 'Email sent',
+            notes: emailData.body,
+            status: 'sent',
+        }).then((createdInteraction) => {
+            setOptimisticInteractions((current) => current.filter((item) => item.id !== optimisticId));
+            queryClient.setQueryData<DonorProfileInteraction[]>(
+                ['donor-profile-interactions', editableDonor.id],
+                (current = []) => {
+                    const deduped = current.filter((item) => item.id !== createdInteraction.id);
+                    return [createdInteraction, ...deduped];
+                },
+            );
+            if (interactionHighlightTimerRef.current) clearTimeout(interactionHighlightTimerRef.current);
+            setHighlightedInteractionId(createdInteraction.id);
+            interactionHighlightTimerRef.current = setTimeout(
+                () => setHighlightedInteractionId(null),
+                INTERACTION_HIGHLIGHT_MS,
+            );
             invalidateProfile();
-            toast.showSuccess(`Email logged for ${emailData.to}.`);
-        } catch (error) {
-            toast.showError(error instanceof Error ? error.message : 'Unable to log email interaction.');
-            return;
-        }
-        setIsEmailModalOpen(false);
+            toast.showSuccess(t('individual_donors.detailView.emailLogged', 'Email logged.'));
+        }).catch((error) => {
+            setOptimisticInteractions((current) => current.filter((item) => item.id !== optimisticId));
+            toast.showError(error instanceof Error ? error.message : t('individual_donors.detailView.emailLogFailed', 'Unable to log email interaction.'));
+        });
     };
 
     const handleSaveContact = async ({ email, phone }: { email: string; phone: string }) => {
@@ -453,7 +481,7 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
         const nextPhone = phone.trim();
 
         if (!nextEmail) {
-            toast.showError(t('individual_donors.modal.requiredFields'));
+            toast.showError(t('individual_donors.modal.emailRequired'));
             return;
         }
 
@@ -729,7 +757,14 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
                                         </label>
                                         <label className="min-w-0">
                                             <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('individual_donors.columns.country')}</span>
-                                            <input value={headerForm.country} onChange={(event) => updateHeaderForm('country', event.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900" />
+                                            <CountryCombobox
+                                                value={headerForm.country}
+                                                onChange={(value) => updateHeaderForm('country', value)}
+                                                existingCountries={existingCountries}
+                                                placeholder={t('common.countryField.placeholder')}
+                                                noResultsText={t('common.countryField.noResults')}
+                                                className="mt-1"
+                                            />
                                         </label>
                                         <label className="min-w-0">
                                             <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('individual_donors.columns.owner')}</span>

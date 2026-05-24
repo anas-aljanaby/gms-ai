@@ -84,5 +84,24 @@
   },
   "placeholder": {
     "underConstruction": "{moduleName} قيد التطوير."
+  },
+  "emptyState": {
+    "noData": {
+      "title": "لا يوجد مستفيدون بعد",
+      "button": "إضافة مستفيد"
+    },
+    "noResults": {
+      "title": "لا توجد نتائج مطابقة",
+      "subtitle": "جرّب تعديل البحث أو عوامل التصفية.",
+      "button": "مسح عوامل التصفية"
+    },
+    "noPermission": {
+      "title": "الوصول مقيّد",
+      "subtitle": "ليس لديك صلاحية لعرض هذه البيانات."
+    },
+    "maintenance": {
+      "title": "غير متاح مؤقتًا",
+      "subtitle": "هذا القسم قيد الصيانة. يرجى المحاولة لاحقًا."
+    }
   }
 }

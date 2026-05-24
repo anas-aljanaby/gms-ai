@@ -2,8 +2,11 @@ import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tansta
 import type { DonorStageId, IndividualDonor } from '../types';
 import { api } from '../lib/api';
 import { mapApiDonorToIndividualDonor, type ApiIndividualDonor } from './useDonorProfileSummary';
+import { buildOptimisticDonor } from '../lib/donorOptimistic';
 
 export const DONORS_QUERY_KEY = ['donors'] as const;
+
+export { isOptimisticDonor } from '../lib/donorOptimistic';
 
 export async function fetchDonorsList(): Promise<IndividualDonor[]> {
     const rows = await api.get<ApiIndividualDonor[]>('/donors');
@@ -24,18 +27,22 @@ export interface CreateDonorInput {
 
 export async function createDonorApi(input: CreateDonorInput): Promise<IndividualDonor> {
     const now = new Date().toISOString();
+    const nameEn = input.fullName.en.trim();
+    const nameAr = input.fullName.ar.trim();
+    const email = input.email.trim();
     const row = await api.post<ApiIndividualDonor>('/donors', {
-        full_name_en: input.fullName.en,
-        full_name_ar: input.fullName.ar || input.fullName.en,
-        email: input.email,
-        phone: input.phone || '',
-        country: input.country || '',
+        full_name_en: nameEn,
+        full_name_ar: nameAr,
+        email,
+        phone: input.phone?.trim() || '',
+        country: input.country?.trim() || '',
         status: 'Active',
         tier: 'Bronze',
         tags: [],
         assigned_manager: 'Unassigned',
-        avatar: `https://i.pravatar.cc/150?u=${encodeURIComponent(input.email)}`,
+        avatar: email ? `https://i.pravatar.cc/150?u=${encodeURIComponent(email)}` : '',
         donor_since: now,
+        last_donation_date: null,
         custom_fields: {
             pipeline_stage: 'prospect',
             stage_entered_at: now,
@@ -101,7 +108,36 @@ export const useCreateDonor = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: createDonorApi,
-        onSuccess: () => invalidateDonorsQueries(queryClient),
+        onMutate: async (input) => {
+            await queryClient.cancelQueries({ queryKey: DONORS_QUERY_KEY });
+            const previous = queryClient.getQueryData<IndividualDonor[]>(DONORS_QUERY_KEY);
+            const optimistic = buildOptimisticDonor(input);
+            queryClient.setQueryData<IndividualDonor[]>(DONORS_QUERY_KEY, (old) => [
+                optimistic,
+                ...(old ?? []),
+            ]);
+            return { previous, optimisticId: optimistic.id };
+        },
+        onSuccess: (created, _input, context) => {
+            queryClient.setQueryData<IndividualDonor[]>(DONORS_QUERY_KEY, (old) => {
+                if (!old) return [created];
+                const optimisticId = context?.optimisticId;
+                const withoutOptimistic = optimisticId
+                    ? old.filter((donor) => donor.id !== optimisticId)
+                    : old.filter((donor) => donor.id !== created.id);
+                return [created, ...withoutOptimistic];
+            });
+        },
+        onError: (_error, _input, context) => {
+            if (context?.previous) {
+                queryClient.setQueryData(DONORS_QUERY_KEY, context.previous);
+            }
+        },
+        onSettled: (_data, error) => {
+            if (error) {
+                void queryClient.invalidateQueries({ queryKey: DONORS_QUERY_KEY });
+            }
+        },
     });
 };
 

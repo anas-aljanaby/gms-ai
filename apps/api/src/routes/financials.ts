@@ -1166,6 +1166,8 @@ financialsRouter.get('/disbursements', async (c) => {
     if (type) conditions.push(eq(disbursements.type, type));
     const status = c.req.query('status');
     if (status) conditions.push(eq(disbursements.status, status));
+    const beneficiaryId = c.req.query('beneficiary_id');
+    if (beneficiaryId) conditions.push(eq(disbursements.beneficiary_id, beneficiaryId));
     const search = c.req.query('search');
     if (search) {
         conditions.push(

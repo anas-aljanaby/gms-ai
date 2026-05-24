@@ -15,26 +15,28 @@ interface CreateProjectWizardProps {
   onCreateProject: (project: Omit<Project, 'id'>) => void;
 }
 
+const INITIAL_PROJECT_DATA: Partial<Omit<Project, 'id'>> = {
+    name: { en: '', ar: '' },
+    type: 'humanitarian',
+    stage: 'design',
+    plannedStartDate: '',
+    plannedEndDate: '',
+    location: { country: 'Turkey', city: '' },
+    stakeholders: { donor: '', targetBeneficiaries: '', primaryContact: '' },
+    goal: '',
+    objectives: [''],
+    expectedOutcomes: [''],
+    kpis: [{ id: `kpi-${Date.now()}`, name: '', unit: 'number', target: '' }],
+    progress: 0,
+    budget: 0,
+    spent: 0,
+};
+
 const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClose, onCreateProject }) => {
     const { t, dir } = useLocalization();
     const [currentStep, setCurrentStep] = useState(1);
 
-    const [projectData, setProjectData] = useState<Partial<Omit<Project, 'id'>>>({
-        name: { en: '', ar: '' },
-        type: 'humanitarian',
-        stage: 'design',
-        plannedStartDate: '',
-        plannedEndDate: '',
-        location: { country: 'Turkey', city: '' },
-        stakeholders: { donor: '', targetBeneficiaries: '', primaryContact: '' },
-        goal: '',
-        objectives: [''],
-        expectedOutcomes: [''],
-        kpis: [{ id: `kpi-${Date.now()}`, name: '', unit: 'number', target: '' }],
-        progress: 0,
-        budget: 0,
-        spent: 0,
-    });
+    const [projectData, setProjectData] = useState<Partial<Omit<Project, 'id'>>>(INITIAL_PROJECT_DATA);
 
     const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, 3));
     const handleBack = () => setCurrentStep(prev => Math.max(prev - 1, 1));
@@ -45,6 +47,12 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
 
     const handleCreate = () => {
         onCreateProject(projectData as Omit<Project, 'id'>);
+        setProjectData({
+            ...INITIAL_PROJECT_DATA,
+            kpis: [{ id: `kpi-${Date.now()}`, name: '', unit: 'number', target: '' }],
+        });
+        setCurrentStep(1);
+        onClose();
     };
 
     if (!isOpen) return null;
