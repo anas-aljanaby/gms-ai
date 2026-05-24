@@ -303,6 +303,11 @@ function mapGrant(r: GrantRow, installments: GrantInstallmentRow[] = []) {
 }
 
 function mapApproval(r: ApprovalRow) {
+    const customFields =
+        typeof r.custom_fields === 'object' && r.custom_fields && !Array.isArray(r.custom_fields)
+            ? (r.custom_fields as Record<string, unknown>)
+            : {};
+
     return {
         id: r.id,
         type: r.type,
@@ -320,6 +325,12 @@ function mapApproval(r: ApprovalRow) {
         totalSteps: r.total_steps,
         workflowId: r.workflow_id,
         dueDate: toIso(r.due_date) || undefined,
+        metadata: {
+            beneficiaryNameEn: typeof customFields.beneficiary_name_en === 'string' ? customFields.beneficiary_name_en : undefined,
+            beneficiaryNameAr: typeof customFields.beneficiary_name_ar === 'string' ? customFields.beneficiary_name_ar : undefined,
+            disbursementType: typeof customFields.disbursement_type === 'string' ? customFields.disbursement_type : undefined,
+            beneficiaryId: typeof customFields.beneficiary_id === 'string' ? customFields.beneficiary_id : undefined,
+        },
     };
 }
 
@@ -1234,7 +1245,13 @@ financialsRouter.post('/disbursements', async (c) => {
         total_steps: 1,
         workflow_id: 'disbursement_approval',
         due_date: new Date(d.scheduled_date),
-        custom_fields: { disbursement_id: row.id },
+        custom_fields: {
+            disbursement_id: row.id,
+            beneficiary_id: d.beneficiary_id,
+            beneficiary_name_en: d.beneficiary_name_en,
+            beneficiary_name_ar: d.beneficiary_name_ar,
+            disbursement_type: d.type,
+        },
     }).returning();
 
     return c.json({ disbursement: mapDisbursement(row), approval: mapApproval(approval) }, 201);

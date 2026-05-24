@@ -137,7 +137,8 @@
       "method": "الطريقة",
       "project": "المشروع",
       "status": "الحالة",
-      "noDisbursements": "لا توجد مصروفات مطابقة"
+      "noDisbursements": "لا توجد مصروفات مطابقة",
+      "goToSource": "فتح في الصفحة الأصلية"
     },
     "grantsFunds": {
       "title": "المنح والصناديق",
@@ -170,7 +171,10 @@
       "approve": "موافقة",
       "reject": "رفض",
       "viewDetails": "عرض التفاصيل",
-      "noApprovals": "لا توجد موافقات معلقة"
+      "noApprovals": "لا توجد موافقات معلقة",
+      "disbursementTitle": "موافقة صرف: {{name}}",
+      "disbursementDescription": "اعتماد صرف {{type}} للمستفيد {{name}}",
+      "goToSource": "فتح في الصفحة الأصلية"
     },
     "reports": {
       "title": "التقارير المالية",

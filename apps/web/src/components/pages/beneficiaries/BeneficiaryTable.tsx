@@ -4,6 +4,7 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import { formatDate } from '../../../lib/utils';
 import BeneficiaryStatusBadge from './BeneficiaryStatusBadge';
 import { getBeneficiarySubtitle } from './beneficiaryUtils';
+import { getCountryDisplayName } from '../../../lib/countryOptions';
 
 interface BeneficiaryTableProps {
     beneficiaries: Beneficiary[];
@@ -80,7 +81,9 @@ const BeneficiaryTable: React.FC<BeneficiaryTableProps> = ({ beneficiaries, proj
                                     <td className="px-4 py-3">
                                         <BeneficiaryStatusBadge status={b.status} />
                                     </td>
-                                    <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{b.country}</td>
+                                    <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                        {getCountryDisplayName(b.country, language === 'ar' ? 'ar' : 'en')}
+                                    </td>
                                     <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300 truncate max-w-[180px]">
                                         {project ? project.name[language] : '—'}
                                     </td>

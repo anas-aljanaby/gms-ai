@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
-import { CheckCircle, XCircle, Eye, Clock } from 'lucide-react';
+import { CheckCircle, XCircle, Eye, Clock, ExternalLink } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import { formatCurrency, formatDate } from '../../../lib/utils';
+import { getApprovalDescription, getApprovalRelatedEntityName, getApprovalTitle } from '../../../lib/approvalDisplay';
+import { getApprovalSourceRoute, navigateToFinancialSource } from '../../../lib/financialSourceNavigation';
 import type { ApprovalItem, ApprovalItemType } from '../../../types/financials';
 import { useApproveItem, useApprovals, useRejectItem } from '../../../hooks/useApprovals';
+import { useDisbursements } from '../../../hooks/useDisbursements';
 import ModalPortal from '../../common/ModalPortal';
 
 const TYPE_COLORS: Record<ApprovalItemType, string> = {
@@ -23,9 +26,14 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 const ApprovalsTab: React.FC = () => {
-  const { t, language } = useLocalization();
+  const { t, language } = useLocalization(['common', 'financials']);
   const { showSuccess, showError } = useToast();
   const { data: approvalItems = [] } = useApprovals();
+  const { data: disbursements = [] } = useDisbursements();
+  const disbursementById = useMemo(
+    () => new Map(disbursements.map((d) => [d.id, d])),
+    [disbursements],
+  );
   const approveItem = useApproveItem();
   const rejectItem = useRejectItem();
   const [activeAction, setActiveAction] = React.useState<'approve' | 'reject' | null>(null);
@@ -125,7 +133,9 @@ const ApprovalsTab: React.FC = () => {
           </div>
         )}
 
-        {approvalItems.map((item) => (
+        {approvalItems.map((item) => {
+          const sourceRoute = getApprovalSourceRoute(item, disbursementById);
+          return (
           <div
             key={item.id}
             className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 p-5"
@@ -173,12 +183,12 @@ const ApprovalsTab: React.FC = () => {
 
             {/* Title */}
             <h3 className="text-base font-semibold text-foreground dark:text-dark-foreground mb-1">
-              {item.title}
+              {getApprovalTitle(item, t, language, disbursementById)}
             </h3>
 
             {/* Description */}
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-              {item.description}
+              {getApprovalDescription(item, t, language, disbursementById)}
             </p>
 
             {/* Info row */}
@@ -247,21 +257,35 @@ const ApprovalsTab: React.FC = () => {
                 <Eye className="w-4 h-4" />
                 {t('financials.approvals.viewDetails')}
               </button>
+              {sourceRoute && (
+                <button
+                  type="button"
+                  onClick={() => navigateToFinancialSource(sourceRoute)}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 text-sm font-medium text-primary hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {t('financials.approvals.goToSource')}
+                </button>
+              )}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
-      {viewingItem && (
+      {viewingItem && (() => {
+        const relatedEntityName = getApprovalRelatedEntityName(viewingItem, language, disbursementById);
+        const sourceRoute = getApprovalSourceRoute(viewingItem, disbursementById);
+        return (
       <ModalPortal isOpen={true} onClose={() => setViewingItem(null)} overlayClassName="fixed inset-0 bg-black/40 modal-overlay animate-fade-in">
           <div className="w-full max-w-xl rounded-xl border border-gray-200 bg-card p-5 dark:border-slate-700/50 dark:bg-dark-card" onClick={(e) => e.stopPropagation()}>
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-base font-semibold text-foreground dark:text-dark-foreground">
-                  {viewingItem.title}
+                  {getApprovalTitle(viewingItem, t, language, disbursementById)}
                 </h3>
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  {viewingItem.description}
+                  {getApprovalDescription(viewingItem, t, language, disbursementById)}
                 </p>
               </div>
               <button
@@ -287,15 +311,28 @@ const ApprovalsTab: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300">
                 <span className="font-semibold">{t('financials.approvals.step', { current: viewingItem.currentStep, total: viewingItem.totalSteps })}</span>
               </p>
-              {viewingItem.relatedEntityName && (
+              {relatedEntityName && (
                 <p className="col-span-2 text-gray-600 dark:text-gray-300">
-                  <span className="font-semibold">{t('financials.transactions.relatedEntity')}:</span> {viewingItem.relatedEntityName}
+                  <span className="font-semibold">{t('financials.transactions.relatedEntity')}:</span> {relatedEntityName}
                 </p>
               )}
             </div>
+            {sourceRoute && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => navigateToFinancialSource(sourceRoute)}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-sm font-medium text-white hover:bg-primary/90 transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {t('financials.approvals.goToSource')}
+                </button>
+              </div>
+            )}
           </div>
       </ModalPortal>
-      )}
+        );
+      })()}
     </div>
   );
 };

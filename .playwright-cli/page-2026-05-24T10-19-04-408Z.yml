@@ -1,0 +1,314 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e17]:
+    - navigation [ref=e18]:
+      - button "Collapse sidebar" [expanded] [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+      - generic [ref=e22]:
+        - generic [ref=e24]: M
+        - heading "MSS.2" [level=1] [ref=e25]
+      - list [ref=e27]:
+        - listitem [ref=e28]:
+          - link "Dashboard" [ref=e29] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e31]
+            - generic [ref=e36]: Dashboard
+        - listitem [ref=e37]:
+          - link "Bousala" [ref=e38] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e40]
+            - generic [ref=e43]: Bousala
+        - listitem [ref=e44]:
+          - link "Stakeholder Management" [ref=e45] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e47]
+            - generic [ref=e52]: Stakeholder Management
+        - listitem [ref=e53]:
+          - link "Donor Management" [ref=e54] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e56]
+            - generic [ref=e58]: Donor Management
+        - listitem [ref=e59]:
+          - link "Institutional Donors" [ref=e60] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e62]
+            - generic [ref=e64]: Institutional Donors
+        - listitem [ref=e65]:
+          - link "Beneficiary Management" [ref=e66] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e68]
+            - generic [ref=e73]: Beneficiary Management
+        - listitem [ref=e74]:
+          - link "Project Management" [ref=e75] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e77]
+            - generic [ref=e81]: Project Management
+        - listitem [ref=e82]:
+          - link "Financial Management" [ref=e83] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e85]
+            - generic [ref=e87]: Financial Management
+        - listitem [ref=e88]:
+          - link "Help & Support" [ref=e89] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e91]
+            - generic [ref=e94]: Help & Support
+        - listitem [ref=e95]:
+          - link "Settings" [ref=e96] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e98]
+            - generic [ref=e101]: Settings
+      - list [ref=e103]:
+        - listitem [ref=e104]:
+          - link "Logout" [ref=e105] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e107]
+            - generic [ref=e110]: Logout
+    - generic [ref=e111]:
+      - banner [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - heading "Bousala" [level=1] [ref=e115]
+            - button "liveIndicator.delayed" [ref=e551] [cursor=pointer]
+          - generic [ref=e120]:
+            - generic:
+              - img
+            - searchbox "Search everything..." [ref=e121]
+            - button "Search by voice" [ref=e123] [cursor=pointer]:
+              - img [ref=e124]
+        - generic [ref=e127]:
+          - button "Help & Support" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - button "Change language" [ref=e136] [cursor=pointer]:
+            - img [ref=e137]
+            - img "English (US) Flag" [ref=e140]
+          - button "Switch to dark mode" [ref=e146] [cursor=pointer]:
+            - img [ref=e147]
+          - button "View announcements" [ref=e150] [cursor=pointer]:
+            - img [ref=e151]
+          - button "User Welcome! Admin" [ref=e158] [cursor=pointer]:
+            - img "User" [ref=e159]
+            - generic [ref=e160]:
+              - generic [ref=e161]: Welcome!
+              - generic [ref=e162]: Admin
+            - img [ref=e163]
+      - main [ref=e165]:
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - img [ref=e169]
+              - generic [ref=e172]:
+                - heading "Bousala" [level=1] [ref=e173]
+                - paragraph [ref=e174]: Smart goals and projects management platform
+            - generic [ref=e175]:
+              - button [ref=e176] [cursor=pointer]:
+                - img [ref=e177]
+              - button "Reports" [ref=e180] [cursor=pointer]:
+                - img [ref=e181]
+                - generic [ref=e183]: Reports
+              - generic [ref=e184]:
+                - img [ref=e185]
+                - generic [ref=e187] [cursor=pointer]: Presentation Mode
+                - switch "Presentation Mode" [ref=e188] [cursor=pointer]
+              - button [ref=e190] [cursor=pointer]:
+                - img [ref=e191]
+          - generic [ref=e206]:
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - generic [ref=e209]:
+                  - img [ref=e210]
+                  - generic [ref=e212]:
+                    - 'heading "Smart alert for: Strengthen the organization''s financial sustainability" [level=4] [ref=e213]'
+                    - list [ref=e214]:
+                      - listitem [ref=e215]: "\"Self-funding ratio\" is below 50% of target."
+                      - listitem [ref=e216]: "\"New fundraising campaigns\" is below 50% of target."
+                - generic [ref=e217]:
+                  - paragraph [ref=e218]:
+                    - img [ref=e219]
+                    - text: "Recommendations:"
+                  - paragraph [ref=e222]: Failed to generate recommendation. Please try again later.
+              - button [ref=e223] [cursor=pointer]:
+                - img [ref=e224]
+            - generic [ref=e227]:
+              - generic [ref=e228]:
+                - generic [ref=e229]:
+                  - img [ref=e230]
+                  - generic [ref=e232]:
+                    - 'heading "Smart alert for: Expand educational services reach" [level=4] [ref=e233]'
+                    - list [ref=e234]:
+                      - listitem [ref=e235]: "\"Course completion rate\" is trending downward."
+                - generic [ref=e236]:
+                  - paragraph [ref=e237]:
+                    - img [ref=e238]
+                    - text: "Recommendations:"
+                  - paragraph [ref=e241]: Failed to generate recommendation. Please try again later.
+              - button [ref=e242] [cursor=pointer]:
+                - img [ref=e243]
+          - generic [ref=e194]:
+            - button "Dashboard" [ref=e195] [cursor=pointer]
+            - button "Predictive Analysis" [ref=e196] [cursor=pointer]
+          - generic [ref=e246]:
+            - generic [ref=e247]:
+              - generic [ref=e248]:
+                - generic [ref=e250]:
+                  - generic [ref=e251]:
+                    - generic [ref=e252]:
+                      - img [ref=e253]
+                      - generic [ref=e257]:
+                        - heading "Strengthen the organization's financial sustainability" [level=3] [ref=e258]
+                        - paragraph [ref=e259]: Increase self-funding sources by 20% during the current fiscal year.
+                        - paragraph [ref=e260]:
+                          - generic [ref=e261]: "Responsible Person:"
+                          - text: Fatma Kaya
+                    - generic [ref=e262]:
+                      - button "Edit goal" [ref=e263] [cursor=pointer]:
+                        - img [ref=e264]
+                      - button "Delete goal" [ref=e267] [cursor=pointer]:
+                        - img [ref=e268]
+                      - button [ref=e271] [cursor=pointer]:
+                        - img [ref=e272]
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: Progress
+                    - generic [ref=e278]: 65%
+                  - generic [ref=e281]:
+                    - button "AI Suggestions" [ref=e283] [cursor=pointer]:
+                      - img [ref=e284]
+                      - text: AI Suggestions
+                    - button "Add KPI" [ref=e297] [cursor=pointer]:
+                      - img [ref=e298]
+                      - text: Add KPI
+                - generic [ref=e301]:
+                  - generic [ref=e302]:
+                    - heading "KPIs" [level=5] [ref=e303]
+                    - generic [ref=e304]:
+                      - generic [ref=e306]:
+                        - generic [ref=e307]:
+                          - heading "Self-funding ratio" [level=5] [ref=e308]
+                          - generic [ref=e309]:
+                            - button "Edit KPI" [ref=e310] [cursor=pointer]:
+                              - img [ref=e311]
+                            - button "Delete KPI" [ref=e314] [cursor=pointer]:
+                              - img [ref=e315]
+                            - img [ref=e319]
+                        - generic [ref=e322]:
+                          - generic [ref=e323]: "9"
+                          - generic [ref=e324]: / 20 %
+                      - generic [ref=e328]:
+                        - generic [ref=e329]:
+                          - heading "New fundraising campaigns" [level=5] [ref=e330]
+                          - generic [ref=e331]:
+                            - button "Edit KPI" [ref=e332] [cursor=pointer]:
+                              - img [ref=e333]
+                            - button "Delete KPI" [ref=e336] [cursor=pointer]:
+                              - img [ref=e337]
+                            - img [ref=e341]
+                        - generic [ref=e342]:
+                          - generic [ref=e343]: "2"
+                          - generic [ref=e344]: / 5 campaign
+                  - generic [ref=e347]:
+                    - heading "Projects:" [level=5] [ref=e348]
+                    - generic [ref=e350]:
+                      - generic [ref=e351]:
+                        - button "Launch annual waqf campaign Marketing campaign to raise donations for the waqf fund." [ref=e352] [cursor=pointer]:
+                          - generic [ref=e353]:
+                            - img [ref=e354]
+                            - generic [ref=e357]:
+                              - heading "Launch annual waqf campaign" [level=4] [ref=e358]
+                              - paragraph [ref=e359]: Marketing campaign to raise donations for the waqf fund.
+                          - img [ref=e360]
+                        - generic [ref=e362]:
+                          - button "Edit project" [ref=e363] [cursor=pointer]:
+                            - img [ref=e364]
+                          - button "Unlink project" [ref=e367] [cursor=pointer]:
+                            - img [ref=e368]
+                      - generic [ref=e373]:
+                        - generic [ref=e374]: Progress
+                        - generic [ref=e375]: 65%
+              - generic [ref=e380]:
+                - generic [ref=e381]:
+                  - generic [ref=e382]:
+                    - img [ref=e383]
+                    - generic [ref=e387]:
+                      - heading "Expand educational services reach" [level=3] [ref=e388]
+                      - paragraph [ref=e389]: Reach 500 new beneficiaries in educational programs by year end.
+                      - paragraph [ref=e390]:
+                        - generic [ref=e391]: "Responsible Person:"
+                        - text: Ali Veli
+                  - generic [ref=e392]:
+                    - button "Edit goal" [ref=e393] [cursor=pointer]:
+                      - img [ref=e394]
+                    - button "Delete goal" [ref=e397] [cursor=pointer]:
+                      - img [ref=e398]
+                    - button [ref=e401] [cursor=pointer]:
+                      - img [ref=e402]
+                - generic [ref=e406]:
+                  - generic [ref=e407]: Progress
+                  - generic [ref=e408]: 42%
+                - generic [ref=e411]:
+                  - button "AI Suggestions" [ref=e413] [cursor=pointer]:
+                    - img [ref=e414]
+                    - text: AI Suggestions
+                  - button "Add KPI" [ref=e427] [cursor=pointer]:
+                    - img [ref=e428]
+                    - text: Add KPI
+            - generic [ref=e432]:
+              - button "AI Assistant" [ref=e433] [cursor=pointer]:
+                - heading "AI Assistant" [level=3] [ref=e434]:
+                  - img [ref=e435]
+                  - text: AI Assistant
+                - generic [ref=e438]:
+                  - img [ref=e439]
+                  - img [ref=e446]
+              - generic [ref=e449]:
+                - generic [ref=e450]:
+                  - button "Recommendations" [ref=e451] [cursor=pointer]:
+                    - heading "Recommendations" [level=4] [ref=e452]:
+                      - img [ref=e453]
+                      - text: Recommendations
+                    - img [ref=e456]
+                  - generic [ref=e460]:
+                    - heading "General Suggestion" [level=5] [ref=e461]
+                    - generic [ref=e462]: Consider splitting larger tasks into smaller ones to track progress better.
+                - generic [ref=e463]:
+                  - button "Performance Insights" [ref=e464] [cursor=pointer]:
+                    - heading "Performance Insights" [level=4] [ref=e465]:
+                      - img [ref=e466]
+                      - text: Performance Insights
+                    - img [ref=e478]
+                  - generic [ref=e482]:
+                    - heading "Performance Analysis" [level=5] [ref=e483]
+                    - generic [ref=e484]: Goal progress and linked project progress should be monitored together for better decisions.
+                - generic [ref=e485]:
+                  - button "Risk Forecast" [ref=e486] [cursor=pointer]:
+                    - heading "Risk Forecast" [level=4] [ref=e487]:
+                      - img [ref=e488]
+                      - text: Risk Forecast
+                    - img [ref=e490]
+                  - generic [ref=e494]:
+                    - heading "Potential Risks" [level=5] [ref=e495]
+                    - generic [ref=e496]: Review key deadlines regularly to reduce the risk of delays.
+                - generic [ref=e497]:
+                  - heading "Suggested Actions" [level=4] [ref=e498]:
+                    - img [ref=e499]
+                    - text: Suggested Actions
+                  - generic [ref=e501]:
+                    - button "Add Goal" [ref=e502] [cursor=pointer]:
+                      - img [ref=e503]
+                      - text: Add Goal
+                    - button "Add Task" [ref=e505] [cursor=pointer]:
+                      - img [ref=e506]
+                      - text: Add Task
+                    - button "Link Project" [ref=e509] [cursor=pointer]:
+                      - img [ref=e510]
+                      - text: Link Project
+                    - button "View Reports" [ref=e513] [cursor=pointer]:
+                      - img [ref=e514]
+                      - text: View Reports
+  - alert [ref=e552]:
+    - generic [ref=e554]:
+      - img [ref=e556]
+      - generic [ref=e559]:
+        - paragraph [ref=e560]: Success
+        - paragraph [ref=e561]: Goal "Phase 3 Test Goal" was added successfully.
+      - button "Close" [ref=e563] [cursor=pointer]:
+        - generic [ref=e564]: Close
+        - img [ref=e565]

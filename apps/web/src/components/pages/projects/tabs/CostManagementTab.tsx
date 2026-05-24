@@ -1,12 +1,12 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import type { Project } from '../../../../types';
 import AiCard from '../../ai/AiCard';
-import { formatCurrency, formatDate } from '../../../../lib/utils';
+import { formatCurrency, formatDate, formatNumber } from '../../../../lib/utils';
 import { useTheme } from '../../../../hooks/useTheme';
-import { PlusCircle, X, Check } from 'lucide-react';
+import { PlusCircle, X, Check, Pencil } from 'lucide-react';
 import { useProjectExpenses } from '../../../../hooks/useProjects';
 import { useToast } from '../../../../hooks/useToast';
 
@@ -32,6 +32,24 @@ const emptyExpenseForm = (): ExpenseForm => ({
     amount: '',
 });
 
+const CHART_PANEL_CLASSNAME = 'rounded-2xl border border-gray-100 bg-white/70 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/30 sm:p-5';
+const CHART_GRID_COLOR = '#e5e7eb';
+const CHART_GRID_COLOR_DARK = '#334155';
+
+const formatAxisCurrency = (value: number, language: 'en' | 'ar') => {
+    const absoluteValue = Math.abs(value);
+    const sign = value < 0 ? '-' : '';
+
+    if (absoluteValue >= 1000) {
+        const compactValue = absoluteValue >= 100000
+            ? Math.round(absoluteValue / 1000)
+            : Number((absoluteValue / 1000).toFixed(1));
+        return `${sign}US$${formatNumber(compactValue, language, { maximumFractionDigits: 1 })}k`;
+    }
+
+    return `${sign}US$${formatNumber(absoluteValue, language, { maximumFractionDigits: 0 })}`;
+};
+
 const KpiCard: React.FC<{ title: string; value: string; colorClass: string }> = ({ title, value, colorClass }) => (
     <div className="bg-card dark:bg-dark-card/50 p-4 rounded-xl shadow-soft">
         <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400">{title}</h4>
@@ -39,8 +57,8 @@ const KpiCard: React.FC<{ title: string; value: string; colorClass: string }> = 
     </div>
 );
 
-const CostManagementTab: React.FC<CostManagementTabProps> = ({ project, isInitiallyActive }) => {
-    const { t, language } = useLocalization(['projects']);
+const CostManagementTab: React.FC<CostManagementTabProps> = ({ project, isInitiallyActive, onUpdate }) => {
+    const { t, language } = useLocalization(['common', 'projects']);
     const { theme } = useTheme();
     const toast = useToast();
     const { data: expenses = project.costManagement.expenseLog, createExpense } = useProjectExpenses(project.id);
@@ -48,6 +66,12 @@ const CostManagementTab: React.FC<CostManagementTabProps> = ({ project, isInitia
     const kpiCardRef = useRef<HTMLDivElement>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [form, setForm] = useState<ExpenseForm>(emptyExpenseForm());
+    const [isBudgetEditing, setIsBudgetEditing] = useState(false);
+    const [budget, setBudget] = useState(project.budget);
+
+    useEffect(() => {
+        if (!isBudgetEditing) setBudget(project.budget);
+    }, [project.budget, isBudgetEditing]);
 
     useEffect(() => {
         if (isInitiallyActive && kpiCardRef.current) {
@@ -77,62 +101,220 @@ const CostManagementTab: React.FC<CostManagementTabProps> = ({ project, isInitia
     };
 
     const totalSpent = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-    const remainingBudget = project.budget - totalSpent;
-    const budgetData = project.costManagement.budgetDetails.map(item => ({
-        name: t(`projects.cost.categories.${item.category}`, item.category),
-        Planned: item.planned,
-        Actual: item.actual,
-    }));
+    const remainingBudget = budget - totalSpent;
+    const budgetData = useMemo(() => (
+        project.costManagement.budgetDetails.map(item => ({
+            name: t(`projects.cost.categories.${item.category}`, item.category),
+            planned: item.planned,
+            actual: item.actual,
+        }))
+    ), [project.costManagement.budgetDetails, t]);
+    const burnRateData = useMemo(() => {
+        if (project.costManagement.financialSummary.burnRate.length > 0) {
+            return project.costManagement.financialSummary.burnRate;
+        }
+
+        if (expenses.length === 0) {
+            return [];
+        }
+
+        const groupedExpenses = new Map<string, number>();
+        expenses.forEach((expense) => {
+            const bucket = expense.date.slice(0, 7);
+            groupedExpenses.set(bucket, (groupedExpenses.get(bucket) ?? 0) + expense.amount);
+        });
+
+        return Array.from(groupedExpenses.entries())
+            .sort(([left], [right]) => left.localeCompare(right))
+            .map(([bucket, value]) => ({
+                month: new Intl.DateTimeFormat(language === 'ar' ? 'ar-SA-u-nu-latn' : 'en-US', { month: 'short' }).format(new Date(`${bucket}-01T00:00:00`)),
+                value,
+            }));
+    }, [expenses, language, project.costManagement.financialSummary.burnRate]);
+    const hasBurnRateData = burnRateData.length > 0;
+
+    const handleBudgetSave = () => {
+        onUpdate?.({ ...project, budget: Math.max(0, budget) });
+        setIsBudgetEditing(false);
+        toast.showSuccess(t('projects.updateSuccess', 'Project updated successfully'));
+    };
+
+    const handleBudgetCancel = () => {
+        setBudget(project.budget);
+        setIsBudgetEditing(false);
+    };
 
     const inputClass = "w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-dark-foreground focus:ring-1 focus:ring-primary";
     const labelClass = "block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1";
 
     return (
         <div className="space-y-6">
+            <div className="bg-card dark:bg-dark-card rounded-2xl shadow-soft border dark:border-slate-700/50 p-5">
+                <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold">{t('projects.cost.totalBudget')}</h3>
+                    {onUpdate && (
+                        !isBudgetEditing ? (
+                            <button onClick={() => setIsBudgetEditing(true)} className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-primary hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg">
+                                <Pencil size={13} /> {t('common.edit')}
+                            </button>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <button onClick={handleBudgetCancel} className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-red-600 rounded-lg">
+                                    <X size={13} /> {t('common.cancel')}
+                                </button>
+                                <button onClick={handleBudgetSave} className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-white bg-primary hover:bg-primary-dark rounded-lg">
+                                    <Check size={13} /> {t('common.save')}
+                                </button>
+                            </div>
+                        )
+                    )}
+                </div>
+                {!isBudgetEditing ? (
+                    <p className="text-2xl font-bold text-foreground dark:text-dark-foreground">{formatCurrency(project.budget, language)}</p>
+                ) : (
+                    <input
+                        type="number"
+                        min={0}
+                        className={`${inputClass} max-w-xs`}
+                        value={budget}
+                        onChange={e => setBudget(Number(e.target.value) || 0)}
+                    />
+                )}
+            </div>
+
             <AiCard title={t('projects.cost.dashboard')} ref={kpiCardRef}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <KpiCard title={t('projects.cost.totalBudget')} value={formatCurrency(project.budget, language)} colorClass="text-foreground dark:text-dark-foreground" />
+                    <KpiCard title={t('projects.cost.totalBudget')} value={formatCurrency(budget, language)} colorClass="text-foreground dark:text-dark-foreground" />
                     <KpiCard title={t('projects.cost.totalSpent')} value={formatCurrency(totalSpent, language)} colorClass="text-orange-500" />
                     <KpiCard title={t('projects.cost.remaining')} value={formatCurrency(remainingBudget, language)} colorClass={remainingBudget > 0 ? "text-green-500" : "text-red-500"} />
                     <KpiCard title={t('projects.cost.earnedValue')} value={formatCurrency(project.costManagement.financialSummary.ev, language)} colorClass="text-purple-500" />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <h4 className="font-semibold mb-2">{t('projects.cost.plannedVsActual')}</h4>
-                        <div className="h-64">
+                    <div className={CHART_PANEL_CLASSNAME}>
+                        <h4 className="mb-3 text-sm font-semibold text-foreground dark:text-dark-foreground">{t('projects.cost.plannedVsActual')}</h4>
+                        <div className="h-72" dir="ltr">
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={budgetData}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#444" : "#ddd"} />
-                                    <XAxis dataKey="name" tick={{ fill: isDark ? "#fff" : "#333", fontSize: 12 }} />
-                                    <YAxis tickFormatter={(val) => formatCurrency(Number(val), language).replace('$', '$/k')} tick={{ fill: isDark ? "#fff" : "#333" }} />
-                                    <Tooltip formatter={(value: unknown) => {
-                                        const n = Number(value);
-                                        return isNaN(n) ? String(value) : formatCurrency(n, language);
-                                    }} />
-                                    <Legend />
-                                    <Bar dataKey="Planned" fill="#8884d8" />
-                                    <Bar dataKey="Actual" fill="#82ca9d" />
+                                <BarChart
+                                    data={budgetData}
+                                    margin={{ top: 8, right: 12, left: 12, bottom: 8 }}
+                                    barCategoryGap="22%"
+                                >
+                                    <CartesianGrid
+                                        vertical={false}
+                                        strokeDasharray="3 3"
+                                        stroke={isDark ? CHART_GRID_COLOR_DARK : CHART_GRID_COLOR}
+                                    />
+                                    <XAxis
+                                        dataKey="name"
+                                        tick={{ fill: isDark ? "#cbd5e1" : "#64748b", fontSize: 12 }}
+                                        tickLine={false}
+                                        axisLine={{ stroke: isDark ? CHART_GRID_COLOR_DARK : CHART_GRID_COLOR }}
+                                        tickMargin={10}
+                                        interval={0}
+                                    />
+                                    <YAxis
+                                        width={76}
+                                        tickFormatter={(value) => formatAxisCurrency(Number(value), language)}
+                                        tick={{ fill: isDark ? "#cbd5e1" : "#64748b", fontSize: 12 }}
+                                        tickLine={false}
+                                        axisLine={false}
+                                        tickMargin={8}
+                                    />
+                                    <Tooltip
+                                        formatter={(value: unknown) => {
+                                            const n = Number(value);
+                                            return isNaN(n) ? String(value) : formatCurrency(n, language);
+                                        }}
+                                        contentStyle={{
+                                            backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                                            borderColor: isDark ? '#334155' : '#e2e8f0',
+                                            borderRadius: '12px',
+                                            fontSize: '12px',
+                                        }}
+                                    />
+                                    <Legend
+                                        verticalAlign="bottom"
+                                        height={28}
+                                        iconType="square"
+                                        wrapperStyle={{ paddingTop: '16px', fontSize: '12px' }}
+                                    />
+                                    <Bar dataKey="planned" name={t('projects.cost.planned')} fill="#7c7ce0" radius={[8, 8, 0, 0]} maxBarSize={40} />
+                                    <Bar dataKey="actual" name={t('projects.cost.actual')} fill="#7fc8a6" radius={[8, 8, 0, 0]} maxBarSize={40} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
-                    <div>
-                        <h4 className="font-semibold mb-2">{t('projects.cost.burnRate')}</h4>
-                        <div className="h-64">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={project.costManagement.financialSummary.burnRate}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#444" : "#ddd"} />
-                                    <XAxis dataKey="month" tick={{ fill: isDark ? "#fff" : "#333", fontSize: 12 }} />
-                                    <YAxis tickFormatter={(val) => formatCurrency(Number(val), language)} tick={{ fill: isDark ? "#fff" : "#333" }} />
-                                    <Tooltip formatter={(value: unknown) => {
-                                        const n = Number(value);
-                                        return isNaN(n) ? String(value) : formatCurrency(n, language);
-                                    }} />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="value" name="Spent" stroke="#ef4444" />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
+                    <div className={CHART_PANEL_CLASSNAME}>
+                        <h4 className="mb-3 text-sm font-semibold text-foreground dark:text-dark-foreground">{t('projects.cost.burnRate')}</h4>
+                        {hasBurnRateData ? (
+                            <div className="h-72" dir="ltr">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart
+                                        data={burnRateData}
+                                        margin={{ top: 8, right: 12, left: 12, bottom: 8 }}
+                                    >
+                                        <CartesianGrid
+                                            vertical={false}
+                                            strokeDasharray="3 3"
+                                            stroke={isDark ? CHART_GRID_COLOR_DARK : CHART_GRID_COLOR}
+                                        />
+                                        <XAxis
+                                            dataKey="month"
+                                            tick={{ fill: isDark ? "#cbd5e1" : "#64748b", fontSize: 12 }}
+                                            tickLine={false}
+                                            axisLine={{ stroke: isDark ? CHART_GRID_COLOR_DARK : CHART_GRID_COLOR }}
+                                            tickMargin={10}
+                                        />
+                                        <YAxis
+                                            width={76}
+                                            tickFormatter={(value) => formatAxisCurrency(Number(value), language)}
+                                            tick={{ fill: isDark ? "#cbd5e1" : "#64748b", fontSize: 12 }}
+                                            tickLine={false}
+                                            axisLine={false}
+                                            tickMargin={8}
+                                        />
+                                        <Tooltip
+                                            formatter={(value: unknown) => {
+                                                const n = Number(value);
+                                                return isNaN(n) ? String(value) : formatCurrency(n, language);
+                                            }}
+                                            contentStyle={{
+                                                backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                                                borderColor: isDark ? '#334155' : '#e2e8f0',
+                                                borderRadius: '12px',
+                                                fontSize: '12px',
+                                            }}
+                                        />
+                                        <Legend
+                                            verticalAlign="bottom"
+                                            height={28}
+                                            iconType="plainline"
+                                            wrapperStyle={{ paddingTop: '16px', fontSize: '12px' }}
+                                        />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="value"
+                                            name={t('projects.cost.monthlySpend')}
+                                            stroke="#f97316"
+                                            strokeWidth={2.5}
+                                            dot={{ r: 4, fill: '#f97316', strokeWidth: 0 }}
+                                            activeDot={{ r: 6, fill: '#f97316', stroke: isDark ? '#0f172a' : '#ffffff', strokeWidth: 2 }}
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        ) : (
+                            <div className="flex h-72 items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50/80 px-6 text-center dark:border-slate-700 dark:bg-slate-900/20">
+                                <div className="max-w-xs space-y-2">
+                                    <p className="text-sm font-semibold text-foreground dark:text-dark-foreground">
+                                        {t('projects.cost.noBurnRateData')}
+                                    </p>
+                                    <p className="text-xs leading-6 text-gray-500 dark:text-gray-400">
+                                        {t('projects.cost.noBurnRateHint')}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </AiCard>

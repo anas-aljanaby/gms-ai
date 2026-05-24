@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
+import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { SIDEBAR_MODULES } from '../../constants';
 import { LogoutIcon } from '../icons/ModuleIcons';
@@ -21,6 +22,7 @@ interface MobileSidebarProps {
 
 const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose, activeModule, setActiveModule, role, setRole }) => {
   const { t, language, setLanguage, dir } = useLocalization();
+  const { signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
@@ -140,7 +142,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose, activeMo
                       {theme === 'light' ? <MoonIcon /> : <SunIcon />}
                     </button>
                 </div>
-                <a href="#" onClick={(e) => e.preventDefault()}
+                <a href="#" onClick={(e) => { e.preventDefault(); void signOut(); onClose(); }}
                     className={`flex items-center p-3 rounded-lg transition-all duration-200 active:scale-95 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 ${dir === 'rtl' ? 'flex-row-reverse' : ''}`}
                 >
                     <LogoutIcon />

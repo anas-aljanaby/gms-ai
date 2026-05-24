@@ -200,6 +200,7 @@ const BeneficiariesModule: React.FC<BeneficiariesModuleProps> = ({ deepLinkTarge
                 onUpdate={handleUpdate}
                 projects={BENEFICIARY_MOCK_PROJECTS}
                 existingCountries={countries}
+                initialTab={deepLinkTarget?.tab}
             />
         );
     }
@@ -214,6 +215,7 @@ const BeneficiariesModule: React.FC<BeneficiariesModuleProps> = ({ deepLinkTarge
                 onUpdate={handleUpdate}
                 projects={BENEFICIARY_MOCK_PROJECTS}
                 existingCountries={countries}
+                initialTab={deepLinkTarget?.tab}
             />
         );
     }

@@ -1,16 +1,26 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useLocalization } from '../../../../hooks/useLocalization';
+import { useToast } from '../../../../hooks/useToast';
 import type { Project } from '../../../../types';
 import AiCard from '../../ai/AiCard';
 import { formatCurrency } from '../../../../lib/utils';
+import { Pencil, Check, X } from 'lucide-react';
 
 interface MonitoringTabProps {
     project: Project;
+    onUpdate?: (updated: Project) => void;
 }
 
-const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
-    const { t, language } = useLocalization(['projects']);
+const MonitoringTab: React.FC<MonitoringTabProps> = ({ project, onUpdate }) => {
+    const { t, language } = useLocalization(['common', 'projects']);
+    const toast = useToast();
+    const [isEditing, setIsEditing] = useState(false);
+    const [progress, setProgress] = useState(project.progress);
+
+    useEffect(() => {
+        if (!isEditing) setProgress(project.progress);
+    }, [project.progress, isEditing]);
 
     const taskStats = useMemo(() => {
         const stats = { pending: 0, inProgress: 0, completed: 0 };
@@ -38,6 +48,18 @@ const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
     ];
     const TASK_COLORS = ['#6B7280', '#F59E0B', '#22C55E'];
 
+    const handleSave = () => {
+        const clamped = Math.min(100, Math.max(0, progress));
+        onUpdate?.({ ...project, progress: clamped });
+        setIsEditing(false);
+        toast.showSuccess(t('projects.updateSuccess', 'Project updated successfully'));
+    };
+
+    const handleCancel = () => {
+        setProgress(project.progress);
+        setIsEditing(false);
+    };
+
     const statCards = [
         {
             label: t('projects.monitoring.overallCompletion'),
@@ -63,8 +85,47 @@ const MonitoringTab: React.FC<MonitoringTabProps> = ({ project }) => {
         },
     ];
 
+    const inputClass = 'w-24 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-dark-foreground focus:ring-1 focus:ring-primary';
+
     return (
         <div className="space-y-6">
+            <div className="bg-card dark:bg-dark-card rounded-2xl shadow-soft border dark:border-slate-700/50 p-5">
+                <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold">{t('projects.monitoring.overallCompletion')}</h3>
+                    {onUpdate && (
+                        !isEditing ? (
+                            <button onClick={() => setIsEditing(true)} className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-primary hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg">
+                                <Pencil size={13} /> {t('common.edit')}
+                            </button>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <button onClick={handleCancel} className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-red-600 rounded-lg">
+                                    <X size={13} /> {t('common.cancel')}
+                                </button>
+                                <button onClick={handleSave} className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-white bg-primary hover:bg-primary-dark rounded-lg">
+                                    <Check size={13} /> {t('common.save')}
+                                </button>
+                            </div>
+                        )
+                    )}
+                </div>
+                {!isEditing ? (
+                    <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{project.progress}%</p>
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="number"
+                            min={0}
+                            max={100}
+                            className={inputClass}
+                            value={progress}
+                            onChange={e => setProgress(Math.min(100, Math.max(0, Number(e.target.value) || 0)))}
+                        />
+                        <span className="text-sm text-gray-500">%</span>
+                    </div>
+                )}
+            </div>
+
             <AiCard title={t('projects.monitoring.kpis')}>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {statCards.map(card => (

@@ -31,7 +31,7 @@ const levelMap: Record<RiskLevel, number> = { low: 0, medium: 1, high: 2 };
 const scoreMap: Record<RiskLevel, number> = { low: 1, medium: 2, high: 3 };
 
 const RiskManagementTab: React.FC<RiskManagementTabProps> = ({ project }) => {
-    const { t } = useLocalization(['projects']);
+    const { t } = useLocalization(['common', 'projects']);
     const toast = useToast();
     const { data: risks = project.riskManagement.riskRegister, createRisk, updateRisk, deleteRisk } = useProjectRisks(project.id);
     const [modalOpen, setModalOpen] = useState(false);
@@ -99,45 +99,53 @@ const RiskManagementTab: React.FC<RiskManagementTabProps> = ({ project }) => {
     return (
         <div className="space-y-6">
             <AiCard title={t('projects.risks.dashboard')}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div>
-                        <h4 className="font-bold text-center mb-2">{t('projects.risks.matrix')}</h4>
-                        <div className="flex">
-                            <div className="flex flex-col-reverse justify-around text-xs font-bold -mr-2">
-                                {(['low', 'medium', 'high'] as RiskLevel[]).map(level => <div key={level} className="transform -rotate-90">{t(`projects.risks.levels.${level}`)}</div>)}
-                                <div className="transform -rotate-90 font-bold text-sm">{t('projects.risks.impact')}</div>
+                <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)] gap-6 xl:gap-8 items-start">
+                    <section className="max-w-[420px] mx-auto xl:mx-0 w-full">
+                        <h4 className="font-bold text-center mb-3">{t('projects.risks.matrix')}</h4>
+                        <div className="bg-gray-50/70 dark:bg-slate-900/40 border border-gray-200/70 dark:border-slate-700/70 rounded-xl p-3">
+                            <div className="flex items-stretch gap-2">
+                                <div className="flex flex-col-reverse justify-between text-[11px] font-semibold text-gray-500 dark:text-gray-400 py-1">
+                                    {(['low', 'medium', 'high'] as RiskLevel[]).map(level => (
+                                        <div key={level} className="h-[84px] flex items-center">
+                                            <span className="inline-block -rotate-90 whitespace-nowrap">{t(`projects.risks.levels.${level}`)}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <div className="grid grid-cols-3 grid-rows-3 gap-1 h-[252px] border border-gray-200 dark:border-slate-700 rounded-lg p-1 bg-card dark:bg-dark-card">
+                                        {riskMatrix.slice().reverse().map((row, i) =>
+                                            row.map((cell, j) => (
+                                                <div key={`${2 - i}-${j}`} className={`flex items-center justify-center rounded-md ${matrixColors[2 - i][j]}`}>
+                                                    {cell.length > 0 && <span className="font-bold text-base">{cell.length}</span>}
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                    <div className="grid grid-cols-3 text-center text-xs font-semibold mt-2 text-gray-600 dark:text-gray-300">
+                                        {(['low', 'medium', 'high'] as RiskLevel[]).map(level => <span key={level}>{t(`projects.risks.levels.${level}`)}</span>)}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex-grow">
-                                <div className="grid grid-cols-3 grid-rows-3 gap-1 aspect-square border-2 dark:border-slate-600 p-1 rounded-md">
-                                    {riskMatrix.slice().reverse().map((row, i) =>
-                                        row.map((cell, j) => (
-                                            <div key={`${2 - i}-${j}`} className={`flex items-center justify-center p-1 rounded-sm ${matrixColors[2 - i][j]}`}>
-                                                {cell.length > 0 && <span className="font-bold text-lg">{cell.length}</span>}
-                                            </div>
-                                        ))
-                                    )}
-                                </div>
-                                <div className="grid grid-cols-3 text-center text-xs font-bold mt-1">
-                                    {(['low', 'medium', 'high'] as RiskLevel[]).map(level => <span key={level}>{t(`projects.risks.levels.${level}`)}</span>)}
-                                </div>
-                                <div className="text-center font-bold text-sm mt-1">{t('projects.risks.probability')}</div>
+                            <div className="flex items-center justify-between mt-2 ps-2 pe-1">
+                                <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('projects.risks.impact')}</span>
+                                <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('projects.risks.probability')}</span>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-center mb-2">{t('projects.risks.topRisks')}</h4>
+                    </section>
+                    <section>
+                        <h4 className="font-bold text-center xl:text-start mb-3">{t('projects.risks.topRisks')}</h4>
                         <ul className="space-y-2">
                             {topRisks.map(risk => (
-                                <li key={risk.id} className="p-2 bg-gray-50 dark:bg-slate-800/50 rounded-md text-sm">
+                                <li key={risk.id} className="p-3 bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 rounded-lg text-sm">
                                     <p className="font-semibold truncate">{risk.description}</p>
-                                    <div className="flex justify-between items-center text-xs text-gray-500 mt-1">
+                                    <div className="flex justify-between items-center text-xs text-gray-500 mt-2">
                                         <span>{t('projects.risks.score')}: <span className="font-bold text-foreground dark:text-dark-foreground">{getRiskScore(risk)}</span></span>
                                         <LevelBadge level={risk.impact} />
                                     </div>
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </section>
                 </div>
             </AiCard>
 

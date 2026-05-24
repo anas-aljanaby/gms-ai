@@ -2,6 +2,8 @@ import React from 'react';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import type { Project, Beneficiary } from '../../../../types';
 import { formatNumber } from '../../../../lib/utils';
+import { getCountryDisplayName } from '../../../../lib/countryOptions';
+import { getLocalizedTargetBeneficiaries } from '../utils/location';
 
 interface BeneficiariesTabProps {
     project: Project;
@@ -11,7 +13,11 @@ interface BeneficiariesTabProps {
 const BeneficiariesTab: React.FC<BeneficiariesTabProps> = ({ project, beneficiaries }) => {
     const { t, language } = useLocalization();
 
-    const description = project.stakeholders.targetBeneficiaries;
+    const description = getLocalizedTargetBeneficiaries(
+        project.stakeholders.targetBeneficiaries,
+        t,
+        language,
+    );
     let target = 0;
     if (description) {
         const match = description.replace(/,/g, '').match(/\d+/);
@@ -50,16 +56,16 @@ const BeneficiariesTab: React.FC<BeneficiariesTabProps> = ({ project, beneficiar
                     <table className="w-full text-sm text-left">
                         <thead className="bg-gray-50 dark:bg-slate-800/50 text-xs uppercase text-gray-500">
                             <tr>
-                                <th className="p-3">{t('beneficiaries.modal.personalInfo.fullName')}</th>
-                                <th className="p-3">{t('beneficiaries.modal.personalInfo.country')}</th>
-                                <th className="p-3">{t('beneficiaries.modal.academic.grade')}</th>
+                                <th className="p-3">{t('beneficiaries.table.name')}</th>
+                                <th className="p-3">{t('beneficiaries.table.country')}</th>
+                                <th className="p-3">{t('beneficiaries.fields.grade')}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {projectBeneficiaries.map(b => (
                                 <tr key={b.id} className="border-t dark:border-slate-700">
                                     <td className="p-3 font-semibold">{b.name[language]}</td>
-                                    <td className="p-3">{b.country}</td>
+                                    <td className="p-3">{getCountryDisplayName(b.country, language)}</td>
                                     <td className="p-3">{b.profile.type === 'student' ? b.profile.academicInfo?.level?.[language] : t(`beneficiaries.types.${b.beneficiaryType}`)}</td>
                                 </tr>
                             ))}

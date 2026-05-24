@@ -37,6 +37,16 @@ For local development and testing:
 ```
 npm run dev:web          # Vite dev server (frontend)
 npm run dev:api          # tsx watch (backend)
+These two are already ran for you, if you can not access or it seems like its not running, do not make edits rather, tell 
+the user to run them for you, they are on these ports:
+    API running on http://localhost:3000
+
+    VITE v6.4.2  ready in 357 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.1.101:5173/
+  ➜  press h + enter to show help
+
 npm run build:web        # Production build
 npm run db:push          # Push Drizzle schema to DB (in apps/api)
 npm run db:generate      # Generate Drizzle migrations (in apps/api)

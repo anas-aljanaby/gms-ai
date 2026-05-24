@@ -1718,6 +1718,8 @@ export interface BousalaProject {
     progress: number;
     linkedGoal: string;
     linkedTasks: string[];
+    /** Main Projects module id when linked from execution projects. */
+    sourceProjectId?: string;
 }
 export interface BousalaTask {
     id: string;
@@ -1726,6 +1728,8 @@ export interface BousalaTask {
     status: 'in-progress' | 'completed';
     linkedProject: string;
     assignee: string;
+    dueDate?: string;
+    priority?: 'high' | 'medium' | 'low';
 }
 
 // Loans Module

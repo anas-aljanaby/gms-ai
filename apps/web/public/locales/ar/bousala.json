@@ -26,7 +26,35 @@
       "itemsDistribution": "توزيع العناصر",
       "count": "العدد",
       "taskStatus": "حالة المهام",
-      "goalProgress": "تقدم الأهداف"
+      "goalProgress": "تقدم الأهداف",
+      "noData": "أضف هدفاً واحداً على الأقل قبل تصدير التقرير.",
+      "previewEmpty": "ستظهر الرسوم البيانية بعد إضافة الأهداف الاستراتيجية.",
+      "exportingPdf": "جارٍ تصدير PDF…",
+      "exportingXlsx": "جارٍ تصدير جدول البيانات…",
+      "insightType": "النوع",
+      "insightTitle": "العنوان",
+      "insightContent": "المحتوى",
+      "sheetInsights": "رؤى الذكاء الاصطناعي"
+    },
+    "empty": {
+      "noGoals": {
+        "title": "لا توجد أهداف استراتيجية بعد",
+        "description": "أنشئ هدفك الأول لربط المشاريع ومؤشرات الأداء والمهام.",
+        "action": "إضافة هدف"
+      },
+      "noKpis": {
+        "title": "لا توجد مؤشرات لهذا الهدف",
+        "description": "تتبّع مؤشرات قابلة للقياس لمراقبة التقدم نحو هذا الهدف.",
+        "action": "إضافة مؤشر"
+      },
+      "noProjects": {
+        "title": "لا توجد مشاريع مرتبطة",
+        "description": "اربط مشاريع التنفيذ من وحدة المشاريع لاحتساب التقدم.",
+        "action": "ربط مشروع"
+      },
+      "noTasks": {
+        "description": "لا توجد مهام مرتبطة بهذا المشروع بعد. أضف مهمة من لوحة الذكاء الاصطناعي أو مركز التنبيهات."
+      }
     },
     "presentationMode": "وضع العرض",
     "projects": "المشاريع",
@@ -41,8 +69,8 @@
     },
     "prediction": {
       "title": "الرؤى التنبؤية",
-      "summary": "متوقع الوصول إلى الهدف بنسبة {percentage}%",
-      "recommendation": "لتحسين الأداء، يُنصح بزيادة الموارد بنسبة {percentage}%."
+      "summary": "متوقع الوصول إلى الهدف بنسبة {{percentage}}%",
+      "recommendation": "لتحسين الأداء، يُنصح بزيادة الموارد بنسبة {{percentage}}%."
     },
     "analytics": {
       "title": "لوحة التحليلات",
@@ -57,7 +85,9 @@
       "dueDate": "تاريخ الاستحقاق",
       "priority": "الأولوية",
       "titleAndGoalRequired": "عنوان المهمة والهدف المرتبط مطلوبان.",
+      "noGoalsAvailable": "أضف هدفاً قبل إنشاء المهام.",
       "save": "حفظ المهمة",
+      "saving": "جاري حفظ المهمة…",
       "priorities": {
         "high": "عالية",
         "medium": "متوسطة",
@@ -79,10 +109,10 @@
       "predictiveHeading": "تحليل تنبؤي"
     },
     "alerts": {
-      "lowProbability": "انخفاض احتمال تحقيق الهدف إلى {probability}%.",
-      "kpiBelowHalf": "مؤشر \"{kpiTitle}\" أقل من 50% من الهدف.",
-      "kpiDownward": "مؤشر \"{kpiTitle}\" في اتجاه هبوطي.",
-      "smartAlertFor": "تنبيه ذكي للهدف: {title}",
+      "lowProbability": "انخفاض احتمال تحقيق الهدف إلى {{probability}}%.",
+      "kpiBelowHalf": "مؤشر \"{{kpiTitle}}\" أقل من 50% من الهدف.",
+      "kpiDownward": "مؤشر \"{{kpiTitle}}\" في اتجاه هبوطي.",
+      "smartAlertFor": "تنبيه ذكي للهدف: {{title}}",
       "recommendationFailed": "تعذر إنشاء التوصية حالياً. يرجى المحاولة لاحقاً.",
       "generatingRecommendation": "يقوم الذكاء الاصطناعي بإنشاء توصية..."
     },
@@ -104,14 +134,14 @@
       "actions": {
         "markReviewed": "وضع كمُراجع",
         "createTask": "إنشاء مهمة",
-        "correctiveTaskFor": "مهمة تصحيحية للهدف: {title}"
+        "correctiveTaskFor": "مهمة تصحيحية للهدف: {{title}}"
       }
     },
     "settings": {
       "title": "الإعدادات",
       "notificationsTitle": "إعدادات الإشعارات",
       "enableSmartAlerts": "تفعيل التنبيهات الذكية",
-      "severityThreshold": "عتبة الخطورة ({threshold}%)",
+      "severityThreshold": "عتبة الخطورة ({{threshold}}%)",
       "alertSound": "صوت التنبيه",
       "aiAutoRecs": "توصيات آلية بالذكاء الاصطناعي",
       "kpiTitle": "إعدادات تحديث مؤشرات الأداء",
@@ -120,11 +150,12 @@
       "showAnimation": "عرض حركة التحديث",
       "save": "حفظ الإعدادات",
       "severityCritical": "حرج <50%",
-      "severityWarning": "تحذير <{threshold}%",
+      "severityWarning": "تحذير <{{threshold}}%",
       "severityInfo": "معلومة <90%",
       "seconds30": "30 ثانية",
       "seconds60": "60 ثانية",
-      "seconds120": "120 ثانية"
+      "seconds120": "120 ثانية",
+      "settingsRestored": "بعض الإعدادات غير صالحة وتمت إعادتها إلى القيم الافتراضية."
     },
     "goals": "الأهداف",
     "tasks": "المهام",
@@ -132,6 +163,34 @@
     "task_status": {
       "completed": "مكتمل",
       "in-progress": "قيد التنفيذ"
+    },
+    "goalEdit": {
+      "editAria": "تعديل الهدف",
+      "deleteAria": "حذف الهدف",
+      "titleRequired": "عنوان الهدف مطلوب.",
+      "saved": "تم تحديث الهدف بنجاح.",
+      "deleteConfirm": "حذف هذا الهدف وجميع المشاريع والمهام المرتبطة به في بوصلة؟"
+    },
+    "kpiEdit": {
+      "title": "تعديل مؤشر الأداء",
+      "editAria": "تعديل المؤشر",
+      "deleteAria": "حذف المؤشر",
+      "saved": "تم تحديث المؤشر بنجاح.",
+      "deleteConfirm": "حذف هذا المؤشر؟"
+    },
+    "projectEdit": {
+      "editAria": "تعديل المشروع",
+      "unlinkAria": "إلغاء ربط المشروع",
+      "titleRequired": "عنوان المشروع مطلوب.",
+      "saved": "تم تحديث المشروع بنجاح.",
+      "unlinkConfirm": "إلغاء ربط هذا المشروع من الهدف؟ ستُحذف المهام المرتبطة.",
+      "unlink": "إلغاء الربط"
+    },
+    "taskEdit": {
+      "statusLabel": "حالة المهمة",
+      "deleteAria": "حذف المهمة",
+      "saved": "تم تحديث المهمة بنجاح.",
+      "deleteConfirm": "حذف هذه المهمة؟"
     },
     "addGoalModal": {
       "title": "إضافة هدف",
@@ -165,20 +224,28 @@
       "progress": "التقدم",
       "kpiIndicators": "مؤشرات الأداء",
       "addKpi": "إضافة مؤشر أداء",
-      "lastUpdated": "آخر تحديث: {date}",
-      "predictionConfidence": "يتوقع الذكاء الاصطناعي نسبة نجاح {percentage}%",
+      "lastUpdated": "آخر تحديث: {{date}}",
+      "predictionConfidence": "يتوقع الذكاء الاصطناعي نسبة نجاح {{percentage}}%",
       "onTrack": "على المسار",
       "atRisk": "مهدد",
       "unlikely": "غير مرجح",
-      "goalPredictionSummary": "تحليل تنبؤي: المؤشرات الحالية تُظهر احتمالية نجاح {percentage}% في تحقيق الأهداف المخططة.",
+      "goalPredictionSummary": "تحليل تنبؤي: المؤشرات الحالية تُظهر احتمالية نجاح {{percentage}}% في تحقيق الأهداف المخططة.",
       "predictionLabel": "التوقع",
-      "goalPredictionsAnalysis": "تحليل توقعات الهدف..."
+      "goalPredictionsAnalysis": "تحليل توقعات الهدف...",
+      "taskDueDate": "الاستحقاق {{date}}",
+      "taskPriority": "الأولوية: {{priority}}"
     },
     "messages": {
       "projectLinkedSuccess": "تم ربط المشروع بنجاح.",
+      "projectUnlinkedSuccess": "تم إلغاء ربط المشروع بنجاح.",
       "kpiAddedSuccess": "تمت إضافة المؤشر بنجاح.",
-      "goalAddedSuccess": "تمت إضافة الهدف \"{title}\" بنجاح."
+      "goalAddedSuccess": "تمت إضافة الهدف \"{{title}}\" بنجاح.",
+      "goalDeletedSuccess": "تم حذف الهدف بنجاح.",
+      "kpiDeletedSuccess": "تم حذف المؤشر بنجاح.",
+      "taskDeletedSuccess": "تم حذف المهمة بنجاح.",
+      "noLinkedProjectForTask": "اربط مشروعاً بهذا الهدف قبل إضافة المهام."
     },
+    "presentationModeActive": "وضع العرض مفعّل — تنبيهات وتحديثات المؤشرات مفعّلة.",
     "addKpiModal": {
       "title": "إضافة مؤشر أداء",
       "kpiTitle": "عنوان المؤشر",
@@ -187,13 +254,17 @@
       "unit": "الوحدة",
       "unitPlaceholder": "%, مستفيد, $",
       "save": "حفظ المؤشر",
-      "requiredFields": "جميع الحقول مطلوبة."
+      "requiredFields": "العنوان والوحدة مطلوبان.",
+      "titleRequired": "عنوان المؤشر مطلوب.",
+      "unitRequired": "الوحدة مطلوبة.",
+      "invalidTarget": "يجب أن يكون الهدف أكبر من صفر.",
+      "invalidValue": "لا يمكن أن تكون القيمة الحالية سالبة."
     },
     "linkProjectModal": {
       "title": "ربط مشروع قائم",
       "description": "اختر مشروعًا واحدًا أو أكثر لربطه بالهدف الحالي.",
       "noProjects": "لا توجد مشاريع أخرى لربطها.",
-      "linkCta": "ربط ({count})"
+      "linkCta": "ربط ({{count}})"
     },
     "predictive": {
       "overallSummary": "ملخص التوقعات الإجمالي",
@@ -203,19 +274,89 @@
       "forecastOverTime": "تغير التوقعات بمرور الوقت",
       "avgSuccessProbability": "متوسط احتمال النجاح",
       "aiRecommendationsSummary": "ملخص توصيات الذكاء الاصطناعي",
-      "noRecommendations": "لا توجد توصيات متاحة حالياً."
+      "noRecommendations": "لا توجد توصيات متاحة حالياً.",
+      "noGoalsTitle": "لا توجد أهداف للتوقع",
+      "noGoalsDescription": "أضف أهدافاً استراتيجية من لوحة المتابعة لعرض التحليل التنبؤي هنا.",
+      "noPredictionsTitle": "التوقعات غير جاهزة بعد",
+      "noPredictionsDescription": "وسّع هدفاً في لوحة المتابعة وشغّل اقتراحات الذكاء الاصطناعي لإنشاء بيانات التوقع.",
+      "goToDashboard": "الانتقال إلى لوحة المتابعة"
     },
     "splash": {
       "title": "🧭 بوصلة - إدارة الأهداف والمهام",
       "subtitle": "نظام الإدارة الذكية للمنظمات غير الربحية"
     },
+    "demoData": {
+      "teams": {
+        "marketing": "فريق الشراكات",
+        "technical": "فريق المشاريع",
+        "unassigned": "غير مُعيّن"
+      },
+      "newTaskDescription": "تمت إضافة مهمة جديدة عبر النافذة",
+      "goals": {
+        "g1": {
+          "title": "تعزيز الوصول إلى التعليم المجتمعي",
+          "description": "توسيع الوصول إلى خدمات التعليم المجتمعي في المناطق ذات الاحتياج.",
+          "kpis": {
+            "g1k1": { "title": "عدد المستفيدين الفعليين من البرامج التعليمية", "unit": "مستفيد" },
+            "g1k2": { "title": "نسبة تحقيق مخرجات الربع الحالي", "unit": "%" }
+          }
+        },
+        "g2": {
+          "title": "رفع كفاءة تنفيذ المشاريع التنموية",
+          "description": "تحسين الانضباط الزمني والمالي للمشاريع التنموية.",
+          "kpis": {
+            "g2k1": { "title": "نسبة الالتزام بالخطة الزمنية", "unit": "%" },
+            "g2k2": { "title": "نسبة الصرف مقابل التقدم", "unit": "%" }
+          }
+        }
+      },
+      "projects": {
+        "p1": {
+          "title": "تأهيل مركز تعليمي مجتمعي",
+          "description": "مشروع مرتبط مباشرة بتوسيع الوصول إلى التعليم المجتمعي."
+        },
+        "p2": {
+          "title": "تطوير برنامج الدعم المدرسي",
+          "description": "دعم الطلاب المتعثرين وتحسين الاستمرارية التعليمية."
+        }
+      },
+      "tasks": {
+        "t1": {
+          "title": "إعداد خطة التنفيذ التفصيلية",
+          "description": "إعداد خطة تنفيذ مرحلية للمركز التعليمي مع جدول زمني واضح."
+        },
+        "t2": {
+          "title": "اعتماد مؤشرات المتابعة الشهرية",
+          "description": "اعتماد مؤشرات المتابعة مع وحدة القياس والتقييم."
+        }
+      },
+      "chartMonths": {
+        "jan": "يناير",
+        "feb": "فبراير",
+        "mar": "مارس",
+        "apr": "أبريل",
+        "may": "مايو",
+        "jun": "يونيو",
+        "jul": "يوليو"
+      }
+    },
+    "mockInsights": {
+      "goalImpactTitle": "تحليل أثر الهدف: {{goalTitle}}",
+      "goalImpactContent": "**تحليل الأداء لهدف: \"{{goalTitle}}\"**\n- **التقدم الحالي:** {{progress}}%\n- **الأداء الإيجابي:** المشروع الرئيسي (\"{{projectTitle}}\") يسير ضمن المسار ({{projectProgress}}%).\n- **التقييم:** تم تحقيق تقدم جيد في الأنشطة الأساسية مع استمرار الحاجة إلى متابعة المهام المتأخرة.",
+      "kpiGapTitle": "تحليل أداء مؤشر: {{kpiTitle}}",
+      "kpiGapContent": "الأداء أقل من المستهدف بنسبة {{gap}}%، يُنصح بزيادة الموارد أو مراجعة الخطة.",
+      "taskSuggestionTitle": "مهام مقترحة لمشروع: {{projectTitle}}",
+      "taskSuggestionContent": "بناءً على مشروع **\"{{projectTitle}}\"**، المهام المقترحة:\n- **التخطيط:** إعداد خطة التنفيذ التفصيلية.\n- **المتابعة:** اعتماد مؤشرات المتابعة الشهرية.\n- **المراجعة:** مراجعة التقدم مع فرق المشاريع.\n- **الأثر:** تحديث تقرير الأثر الفصلي.",
+      "riskPredictionTitle": "توقع مخاطر التأخير لمشروع: {{projectTitle}}",
+      "riskPredictionContent": "**توقع المخاطر: متوسط**\n- **السيناريو:** التقدم الحالي ({{progress}}%) يشير إلى احتمال تأخير جزئي دون تصحيح.\n- **العوامل:** أنشطة متأخرة في المتابعة الميدانية وضعف انتظام التقارير.\n- **إجراء مقترح:** معالجة الأنشطة المتأخرة وربط المشاريع ذات الأولوية بالمؤشرات الرئيسية."
+    },
     "defaultInsights": {
-      "tasksTitle": "اقتراح عام",
+      "tasksTitle": "توصية تشغيلية",
       "tasksContent": "فكّر في تقسيم المهام الكبيرة إلى مهام فرعية أصغر لتتبع التقدم بشكل أفضل.",
       "kpisTitle": "تحليل الأداء",
-      "kpisContent": "من الأفضل متابعة تقدم الهدف وتقدم المشروع المرتبط به معًا لاتخاذ قرارات أدق.",
+      "kpisContent": "تحسن مستوى الربط بين المشاريع والمؤشرات خلال الفترة الحالية.",
       "risksTitle": "مخاطر محتملة",
-      "risksContent": "راجع المواعيد النهائية الرئيسية بشكل دوري لتقليل مخاطر التأخير."
+      "risksContent": "ما زالت بعض المبادرات بحاجة إلى ضبط أدق في الجدول الزمني."
     }
   }
 }

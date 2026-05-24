@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { Beneficiary, BeneficiaryType, Language, ProgramProject } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency, formatNumber } from '../../../lib/utils';
@@ -14,6 +14,7 @@ import SponsorshipTab from './tabs/SponsorshipTab';
 import GuardianTab from './tabs/GuardianTab';
 import { ArrowLeft, Users, CheckCircle } from 'lucide-react';
 import { getBeneficiarySubtitle } from './beneficiaryUtils';
+import { getCountryDisplayName } from '../../../lib/countryOptions';
 
 // =================================================================
 // Tab configuration per beneficiary type
@@ -80,6 +81,7 @@ interface BeneficiaryDetailViewProps {
     onUpdate: (beneficiary: Beneficiary) => void;
     projects?: ProgramProject[];
     existingCountries?: string[];
+    initialTab?: string;
 }
 
 export const BeneficiaryProfileRoute: React.FC<{
@@ -90,7 +92,8 @@ export const BeneficiaryProfileRoute: React.FC<{
     onUpdate: (beneficiary: Beneficiary) => void;
     projects?: ProgramProject[];
     existingCountries?: string[];
-}> = ({ beneficiaryId, beneficiaries, isLoading, onBack, onUpdate, projects, existingCountries }) => {
+    initialTab?: string;
+}> = ({ beneficiaryId, beneficiaries, isLoading, onBack, onUpdate, projects, existingCountries, initialTab }) => {
     const { t } = useLocalization(['common', 'beneficiaries']);
 
     if (isLoading) {
@@ -117,14 +120,25 @@ export const BeneficiaryProfileRoute: React.FC<{
         );
     }
 
-    return <BeneficiaryDetailView beneficiary={beneficiary} onBack={onBack} onUpdate={onUpdate} projects={projects} existingCountries={existingCountries} />;
+    return <BeneficiaryDetailView beneficiary={beneficiary} onBack={onBack} onUpdate={onUpdate} projects={projects} existingCountries={existingCountries} initialTab={initialTab} />;
 };
 
-const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onBack, onUpdate, projects, existingCountries }) => {
+const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onBack, onUpdate, projects, existingCountries, initialTab }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
-    const [activeTab, setActiveTab] = useState('overview');
-
     const tabIds = TAB_CONFIG[beneficiary.beneficiaryType] || TAB_CONFIG.student;
+    const [activeTab, setActiveTab] = useState(() =>
+        initialTab && tabIds.includes(initialTab) ? initialTab : 'overview',
+    );
+
+    useEffect(() => {
+        if (initialTab && tabIds.includes(initialTab)) {
+            setActiveTab(initialTab);
+        }
+    }, [initialTab, tabIds]);
+
+    useEffect(() => {
+        setActiveTab('overview');
+    }, [beneficiary.id]);
     const tabs = useMemo(() => tabIds.map(id => ({
         id,
         label: t(`beneficiaries.tabs.${id}`),
@@ -133,6 +147,7 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
     const kpis = getKpis(beneficiary, t, language);
     const name = beneficiary.name[language] || beneficiary.name.en || beneficiary.name.ar;
     const subtitle = getBeneficiarySubtitle(beneficiary, language, t);
+    const localizedCountry = getCountryDisplayName(beneficiary.country, language === 'ar' ? 'ar' : 'en');
 
     const typeColor: Record<string, string> = {
         student: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
@@ -203,7 +218,7 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
                             {t(`beneficiaries.types.${beneficiary.beneficiaryType}`)}
                         </span>
                         <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {beneficiary.country}
+                            {localizedCountry}
                         </span>
                     </div>
                 </div>

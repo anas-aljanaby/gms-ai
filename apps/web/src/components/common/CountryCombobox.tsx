@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { mergeCountryOptions } from '../../lib/countryOptions';
+import { buildCountryComboboxOptions, normalizeCountrySearchTerm, resolveCountryToCanonical } from '../../lib/countryOptions';
+import { useLocalization } from '../../hooks/useLocalization';
 
 interface CountryComboboxProps {
     value: string;
@@ -24,17 +25,23 @@ const CountryCombobox: React.FC<CountryComboboxProps> = ({
     className,
     id,
 }) => {
+    const { language } = useLocalization(['common']);
     const [open, setOpen] = useState(false);
     const [highlightIndex, setHighlightIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
 
-    const options = useMemo(() => mergeCountryOptions(existingCountries), [existingCountries]);
+    const options = useMemo(
+        () => buildCountryComboboxOptions(existingCountries, language === 'ar' ? 'ar' : 'en'),
+        [existingCountries, language]
+    );
 
     const filtered = useMemo(() => {
-        const term = value.trim().toLowerCase();
+        const term = normalizeCountrySearchTerm(value);
         if (!term) return options;
-        return options.filter((country) => country.toLowerCase().includes(term));
+        return options.filter((country) =>
+            country.searchTerms.some((searchTerm) => normalizeCountrySearchTerm(searchTerm).includes(term))
+        );
     }, [options, value]);
 
     useEffect(() => {
@@ -57,8 +64,31 @@ const CountryCombobox: React.FC<CountryComboboxProps> = ({
         item?.scrollIntoView({ block: 'nearest' });
     }, [highlightIndex, open]);
 
-    const selectCountry = (country: string) => {
-        onChange(country);
+    const containsArabic = (text: string) => /[\u0600-\u06FF]/.test(text);
+
+    const getSelectedOptionValue = (country: (typeof options)[number]) => {
+        const trimmedInput = value.trim();
+        if (!trimmedInput) return language === 'ar' ? (country.arLabel ?? country.enLabel) : country.enLabel;
+        if (containsArabic(trimmedInput)) return country.arLabel ?? country.enLabel;
+        return country.enLabel;
+    };
+
+    const selectCountry = (country: (typeof options)[number]) => {
+        onChange(getSelectedOptionValue(country));
+        setOpen(false);
+    };
+
+    const normalizeKnownCountryVariant = (raw: string) => {
+        const canonical = resolveCountryToCanonical(raw);
+        if (!canonical) return null;
+        const matched = options.find((option) => option.canonical === canonical);
+        if (!matched) return canonical;
+        return containsArabic(raw) ? (matched.arLabel ?? matched.enLabel) : matched.enLabel;
+    };
+
+    const handleInputBlur = () => {
+        const normalized = normalizeKnownCountryVariant(value);
+        if (normalized && normalized !== value) onChange(normalized);
         setOpen(false);
     };
 
@@ -96,6 +126,7 @@ const CountryCombobox: React.FC<CountryComboboxProps> = ({
                         setOpen(true);
                     }}
                     onFocus={() => setOpen(true)}
+                    onBlur={handleInputBlur}
                     onKeyDown={handleKeyDown}
                     placeholder={placeholder}
                     className={`${inputClass} pe-8`}
@@ -117,7 +148,7 @@ const CountryCombobox: React.FC<CountryComboboxProps> = ({
                 >
                     {filtered.length > 0 ? (
                         filtered.map((country, index) => (
-                            <li key={country} role="option" aria-selected={country === value}>
+                            <li key={`${country.canonical}-${index}`} role="option" aria-selected={country.enLabel === value || country.arLabel === value}>
                                 <button
                                     type="button"
                                     onMouseDown={(event) => event.preventDefault()}
@@ -126,7 +157,14 @@ const CountryCombobox: React.FC<CountryComboboxProps> = ({
                                         index === highlightIndex ? 'bg-primary/10 text-primary dark:text-secondary' : ''
                                     }`}
                                 >
-                                    {country}
+                                    <span className="block font-semibold">
+                                        {language === 'ar' ? (country.arLabel ?? country.enLabel) : country.enLabel}
+                                    </span>
+                                    {country.arLabel && (
+                                        <span className="block text-xs text-gray-500 dark:text-gray-400">
+                                            {language === 'ar' ? country.enLabel : country.arLabel}
+                                        </span>
+                                    )}
                                 </button>
                             </li>
                         ))

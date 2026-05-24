@@ -6,6 +6,7 @@ import { formatDate, formatCurrency } from '../../../lib/utils';
 import { StatusBadge, TierBadge } from './DonorBadges';
 import { Activity, Calendar, HeartPulse, UserRound } from 'lucide-react';
 import { isOptimisticDonor } from '../../../hooks/useDonors';
+import { getCountryDisplayName } from '../../../lib/countryOptions';
 
 interface DonorCardProps {
     donor: IndividualDonor;
@@ -33,6 +34,7 @@ const DonorCard: React.FC<DonorCardProps> = ({ donor, highlighted, onClick }) =>
     const donorInitial = donorName.trim().charAt(0).toUpperCase() || '?';
     const donorType = donor.donorType ? t(`donors.types.${donor.donorType.replace(/ /g, '')}`, donor.donorType) : '';
     const stageLabel = donor.relationshipStage ? t(`donors.stages.${donor.relationshipStage}`) : t('individual_donors.relationship.noStage');
+    const countryLabel = getCountryDisplayName(donor.country, language === 'ar' ? 'ar' : 'en');
     const visibleTags = donor.tags.slice(0, 2);
     const hiddenTagCount = Math.max(donor.tags.length - visibleTags.length, 0);
     const cardAccentClass = tierAccentClasses[donor.tier];
@@ -97,7 +99,7 @@ const DonorCard: React.FC<DonorCardProps> = ({ donor, highlighted, onClick }) =>
                     <div className="min-w-0">
                         <h3 className="text-lg font-bold leading-tight text-foreground dark:text-dark-foreground">{donorName}</h3>
                         <p className="mt-1 truncate text-sm text-gray-500 dark:text-gray-400">
-                            {[donor.country, donorType].filter(Boolean).join(' / ')}
+                            {[countryLabel, donorType].filter(Boolean).join(' / ')}
                         </p>
                     </div>
                 </div>

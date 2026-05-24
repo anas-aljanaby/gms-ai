@@ -9,6 +9,7 @@ import InfoRow from '../shared/InfoRow';
 import EditableField from '../shared/EditableField';
 import CountryCombobox from '../../../common/CountryCombobox';
 import ConfirmationModal from '../../../common/ConfirmationModal';
+import { getCountryDisplayName } from '../../../../lib/countryOptions';
 
 interface OverviewTabProps {
     beneficiary: Beneficiary;
@@ -194,6 +195,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
     };
 
     const projectName = projects.find((proj) => proj.id === beneficiary.projectId)?.name[language];
+    const localizedCountry = getCountryDisplayName(beneficiary.country, language === 'ar' ? 'ar' : 'en');
 
     const renderGenderField = (value: string, onChange: (v: string) => void) => (
         <label className="block min-w-0">
@@ -266,7 +268,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
                 editLabel={t('beneficiaries.actions.editContact')}
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <InfoRow label={t('beneficiaries.fields.country')} value={beneficiary.country} />
+                    <InfoRow label={t('beneficiaries.fields.country')} value={localizedCountry} />
                     <InfoRow label={t('beneficiaries.fields.project')} value={projectName} />
                     <div className="min-w-0">
                         <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.email')}</p>

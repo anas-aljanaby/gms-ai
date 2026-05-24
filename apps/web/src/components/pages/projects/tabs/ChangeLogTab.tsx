@@ -22,7 +22,7 @@ interface ChangeForm {
 const emptyForm = (): ChangeForm => ({ description: '', requester: '', scopeImpact: '', timeImpact: '', costImpact: '' });
 
 const ChangeLogTab: React.FC<ChangeLogTabProps> = ({ project, onUpdate }) => {
-    const { t, language } = useLocalization(['projects']);
+    const { t, language } = useLocalization(['common', 'projects']);
     const [modalOpen, setModalOpen] = useState(false);
     const [form, setForm] = useState<ChangeForm>(emptyForm());
 

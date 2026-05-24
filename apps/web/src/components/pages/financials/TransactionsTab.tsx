@@ -218,7 +218,7 @@ const TransactionsTab: React.FC = () => {
       {
         key: 'category',
         label: t('financials.transactions.category'),
-        render: (row) => <StatusBadge status={row.category} />,
+        render: (row) => <StatusBadge status={row.category} i18nGroup="category" />,
       },
       {
         key: 'direction',

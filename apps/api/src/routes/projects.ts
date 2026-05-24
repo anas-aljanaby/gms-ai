@@ -51,6 +51,27 @@ function asNumberArray(value: unknown): number[] {
     return value.map((item) => Number(item)).filter((item) => Number.isFinite(item));
 }
 
+function asRecord(value: unknown): Record<string, unknown> {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+        return value as Record<string, unknown>;
+    }
+    return {};
+}
+
+function asObjectArray(value: unknown): Record<string, unknown>[] {
+    if (!Array.isArray(value)) return [];
+    return value.filter((item): item is Record<string, unknown> => !!item && typeof item === 'object' && !Array.isArray(item));
+}
+
+function asBurnRate(value: unknown): { month: string; value: number }[] {
+    return asObjectArray(value)
+        .map((point) => ({
+            month: typeof point.month === 'string' ? point.month : '',
+            value: asNumber(point.value),
+        }))
+        .filter((point) => point.month);
+}
+
 function toIsoDate(dateValue: Date | string | null | undefined): string {
     if (!dateValue) return '';
     return dateValue instanceof Date ? dateValue.toISOString() : String(dateValue);
@@ -114,6 +135,9 @@ function buildProjectModel(
     }));
     const spent = asNumber(row.spent);
     const budget = asNumber(row.budget);
+    const customFields = asRecord(row.custom_fields);
+    const documents = asObjectArray(customFields.documents);
+    const burnRate = asBurnRate(customFields.burnRate);
 
     return {
         id: row.id,
@@ -144,7 +168,7 @@ function buildProjectModel(
         progress: row.progress ?? 0,
         budget,
         spent,
-        documents: [],
+        documents,
         scopeStatement: {
             inScope: asStringArray(row.scope_in),
             outOfScope: asStringArray(row.scope_out),
@@ -164,7 +188,7 @@ function buildProjectModel(
             budgetDetails,
             expenseLog,
             financialSummary: {
-                burnRate: [],
+                burnRate,
                 pv: budget,
                 ev: Math.round((budget * (row.progress ?? 0)) / 100),
                 ac: spent,

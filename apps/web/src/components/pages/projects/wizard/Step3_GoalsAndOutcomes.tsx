@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import type { Project, ProjectKPI } from '../../../../types';
 import { PlusCircleIcon, XIcon } from '../../../icons/GenericIcons';
+import SdgGoalPicker from '../shared/SdgGoalPicker';
 
 interface Step3Props {
     data: Partial<Omit<Project, 'id'>>;
@@ -70,6 +71,19 @@ const Step3_GoalsAndOutcomes: React.FC<Step3Props> = ({ data, updateData, setPro
                     className="w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"
                 />
             </FormField>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    {t('projects.wizard.form.sdgGoals')}
+                </label>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                    {t('projects.wizard.form.sdgGoalsHint')}
+                </p>
+                <SdgGoalPicker
+                    value={data.sdgGoals ?? []}
+                    onChange={(sdgGoals) => updateData({ sdgGoals })}
+                />
+            </div>
             
             <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('projects.wizard.form.objective')}</label>

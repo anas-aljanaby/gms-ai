@@ -137,7 +137,8 @@
       "method": "Method",
       "project": "Project",
       "status": "Status",
-      "noDisbursements": "No disbursements match your filters"
+      "noDisbursements": "No disbursements match your filters",
+      "goToSource": "Go to source"
     },
     "grantsFunds": {
       "title": "Grants & Funds",
@@ -170,7 +171,10 @@
       "approve": "Approve",
       "reject": "Reject",
       "viewDetails": "View Details",
-      "noApprovals": "No pending approvals"
+      "noApprovals": "No pending approvals",
+      "disbursementTitle": "Disbursement approval: {{name}}",
+      "disbursementDescription": "Approve {{type}} disbursement for {{name}}",
+      "goToSource": "Go to source"
     },
     "reports": {
       "title": "Financial Reports",

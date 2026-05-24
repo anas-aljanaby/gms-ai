@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import type { Project, Language, ProjectType, ProjectLifecycleStageId } from '../../../../types';
+import CountryCombobox from '../../../common/CountryCombobox';
 
 interface Step1Props {
     data: Partial<Omit<Project, 'id'>>;
     updateData: (update: Partial<Omit<Project, 'id'>>) => void;
+    existingCountries?: string[];
 }
 
 const inputClass = "w-full px-3 py-2 text-sm border border-gray-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors";
@@ -18,8 +20,8 @@ const FormField: React.FC<{ label: string; children: React.ReactNode; className?
     </div>
 );
 
-const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData }) => {
-    const { t } = useLocalization();
+const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData, existingCountries = [] }) => {
+    const { t } = useLocalization(['common', 'projects']);
     const [activeLang, setActiveLang] = useState<Language>('en');
 
     const handleNameChange = (lang: Language, value: string) => {
@@ -87,12 +89,13 @@ const Step1_ProjectInfo: React.FC<Step1Props> = ({ data, updateData }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <FormField label={t('projects.wizard.form.country')}>
-                    <select name="location.country" value={data.location?.country} onChange={handleInputChange} className={selectClass}>
-                        <option value="Turkey">{t('projects.countries.turkey')}</option>
-                        <option value="Syria">{t('projects.countries.syria')}</option>
-                        <option value="Lebanon">{t('projects.countries.lebanon')}</option>
-                        <option value="Uganda">{t('projects.countries.uganda')}</option>
-                    </select>
+                    <CountryCombobox
+                        value={data.location?.country || ''}
+                        onChange={(country) => updateData({ location: { ...data.location, country } as Project['location'] })}
+                        existingCountries={existingCountries}
+                        placeholder={t('common.countryField.placeholder')}
+                        noResultsText={t('common.countryField.noResults')}
+                    />
                 </FormField>
                 <FormField label={t('projects.wizard.form.city')}>
                     <input type="text" name="location.city" value={data.location?.city} onChange={handleInputChange} placeholder="City name" className={inputClass} />

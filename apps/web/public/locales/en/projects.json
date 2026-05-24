@@ -84,6 +84,8 @@
         "targetBeneficiaries": "Target Beneficiaries",
         "primaryContact": "Primary Contact",
         "goal": "Project Goal",
+        "sdgGoals": "UN Sustainable Development Goals",
+        "sdgGoalsHint": "Select the SDGs this project contributes to (optional).",
         "objective": "Objective",
         "outcome": "Expected Outcome",
         "kpi": "Key Performance Indicators",
@@ -137,6 +139,13 @@
         "idlib": "Idlib"
       }
     },
+    "beneficiariesTab": {
+      "descriptions": {
+        "albania150": "150 Albanian youth and orphans",
+        "villagers5000": "5000 villagers across 10 communities",
+        "youth1000": "1000 youth annually"
+      }
+    },
     "monitoring": {
       "kpis": "Monitoring KPIs",
       "spi": "Schedule Performance Index (SPI)",
@@ -163,6 +172,7 @@
     },
     "overview": {
       "sdgTitle": "SDG Alignment",
+      "sdgEditHint": "Click icons to toggle SDG alignment.",
       "location": "Location",
       "goal": "Goal",
       "country": "Country",
@@ -171,6 +181,11 @@
     "validation": {
       "nameRequired": "Project name (English) is required",
       "datesRequired": "Start and end dates are required"
+    },
+    "sdgPicker": {
+      "select": "Select SDG {{id}}: {{name}}",
+      "deselect": "Deselect SDG {{id}}: {{name}}",
+      "selectedCount": "{{count}} selected"
     },
     "sdgAnalytics": {
       "title": "SDG Analytics",
@@ -234,7 +249,16 @@
       "startDate": "Start",
       "endDate": "End",
       "addTask": "Add Task",
-      "taskName": "Task Name"
+      "taskName": "Task Name",
+      "requiredHint": "Fields marked * are required.",
+      "saving": "Saving...",
+      "createSuccess": "Task added successfully.",
+      "createFailed": "Unable to add task. Please try again.",
+      "errors": {
+        "nameRequired": "Task name is required.",
+        "startRequired": "Start date is required.",
+        "endRequired": "End date is required."
+      }
     },
     "cost": {
       "dashboard": "Cost Dashboard",
@@ -244,6 +268,9 @@
       "earnedValue": "Earned Value",
       "plannedVsActual": "Planned vs Actual",
       "burnRate": "Burn Rate",
+      "monthlySpend": "Spent",
+      "noBurnRateData": "No monthly spending data yet",
+      "noBurnRateHint": "Add expense entries or burn-rate history to show the spending trend over time.",
       "detailedBudget": "Detailed Budget",
       "category": "Category",
       "planned": "Planned",

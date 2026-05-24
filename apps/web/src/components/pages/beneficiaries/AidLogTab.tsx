@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { AidItem, AidStatus, Beneficiary, ProgramProject } from '../../../types';
 import type { Disbursement, DisbursementStatus } from '../../../types/financials';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import { useBeneficiaryDisbursements, useCancelDisbursement, useCreateDisbursement } from '../../../hooks/useDisbursements';
 import { formatDate, formatCurrency, formatNumber } from '../../../lib/utils';
+import { mapDisbursementToAidStatus, openFinancialsTab } from '../../../lib/aidDisbursement';
 import { FinancialAidIcon, InKindAidIcon, ServiceAidIcon } from '../../icons/AidIcons';
 import { Clock, CheckCircle, AlertCircle, PlusCircle, Pencil, Trash2, ExternalLink, Landmark } from 'lucide-react';
 import AidItemModal, { type AidItemFormInput } from './AidItemModal';
@@ -20,12 +21,6 @@ interface AidLogTabProps {
 type TimelineEntry =
     | { kind: 'aid'; item: AidItem }
     | { kind: 'disbursement'; disbursement: Disbursement };
-
-const mapDisbursementStatus = (status: DisbursementStatus): AidStatus => {
-    if (status === 'completed') return 'Delivered';
-    if (status === 'scheduled') return 'Scheduled';
-    return 'Pending';
-};
 
 const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects = [] }) => {
     const aidLog = Array.isArray(beneficiary.aidLog) ? beneficiary.aidLog : [];
@@ -44,6 +39,38 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
         () => new Set(aidLog.map((item) => item.disbursementId).filter(Boolean) as string[]),
         [aidLog],
     );
+
+    const disbursementById = useMemo(
+        () => new Map(disbursements.map((d) => [d.id, d])),
+        [disbursements],
+    );
+
+    useEffect(() => {
+        if (!onUpdate || disbursements.length === 0) return;
+        let changed = false;
+        const nextLog = aidLog.map((item) => {
+            if (item.type !== 'financial' || !item.disbursementId) return item;
+            const linked = disbursementById.get(item.disbursementId);
+            if (!linked) return item;
+            const derived = mapDisbursementToAidStatus(linked.status);
+            if (item.status !== derived) {
+                changed = true;
+                return { ...item, status: derived };
+            }
+            return item;
+        });
+        if (changed) onUpdate(nextLog);
+    }, [aidLog, disbursements, disbursementById, onUpdate]);
+
+    const getEffectiveStatus = (item: AidItem): { aidStatus: AidStatus; disbursementStatus?: DisbursementStatus } => {
+        if (item.type === 'financial' && item.disbursementId) {
+            const linked = disbursementById.get(item.disbursementId);
+            if (linked) {
+                return { aidStatus: mapDisbursementToAidStatus(linked.status), disbursementStatus: linked.status };
+            }
+        }
+        return { aidStatus: item.status };
+    };
 
     const timeline = useMemo(() => {
         const entries: TimelineEntry[] = [
@@ -119,7 +146,8 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
         if (!onUpdate || !validateForm(form)) return;
 
         let disbursementId = editingItem?.disbursementId;
-        if (form.requestDisbursement && form.type === 'financial' && !disbursementId) {
+        let linkedDisbursementStatus: DisbursementStatus | undefined;
+        if (form.type === 'financial' && !disbursementId) {
             try {
                 const created = await createDisbursement.mutateAsync({
                     beneficiaryId: beneficiary.id,
@@ -133,6 +161,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                     notes: form.descriptionEn,
                 });
                 disbursementId = created.id;
+                linkedDisbursementStatus = created.status;
                 toast.showSuccess(t('beneficiaries.aidLog.disbursementRequested'));
             } catch {
                 toast.showError(t('beneficiaries.aidLog.disbursementRequestFailed'));
@@ -141,6 +170,12 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
         }
 
         const item = buildAidItem(form, editingItem?.id, disbursementId);
+        if (form.type === 'financial') {
+            const linked = linkedDisbursementStatus
+                ? { status: linkedDisbursementStatus }
+                : (disbursementId ? disbursementById.get(disbursementId) : undefined);
+            item.status = linked ? mapDisbursementToAidStatus(linked.status) : 'Pending';
+        }
         const nextLog = editingItem
             ? aidLog.map((entry) => (entry.id === editingItem.id ? item : entry))
             : [item, ...aidLog];
@@ -193,14 +228,18 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
         return projects.find((p) => p.id === projectId)?.name[language];
     };
 
-    const openFinancials = () => {
-        window.location.hash = 'financials';
+    const openFinancialsForDisbursement = (status?: DisbursementStatus) => {
+        openFinancialsTab(status === 'pending_approval' ? 'approvals' : 'disbursements');
     };
 
     const renderAidEntry = (item: AidItem) => {
         const TypeIcon = aidTypeConfig[item.type].icon;
-        const StatusIcon = statusConfig[item.status].icon;
-        const statusColor = statusConfig[item.status].color;
+        const { aidStatus, disbursementStatus } = getEffectiveStatus(item);
+        const StatusIcon = statusConfig[aidStatus].icon;
+        const statusColor = statusConfig[aidStatus].color;
+        const statusLabel = item.type === 'financial' && disbursementStatus
+            ? t(`financials.status.${disbursementStatus}`)
+            : t(`beneficiaries.aidLog.status.${aidStatus.toLowerCase()}`);
         const linkedProject = projectName(item.relatedProjectId);
 
         return (
@@ -220,7 +259,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                             </span>
                             <div className={`flex items-center gap-1 text-xs font-semibold ${statusColor}`}>
                                 <StatusIcon className="w-4 h-4" />
-                                {t(`beneficiaries.aidLog.status.${item.status.toLowerCase()}`)}
+                                {statusLabel}
                             </div>
                             {onUpdate && (
                                 <div className="flex items-center gap-1">
@@ -257,7 +296,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                         {item.disbursementId && (
                             <p className="text-gray-600 dark:text-gray-300">
                                 <strong>{t('beneficiaries.aidLog.linkedDisbursement')}:</strong>{' '}
-                                <button type="button" onClick={openFinancials} className="inline-flex items-center gap-1 text-primary hover:underline">
+                                <button type="button" onClick={() => openFinancialsForDisbursement(disbursementStatus)} className="inline-flex items-center gap-1 text-primary hover:underline">
                                     {t('beneficiaries.aidLog.viewInFinancials')}
                                     <ExternalLink size={12} />
                                 </button>
@@ -275,7 +314,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
     };
 
     const renderDisbursementEntry = (disbursement: Disbursement) => {
-        const mappedStatus = mapDisbursementStatus(disbursement.status);
+        const mappedStatus = mapDisbursementToAidStatus(disbursement.status);
         const StatusIcon = statusConfig[mappedStatus].icon;
         const statusColor = statusConfig[mappedStatus].color;
         const displayDate = disbursement.processedDate || disbursement.scheduledDate;
@@ -320,7 +359,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                         {disbursement.notes && (
                             <p><strong>{t('beneficiaries.aidLog.notes')}:</strong> {disbursement.notes}</p>
                         )}
-                        <button type="button" onClick={openFinancials} className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-semibold">
+                        <button type="button" onClick={() => openFinancialsForDisbursement(disbursement.status)} className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-semibold">
                             {t('beneficiaries.aidLog.viewInFinancials')}
                             <ExternalLink size={12} />
                         </button>
@@ -329,6 +368,10 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
             </div>
         );
     };
+
+    const linkedDisbursementStatus = editingItem?.disbursementId
+        ? disbursementById.get(editingItem.disbursementId)?.status
+        : undefined;
 
     if (timeline.length === 0) {
         return (
@@ -350,7 +393,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                     onClose={() => { setIsModalOpen(false); setEditingItem(null); }}
                     onSubmit={handleSubmit}
                     initialItem={editingItem}
-                    allowDisbursementRequest={!!onUpdate}
+                    linkedDisbursementStatus={linkedDisbursementStatus}
                     projects={projects}
                 />
             </>
@@ -385,7 +428,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                 onClose={() => { setIsModalOpen(false); setEditingItem(null); }}
                 onSubmit={handleSubmit}
                 initialItem={editingItem}
-                allowDisbursementRequest={!!onUpdate}
+                linkedDisbursementStatus={linkedDisbursementStatus}
                 projects={projects}
             />
 

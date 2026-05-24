@@ -1,24 +1,21 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { DollarSign, Clock, Calendar, AlertTriangle } from 'lucide-react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { DollarSign, Clock, Calendar, AlertTriangle, ExternalLink } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { useToast } from '../../../hooks/useToast';
 import { formatCurrency, formatDate } from '../../../lib/utils';
+import { getDisbursementSourceRoute, navigateToFinancialSource } from '../../../lib/financialSourceNavigation';
 import DataTable, { type Column } from './shared/DataTable';
 import FilterBar, { type FilterDef } from './shared/FilterBar';
 import StatusBadge from './shared/StatusBadge';
 import FinancialKpiCard from './shared/FinancialKpiCard';
 import {
-  useCreateDisbursement,
   useDisbursements,
   isOptimisticDisbursement,
 } from '../../../hooks/useDisbursements';
-import { OPTIMISTIC_HIGHLIGHT_MS } from '../../../lib/optimisticSubmit';
 import type {
   Disbursement,
   DisbursementType,
   DisbursementStatus,
 } from '../../../types/financials';
-import ModalPortal from '../../common/ModalPortal';
 
 const DISBURSEMENT_TYPES: DisbursementType[] = [
   'aid_payment',
@@ -47,42 +44,12 @@ const TYPE_BADGE_CLASSES: Record<DisbursementType, string> = {
 };
 
 const DisbursementsTab: React.FC = () => {
-  const { t, language } = useLocalization();
-  const { showSuccess, showError } = useToast();
+  const { t, language } = useLocalization(['common', 'financials']);
   const { data: disbursements = [] } = useDisbursements();
-  const createDisbursement = useCreateDisbursement();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [beneficiaryNameEn, setBeneficiaryNameEn] = useState('');
-  const [amount, setAmount] = useState('');
-  const [type, setType] = useState<DisbursementType>('aid_payment');
-  const [method, setMethod] = useState<'bank_transfer' | 'cash' | 'mobile_money' | 'voucher'>('bank_transfer');
-  const [scheduledDate, setScheduledDate] = useState(() => new Date().toISOString().split('T')[0]);
-  const [highlightedId, setHighlightedId] = useState<string | null>(null);
-  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
-    };
-  }, []);
-
-  const flashHighlight = useCallback((id: string) => {
-    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
-    setHighlightedId(id);
-    highlightTimerRef.current = setTimeout(() => setHighlightedId(null), OPTIMISTIC_HIGHLIGHT_MS);
-  }, []);
-
-  const resetCreateForm = useCallback(() => {
-    setBeneficiaryNameEn('');
-    setAmount('');
-    setType('aid_payment');
-    setMethod('bank_transfer');
-    setScheduledDate(new Date().toISOString().split('T')[0]);
-  }, []);
 
   // --- KPI calculations ---
   const kpiData = useMemo(() => {
@@ -149,48 +116,14 @@ const DisbursementsTab: React.FC = () => {
     return [...optimistic, ...filtered];
   }, [searchTerm, typeFilter, statusFilter, language, disbursements]);
 
-  const handleCreateDisbursement = () => {
-    const parsedAmount = Number(amount);
-    if (!beneficiaryNameEn.trim() || !Number.isFinite(parsedAmount) || parsedAmount <= 0) {
-      showError(t('common.error', 'Error'));
-      return;
-    }
-
-    const payload = {
-      beneficiaryNameEn: beneficiaryNameEn.trim(),
-      amount: parsedAmount,
-      type,
-      method,
-      scheduledDate,
-    };
-    resetCreateForm();
-    setIsCreateOpen(false);
-
-    createDisbursement.mutate(
-      payload,
-      {
-        onSuccess: (created) => {
-          showSuccess(t('financials.disbursements.createSuccess', 'Disbursement submitted for approval'));
-          flashHighlight(created.id);
-        },
-        onError: (error) => {
-          showError(error instanceof Error ? error.message : t('common.error', 'Error'));
-        },
-      }
-    );
-  };
-
   const getRowClassName = useCallback(
     (row: Disbursement) => {
       if (isOptimisticDisbursement(row.id)) {
         return 'opacity-70 animate-pulse bg-blue-50/60 dark:bg-blue-950/30';
       }
-      if (highlightedId === row.id) {
-        return 'bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-inset ring-emerald-200/80 dark:ring-emerald-800/60';
-      }
       return '';
     },
-    [highlightedId]
+    []
   );
 
   // --- Table columns ---
@@ -267,6 +200,26 @@ const DisbursementsTab: React.FC = () => {
             <StatusBadge status={row.status} />
           ),
       },
+      {
+        key: 'actions',
+        label: '',
+        align: 'right',
+        render: (row) => {
+          if (isOptimisticDisbursement(row.id)) return null;
+          const sourceRoute = getDisbursementSourceRoute(row);
+          if (!sourceRoute) return null;
+          return (
+            <button
+              type="button"
+              onClick={() => navigateToFinancialSource(sourceRoute)}
+              className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline whitespace-nowrap"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              {t('financials.disbursements.goToSource')}
+            </button>
+          );
+        },
+      },
     ],
     [t, language]
   );
@@ -305,16 +258,6 @@ const DisbursementsTab: React.FC = () => {
         />
       </div>
 
-      {/* Filters */}
-      <div className="flex justify-end">
-        <button
-          onClick={() => setIsCreateOpen(true)}
-          className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
-        >
-          {t('financials.disbursements.create', 'Create Disbursement')}
-        </button>
-      </div>
-
       <FilterBar
         searchValue={searchTerm}
         onSearchChange={setSearchTerm}
@@ -322,92 +265,12 @@ const DisbursementsTab: React.FC = () => {
         filters={filters}
       />
 
-      {/* Table */}
       <DataTable<Disbursement>
         columns={columns}
         data={filteredData}
         getRowClassName={getRowClassName}
         emptyMessage={t('financials.disbursements.noDisbursements')}
       />
-
-      <ModalPortal
-        isOpen={isCreateOpen}
-        onClose={() => setIsCreateOpen(false)}
-        overlayClassName="fixed inset-0 bg-black/40 modal-overlay animate-fade-in"
-      >
-          <div className="w-full max-w-lg rounded-xl border border-gray-200 bg-card p-5 dark:border-slate-700/50 dark:bg-dark-card" onClick={(e) => e.stopPropagation()}>
-            <h3 className="mb-4 text-base font-semibold text-foreground dark:text-dark-foreground">
-              {t('financials.disbursements.create', 'Create Disbursement')}
-            </h3>
-            <div className="space-y-3">
-              <input
-                value={beneficiaryNameEn}
-                onChange={(e) => setBeneficiaryNameEn(e.target.value)}
-                placeholder={t('financials.disbursements.beneficiary', 'Beneficiary')}
-                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
-              />
-              <input
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder={t('financials.disbursements.amount', 'Amount')}
-                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
-              />
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                <select
-                  value={type}
-                  onChange={(e) => setType(e.target.value as DisbursementType)}
-                  className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
-                >
-                  {DISBURSEMENT_TYPES.map((entry) => (
-                    <option key={entry} value={entry}>
-                      {t(`financials.disbursementType.${entry}`)}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={method}
-                  onChange={(e) => setMethod(e.target.value as 'bank_transfer' | 'cash' | 'mobile_money' | 'voucher')}
-                  className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
-                >
-                  <option value="bank_transfer">{t('financials.method.bank_transfer')}</option>
-                  <option value="cash">{t('financials.method.cash')}</option>
-                  <option value="mobile_money">{t('financials.method.mobile_money')}</option>
-                  <option value="voucher">{t('financials.method.voucher')}</option>
-                </select>
-                <input
-                  value={scheduledDate}
-                  onChange={(e) => setScheduledDate(e.target.value)}
-                  type="date"
-                  className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
-                />
-              </div>
-            </div>
-            <form
-              className="mt-5 flex justify-end gap-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleCreateDisbursement();
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => setIsCreateOpen(false)}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-800"
-              >
-                {t('common.cancel', 'Cancel')}
-              </button>
-              <button
-                type="submit"
-                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
-              >
-                {t('financials.disbursements.create', 'Create Disbursement')}
-              </button>
-            </form>
-        </div>
-      </ModalPortal>
     </div>
   );
 };

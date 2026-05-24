@@ -216,6 +216,12 @@ export interface ApprovalItem {
   totalSteps: number;
   workflowId: string;
   dueDate?: string;
+  metadata?: {
+    beneficiaryNameEn?: string;
+    beneficiaryNameAr?: string;
+    disbursementType?: DisbursementType;
+    beneficiaryId?: string;
+  };
 }
 
 // Reports

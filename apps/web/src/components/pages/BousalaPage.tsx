@@ -3,7 +3,7 @@ import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
 import { BousalaIcon } from '../icons/ModuleIcons';
-import { Bell, ChevronDown, CheckCircle, Clock, Loader, Bot, Sparkles, BrainCircuit, ShieldAlert, BarChart3, Target, Briefcase, CheckSquare, GripVertical, Zap, Settings, Volume2, VolumeX, TrendingUp, TrendingDown, Minus, PlusCircle, AlertCircle as AlertCircleIcon, ArrowRightCircle, XCircle, ClipboardList, Link2 } from 'lucide-react';
+import { Bell, ChevronDown, CheckCircle, Clock, Loader, Bot, Sparkles, BrainCircuit, ShieldAlert, BarChart3, Target, Briefcase, CheckSquare, GripVertical, Zap, Settings, Volume2, VolumeX, TrendingUp, TrendingDown, Minus, PlusCircle, AlertCircle as AlertCircleIcon, ArrowRightCircle, XCircle, ClipboardList, Link2, Pencil, Check, X, Trash2, Unlink } from 'lucide-react';
 import AiCard from './ai/AiCard';
 import Spinner from '../common/Spinner';
 import { formatCurrency, formatDate, formatNumber } from '../../lib/utils';
@@ -29,7 +29,25 @@ import ReportGenerationModal from './bousala/ReportGenerationModal';
 import AddTaskModal from './bousala/AddTaskModal';
 import AddGoalModal from './bousala/AddGoalModal';
 import { useToast } from '../../hooks/useToast';
-import { createOptimisticId, isOptimisticId, OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../lib/optimisticSubmit';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+    BOUSALA_QUERY_KEY,
+    useBousala,
+    useCreateBousalaGoal,
+    useCreateBousalaKpi,
+    useCreateBousalaTask,
+    useDeleteBousalaGoal,
+    useDeleteBousalaKpi,
+    useDeleteBousalaTask,
+    useLinkBousalaProjects,
+    useUnlinkBousalaGoalProject,
+    useUpdateBousalaGoal,
+    useUpdateBousalaGoalProject,
+    useUpdateBousalaKpi,
+    useUpdateBousalaTask,
+    type TaskUpdatePatch as ApiTaskUpdatePatch,
+} from '../../hooks/useBousala';
+import { isOptimisticId, OPTIMISTIC_HIGHLIGHT_MS } from '../../lib/optimisticSubmit';
 
 const OPTIMISTIC_TASK_PREFIX = 'optimistic-task-';
 
@@ -40,39 +58,14 @@ import LinkProjectModal from './bousala/LinkProjectModal';
 import { playFeedbackSound } from '../../lib/audioFeedback';
 import Tooltip from '../common/Tooltip';
 import AddKpiModal from './bousala/AddKpiModal';
+import EditKpiModal from './bousala/EditKpiModal';
+import { useProjects } from '../../hooks/useProjects';
 import KpiCharts from './bousala/KpiCharts';
 import PredictiveDashboard from './bousala/PredictiveDashboard';
 import SmartAlertsPanel from './bousala/SmartAlertsPanel';
 import AlertsCenterPanel from './bousala/AlertsCenterPanel';
-
-
-// Data based on bousala.data.json
-const initialBousalaData = {
-  goals: [
-    { id: "G1", title: "تعزيز الاستدامة المالية للمنظمة", description: "زيادة مصادر التمويل الذاتي بنسبة 20% خلال العام المالي الحالي.", progress: 45, linkedProjects: ["P1"], responsiblePerson: "Fatma Kaya", deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(), kpis: [ { id: "G1-K1", title: "نسبة التمويل الذاتي", value: 9, target: 20, unit: "%", trend: "up", lastUpdated: "2024-07-20T00:00:00Z" }, { id: "G1-K2", title: "حملات التمويل الجديدة", value: 2, target: 5, unit: "حملة", trend: "stable", lastUpdated: "2024-07-18T00:00:00Z" } ] },
-    { id: "G2", title: "توسيع نطاق الخدمات التعليمية", description: "الوصول إلى 500 مستفيد جديد في البرامج التعليمية بنهاية العام.", progress: 70, linkedProjects: ["P2"], responsiblePerson: "Ali Veli", deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), kpis: [ { id: "G2-K1", title: "المستفيدون الجدد", value: 350, target: 500, unit: "مستفيد", trend: "up", lastUpdated: "2024-07-22T00:00:00Z" }, { id: "G2-K2", title: "معدل إتمام الدورات", value: 88, target: 90, unit: "%", trend: "down", lastUpdated: "2024-07-15T00:00:00Z" } ] }
-  ],
-  projects: [
-    { id: "P1", title: "إطلاق حملة الوقف السنوية", description: "حملة تسويقية لجمع التبرعات لصالح صندوق الوقف.", progress: 60, linkedGoal: "G1", linkedTasks: ["T1"] },
-    { id: "P2", title: "تطوير منصة التعليم عن بعد", description: "إضافة مساقات جديدة وتطوير واجهة المستخدم للمنصة التعليمية.", progress: 85, linkedGoal: "G2", linkedTasks: ["T2"] }
-  ],
-  tasks: [
-    { id: "T1", title: "تصميم المواد الإعلانية للحملة", description: "إنشاء تصاميم وفيديوهات ترويجية لحملة الوقف.", status: "in-progress", linkedProject: "P1", assignee: "فريق التسويق" },
-    { id: "T2", title: "برمجة واجهة تسجيل الطلاب الجديدة", description: "تطوير واجهة مستخدم سهلة لتسجيل الطلاب الجدد في المنصة.", status: "completed", linkedProject: "P2", assignee: "فريق التطوير التقني" }
-  ]
-};
-
-// --- NEW MOCK DATA for KPI Trends ---
-const kpiTrendData = [
-    { name: 'Jan', value: 65 },
-    { name: 'Feb', value: 59 },
-    { name: 'Mar', value: 80 },
-    { name: 'Apr', value: 81 },
-    { name: 'May', value: 56 },
-    { name: 'Jun', value: 55 },
-    { name: 'Jul', value: 40 },
-];
-
+import BousalaSectionEmpty from './bousala/BousalaSectionEmpty';
+import type { BousalaDemoState } from '../../lib/bousalaDemoData';
 
 type AiInsight = {
     id: number;
@@ -97,6 +90,69 @@ interface BousalaNotificationSettings {
     severityThreshold: number;
     alertSoundEnabled: boolean;
     aiAutoRecommendationsEnabled: boolean;
+}
+
+const LEGACY_SOURCE_PROJECT_MAP: Record<string, string> = {
+    P1: 'PROJ-2020-002',
+    P2: 'PROJ-2025-003',
+};
+
+const KPI_REFRESH_INTERVALS = [30, 60, 120] as const;
+
+function getSourceProjectId(project: BousalaProject): string | undefined {
+    if (project.sourceProjectId) return project.sourceProjectId;
+    if (project.id.startsWith('BP-')) return project.id.slice(3);
+    return LEGACY_SOURCE_PROJECT_MAP[project.id];
+}
+
+function recalculateGoalProgress(projects: BousalaProject[], goal: BousalaGoal): number {
+    const linked = projects.filter(p => goal.linkedProjects.includes(p.id));
+    if (linked.length === 0) return goal.progress;
+    return Math.round(linked.reduce((sum, p) => sum + p.progress, 0) / linked.length);
+}
+
+function loadKpiSettings(): KpiSettings {
+    const defaults: KpiSettings = { interval: 60, smartRefresh: true, showAnimation: true };
+    try {
+        const raw = sessionStorage.getItem('bousalaKpiSettings');
+        if (!raw) return defaults;
+        const parsed = JSON.parse(raw) as Partial<KpiSettings>;
+        const interval = KPI_REFRESH_INTERVALS.includes(parsed.interval as (typeof KPI_REFRESH_INTERVALS)[number])
+            ? (parsed.interval as KpiSettings['interval'])
+            : defaults.interval;
+        return {
+            interval,
+            smartRefresh: parsed.smartRefresh !== false,
+            showAnimation: parsed.showAnimation !== false,
+        };
+    } catch {
+        return defaults;
+    }
+}
+
+function loadNotificationSettings(): BousalaNotificationSettings {
+    const defaults: BousalaNotificationSettings = {
+        smartAlertsEnabled: true,
+        severityThreshold: 70,
+        alertSoundEnabled: true,
+        aiAutoRecommendationsEnabled: true,
+    };
+    try {
+        const raw = sessionStorage.getItem('bousalaNotificationSettings');
+        if (!raw) return defaults;
+        const parsed = JSON.parse(raw) as Partial<BousalaNotificationSettings>;
+        const threshold = typeof parsed.severityThreshold === 'number'
+            ? Math.min(90, Math.max(50, Math.round(parsed.severityThreshold / 10) * 10))
+            : defaults.severityThreshold;
+        return {
+            smartAlertsEnabled: parsed.smartAlertsEnabled !== false,
+            severityThreshold: threshold,
+            alertSoundEnabled: parsed.alertSoundEnabled !== false,
+            aiAutoRecommendationsEnabled: parsed.aiAutoRecommendationsEnabled !== false,
+        };
+    } catch {
+        return defaults;
+    }
 }
 
 // --- SUB-COMPONENTS ---
@@ -129,8 +185,15 @@ const ProgressBar: React.FC<{ progress: number, color?: string }> = ({ progress,
     );
 };
 
-const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: boolean; showAnimation: boolean }> = ({ kpi, isRefreshing, isPredicting, showAnimation }) => {
-    const { t, language } = useLocalization();
+const KpiCard: React.FC<{
+    kpi: BousalaKpi;
+    isRefreshing: boolean;
+    isPredicting: boolean;
+    showAnimation: boolean;
+    onEdit: () => void;
+    onDelete: () => void;
+}> = ({ kpi, isRefreshing, isPredicting, showAnimation, onEdit, onDelete }) => {
+    const { t, language } = useLocalization(['common', 'bousala']);
     const progress = (kpi.value / kpi.target) * 100;
     const trendConfig = {
         up: { icon: <TrendingUp className="w-4 h-4 text-green-500" />, color: 'text-green-500' },
@@ -154,14 +217,22 @@ const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: 
     return (
         <div className="bg-white dark:bg-slate-700/50 p-3 rounded-lg flex flex-col justify-between h-full">
             <div>
-                <div className="flex justify-between items-start">
-                    <h5 className="font-semibold text-sm flex items-center gap-2" dir="auto">
+                <div className="flex justify-between items-start gap-2">
+                    <h5 className="font-semibold text-sm flex items-center gap-2 min-w-0" dir="auto">
                         {kpi.title}
                         {showAnimation && isRefreshing && <Loader size={12} className="animate-spin text-primary" />}
                     </h5>
-                    <Tooltip text={`${t('bousala.common.lastUpdated')}: ${formatDate(kpi.lastUpdated, language)}`}>
-                        {trendConfig[kpi.trend].icon}
-                    </Tooltip>
+                    <div className="flex items-center gap-0.5 flex-shrink-0">
+                        <button type="button" onClick={onEdit} className="p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-600 text-gray-500" aria-label={t('bousala.kpiEdit.editAria')}>
+                            <Pencil size={14} />
+                        </button>
+                        <button type="button" onClick={onDelete} className="p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/30 text-red-500" aria-label={t('bousala.kpiEdit.deleteAria')}>
+                            <Trash2 size={14} />
+                        </button>
+                        <Tooltip text={t('bousala.common.lastUpdated', { date: formatDate(kpi.lastUpdated, language) })}>
+                            {trendConfig[kpi.trend].icon}
+                        </Tooltip>
+                    </div>
                 </div>
                 <div className="flex items-baseline gap-2 mt-2">
                     <span className="text-2xl font-bold">{formatNumber(kpi.value, language)}</span>
@@ -192,66 +263,211 @@ const KpiCard: React.FC<{ kpi: BousalaKpi; isRefreshing: boolean; isPredicting: 
     );
 };
 
-const TaskItem: React.FC<{ task: BousalaTask; volunteers: HrData['volunteers']; highlighted?: boolean }> = ({ task, volunteers, highlighted = false }) => {
-    const { t } = useLocalization(['common', 'bousala']);
+type TaskUpdatePatch = Pick<BousalaTask, 'assignee' | 'status'>;
+
+const TaskItem: React.FC<{
+    task: BousalaTask;
+    volunteers: HrData['volunteers'];
+    unassignedLabel: string;
+    highlighted?: boolean;
+    isUpdating?: boolean;
+    onUpdate: (taskId: string, patch: TaskUpdatePatch) => void | Promise<void>;
+    onDelete: (taskId: string) => void;
+}> = ({ task, volunteers, unassignedLabel, highlighted = false, isUpdating = false, onUpdate, onDelete }) => {
+    const { t, language } = useLocalization(['common', 'bousala']);
     const optimistic = isOptimisticBousalaTask(task.id);
-    const statusConfig = {
-        'in-progress': { icon: <Clock className="w-4 h-4 text-yellow-500" />, label: t('bousala.task_status.in-progress') },
-        'completed': { icon: <CheckCircle className="w-4 h-4 text-green-500" />, label: t('bousala.task_status.completed') }
+    const disabled = optimistic || isUpdating;
+
+    const assigneeVolunteerId = useMemo(() => {
+        const match = volunteers.find(v => v.full_name === task.assignee);
+        return match?.volunteer_id ?? '';
+    }, [task.assignee, volunteers]);
+
+    const taskMeta = optimistic || isUpdating
+        ? t('common.saving')
+        : [
+            `${t('bousala.common.assigneeLabel')}: ${task.assignee}`,
+            task.dueDate ? t('bousala.common.taskDueDate', { date: formatDate(task.dueDate, language) }) : null,
+            task.priority ? t('bousala.common.taskPriority', { priority: t(`bousala.addTaskModal.priorities.${task.priority}`) }) : null,
+        ].filter(Boolean).join(' · ');
+
+    const handleAssigneeChange = (volunteerId: string) => {
+        const assignee = volunteerId
+            ? volunteers.find(v => v.volunteer_id === volunteerId)?.full_name ?? task.assignee
+            : unassignedLabel;
+        if (assignee === task.assignee) return;
+        void onUpdate(task.id, { assignee });
     };
-    const config = statusConfig[task.status as keyof typeof statusConfig] || { icon: <Loader className="w-4 h-4" />, label: task.status };
+
+    const handleStatusChange = (status: BousalaTask['status']) => {
+        if (status === task.status) return;
+        void onUpdate(task.id, { status });
+    };
 
     return (
         <div className={`flex items-center justify-between p-4 bg-white dark:bg-slate-700/50 rounded-xl shadow-sm transition-shadow ${
-            optimistic
-                ? 'opacity-70 animate-pulse'
+            disabled
+                ? 'opacity-70'
                 : 'hover:shadow-md'
-        } ${highlighted ? 'ring-2 ring-emerald-300 dark:ring-emerald-700' : ''}`}>
-            <div className="flex items-center gap-3">
+        } ${optimistic ? 'animate-pulse' : ''} ${highlighted ? 'ring-2 ring-emerald-300 dark:ring-emerald-700' : ''}`}>
+            <div className="flex items-center gap-3 min-w-0">
                 <CheckSquare className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                <div>
-                    <p className="font-semibold" dir="auto">{task.title}</p>
-                    <p className="text-xs text-gray-500">
-                        {optimistic ? t('common.saving') : `${t('bousala.common.assigneeLabel')}: ${task.assignee}`}
-                    </p>
+                <div className="min-w-0">
+                    <p className="font-semibold truncate" dir="auto">{task.title}</p>
+                    <p className="text-xs text-gray-500" dir="auto">{taskMeta}</p>
                 </div>
             </div>
-            <div className="flex items-center gap-4">
-                <select disabled={optimistic} className="p-1 text-xs border rounded-md bg-gray-50 dark:bg-slate-800 w-32 disabled:opacity-50">
-                    <option>{t('bousala.common.assignTaskTo')}</option>
-                    {volunteers.map(v => <option key={v.volunteer_id} value={v.volunteer_id}>{v.full_name}</option>)}
+            <div className="flex items-center gap-3 flex-shrink-0">
+                <label className="sr-only">{t('bousala.common.assignTaskTo')}</label>
+                <select
+                    value={assigneeVolunteerId}
+                    onChange={e => handleAssigneeChange(e.target.value)}
+                    disabled={disabled}
+                    className="p-1.5 text-xs border rounded-md bg-gray-50 dark:bg-slate-800 w-36 max-w-[9rem] disabled:opacity-50"
+                >
+                    <option value="">{unassignedLabel}</option>
+                    {volunteers.map(v => (
+                        <option key={v.volunteer_id} value={v.volunteer_id}>{v.full_name}</option>
+                    ))}
                 </select>
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                    {config.icon}
-                    <span>{config.label}</span>
-                </div>
+                <label className="sr-only">{t('bousala.taskEdit.statusLabel')}</label>
+                <select
+                    value={task.status}
+                    onChange={e => handleStatusChange(e.target.value as BousalaTask['status'])}
+                    disabled={disabled}
+                    className={`p-1.5 text-xs font-semibold border rounded-md bg-gray-50 dark:bg-slate-800 disabled:opacity-50 ${
+                        task.status === 'completed'
+                            ? 'text-green-700 dark:text-green-300'
+                            : 'text-yellow-700 dark:text-yellow-300'
+                    }`}
+                >
+                    <option value="in-progress">{t('bousala.task_status.in-progress')}</option>
+                    <option value="completed">{t('bousala.task_status.completed')}</option>
+                </select>
+                {isUpdating && <Loader size={16} className="animate-spin text-primary" />}
+                <button
+                    type="button"
+                    onClick={() => onDelete(task.id)}
+                    disabled={disabled}
+                    className="p-1.5 rounded-md text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-50"
+                    aria-label={t('bousala.taskEdit.deleteAria')}
+                >
+                    <Trash2 size={16} />
+                </button>
             </div>
         </div>
     );
 };
 
-const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; highlightedTaskId?: string | null; isAiLoading: boolean; onSuggestTasks: () => void; onPredictRisk: () => void; mainProjects: MainProject[]; volunteers: HrData['volunteers']; }> = ({ project, tasks, highlightedTaskId = null, isAiLoading, onSuggestTasks, onPredictRisk, mainProjects, volunteers }) => {
-    const { t } = useLocalization();
+type ProjectEditForm = { title: string; description: string };
+
+const ProjectItem: React.FC<{
+    project: BousalaProject;
+    tasks: BousalaTask[];
+    highlightedTaskId?: string | null;
+    updatingTaskId?: string | null;
+    unassignedLabel: string;
+    isAiLoading: boolean;
+    onSuggestTasks: () => void;
+    onPredictRisk: () => void;
+    onUpdateTask: (taskId: string, patch: TaskUpdatePatch) => void | Promise<void>;
+    onDeleteTask: (taskId: string) => void;
+    onSaveProject: (projectId: string, data: ProjectEditForm) => void | Promise<void>;
+    onUnlinkProject: (projectId: string) => void;
+    isSavingProject?: boolean;
+    mainProjects: MainProject[];
+    volunteers: HrData['volunteers'];
+}> = ({ project, tasks, highlightedTaskId = null, updatingTaskId = null, unassignedLabel, isAiLoading, onSuggestTasks, onPredictRisk, onUpdateTask, onDeleteTask, onSaveProject, onUnlinkProject, isSavingProject = false, mainProjects, volunteers }) => {
+    const { t, language } = useLocalization(['common', 'bousala']);
     const [isExpanded, setIsExpanded] = useState(false);
-     // Hardcoded mapping for demonstration
-    const linkedProjectMapping: Record<string, string> = {
-        'P1': 'PROJ-2020-002',
-        'P2': 'PROJ-2025-003',
+    const [isEditing, setIsEditing] = useState(false);
+    const [form, setForm] = useState<ProjectEditForm>({ title: project.title, description: project.description });
+    const [titleError, setTitleError] = useState<string | undefined>();
+
+    useEffect(() => {
+        if (!isEditing) {
+            setForm({ title: project.title, description: project.description });
+            setTitleError(undefined);
+        }
+    }, [project.title, project.description, isEditing]);
+
+    const sourceId = getSourceProjectId(project);
+    const linkedSystemProject = sourceId ? mainProjects.find(p => p.id === sourceId) : undefined;
+
+    const handleProjectSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!form.title.trim()) {
+            setTitleError(t('bousala.projectEdit.titleRequired'));
+            return;
+        }
+        try {
+            await Promise.resolve(onSaveProject(project.id, {
+                title: form.title.trim(),
+                description: form.description.trim(),
+            }));
+            setIsEditing(false);
+        } catch {
+            // Parent handles errors.
+        }
     };
-    const linkedSystemProject = mainProjects.find(p => p.id === linkedProjectMapping[project.id]);
 
     return (
         <div className="bg-gray-50 dark:bg-slate-800/50 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-start justify-between text-left">
-                <div className="flex items-start gap-4">
-                    <Briefcase className="w-6 h-6 text-gray-600 dark:text-gray-400 mt-1 flex-shrink-0" />
-                    <div>
-                        <h4 className="font-bold text-lg text-foreground dark:text-dark-foreground" dir="auto">{project.title}</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400" dir="auto">{project.description}</p>
+            <div className="flex items-start justify-between gap-2">
+                <button type="button" onClick={() => setIsExpanded(!isExpanded)} className="flex-1 flex items-start justify-between text-left min-w-0">
+                    <div className="flex items-start gap-4 min-w-0">
+                        <Briefcase className="w-6 h-6 text-gray-600 dark:text-gray-400 mt-1 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                            {isEditing ? (
+                                <form onSubmit={handleProjectSave} className="space-y-2" onClick={e => e.stopPropagation()}>
+                                    <input
+                                        type="text"
+                                        value={form.title}
+                                        onChange={e => { setForm(f => ({ ...f, title: e.target.value })); if (titleError) setTitleError(undefined); }}
+                                        disabled={isSavingProject}
+                                        className="w-full p-2 border rounded-md bg-white dark:bg-slate-800 text-base font-bold disabled:opacity-50"
+                                        dir="auto"
+                                    />
+                                    {titleError && <p className="text-xs text-red-600">{titleError}</p>}
+                                    <textarea
+                                        value={form.description}
+                                        onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                                        rows={2}
+                                        disabled={isSavingProject}
+                                        className="w-full p-2 border rounded-md bg-white dark:bg-slate-800 text-sm disabled:opacity-50"
+                                        dir="auto"
+                                    />
+                                    <div className="flex gap-2 justify-end">
+                                        <button type="submit" disabled={isSavingProject} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded bg-primary text-white disabled:opacity-50">
+                                            {isSavingProject ? <Loader size={12} className="animate-spin" /> : <Check size={12} />}
+                                            {isSavingProject ? t('common.saving') : t('common.save')}
+                                        </button>
+                                        <button type="button" onClick={() => setIsEditing(false)} disabled={isSavingProject} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded border disabled:opacity-50">
+                                            <X size={12} /> {t('common.cancel')}
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <>
+                                    <h4 className="font-bold text-lg text-foreground dark:text-dark-foreground" dir="auto">{project.title}</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400" dir="auto">{project.description}</p>
+                                </>
+                            )}
+                        </div>
                     </div>
-                </div>
-                <ChevronDown className={`w-5 h-5 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
-            </button>
+                    <ChevronDown className={`w-5 h-5 transition-transform flex-shrink-0 ms-2 ${isExpanded ? 'rotate-180' : ''}`} />
+                </button>
+                {!isEditing && (
+                    <div className="flex items-center gap-0.5 flex-shrink-0">
+                        <button type="button" onClick={() => setIsEditing(true)} className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-500" aria-label={t('bousala.projectEdit.editAria')}>
+                            <Pencil size={16} />
+                        </button>
+                        <button type="button" onClick={() => onUnlinkProject(project.id)} className="p-1.5 rounded hover:bg-amber-50 dark:hover:bg-amber-900/30 text-amber-700 dark:text-amber-300" aria-label={t('bousala.projectEdit.unlinkAria')}>
+                            <Unlink size={16} />
+                        </button>
+                    </div>
+                )}
+            </div>
             <div className="mt-4">
                 <ProgressBar progress={project.progress} />
             </div>
@@ -265,8 +481,21 @@ const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; hig
                     >
                         <div className="space-y-3">
                             <h5 className="font-semibold text-sm">{t('bousala.common.linkedTasks')}:</h5>
-                            {tasks.map(task => <TaskItem key={task.id} task={task} volunteers={volunteers} highlighted={highlightedTaskId === task.id} />)}
-                             <div className="flex gap-2 pt-2">
+                            {tasks.length === 0 ? (
+                                <p className="text-center text-sm text-gray-500 py-3" dir="auto">{t('bousala.empty.noTasks.description')}</p>
+                            ) : tasks.map(task => (
+                                <TaskItem
+                                    key={task.id}
+                                    task={task}
+                                    volunteers={volunteers}
+                                    unassignedLabel={unassignedLabel}
+                                    highlighted={highlightedTaskId === task.id}
+                                    isUpdating={updatingTaskId === task.id}
+                                    onUpdate={onUpdateTask}
+                                    onDelete={onDeleteTask}
+                                />
+                            ))}
+                            <div className="flex gap-2 pt-2">
                                 <button disabled={isAiLoading} onClick={onSuggestTasks} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><Sparkles size={14}/> {t('bousala.common.suggestTasksAi')}</button>
                                 <button disabled={isAiLoading} onClick={onPredictRisk} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold border rounded-lg hover:bg-gray-100 disabled:opacity-50"><ShieldAlert size={14}/> {t('bousala.common.predictRiskAi')}</button>
                             </div>
@@ -274,8 +503,8 @@ const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; hig
                                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
                                     <h5 className="font-semibold text-sm mb-2">{t('bousala.common.linkedExecutionProject')}:</h5>
                                     <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm space-y-1">
-                                        <p className="font-bold text-blue-800 dark:text-blue-300">{linkedSystemProject.name.ar}</p>
-                                        <p><strong>{t('bousala.common.budget')}:</strong> {formatCurrency(linkedSystemProject.budget, 'ar')}</p>
+                                        <p className="font-bold text-blue-800 dark:text-blue-300">{linkedSystemProject.name[language] || linkedSystemProject.name.en}</p>
+                                        <p><strong>{t('bousala.common.budget')}:</strong> {formatCurrency(linkedSystemProject.budget, language)}</p>
                                         <p><strong>{t('bousala.common.progress')}:</strong> {linkedSystemProject.progress}%</p>
                                         <h6 className="font-semibold mt-2">{t('bousala.common.kpiIndicators')}:</h6>
                                         <ul className="list-disc list-inside text-xs">
@@ -292,22 +521,181 @@ const ProjectItem: React.FC<{ project: BousalaProject; tasks: BousalaTask[]; hig
     );
 };
 
-const GoalCard: React.FC<{ goal: BousalaGoal; isExpanded: boolean; isAiLoading: boolean; onToggle: () => void; onAnalyze: () => void; onAddKpiClick: () => void; isRefreshingKpis: boolean; showAnimation: boolean; isPredicting: boolean; }> = ({ goal, isExpanded, isAiLoading, onToggle, onAnalyze, onAddKpiClick, isRefreshingKpis, showAnimation, isPredicting }) => {
-    const { t } = useLocalization();
+type GoalEditForm = {
+    title: string;
+    description: string;
+    responsiblePerson: string;
+};
+
+const GoalCard: React.FC<{
+    goal: BousalaGoal;
+    isExpanded: boolean;
+    isAiLoading: boolean;
+    isSaving: boolean;
+    hrData: HrData;
+    onToggle: () => void;
+    onAnalyze: () => void;
+    onAddKpiClick: () => void;
+    onSave: (goalId: string, data: GoalEditForm) => void | Promise<void>;
+    onDelete: (goalId: string) => void;
+    isRefreshingKpis: boolean;
+    showAnimation: boolean;
+    isPredicting: boolean;
+}> = ({ goal, isExpanded, isAiLoading, isSaving, hrData, onToggle, onAnalyze, onAddKpiClick, onSave, onDelete, isRefreshingKpis, showAnimation, isPredicting }) => {
+    const { t } = useLocalization(['common', 'bousala']);
+    const [isEditing, setIsEditing] = useState(false);
+    const [form, setForm] = useState<GoalEditForm>({
+        title: goal.title,
+        description: goal.description,
+        responsiblePerson: goal.responsiblePerson,
+    });
+    const [titleError, setTitleError] = useState<string | undefined>();
+
+    useEffect(() => {
+        if (!isEditing) {
+            setForm({
+                title: goal.title,
+                description: goal.description,
+                responsiblePerson: goal.responsiblePerson,
+            });
+            setTitleError(undefined);
+        }
+    }, [goal.title, goal.description, goal.responsiblePerson, isEditing]);
+
+    const handleCancel = () => {
+        setForm({
+            title: goal.title,
+            description: goal.description,
+            responsiblePerson: goal.responsiblePerson,
+        });
+        setTitleError(undefined);
+        setIsEditing(false);
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!form.title.trim()) {
+            setTitleError(t('bousala.goalEdit.titleRequired'));
+            return;
+        }
+        try {
+            await Promise.resolve(onSave(goal.id, {
+                title: form.title.trim(),
+                description: form.description.trim(),
+                responsiblePerson: form.responsiblePerson,
+            }));
+            setIsEditing(false);
+        } catch {
+            // Parent shows errors; keep edit mode open.
+        }
+    };
+
     return (
         <div className="bg-card dark:bg-dark-card rounded-t-xl shadow-soft border dark:border-slate-700/50 overflow-hidden">
             <div className="p-6">
-                <div className="flex justify-between items-start">
-                    <div className="flex items-start gap-4">
+                <div className="flex justify-between items-start gap-3">
+                    <div className="flex items-start gap-4 min-w-0 flex-1">
                         <Target className="w-8 h-8 text-primary dark:text-secondary flex-shrink-0" />
-                        <div>
-                            <h3 className="font-bold text-xl text-primary dark:text-secondary" dir="auto">{goal.title}</h3>
-                            <p className="text-sm text-gray-500 mt-1" dir="auto">{goal.description}</p>
+                        <div className="min-w-0 flex-1">
+                            {isEditing ? (
+                                <form onSubmit={handleSubmit} className="space-y-3">
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-500">{t('bousala.addGoalModal.goalTitle')}</label>
+                                        <input
+                                            type="text"
+                                            value={form.title}
+                                            onChange={e => { setForm(f => ({ ...f, title: e.target.value })); if (titleError) setTitleError(undefined); }}
+                                            disabled={isSaving}
+                                            className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 text-base font-bold disabled:opacity-50"
+                                            dir="auto"
+                                        />
+                                        {titleError && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{titleError}</p>}
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-500">{t('bousala.addGoalModal.description')}</label>
+                                        <textarea
+                                            value={form.description}
+                                            onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                                            rows={3}
+                                            disabled={isSaving}
+                                            className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 text-sm disabled:opacity-50"
+                                            dir="auto"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-500">{t('bousala.addGoalModal.responsiblePerson')}</label>
+                                        <select
+                                            value={form.responsiblePerson}
+                                            onChange={e => setForm(f => ({ ...f, responsiblePerson: e.target.value }))}
+                                            disabled={isSaving}
+                                            className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 text-sm disabled:opacity-50"
+                                        >
+                                            <option value="">{t('bousala.addGoalModal.selectPerson')}</option>
+                                            {hrData.volunteers.map(v => (
+                                                <option key={v.volunteer_id} value={v.full_name}>{v.full_name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="flex flex-wrap justify-end gap-2 pt-1">
+                                        <button
+                                            type="submit"
+                                            disabled={isSaving}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold disabled:opacity-50"
+                                        >
+                                            {isSaving ? <Loader size={14} className="animate-spin" /> : <Check size={14} />}
+                                            {isSaving ? t('common.saving') : t('common.save')}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleCancel}
+                                            disabled={isSaving}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold hover:bg-gray-100 dark:hover:bg-slate-700 disabled:opacity-50"
+                                        >
+                                            <X size={14} /> {t('common.cancel')}
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <>
+                                    <h3 className="font-bold text-xl text-primary dark:text-secondary" dir="auto">{goal.title}</h3>
+                                    {goal.description && (
+                                        <p className="text-sm text-gray-500 mt-1" dir="auto">{goal.description}</p>
+                                    )}
+                                    {goal.responsiblePerson && (
+                                        <p className="text-xs text-gray-500 mt-2">
+                                            <span className="font-semibold">{t('bousala.addGoalModal.responsiblePerson')}:</span>{' '}
+                                            <span dir="auto">{goal.responsiblePerson}</span>
+                                        </p>
+                                    )}
+                                </>
+                            )}
                         </div>
                     </div>
-                     <button onClick={onToggle} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700/50 flex-shrink-0">
-                        <ChevronDown className={`w-6 h-6 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                    </button>
+                    <div className="flex items-start gap-1 flex-shrink-0">
+                        {!isEditing && (
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditing(true)}
+                                    className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700/50 text-gray-500 hover:text-foreground"
+                                    aria-label={t('bousala.goalEdit.editAria')}
+                                >
+                                    <Pencil size={18} />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => onDelete(goal.id)}
+                                    className="p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 text-red-500"
+                                    aria-label={t('bousala.goalEdit.deleteAria')}
+                                >
+                                    <Trash2 size={18} />
+                                </button>
+                            </>
+                        )}
+                        <button type="button" onClick={onToggle} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700/50 flex-shrink-0">
+                            <ChevronDown className={`w-6 h-6 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                        </button>
+                    </div>
                 </div>
                  <div className="mt-4">
                      <ProgressBar progress={goal.progress} />
@@ -444,7 +832,7 @@ const SmartAiPanel: React.FC<{
     );
 };
 
-const AnalyticsDashboard: React.FC = () => {
+const AnalyticsDashboard: React.FC<{ goals: BousalaGoal[]; projects: BousalaProject[] }> = ({ goals, projects }) => {
     const { theme } = useTheme();
     const { t } = useLocalization();
     const isDark = theme === 'dark';
@@ -453,8 +841,8 @@ const AnalyticsDashboard: React.FC = () => {
     const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
     const COLORS = ['hsl(210, 40%, 50%)', 'hsl(145, 63%, 49%)', '#FFBB28', '#FF8042'];
 
-    const goalProgressData = initialBousalaData.goals.map(g => ({ name: g.title, value: g.progress }));
-    const projectProgressData = initialBousalaData.projects.map(p => ({ name: p.title, progress: p.progress }));
+    const goalProgressData = goals.map(g => ({ name: g.title, value: g.progress }));
+    const projectProgressData = projects.map(p => ({ name: p.title, progress: p.progress }));
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -492,7 +880,7 @@ const AnalyticsDashboard: React.FC = () => {
     );
 };
 
-const CollapsibleAnalytics: React.FC<{goals: BousalaGoal[]}> = ({goals}) => {
+const CollapsibleAnalytics: React.FC<{ goals: BousalaGoal[]; projects: BousalaProject[] }> = ({ goals, projects }) => {
     const { t } = useLocalization();
     const [isOpen, setIsOpen] = useState(true);
     
@@ -514,7 +902,7 @@ const CollapsibleAnalytics: React.FC<{goals: BousalaGoal[]}> = ({goals}) => {
                         className="overflow-hidden"
                     >
                         <div className="p-4 border-t dark:border-slate-700/50">
-                            <AnalyticsDashboard />
+                            <AnalyticsDashboard goals={goals} projects={projects} />
                             <div className="mt-8 pt-8 border-t dark:border-slate-700/50">
                                 <h2 className="text-xl font-bold flex items-center gap-2 mb-4"><TrendingUp size={20} /> {t('bousala.kpisVisualization')}</h2>
                                 <KpiCharts goals={goals} />
@@ -571,13 +959,48 @@ const InPresentationAlert: React.FC<{ alert: { message: string; icon: React.Reac
 const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrData, role }) => {
     const { t, language, dir } = useLocalization(['common', 'bousala', 'projects', 'misc']);
     const toast = useToast();
+    const { data: apiProjects } = useProjects();
+    const linkableProjects = useMemo(
+        () => (apiProjects && apiProjects.length > 0 ? apiProjects : mainProjects),
+        [apiProjects, mainProjects],
+    );
     const [aiAnalyticsSummary, setAiAnalyticsSummary] = useState('');
     const [activeView, setActiveView] = useState('dashboard');
     const [presentationAlert, setPresentationAlert] = useState<{ message: string; icon: React.ReactNode } | null>(null);
 
 
-    const [bousalaState, setBousalaState] = useState(initialBousalaData);
-    const [expandedGoal, setExpandedGoal] = useState<string | null>(bousalaState.goals[0]?.id || null);
+    const queryClient = useQueryClient();
+    const { data: bousalaQueryData, isLoading: isBousalaLoading, isError: isBousalaError } = useBousala();
+    const createGoalMutation = useCreateBousalaGoal();
+    const updateGoalMutation = useUpdateBousalaGoal();
+    const deleteGoalMutation = useDeleteBousalaGoal();
+    const createKpiMutation = useCreateBousalaKpi();
+    const updateKpiMutation = useUpdateBousalaKpi();
+    const deleteKpiMutation = useDeleteBousalaKpi();
+    const linkProjectsMutation = useLinkBousalaProjects();
+    const updateGoalProjectMutation = useUpdateBousalaGoalProject();
+    const unlinkProjectMutation = useUnlinkBousalaGoalProject();
+    const createTaskMutation = useCreateBousalaTask();
+    const updateTaskMutation = useUpdateBousalaTask();
+    const deleteTaskMutation = useDeleteBousalaTask();
+
+    const emptyBousalaState = useMemo<BousalaDemoState>(() => ({ goals: [], projects: [], tasks: [] }), []);
+    const bousalaState = bousalaQueryData ?? emptyBousalaState;
+
+    const setBousalaState = useCallback((updater: BousalaDemoState | ((prev: BousalaDemoState) => BousalaDemoState)) => {
+        queryClient.setQueryData(BOUSALA_QUERY_KEY, (old) => {
+            const prev = old ?? emptyBousalaState;
+            return typeof updater === 'function' ? updater(prev) : updater;
+        });
+    }, [queryClient, emptyBousalaState]);
+
+    const [expandedGoal, setExpandedGoal] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!expandedGoal && bousalaState.goals[0]?.id) {
+            setExpandedGoal(bousalaState.goals[0].id);
+        }
+    }, [bousalaState.goals, expandedGoal]);
     const [aiLoading, setAiLoading] = useState<'tasks' | 'kpis' | 'risks' | null>(null);
     const [aiInsights, setAiInsights] = useState<{ tasks: AiInsight[]; kpis: AiInsight[]; risks: AiInsight[] }>({
         tasks: [{ id: Date.now(), title: t('bousala.defaultInsights.tasksTitle'), content: t('bousala.defaultInsights.tasksContent') }],
@@ -601,32 +1024,60 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     const [alertCount, setAlertCount] = useState(0);
     const [initialTaskData, setInitialTaskData] = useState(null);
     const [highlightedTaskId, setHighlightedTaskId] = useState<string | null>(null);
+    const [savingGoalId, setSavingGoalId] = useState<string | null>(null);
+    const [updatingTaskId, setUpdatingTaskId] = useState<string | null>(null);
+    const [savingKpiId, setSavingKpiId] = useState<string | null>(null);
+    const [savingProjectId, setSavingProjectId] = useState<string | null>(null);
+    const [editingKpi, setEditingKpi] = useState<{ goalId: string; kpi: BousalaKpi } | null>(null);
     const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const presentationWasOnRef = useRef(false);
+    const settingsDefaultsNotifiedRef = useRef(false);
 
-     const [kpiSettings, setKpiSettings] = useState<KpiSettings>(() => {
-        const saved = sessionStorage.getItem('bousalaKpiSettings');
-        return saved ? JSON.parse(saved) : { interval: 60, smartRefresh: true, showAnimation: true };
-    });
+     const [kpiSettings, setKpiSettings] = useState<KpiSettings>(() => loadKpiSettings());
     const [tempKpiSettings, setTempKpiSettings] = useState(kpiSettings);
     
-     const [notificationSettings, setNotificationSettings] = useState<BousalaNotificationSettings>(() => {
-        const saved = sessionStorage.getItem('bousalaNotificationSettings');
-        return saved ? JSON.parse(saved) : {
-            smartAlertsEnabled: true,
-            severityThreshold: 70,
-            alertSoundEnabled: true,
-            aiAutoRecommendationsEnabled: true,
-        };
-    });
+     const [notificationSettings, setNotificationSettings] = useState<BousalaNotificationSettings>(() => loadNotificationSettings());
     const [tempNotificationSettings, setTempNotificationSettings] = useState(notificationSettings);
 
-    
+    useEffect(() => {
+        if (settingsDefaultsNotifiedRef.current) return;
+        const rawKpi = sessionStorage.getItem('bousalaKpiSettings');
+        const rawNotif = sessionStorage.getItem('bousalaNotificationSettings');
+        let invalid = false;
+        if (rawKpi) {
+            try {
+                const parsed = JSON.parse(rawKpi) as Partial<KpiSettings>;
+                if (!KPI_REFRESH_INTERVALS.includes(parsed.interval as (typeof KPI_REFRESH_INTERVALS)[number])) invalid = true;
+            } catch {
+                invalid = true;
+            }
+        }
+        if (rawNotif) {
+            try {
+                JSON.parse(rawNotif);
+            } catch {
+                invalid = true;
+            }
+        }
+        if (invalid) {
+            settingsDefaultsNotifiedRef.current = true;
+            toast.showInfo(t('bousala.settings.settingsRestored'));
+        }
+    }, [toast, t]);
+
     const showPresentationAlert = useCallback((message: string, icon: React.ReactNode) => {
         setPresentationAlert({ message, icon });
         setTimeout(() => {
             setPresentationAlert(null);
         }, 5000);
     }, []);
+
+    useEffect(() => {
+        if (isPresentationMode && !presentationWasOnRef.current) {
+            showPresentationAlert(t('bousala.presentationModeActive'), <Zap size={20} className="text-yellow-500" />);
+        }
+        presentationWasOnRef.current = isPresentationMode;
+    }, [isPresentationMode, showPresentationAlert, t]);
 
      const generateAiAnalyticsSummary = useCallback((updatedGoals: BousalaGoal[]) => {
         const allKpiPredictions = updatedGoals.flatMap(g => g.kpis?.map(k => k.prediction?.probability) || []);
@@ -647,11 +1098,18 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     const handleAiImpactAnalysis = useCallback((goal: BousalaGoal) => {
         setAiLoading('kpis');
         setTimeout(() => {
-            const mockResponse = `**تحليل الأداء لهدف: "${goal.title}"**
-- **التقدم الحالي:** ${goal.progress}%
-- **الأداء الإيجابي:** المشروع الرئيسي ("${bousalaState.projects.find(p => p.linkedGoal === goal.id)?.title}") يسير بشكل جيد (${bousalaState.projects.find(p => p.linkedGoal === goal.id)?.progress}%)، مما يدعم الهدف مباشرة.
-- **توقع مستقبلي:** إذا استمر التقدم بنفس الوتيرة، من المتوقع تحقيق **85-90%** من الهدف بحلول نهاية الربع.`;
-            const newInsight = { id: Date.now(), title: `تحليل أثر الهدف: ${goal.title}`, content: mockResponse };
+            const linkedProject = bousalaState.projects.find(p => p.linkedGoal === goal.id);
+            const mockResponse = t('bousala.mockInsights.goalImpactContent', {
+                goalTitle: goal.title,
+                progress: goal.progress,
+                projectTitle: linkedProject?.title ?? '—',
+                projectProgress: linkedProject?.progress ?? 0,
+            });
+            const newInsight = {
+                id: Date.now(),
+                title: t('bousala.mockInsights.goalImpactTitle', { goalTitle: goal.title }),
+                content: mockResponse,
+            };
 
             const kpiInsights: AiInsight[] = [];
             if (goal.kpis) {
@@ -660,17 +1118,20 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                         const progressPercentage = (kpi.value / kpi.target) * 100;
                         if (progressPercentage < 80) {
                             const gapPercentage = Math.round(100 - progressPercentage);
-                            const insightContent = `الأداء أقل من المستهدف بنسبة ${gapPercentage}%، يُنصح بزيادة الموارد أو مراجعة الخطة.`;
-                            kpiInsights.push({ id: Date.now() + Math.random(), title: `تحليل أداء مؤشر: ${kpi.title}`, content: insightContent });
+                            kpiInsights.push({
+                                id: Date.now() + Math.random(),
+                                title: t('bousala.mockInsights.kpiGapTitle', { kpiTitle: kpi.title }),
+                                content: t('bousala.mockInsights.kpiGapContent', { gap: gapPercentage }),
+                            });
                         }
                     }
                 });
             }
 
-            setAiInsights(prev => ({...prev, kpis: [...kpiInsights, newInsight].filter((v,i,a)=>a.findIndex(t=>(t.title === v.title))===i) }));
+            setAiInsights(prev => ({...prev, kpis: [...kpiInsights, newInsight].filter((v,i,a)=>a.findIndex(item=>(item.title === v.title))===i) }));
             setAiLoading(null);
         }, 1500);
-    }, [bousalaState.projects]);
+    }, [bousalaState.projects, t]);
 
      const runPredictiveAnalysis = useCallback((goalIdToAnalyze: string) => {
         setBousalaState(prevState => {
@@ -873,30 +1334,23 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
         setExpandedGoal(prev => prev === goalId ? null : goalId);
     };
     
-    const handleAddTask = (newTaskData: { title: string; goalId: string; dueDate: string; priority: string; }) => {
-        const project = bousalaState.projects.find(p => p.linkedGoal === newTaskData.goalId);
-        const optimisticId = createOptimisticId(OPTIMISTIC_TASK_PREFIX);
-        const optimistic: BousalaTask = {
-            id: optimisticId,
-            title: newTaskData.title,
-            description: 'تمت إضافة مهمة جديدة عبر النافذة',
-            status: 'in-progress',
-            linkedProject: project?.id || '',
-            assignee: 'غير مُعيّن',
-        };
-        setBousalaState(prev => ({
-            ...prev,
-            tasks: [optimistic, ...prev.tasks],
-        }));
+    const unassignedAssigneeLabel = t('bousala.demoData.teams.unassigned');
 
-        void simulateLocalPersist((): BousalaTask => ({
-            ...optimistic,
-            id: `T-${Date.now()}`,
-        })).then((created) => {
-            setBousalaState(prev => ({
-                ...prev,
-                tasks: prev.tasks.map(t => (t.id === optimisticId ? created : t)),
-            }));
+    const handleAddTask = (newTaskData: { title: string; goalId: string; dueDate: string; priority: 'high' | 'medium' | 'low'; }) => {
+        const project = bousalaState.projects.find(p => p.linkedGoal === newTaskData.goalId);
+        if (!project) {
+            toast.showError(t('bousala.messages.noLinkedProjectForTask'));
+            return Promise.reject(new Error('no linked project'));
+        }
+
+        return createTaskMutation.mutateAsync({
+            goalProjectId: project.id,
+            title: newTaskData.title,
+            description: t('bousala.demoData.newTaskDescription'),
+            assignee: unassignedAssigneeLabel,
+            dueDate: newTaskData.dueDate,
+            priority: newTaskData.priority,
+        }).then((created) => {
             flashTaskHighlight(created.id);
             toast.showSuccess(t('bousala.addTaskModal.success'));
             if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
@@ -904,114 +1358,175 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                 refreshKpiData(project.linkedGoal);
             }
         }).catch(() => {
-            setBousalaState(prev => ({
-                ...prev,
-                tasks: prev.tasks.filter(t => t.id !== optimisticId),
-            }));
             toast.showError(t('common.error', 'Error'));
+            throw new Error('task persist failed');
         });
     };
     
     const handleLinkProject = (projectIds: string[]) => {
         if (!expandedGoal) return;
 
-        setBousalaState(prev => {
-            const newState = JSON.parse(JSON.stringify(prev));
-            const goal = newState.goals.find((g: BousalaGoal) => g.id === expandedGoal);
-            if (!goal) return prev;
-
-            projectIds.forEach(id => {
-                const mainProject = mainProjects.find(p => p.id === id);
-                if (mainProject) {
-                    const newBousalaProjectId = `BP-${id}`;
-                    if (newState.projects.some((p: BousalaProject) => p.id === newBousalaProjectId)) return;
-                    
-                    const newBousalaProject: BousalaProject = {
-                        id: newBousalaProjectId,
-                        title: mainProject.name.ar,
-                        description: mainProject.goal,
-                        progress: mainProject.progress,
-                        linkedGoal: goal.id,
-                        linkedTasks: []
-                    };
-                    newState.projects.push(newBousalaProject);
-                    goal.linkedProjects.push(newBousalaProjectId);
-                }
-            });
-
-            const linkedBousalaProjects = newState.projects.filter((p: BousalaProject) => goal.linkedProjects.includes(p.id));
-            if (linkedBousalaProjects.length > 0) {
-                const totalProgress = linkedBousalaProjects.reduce((sum: number, p: BousalaProject) => sum + p.progress, 0);
-                goal.progress = Math.round(totalProgress / linkedBousalaProjects.length);
-            }
-
-            return newState;
-        });
-
-        toast.showSuccess(t('bousala.messages.projectLinkedSuccess'));
-        if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
-        if (kpiSettings.smartRefresh) {
-            refreshKpiData(expandedGoal);
-        }
+        linkProjectsMutation.mutate(
+            { goalId: expandedGoal, projectIds },
+            {
+                onSuccess: () => {
+                    toast.showSuccess(t('bousala.messages.projectLinkedSuccess'));
+                    if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
+                    if (kpiSettings.smartRefresh) {
+                        refreshKpiData(expandedGoal);
+                    }
+                },
+                onError: () => toast.showError(t('common.error', 'Error')),
+            },
+        );
     };
+
+    const handleUpdateTask = useCallback(async (taskId: string, patch: TaskUpdatePatch) => {
+        setUpdatingTaskId(taskId);
+        try {
+            await updateTaskMutation.mutateAsync({ taskId, patch: patch as ApiTaskUpdatePatch });
+            toast.showSuccess(t('bousala.taskEdit.saved'));
+        } catch {
+            toast.showError(t('common.error', 'Error'));
+            throw new Error('task update failed');
+        } finally {
+            setUpdatingTaskId(null);
+        }
+    }, [toast, t, updateTaskMutation]);
+
+    const handleSaveGoal = useCallback(async (goalId: string, data: { title: string; description: string; responsiblePerson: string }) => {
+        if (!data.title.trim()) {
+            toast.showError(t('bousala.goalEdit.titleRequired'));
+            throw new Error('validation');
+        }
+        setSavingGoalId(goalId);
+        try {
+            await updateGoalMutation.mutateAsync({ goalId, data });
+            toast.showSuccess(t('bousala.goalEdit.saved'));
+        } catch {
+            toast.showError(t('common.error', 'Error'));
+            throw new Error('save failed');
+        } finally {
+            setSavingGoalId(null);
+        }
+    }, [toast, t, updateGoalMutation]);
 
     const handleAddGoal = (goalData: { title: string; description: string; progress: number; responsiblePerson: string; }) => {
-        const newGoal: BousalaGoal = {
-            id: `G-${Date.now()}`,
-            title: goalData.title,
-            description: goalData.description,
-            progress: goalData.progress,
-            responsiblePerson: goalData.responsiblePerson,
-            linkedProjects: [],
-            kpis: [],
-        };
-        setBousalaState(prev => ({
-            ...prev,
-            goals: [newGoal, ...prev.goals]
-        }));
-        toast.showSuccess(t('bousala.messages.goalAddedSuccess', { title: goalData.title }));
-        if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
-        setIsAddGoalModalOpen(false);
+        createGoalMutation.mutate(
+            {
+                title: goalData.title,
+                description: goalData.description,
+                responsiblePerson: goalData.responsiblePerson,
+                progress: goalData.progress,
+            },
+            {
+                onSuccess: () => {
+                    toast.showSuccess(t('bousala.messages.goalAddedSuccess', { title: goalData.title }));
+                    if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
+                    setIsAddGoalModalOpen(false);
+                },
+                onError: () => toast.showError(t('common.error', 'Error')),
+            },
+        );
     };
     
-    const handleAddKpi = (kpiData: { title: string; value: number; target: number; unit: string; goalId: string; }) => {
-        const newKpi: BousalaKpi = {
-            id: `KPI-${Date.now()}`,
-            title: kpiData.title,
-            value: kpiData.value,
-            target: kpiData.target,
-            unit: kpiData.unit,
-            trend: 'stable',
-            lastUpdated: new Date().toISOString(),
-        };
-        setBousalaState(prev => {
-            const newGoals = prev.goals.map(goal => {
-                if (goal.id === kpiData.goalId) {
-                    return {
-                        ...goal,
-                        kpis: [...(goal.kpis || []), newKpi]
-                    };
-                }
-                return goal;
-            });
-            return { ...prev, goals: newGoals };
+    const handleDeleteGoal = useCallback((goalId: string) => {
+        if (!window.confirm(t('bousala.goalEdit.deleteConfirm'))) return;
+        deleteGoalMutation.mutate(goalId, {
+            onSuccess: () => {
+                setExpandedGoal(prev => (prev === goalId ? null : prev));
+                toast.showSuccess(t('bousala.messages.goalDeletedSuccess'));
+            },
+            onError: () => toast.showError(t('common.error', 'Error')),
         });
-        toast.showSuccess(t('bousala.messages.kpiAddedSuccess'));
-        if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
-        if (kpiSettings.smartRefresh) {
-            refreshKpiData(kpiData.goalId);
+    }, [toast, t, deleteGoalMutation]);
+
+    const handleDeleteKpi = useCallback((_goalId: string, kpiId: string) => {
+        if (!window.confirm(t('bousala.kpiEdit.deleteConfirm'))) return;
+        deleteKpiMutation.mutate(kpiId, {
+            onSuccess: () => toast.showSuccess(t('bousala.messages.kpiDeletedSuccess')),
+            onError: () => toast.showError(t('common.error', 'Error')),
+        });
+    }, [toast, t, deleteKpiMutation]);
+
+    const handleSaveKpi = useCallback(async (data: { title: string; value: number; target: number; unit: string }) => {
+        if (!editingKpi) return;
+        setSavingKpiId(editingKpi.kpi.id);
+        try {
+            await updateKpiMutation.mutateAsync({ kpiId: editingKpi.kpi.id, data });
+            toast.showSuccess(t('bousala.kpiEdit.saved'));
+            setEditingKpi(null);
+        } catch {
+            toast.showError(t('common.error', 'Error'));
+            throw new Error('kpi save failed');
+        } finally {
+            setSavingKpiId(null);
         }
+    }, [editingKpi, toast, t, updateKpiMutation]);
+
+    const handleDeleteTask = useCallback((taskId: string) => {
+        if (!window.confirm(t('bousala.taskEdit.deleteConfirm'))) return;
+        deleteTaskMutation.mutate(taskId, {
+            onSuccess: () => toast.showSuccess(t('bousala.messages.taskDeletedSuccess')),
+            onError: () => toast.showError(t('common.error', 'Error')),
+        });
+    }, [toast, t, deleteTaskMutation]);
+
+    const handleSaveProject = useCallback(async (projectId: string, data: ProjectEditForm) => {
+        if (!data.title.trim()) {
+            toast.showError(t('bousala.projectEdit.titleRequired'));
+            throw new Error('validation');
+        }
+        setSavingProjectId(projectId);
+        try {
+            await updateGoalProjectMutation.mutateAsync({ projectId, data });
+            toast.showSuccess(t('bousala.projectEdit.saved'));
+        } catch {
+            toast.showError(t('common.error', 'Error'));
+            throw new Error('project save failed');
+        } finally {
+            setSavingProjectId(null);
+        }
+    }, [toast, t, updateGoalProjectMutation]);
+
+    const handleUnlinkProject = useCallback((projectId: string) => {
+        if (!window.confirm(t('bousala.projectEdit.unlinkConfirm'))) return;
+        unlinkProjectMutation.mutate(projectId, {
+            onSuccess: () => toast.showSuccess(t('bousala.messages.projectUnlinkedSuccess')),
+            onError: () => toast.showError(t('common.error', 'Error')),
+        });
+    }, [toast, t, unlinkProjectMutation]);
+
+    const handleAddKpi = (kpiData: { title: string; value: number; target: number; unit: string; goalId: string; }) => {
+        createKpiMutation.mutate(
+            {
+                goalId: kpiData.goalId,
+                title: kpiData.title,
+                value: kpiData.value,
+                target: kpiData.target,
+                unit: kpiData.unit,
+            },
+            {
+                onSuccess: () => {
+                    toast.showSuccess(t('bousala.messages.kpiAddedSuccess'));
+                    if (isPresentationMode && notificationSettings.alertSoundEnabled) playFeedbackSound('success');
+                    if (kpiSettings.smartRefresh) {
+                        refreshKpiData(kpiData.goalId);
+                    }
+                },
+                onError: () => toast.showError(t('common.error', 'Error')),
+            },
+        );
     };
 
     const handleAiTaskSuggestion = async (project: BousalaProject) => {
         setAiLoading('tasks');
         setTimeout(() => {
-            const mockResponse = `بناءً على وصف مشروع **"${project.title}"**، إليك بعض المهام المقترحة:
-- **مرحلة التخطيط:** تحديد الجمهور المستهدف للحملة ووضع الرسائل التسويقية الرئيسية.
-- **مرحلة التنفيذ:** إطلاق الحملة عبر منصات التواصل الاجتماعي والبريد الإلكتروني.
-- **مرحلة المتابعة:** تحليل أداء الحملة وإعداد تقرير للمانحين.
-- **مهمة إضافية:** تنظيم حدث افتراضي للتعريف بالحملة وأهدافها.`;
-            const newInsight = { id: Date.now(), title: `مهام مقترحة لمشروع: ${project.title}`, content: mockResponse };
+            const newInsight = {
+                id: Date.now(),
+                title: t('bousala.mockInsights.taskSuggestionTitle', { projectTitle: project.title }),
+                content: t('bousala.mockInsights.taskSuggestionContent', { projectTitle: project.title }),
+            };
             setAiInsights(prev => ({...prev, tasks: [newInsight, ...prev.tasks]}));
             setAiLoading(null);
         }, 1500);
@@ -1020,23 +1535,30 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     const handleAiRiskPrediction = async (project: BousalaProject) => {
         setAiLoading('risks');
         setTimeout(() => {
-             const mockResponse = `**توقع المخاطر: متوسط**
-- **السيناريو المحتمل:** بناءً على التقدم الحالي (60%)، من المتوقع أن يتأخر المشروع عن الموعد النهائي بنسبة 15-20% إذا لم يتم اتخاذ إجراء.
-- **العوامل المؤثرة:**
-  - الاعتماد على فريق التسويق لإنجاز مهمة حرجة ("تصميم المواد الإعلانية").
-  - عدم وجود مهام مجدولة للمرحلة التالية من المشروع.
-- **إجراء وقائي مقترح:**
-  1. **عاجل:** قم بجدولة اجتماع مع فريق التسويق لتحديد موعد نهائي واضح لمهمة التصميم.
-  2. **تخطيط:** ابدأ في تحديد وإضافة المهام للمرحلة التالية من المشروع لضمان استمرارية العمل.`;
-            const newInsight = { id: Date.now(), title: `توقع مخاطر التأخير لمشروع: ${project.title}`, content: mockResponse };
+            const criticalTask = bousalaState.tasks.find(task => task.linkedProject === project.id);
+            const newInsight = {
+                id: Date.now(),
+                title: t('bousala.mockInsights.riskPredictionTitle', { projectTitle: project.title }),
+                content: t('bousala.mockInsights.riskPredictionContent', {
+                    projectTitle: project.title,
+                    progress: project.progress,
+                    criticalTaskTitle: criticalTask?.title ?? '—',
+                }),
+            };
             setAiInsights(prev => ({...prev, risks: [newInsight, ...prev.risks]}));
             setAiLoading(null);
         }, 1500);
     };
     
-    const linkedProjectNamesForCurrentGoal = bousalaState.projects
-        .filter(p => expandedGoal && bousalaState.goals.find(g => g.id === expandedGoal)?.linkedProjects.includes(p.id))
-        .map(p => p.title);
+    const linkedMainProjectIdsForCurrentGoal = useMemo(() => {
+        if (!expandedGoal) return [];
+        const goal = bousalaState.goals.find(g => g.id === expandedGoal);
+        if (!goal) return [];
+        return bousalaState.projects
+            .filter(p => goal.linkedProjects.includes(p.id))
+            .map(p => getSourceProjectId(p))
+            .filter((id): id is string => !!id);
+    }, [expandedGoal, bousalaState.goals, bousalaState.projects]);
 
     const handleOpenTaskModal = (initialData = null) => {
         setInitialTaskData(initialData);
@@ -1062,11 +1584,40 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
     };
 
     const renderContent = () => {
+        if (isBousalaLoading) {
+            return (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center py-16">
+                    <Spinner />
+                </motion.div>
+            );
+        }
+        if (isBousalaError) {
+            return (
+                <div className="text-center py-16 text-red-500">
+                    {t('common.error', 'Error')}
+                </div>
+            );
+        }
         switch (activeView) {
             case 'predictive':
-                return <PredictiveDashboard goals={bousalaState.goals} />;
+                return (
+                    <PredictiveDashboard
+                        goals={bousalaState.goals}
+                        onGoToDashboard={() => setActiveView('dashboard')}
+                    />
+                );
             case 'dashboard':
             default:
+                if (bousalaState.goals.length === 0) {
+                    return (
+                        <BousalaSectionEmpty
+                            title={t('bousala.empty.noGoals.title')}
+                            description={t('bousala.empty.noGoals.description')}
+                            actionLabel={t('bousala.empty.noGoals.action')}
+                            onAction={() => setIsAddGoalModalOpen(true)}
+                        />
+                    );
+                }
                 return (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div className="lg:col-span-2 space-y-6">
@@ -1080,12 +1631,16 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                             goal={goal}
                                             isExpanded={expandedGoal === goal.id}
                                             isAiLoading={aiLoading === 'kpis'}
+                                            isSaving={savingGoalId === goal.id}
+                                            hrData={hrData}
                                             onToggle={() => handleToggle(goal.id)}
                                             onAnalyze={() => handleAiImpactAnalysis(goal)}
                                             onAddKpiClick={() => {
                                                 setGoalForNewKpi(goal.id);
                                                 setIsAddKpiModalOpen(true);
                                             }}
+                                            onSave={handleSaveGoal}
+                                            onDelete={handleDeleteGoal}
                                             isRefreshingKpis={isRefreshingKpis}
                                             showAnimation={kpiSettings.showAnimation}
                                             isPredicting={isPredictingKpis || predictingGoals.has(goal.id)}
@@ -1099,16 +1654,35 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                 className="overflow-hidden"
                                             >
                                                 <div className="p-4 bg-card dark:bg-dark-card rounded-b-xl border-x border-b dark:border-slate-700/50 space-y-4">
-                                                    {goal.kpis && goal.kpis.length > 0 && (
-                                                        <div>
-                                                            <div className="flex justify-between items-center mb-2">
-                                                                <h5 className="font-semibold text-sm">{t('bousala.kpis')}</h5>
-                                                            </div>
+                                                    <div>
+                                                        <h5 className="font-semibold text-sm mb-2">{t('bousala.kpis')}</h5>
+                                                        {goal.kpis && goal.kpis.length > 0 ? (
                                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                                                {goal.kpis.map(kpi => <KpiCard key={kpi.id} kpi={kpi} isRefreshing={refreshingKpiIds.has(kpi.id)} isPredicting={predictingKpiIds.has(kpi.id)} showAnimation={kpiSettings.showAnimation}/>)}
+                                                                {goal.kpis.map(kpi => (
+                                                                    <KpiCard
+                                                                        key={kpi.id}
+                                                                        kpi={kpi}
+                                                                        isRefreshing={refreshingKpiIds.has(kpi.id)}
+                                                                        isPredicting={predictingKpiIds.has(kpi.id)}
+                                                                        showAnimation={kpiSettings.showAnimation}
+                                                                        onEdit={() => setEditingKpi({ goalId: goal.id, kpi })}
+                                                                        onDelete={() => handleDeleteKpi(goal.id, kpi.id)}
+                                                                    />
+                                                                ))}
                                                             </div>
-                                                        </div>
-                                                    )}
+                                                        ) : (
+                                                            <BousalaSectionEmpty
+                                                                compact
+                                                                title={t('bousala.empty.noKpis.title')}
+                                                                description={t('bousala.empty.noKpis.description')}
+                                                                actionLabel={t('bousala.empty.noKpis.action')}
+                                                                onAction={() => {
+                                                                    setGoalForNewKpi(goal.id);
+                                                                    setIsAddKpiModalOpen(true);
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </div>
                                                     {predictingGoals.has(goal.id) ? (
                                                         <div className="text-center p-4 text-sm text-gray-500"><Spinner text={t('bousala.common.goalPredictionsAnalysis')}/></div>
                                                     ) : goal.prediction && (
@@ -1129,9 +1703,9 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {linkedProjects.length > 0 && (
-                                                        <div className="pt-4 border-t border-gray-200 dark:border-slate-700/50">
-                                                            <h5 className="font-semibold text-sm mb-2">{t('bousala.projects')}:</h5>
+                                                    <div className="pt-4 border-t border-gray-200 dark:border-slate-700/50">
+                                                        <h5 className="font-semibold text-sm mb-2">{t('bousala.projects')}:</h5>
+                                                        {linkedProjects.length > 0 ? (
                                                             <div className="space-y-3">
                                                                 {linkedProjects.map(project => (
                                                                     <ProjectItem 
@@ -1139,16 +1713,34 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                                                                         project={project} 
                                                                         tasks={bousalaState.tasks.filter(t => t.linkedProject === project.id)}
                                                                         highlightedTaskId={highlightedTaskId}
+                                                                        updatingTaskId={updatingTaskId}
+                                                                        unassignedLabel={unassignedAssigneeLabel}
                                                                         isAiLoading={aiLoading === 'tasks' || aiLoading === 'risks'}
                                                                         onSuggestTasks={() => handleAiTaskSuggestion(project)}
                                                                         onPredictRisk={() => handleAiRiskPrediction(project)}
-                                                                        mainProjects={mainProjects}
+                                                                        onUpdateTask={handleUpdateTask}
+                                                                        onDeleteTask={handleDeleteTask}
+                                                                        onSaveProject={handleSaveProject}
+                                                                        onUnlinkProject={handleUnlinkProject}
+                                                                        isSavingProject={savingProjectId === project.id}
+                                                                        mainProjects={linkableProjects}
                                                                         volunteers={hrData.volunteers}
                                                                     />
                                                                 ))}
                                                             </div>
-                                                        </div>
-                                                    )}
+                                                        ) : (
+                                                            <BousalaSectionEmpty
+                                                                compact
+                                                                title={t('bousala.empty.noProjects.title')}
+                                                                description={t('bousala.empty.noProjects.description')}
+                                                                actionLabel={t('bousala.empty.noProjects.action')}
+                                                                onAction={() => {
+                                                                    setExpandedGoal(goal.id);
+                                                                    setIsLinkProjectModalOpen(true);
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </motion.div>
                                         )}
@@ -1201,14 +1793,21 @@ const BousalaPage: React.FC<BousalaPageProps> = ({ projects: mainProjects, hrDat
                 isOpen={isLinkProjectModalOpen}
                 onClose={() => setIsLinkProjectModalOpen(false)}
                 onLink={handleLinkProject}
-                allProjects={mainProjects}
-                linkedProjectNames={linkedProjectNamesForCurrentGoal}
+                allProjects={linkableProjects}
+                linkedProjectIds={linkedMainProjectIdsForCurrentGoal}
             />
              <AddKpiModal 
                 isOpen={isAddKpiModalOpen}
                 onClose={() => setIsAddKpiModalOpen(false)}
                 onAdd={handleAddKpi}
                 goalId={goalForNewKpi || ''}
+            />
+            <EditKpiModal
+                isOpen={editingKpi !== null}
+                onClose={() => setEditingKpi(null)}
+                kpi={editingKpi?.kpi ?? null}
+                onSave={handleSaveKpi}
+                isSaving={savingKpiId !== null}
             />
             <AlertsCenterPanel
                 isOpen={isAlertsCenterOpen}

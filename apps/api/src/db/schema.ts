@@ -535,3 +535,61 @@ export const project_team_members = pgTable('project_team_members', {
     custom_fields: jsonb('custom_fields').default({}),
     created_at: timestamp('created_at').defaultNow(),
 });
+
+export const bousala_goals = pgTable('bousala_goals', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    title: text('title').notNull(),
+    description: text('description').default(''),
+    responsible_person: text('responsible_person').default(''),
+    deadline: text('deadline'),
+    progress: integer('progress').notNull().default(0),
+    prediction: jsonb('prediction'),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
+export const bousala_kpis = pgTable('bousala_kpis', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    goal_id: uuid('goal_id').notNull().references(() => bousala_goals.id, { onDelete: 'cascade' }),
+    title: text('title').notNull(),
+    value: numeric('value', { precision: 14, scale: 2 }).notNull().default('0'),
+    target: numeric('target', { precision: 14, scale: 2 }).notNull().default('0'),
+    unit: text('unit').notNull().default(''),
+    trend: text('trend').notNull().default('stable'),
+    last_updated: timestamp('last_updated').defaultNow(),
+    prediction: jsonb('prediction'),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
+export const bousala_goal_projects = pgTable('bousala_goal_projects', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    goal_id: uuid('goal_id').notNull().references(() => bousala_goals.id, { onDelete: 'cascade' }),
+    source_project_id: uuid('source_project_id').references(() => projects.id, { onDelete: 'set null' }),
+    title: text('title').notNull(),
+    description: text('description').default(''),
+    progress: integer('progress').notNull().default(0),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
+export const bousala_tasks = pgTable('bousala_tasks', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    goal_project_id: uuid('goal_project_id').notNull().references(() => bousala_goal_projects.id, { onDelete: 'cascade' }),
+    title: text('title').notNull(),
+    description: text('description').default(''),
+    status: text('status').notNull().default('in-progress'),
+    assignee: text('assignee').default(''),
+    due_date: text('due_date'),
+    priority: text('priority'),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});

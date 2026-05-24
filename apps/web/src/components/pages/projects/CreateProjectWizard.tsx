@@ -13,6 +13,7 @@ interface CreateProjectWizardProps {
   isOpen: boolean;
   onClose: () => void;
   onCreateProject: (project: Omit<Project, 'id'>) => void;
+  existingCountries?: string[];
 }
 
 const INITIAL_PROJECT_DATA: Partial<Omit<Project, 'id'>> = {
@@ -21,18 +22,19 @@ const INITIAL_PROJECT_DATA: Partial<Omit<Project, 'id'>> = {
     stage: 'design',
     plannedStartDate: '',
     plannedEndDate: '',
-    location: { country: 'Turkey', city: '' },
+    location: { country: '', city: '' },
     stakeholders: { donor: '', targetBeneficiaries: '', primaryContact: '' },
     goal: '',
     objectives: [''],
     expectedOutcomes: [''],
     kpis: [{ id: `kpi-${Date.now()}`, name: '', unit: 'number', target: '' }],
+    sdgGoals: [],
     progress: 0,
     budget: 0,
     spent: 0,
 };
 
-const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClose, onCreateProject }) => {
+const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClose, onCreateProject, existingCountries = [] }) => {
     const { t, dir } = useLocalization();
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -46,7 +48,15 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
     };
 
     const handleCreate = () => {
-        onCreateProject(projectData as Omit<Project, 'id'>);
+        const payload = {
+            ...projectData,
+            location: {
+                ...projectData.location,
+                country: (projectData.location?.country || '').trim(),
+                city: (projectData.location?.city || '').trim(),
+            },
+        } as Omit<Project, 'id'>;
+        onCreateProject(payload);
         setProjectData({
             ...INITIAL_PROJECT_DATA,
             kpis: [{ id: `kpi-${Date.now()}`, name: '', unit: 'number', target: '' }],
@@ -59,7 +69,7 @@ const CreateProjectWizard: React.FC<CreateProjectWizardProps> = ({ isOpen, onClo
 
     const renderStepContent = () => {
         switch (currentStep) {
-            case 1: return <Step1_ProjectInfo data={projectData} updateData={updateData} />;
+            case 1: return <Step1_ProjectInfo data={projectData} updateData={updateData} existingCountries={existingCountries} />;
             case 2: return <Step2_Stakeholders data={projectData} updateData={updateData} />;
             case 3: return <Step3_GoalsAndOutcomes data={projectData} updateData={updateData} setProjectData={setProjectData} />;
             default: return null;

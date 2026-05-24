@@ -15,12 +15,32 @@ interface KpiChartsProps {
     goals: BousalaGoal[];
 }
 
-// Mock time series data for the line chart
+// Mock time series data for the line chart (keyed by KPI title from seed data)
 const mockKpiHistory: Record<string, { date: string; value: number }[]> = {
-    'G1-K1': [ { date: 'Jan', value: 5 }, { date: 'Feb', value: 6 }, { date: 'Mar', value: 7 }, { date: 'Apr', value: 8 }, { date: 'May', value: 9 } ],
-    'G1-K2': [ { date: 'Jan', value: 1 }, { date: 'Feb', value: 1 }, { date: 'Mar', value: 2 }, { date: 'Apr', value: 2 }, { date: 'May', value: 2 } ],
-    'G2-K1': [ { date: 'Jan', value: 150 }, { date: 'Feb', value: 200 }, { date: 'Mar', value: 250 }, { date: 'Apr', value: 300 }, { date: 'May', value: 350 } ],
-    'G2-K2': [ { date: 'Jan', value: 91 }, { date: 'Feb', value: 90 }, { date: 'Mar', value: 89 }, { date: 'Apr', value: 88 }, { date: 'May', value: 88 } ],
+    'عدد المستفيدين الفعليين من البرامج التعليمية': [
+        { date: 'يناير', value: 180 }, { date: 'فبراير', value: 210 }, { date: 'مارس', value: 235 },
+        { date: 'أبريل', value: 260 }, { date: 'مايو', value: 285 },
+    ],
+    'نسبة تحقيق مخرجات الربع الحالي': [
+        { date: 'يناير', value: 58 }, { date: 'فبراير', value: 62 }, { date: 'مارس', value: 66 },
+        { date: 'أبريل', value: 69 }, { date: 'مايو', value: 72 },
+    ],
+    'نسبة الالتزام بالخطة الزمنية': [
+        { date: 'يناير', value: 62 }, { date: 'فبراير', value: 64 }, { date: 'مارس', value: 65 },
+        { date: 'أبريل', value: 67 }, { date: 'مايو', value: 68 },
+    ],
+    'نسبة الصرف مقابل التقدم': [
+        { date: 'يناير', value: 88 }, { date: 'فبراير', value: 86 }, { date: 'مارس', value: 85 },
+        { date: 'أبريل', value: 83 }, { date: 'مايو', value: 82 },
+    ],
+    'معدل إغلاق المهام في الوقت المحدد': [
+        { date: 'يناير', value: 66 }, { date: 'فبراير', value: 68 }, { date: 'مارس', value: 70 },
+        { date: 'أبريل', value: 72 }, { date: 'مايو', value: 74 },
+    ],
+    'نسبة المشاريع ذات التقارير المنتظمة': [
+        { date: 'يناير', value: 42 }, { date: 'فبراير', value: 46 }, { date: 'مارس', value: 50 },
+        { date: 'أبريل', value: 54 }, { date: 'مايو', value: 58 },
+    ],
 };
 
 const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
@@ -41,7 +61,11 @@ const KpiCharts: React.FC<KpiChartsProps> = ({ goals }) => {
         [t('bousala.kpiCharts.target')]: kpi.target,
     })), [allKpis, t]);
     
-    const lineChartData = mockKpiHistory[selectedKpiId] || [];
+    const lineChartData = useMemo(() => {
+        const selected = allKpis.find(kpi => kpi.id === selectedKpiId);
+        if (!selected) return [];
+        return mockKpiHistory[selectedKpiId] ?? mockKpiHistory[selected.title] ?? [];
+    }, [allKpis, selectedKpiId]);
 
     const pieChartData = useMemo(() => {
         const achieved = allKpis.filter(kpi => kpi.value >= kpi.target).length;

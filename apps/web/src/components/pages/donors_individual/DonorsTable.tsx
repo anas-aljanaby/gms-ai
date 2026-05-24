@@ -7,6 +7,7 @@ import { StatusBadge } from './DonorBadges';
 import { Columns3, Eye, EyeOff, ArrowLeftToLine, ArrowRightToLine } from 'lucide-react';
 import { isOptimisticDonor } from '../../../hooks/useDonors';
 import { normalizeDonorEmail } from '../../../lib/donorEmail';
+import { getCountryDisplayName } from '../../../lib/countryOptions';
 
 interface DonorsTableProps {
     donors: IndividualDonor[];
@@ -275,7 +276,11 @@ const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortCo
             case 'owner':
                 return <td key={colId} className={cellClass(colId, 'font-semibold text-gray-700 dark:text-gray-200')}>{donor.assignedManager}</td>;
             case 'country':
-                return <td key={colId} className={cellClass(colId)}>{donor.country}</td>;
+                return (
+                    <td key={colId} className={cellClass(colId)}>
+                        {getCountryDisplayName(donor.country, language === 'ar' ? 'ar' : 'en')}
+                    </td>
+                );
             case 'totalDonations':
                 return <td key={colId} className={cellClass(colId, 'font-semibold')}>{formatCurrency(donor.totalDonations, language)}</td>;
             case 'lastGift':

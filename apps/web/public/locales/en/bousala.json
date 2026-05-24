@@ -26,7 +26,35 @@
       "itemsDistribution": "Items Distribution",
       "count": "Count",
       "taskStatus": "Task Status",
-      "goalProgress": "Goal Progress"
+      "goalProgress": "Goal Progress",
+      "noData": "Add at least one goal before exporting a report.",
+      "previewEmpty": "Charts will appear once you add strategic goals.",
+      "exportingPdf": "Exporting PDF…",
+      "exportingXlsx": "Exporting spreadsheet…",
+      "insightType": "Type",
+      "insightTitle": "Title",
+      "insightContent": "Content",
+      "sheetInsights": "AI Insights"
+    },
+    "empty": {
+      "noGoals": {
+        "title": "No strategic goals yet",
+        "description": "Create your first goal to start linking projects, KPIs, and tasks.",
+        "action": "Add goal"
+      },
+      "noKpis": {
+        "title": "No KPIs for this goal",
+        "description": "Track measurable indicators to monitor progress toward this goal.",
+        "action": "Add KPI"
+      },
+      "noProjects": {
+        "title": "No linked projects",
+        "description": "Connect execution projects from the Projects module to roll up progress.",
+        "action": "Link project"
+      },
+      "noTasks": {
+        "description": "No tasks linked to this project yet. Add a task from the AI panel or alerts center."
+      }
     },
     "presentationMode": "Presentation Mode",
     "projects": "Projects",
@@ -41,8 +69,8 @@
     },
     "prediction": {
       "title": "Predictive Insights",
-      "summary": "Expected to reach target by {percentage}%",
-      "recommendation": "To improve performance, it is recommended to increase resources by {percentage}%."
+      "summary": "Expected to reach target by {{percentage}}%",
+      "recommendation": "To improve performance, it is recommended to increase resources by {{percentage}}%."
     },
     "analytics": {
       "title": "Analytics Dashboard",
@@ -57,7 +85,9 @@
       "dueDate": "Due Date",
       "priority": "Priority",
       "titleAndGoalRequired": "Task title and related goal are required.",
+      "noGoalsAvailable": "Add a goal before creating tasks.",
       "save": "Save Task",
+      "saving": "Saving task…",
       "priorities": {
         "high": "High",
         "medium": "Medium",
@@ -79,10 +109,10 @@
       "predictiveHeading": "Predictive Analysis"
     },
     "alerts": {
-      "lowProbability": "Goal achievement probability dropped to {probability}%.",
-      "kpiBelowHalf": "\"{kpiTitle}\" is below 50% of target.",
-      "kpiDownward": "\"{kpiTitle}\" is trending downward.",
-      "smartAlertFor": "Smart alert for: {title}",
+      "lowProbability": "Goal achievement probability dropped to {{probability}}%.",
+      "kpiBelowHalf": "\"{{kpiTitle}}\" is below 50% of target.",
+      "kpiDownward": "\"{{kpiTitle}}\" is trending downward.",
+      "smartAlertFor": "Smart alert for: {{title}}",
       "recommendationFailed": "Failed to generate recommendation. Please try again later.",
       "generatingRecommendation": "AI is generating a recommendation..."
     },
@@ -104,14 +134,14 @@
       "actions": {
         "markReviewed": "Mark as reviewed",
         "createTask": "Create task",
-        "correctiveTaskFor": "Corrective task for: {title}"
+        "correctiveTaskFor": "Corrective task for: {{title}}"
       }
     },
     "settings": {
       "title": "Settings",
       "notificationsTitle": "Notification Settings",
       "enableSmartAlerts": "Enable Smart Alerts",
-      "severityThreshold": "Severity Threshold ({threshold}%)",
+      "severityThreshold": "Severity Threshold ({{threshold}}%)",
       "alertSound": "Alert Sound",
       "aiAutoRecs": "AI Auto-Recommendations",
       "kpiTitle": "KPI Update Settings",
@@ -120,11 +150,12 @@
       "showAnimation": "Show Refresh Animation",
       "save": "Save Settings",
       "severityCritical": "Critical <50%",
-      "severityWarning": "Warning <{threshold}%",
+      "severityWarning": "Warning <{{threshold}}%",
       "severityInfo": "Info <90%",
       "seconds30": "30 seconds",
       "seconds60": "60 seconds",
-      "seconds120": "120 seconds"
+      "seconds120": "120 seconds",
+      "settingsRestored": "Some settings were invalid and were reset to defaults."
     },
     "goals": "Goals",
     "tasks": "Tasks",
@@ -132,6 +163,34 @@
     "task_status": {
       "completed": "Completed",
       "in-progress": "In Progress"
+    },
+    "goalEdit": {
+      "editAria": "Edit goal",
+      "deleteAria": "Delete goal",
+      "titleRequired": "Goal title is required.",
+      "saved": "Goal updated successfully.",
+      "deleteConfirm": "Delete this goal and all linked Bousala projects and tasks?"
+    },
+    "kpiEdit": {
+      "title": "Edit KPI",
+      "editAria": "Edit KPI",
+      "deleteAria": "Delete KPI",
+      "saved": "KPI updated successfully.",
+      "deleteConfirm": "Delete this KPI?"
+    },
+    "projectEdit": {
+      "editAria": "Edit project",
+      "unlinkAria": "Unlink project",
+      "titleRequired": "Project title is required.",
+      "saved": "Project updated successfully.",
+      "unlinkConfirm": "Unlink this project from the goal? Linked tasks will be removed.",
+      "unlink": "Unlink"
+    },
+    "taskEdit": {
+      "statusLabel": "Task status",
+      "deleteAria": "Delete task",
+      "saved": "Task updated successfully.",
+      "deleteConfirm": "Delete this task?"
     },
     "addGoalModal": {
       "title": "Add Goal",
@@ -165,20 +224,28 @@
       "progress": "Progress",
       "kpiIndicators": "KPIs",
       "addKpi": "Add KPI",
-      "lastUpdated": "Last updated: {date}",
-      "predictionConfidence": "AI predicts {percentage}% success probability",
+      "lastUpdated": "Last updated: {{date}}",
+      "predictionConfidence": "AI predicts {{percentage}}% success probability",
       "onTrack": "On Track",
       "atRisk": "At Risk",
       "unlikely": "Unlikely",
-      "goalPredictionSummary": "Predictive analysis: current indicators show a {percentage}% probability of achieving planned goals.",
+      "goalPredictionSummary": "Predictive analysis: current indicators show a {{percentage}}% probability of achieving planned goals.",
       "predictionLabel": "Prediction",
-      "goalPredictionsAnalysis": "Analyzing goal predictions..."
+      "goalPredictionsAnalysis": "Analyzing goal predictions...",
+      "taskDueDate": "Due {{date}}",
+      "taskPriority": "Priority: {{priority}}"
     },
     "messages": {
       "projectLinkedSuccess": "Project linked successfully.",
+      "projectUnlinkedSuccess": "Project unlinked successfully.",
       "kpiAddedSuccess": "KPI added successfully.",
-      "goalAddedSuccess": "Goal \"{title}\" was added successfully."
+      "goalAddedSuccess": "Goal \"{{title}}\" was added successfully.",
+      "goalDeletedSuccess": "Goal deleted successfully.",
+      "kpiDeletedSuccess": "KPI deleted successfully.",
+      "taskDeletedSuccess": "Task deleted successfully.",
+      "noLinkedProjectForTask": "Link a project to this goal before adding tasks."
     },
+    "presentationModeActive": "Presentation mode is on — KPI refresh alerts and sounds are enabled.",
     "addKpiModal": {
       "title": "Add KPI",
       "kpiTitle": "KPI Title",
@@ -187,13 +254,17 @@
       "unit": "Unit",
       "unitPlaceholder": "%, beneficiary, $",
       "save": "Save KPI",
-      "requiredFields": "All fields are required."
+      "requiredFields": "Title and unit are required.",
+      "titleRequired": "KPI title is required.",
+      "unitRequired": "Unit is required.",
+      "invalidTarget": "Target must be greater than zero.",
+      "invalidValue": "Current value cannot be negative."
     },
     "linkProjectModal": {
       "title": "Link Existing Project",
       "description": "Select one or more projects to link to the current goal.",
       "noProjects": "No other projects available to link.",
-      "linkCta": "Link ({count})"
+      "linkCta": "Link ({{count}})"
     },
     "predictive": {
       "overallSummary": "Overall Forecast Summary",
@@ -203,11 +274,81 @@
       "forecastOverTime": "Forecast Change Over Time",
       "avgSuccessProbability": "Average success probability",
       "aiRecommendationsSummary": "AI Recommendations Summary",
-      "noRecommendations": "No recommendations available right now."
+      "noRecommendations": "No recommendations available right now.",
+      "noGoalsTitle": "No goals to forecast",
+      "noGoalsDescription": "Add strategic goals on the dashboard tab to see predictive analysis here.",
+      "noPredictionsTitle": "Predictions not ready yet",
+      "noPredictionsDescription": "Expand a goal on the dashboard and run AI suggestions to generate forecast data.",
+      "goToDashboard": "Go to dashboard"
     },
     "splash": {
       "title": "🧭 Bousala - Goals & Tasks Management",
       "subtitle": "Smart management system for non-profit organizations"
+    },
+    "demoData": {
+      "teams": {
+        "marketing": "Marketing team",
+        "technical": "Technical development team",
+        "unassigned": "Unassigned"
+      },
+      "newTaskDescription": "New task added via the modal",
+      "goals": {
+        "g1": {
+          "title": "Strengthen the organization's financial sustainability",
+          "description": "Increase self-funding sources by 20% during the current fiscal year.",
+          "kpis": {
+            "g1k1": { "title": "Self-funding ratio", "unit": "%" },
+            "g1k2": { "title": "New fundraising campaigns", "unit": "campaign" }
+          }
+        },
+        "g2": {
+          "title": "Expand educational services reach",
+          "description": "Reach 500 new beneficiaries in educational programs by year end.",
+          "kpis": {
+            "g2k1": { "title": "New beneficiaries", "unit": "beneficiary" },
+            "g2k2": { "title": "Course completion rate", "unit": "%" }
+          }
+        }
+      },
+      "projects": {
+        "p1": {
+          "title": "Launch annual waqf campaign",
+          "description": "Marketing campaign to raise donations for the waqf fund."
+        },
+        "p2": {
+          "title": "Develop distance learning platform",
+          "description": "Add new courses and improve the educational platform user interface."
+        }
+      },
+      "tasks": {
+        "t1": {
+          "title": "Design campaign promotional materials",
+          "description": "Create designs and promotional videos for the waqf campaign."
+        },
+        "t2": {
+          "title": "Build new student registration interface",
+          "description": "Develop an easy-to-use interface for new student registration on the platform."
+        }
+      },
+      "chartMonths": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul"
+      }
+    },
+    "mockInsights": {
+      "goalImpactTitle": "Goal impact analysis: {{goalTitle}}",
+      "goalImpactContent": "**Performance analysis for goal: \"{{goalTitle}}\"**\n- **Current progress:** {{progress}}%\n- **Positive performance:** The main project (\"{{projectTitle}}\") is progressing well ({{projectProgress}}%), directly supporting the goal.\n- **Future outlook:** If progress continues at this pace, **85–90%** of the goal is expected to be achieved by quarter end.",
+      "kpiGapTitle": "KPI performance analysis: {{kpiTitle}}",
+      "kpiGapContent": "Performance is {{gap}}% below target; consider increasing resources or revising the plan.",
+      "taskSuggestionTitle": "Suggested tasks for project: {{projectTitle}}",
+      "taskSuggestionContent": "Based on the project description **\"{{projectTitle}}\"**, here are suggested tasks:\n- **Planning phase:** Define the campaign target audience and core marketing messages.\n- **Execution phase:** Launch the campaign on social media and email.\n- **Follow-up phase:** Analyze campaign performance and prepare a donor report.\n- **Additional task:** Organize a virtual event to introduce the campaign and its goals.",
+      "riskPredictionTitle": "Delay risk forecast for project: {{projectTitle}}",
+      "riskPredictionContent": "**Risk forecast: Medium**\n- **Likely scenario:** Based on current progress ({{progress}}%), the project may miss its deadline by 15–20% unless action is taken.\n- **Contributing factors:**\n  - Dependence on the marketing team for a critical task (\"{{criticalTaskTitle}}\").\n  - No tasks scheduled for the next project phase.\n- **Suggested preventive action:**\n  1. **Urgent:** Schedule a meeting with the marketing team to set a clear deadline for the design task.\n  2. **Planning:** Start defining and adding tasks for the next project phase to keep work moving."
     },
     "defaultInsights": {
       "tasksTitle": "General Suggestion",

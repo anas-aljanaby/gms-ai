@@ -12,6 +12,57 @@ import { OPTIMISTIC_HIGHLIGHT_MS } from '../../lib/optimisticSubmit';
 import { List, Target, PlusCircle, FolderKanban, DollarSign, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { useCreateProject, useProject, useProjects, useUpdateProject } from '../../hooks/useProjects';
 
+const STAT_CARD_SKELETON_COUNT = 4;
+
+const ProjectsStatCardsSkeleton: React.FC = () => (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {Array.from({ length: STAT_CARD_SKELETON_COUNT }).map((_, i) => (
+            <div
+                key={i}
+                className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 p-4 flex items-center gap-4"
+            >
+                <div className="p-2.5 rounded-lg bg-gray-100 dark:bg-slate-800">
+                    <div className="w-5 h-5 rounded-md bg-gray-200 dark:bg-slate-700 animate-pulse" />
+                </div>
+                <div className="flex-1 space-y-2">
+                    <div className="h-7 w-14 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <div className="h-3 w-24 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                </div>
+            </div>
+        ))}
+    </div>
+);
+
+const ProjectDetailSkeleton: React.FC = () => (
+    <div className="animate-fade-in space-y-4">
+        <div className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 p-5 space-y-4">
+            <div className="h-5 w-32 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div className="flex-1 space-y-3">
+                    <div className="h-8 w-2/3 max-w-md bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <div className="h-4 w-48 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                </div>
+                <div className="flex items-center gap-6 shrink-0">
+                    <div className="h-10 w-24 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <div className="h-10 w-20 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                </div>
+            </div>
+        </div>
+        <div className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 overflow-hidden">
+            <div className="px-6 pt-4 pb-2 flex gap-2 overflow-hidden">
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="h-8 w-20 shrink-0 bg-gray-200 dark:bg-slate-700 rounded-lg animate-pulse" />
+                ))}
+            </div>
+            <div className="p-6 space-y-4">
+                <div className="h-4 w-full bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                <div className="h-4 w-5/6 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                <div className="h-48 w-full bg-gray-100 dark:bg-slate-800 rounded-xl animate-pulse" />
+            </div>
+        </div>
+    </div>
+);
+
 interface ProjectManagementProps {
   beneficiaries: Beneficiary[];
   deepLinkTarget?: { id?: string; tab?: string } | null;
@@ -53,6 +104,11 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
         }
     }, [deepLinkTarget, projects]);
 
+    const existingCountries = useMemo(
+        () => Array.from(new Set(projects.map((p) => p.location?.country).filter(Boolean) as string[])).sort(),
+        [projects],
+    );
+
     const stats = useMemo(() => {
         const realProjects = projects.filter((p) => !isOptimisticProject(p.id));
         const totalBudget = realProjects.reduce((sum, p) => sum + p.budget, 0);
@@ -82,11 +138,12 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
 
     if (selectedProjectId) {
         if (isSelectedProjectLoading || !selectedProject) {
-            return <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">{t('common.loading', 'Loading...')}</div>;
+            return <ProjectDetailSkeleton />;
         }
         return <ProjectDetailView
                     project={selectedProject}
                     beneficiaries={beneficiaries}
+                    existingCountries={existingCountries}
                     onBack={() => {
                         setSelectedProjectId(null);
                         setSelectedInitialTab(undefined);
@@ -142,23 +199,28 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    {statCards.map((stat) => (
-                        <div key={stat.label} className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 p-4 flex items-center gap-4">
-                            <div className={`p-2.5 rounded-lg ${stat.bg}`}>
-                                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                {isProjectsLoading ? (
+                    <ProjectsStatCardsSkeleton />
+                ) : (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        {statCards.map((stat) => (
+                            <div key={stat.label} className="bg-card dark:bg-dark-card rounded-xl border border-gray-200 dark:border-slate-700/50 p-4 flex items-center gap-4">
+                                <div className={`p-2.5 rounded-lg ${stat.bg}`}>
+                                    <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                                </div>
+                                <div>
+                                    <p className="text-2xl font-bold text-foreground dark:text-dark-foreground">{stat.value}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">{stat.label}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-2xl font-bold text-foreground dark:text-dark-foreground">{stat.value}</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">{stat.label}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
 
                 {activeView === 'list' && (
                     <ProjectList
                         projects={projects}
+                        isLoading={isProjectsLoading}
                         highlightedId={highlightedId}
                         onProjectSelect={(project) => {
                             if (isOptimisticProject(project.id)) return;
@@ -168,11 +230,11 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
                     />
                 )}
 
-                {activeView === 'sdg' && (
+                {activeView === 'sdg' && !isProjectsLoading && (
                     <SDGAlignmentDashboard projects={projects} />
                 )}
-                {isProjectsLoading && (
-                    <div className="text-sm text-gray-500 dark:text-gray-400">{t('common.loading', 'Loading...')}</div>
+                {activeView === 'sdg' && isProjectsLoading && (
+                    <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-xl animate-pulse border border-gray-200 dark:border-slate-700/50" />
                 )}
             </div>
 
@@ -181,6 +243,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ beneficiaries, de
                     isOpen={isWizardOpen}
                     onClose={() => setIsWizardOpen(false)}
                     onCreateProject={handleCreateProject}
+                    existingCountries={existingCountries}
                 />
             )}
         </>

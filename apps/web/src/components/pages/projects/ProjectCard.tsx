@@ -5,6 +5,7 @@ import { formatCurrency } from '../../../lib/utils';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { isOptimisticProject } from '../../../lib/projectOptimistic';
+import { formatProjectLocation } from './utils/location';
 
 interface ProjectCardProps {
     project: Project;
@@ -32,12 +33,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, highlighted, onSelec
     const optimistic = isOptimisticProject(project.id);
     const stage = stageConfig[project.stage] || stageConfig.design;
     const budgetUsed = project.budget > 0 ? Math.round((project.spent / project.budget) * 100) : 0;
-    const formatProjectLocation = (city?: string, country?: string) => {
-        if (!city && !country) return '';
-        if (!city) return country || '';
-        if (!country) return city;
-        return language === 'ar' ? `${country}، ${city}` : `${city}, ${country}`;
-    };
 
     return (
         <motion.div
@@ -74,7 +69,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, highlighted, onSelec
                     {project.location && (
                         <span className="flex items-center gap-1">
                             <MapPin size={11} />
-                            {formatProjectLocation(project.location.city, project.location.country)}
+                            {formatProjectLocation(project.location, t, language)}
                         </span>
                     )}
                     <span className="flex items-center gap-1">

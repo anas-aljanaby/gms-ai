@@ -4,6 +4,8 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { eq } from 'drizzle-orm';
 import * as schema from './schema';
 import { SEED_BENEFICIARIES } from './beneficiarySeed';
+import { resolveProjectId, seedProjects } from './projectSeed';
+import { seedBousala } from './bousalaSeed';
 
 const client = postgres(process.env.DIRECT_URL || process.env.DATABASE_URL!);
 const db = drizzle(client, { schema });
@@ -196,6 +198,17 @@ async function reset() {
     await db.delete(schema.donations);
     await db.delete(schema.individual_donors);
     await db.delete(schema.beneficiaries);
+    await db.delete(schema.project_team_members);
+    await db.delete(schema.project_risks);
+    await db.delete(schema.project_expenses);
+    await db.delete(schema.project_budget_lines);
+    await db.delete(schema.project_tasks);
+    await db.delete(schema.project_kpis);
+    await db.delete(schema.projects);
+    await db.delete(schema.bousala_tasks);
+    await db.delete(schema.bousala_goal_projects);
+    await db.delete(schema.bousala_kpis);
+    await db.delete(schema.bousala_goals);
     await db.delete(schema.audit_log);
     await db.delete(schema.modules);
     await db.delete(schema.memberships);
@@ -546,6 +559,12 @@ async function seedFinancials(orgId: string, requestedBy: string) {
             total_steps: 1,
             workflow_id: 'disbursement_approval',
             due_date: new Date('2024-12-20'),
+            custom_fields: {
+                beneficiary_id: pendingDisbursement.beneficiary_id,
+                beneficiary_name_en: pendingDisbursement.beneficiary_name_en,
+                beneficiary_name_ar: pendingDisbursement.beneficiary_name_ar,
+                disbursement_type: pendingDisbursement.type,
+            },
         },
         {
             org_id: orgId,
@@ -681,6 +700,12 @@ async function seed() {
     );
     console.log(`Registered ${moduleNames.length} modules`);
 
+    console.log('Seeding projects...');
+    const projectLegacyMap = await seedProjects(db, org.id);
+
+    console.log('Seeding Bousala...');
+    await seedBousala(db, org.id, projectLegacyMap);
+
     const seededDonorIds: string[] = [];
     for (const donor of SEED_DONORS) {
         const [inserted] = await db
@@ -737,9 +762,10 @@ async function seed() {
 
     for (const beneficiary of SEED_BENEFICIARIES) {
         const profile = patchBeneficiaryProfile(beneficiary.profile as Record<string, unknown>);
+        const projectId = resolveProjectId(beneficiary.project_id, projectLegacyMap);
         const [inserted] = await db
             .insert(schema.beneficiaries)
-            .values({ org_id: org.id, ...beneficiary, profile })
+            .values({ org_id: org.id, ...beneficiary, project_id: projectId, profile })
             .returning();
         console.log(`  Beneficiary: ${inserted.name_en} (${inserted.beneficiary_type})`);
     }

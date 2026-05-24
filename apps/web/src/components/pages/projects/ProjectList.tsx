@@ -6,12 +6,15 @@ import { projectListKey } from '../../../data/projectData';
 import { formatCurrency } from '../../../lib/utils';
 import { isOptimisticProject } from '../../../lib/projectOptimistic';
 import EmptyState from '../../common/EmptyState';
+import SkeletonLoader from '../../common/SkeletonLoader';
 import ProjectListControls from './ProjectListControls';
 import ProjectCard from './ProjectCard';
 import { MapPin, ChevronRight } from 'lucide-react';
+import { formatProjectLocation } from './utils/location';
 
 interface ProjectListProps {
     projects: Project[];
+    isLoading?: boolean;
     highlightedId?: string | null;
     onProjectSelect: (project: Project) => void;
 }
@@ -31,7 +34,7 @@ const progressColor = (progress: number) => {
     return 'bg-gray-300 dark:bg-slate-600';
 };
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, highlightedId, onProjectSelect }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, isLoading = false, highlightedId, onProjectSelect }) => {
     const { t, language, dir } = useLocalization();
     const [view, setView] = useState<'list' | 'card'>('list');
     const [searchTerm, setSearchTerm] = useState('');
@@ -51,12 +54,6 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, highlightedId, onPr
         };
         return [...optimistic, ...applySearch(rest)];
     }, [projects, searchTerm, language]);
-    const formatProjectLocation = (city?: string, country?: string) => {
-        if (!city && !country) return '';
-        if (!city) return country || '';
-        if (!country) return city;
-        return language === 'ar' ? `${country}، ${city}` : `${city}, ${country}`;
-    };
 
     const renderListView = () => (
         <div className="bg-card dark:bg-dark-card rounded-xl shadow-soft overflow-hidden border border-gray-200 dark:border-slate-700/50">
@@ -99,7 +96,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, highlightedId, onPr
                                             {project.location && (
                                                 <span className="flex items-center gap-1">
                                                     <MapPin size={11} />
-                                                    {formatProjectLocation(project.location.city, project.location.country)}
+                                                    {formatProjectLocation(project.location, t, language)}
                                                 </span>
                                             )}
                                         </div>
@@ -148,6 +145,20 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, highlightedId, onPr
         </div>
     );
 
+    const renderListSkeleton = () => (
+        <div className="bg-card dark:bg-dark-card rounded-xl shadow-soft overflow-hidden border border-gray-200 dark:border-slate-700/50">
+            <SkeletonLoader type="table" rows={6} columns={5} className="rounded-none border-0" />
+        </div>
+    );
+
+    const renderCardSkeleton = () => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {Array.from({ length: 6 }).map((_, i) => (
+                <SkeletonLoader key={i} type="card" />
+            ))}
+        </div>
+    );
+
     return (
         <div className="space-y-4">
             <ProjectListControls
@@ -157,7 +168,12 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, highlightedId, onPr
                 onSearchChange={setSearchTerm}
             />
 
-            {filteredProjects.length > 0 ? (
+            {isLoading ? (
+                <>
+                    {view === 'list' && renderListSkeleton()}
+                    {view === 'card' && renderCardSkeleton()}
+                </>
+            ) : filteredProjects.length > 0 ? (
                 <>
                     {view === 'list' && renderListView()}
                     {view === 'card' && renderCardView()}

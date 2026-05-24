@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocalization } from '../../../../hooks/useLocalization';
 
 type ColorMapping = {
   bg: string;
@@ -85,6 +86,8 @@ const VARIANT_OVERRIDES: Record<string, Record<string, ColorMapping>> = {
 interface StatusBadgeProps {
   status: string;
   variant?: string;
+  /** Translation group under financials — defaults to status */
+  i18nGroup?: 'status' | 'category';
 }
 
 function formatStatusLabel(status: string): string {
@@ -93,16 +96,18 @@ function formatStatusLabel(status: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-const StatusBadge: React.FC<StatusBadgeProps> = ({ status, variant }) => {
+const StatusBadge: React.FC<StatusBadgeProps> = ({ status, variant, i18nGroup = 'status' }) => {
+  const { t } = useLocalization(['financials']);
   const key = status.toLowerCase();
   const variantColors = variant ? VARIANT_OVERRIDES[variant]?.[key] : undefined;
   const colors = variantColors ?? STATUS_COLORS[key] ?? COLOR_MAP.gray;
+  const label = t(`financials.${i18nGroup}.${key}`, formatStatusLabel(status));
 
   return (
     <span
       className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${colors.bg} ${colors.text} ${colors.darkBg} ${colors.darkText}`}
     >
-      {formatStatusLabel(status)}
+      {label}
     </span>
   );
 };

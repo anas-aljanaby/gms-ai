@@ -18,7 +18,7 @@ interface LessonForm {
 const emptyLessonForm = (): LessonForm => ({ category: 'positive', description: '', recommendation: '' });
 
 const QualityManagementTab: React.FC<QualityManagementTabProps> = ({ project, onUpdate }) => {
-    const { t } = useLocalization(['projects']);
+    const { t } = useLocalization(['common', 'projects']);
     const [modalOpen, setModalOpen] = useState(false);
     const [form, setForm] = useState<LessonForm>(emptyLessonForm());
 

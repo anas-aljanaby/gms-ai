@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
+import { useAuth } from '../../contexts/AuthContext';
 import { SIDEBAR_MODULES } from '../../constants';
 import { SettingsIcon, LogoutIcon } from '../icons/ModuleIcons';
 import { ChevronDownIcon } from '../icons/GenericIcons';
@@ -14,6 +15,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule, role }) => {
   const { t, dir } = useLocalization(['common', 'sidebar']);
+  const { signOut } = useAuth();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(() => {
     return localStorage.getItem('sidebarExpanded') !== 'false';
@@ -132,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule, role }
               moduleKey="logout"
               icon={LogoutIcon}
               isActive={false}
-              onClick={() => {}}
+              onClick={() => { void signOut(); }}
             />
         </ul>
       </div>

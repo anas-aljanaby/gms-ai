@@ -1,0 +1,342 @@
+- generic [ref=e5]:
+  - navigation [ref=e6]:
+    - button "Collapse sidebar" [expanded] [ref=e7] [cursor=pointer]:
+      - img [ref=e8]
+    - generic [ref=e10]:
+      - generic [ref=e12]: M
+      - heading "MSS.2" [level=1] [ref=e13]
+    - list [ref=e15]:
+      - listitem [ref=e578]:
+        - link "لوحة القيادة" [ref=e579] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e581]
+          - generic [ref=e586]: لوحة القيادة
+      - listitem [ref=e587]:
+        - link "بوصلة" [ref=e588] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e590]
+          - generic [ref=e593]: بوصلة
+      - listitem [ref=e594]:
+        - link "إدارة أصحاب المصلحة" [ref=e595] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e597]
+          - generic [ref=e602]: إدارة أصحاب المصلحة
+      - listitem [ref=e603]:
+        - link "إدارة المانحين" [ref=e604] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e606]
+          - generic [ref=e608]: إدارة المانحين
+      - listitem [ref=e609]:
+        - link "المؤسسات المانحة" [ref=e610] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e612]
+          - generic [ref=e614]: المؤسسات المانحة
+      - listitem [ref=e615]:
+        - link "إدارة المستفيدين" [ref=e616] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e618]
+          - generic [ref=e623]: إدارة المستفيدين
+      - listitem [ref=e624]:
+        - link "إدارة المشاريع" [ref=e625] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e627]
+          - generic [ref=e631]: إدارة المشاريع
+      - listitem [ref=e632]:
+        - link "الإدارة المالية" [ref=e633] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e635]
+          - generic [ref=e637]: الإدارة المالية
+      - listitem [ref=e638]:
+        - link "المساعدة والدعم" [ref=e639] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e641]
+          - generic [ref=e644]: المساعدة والدعم
+      - listitem [ref=e645]:
+        - link "الإعدادات" [ref=e646] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e648]
+          - generic [ref=e651]: الإعدادات
+    - list [ref=e91]:
+      - listitem [ref=e652]:
+        - link "تسجيل الخروج" [ref=e653] [cursor=pointer]:
+          - /url: "#"
+          - img [ref=e655]
+          - generic [ref=e658]: تسجيل الخروج
+  - generic [ref=e99]:
+    - banner [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - heading "بوصلة" [level=1] [ref=e659]
+          - button "liveIndicator.delayed" [ref=e1012] [cursor=pointer]
+        - generic [ref=e108]:
+          - generic:
+            - img
+          - searchbox "ابحث في كل شيء..." [ref=e661]
+          - button "بحث صوتي" [ref=e662] [cursor=pointer]:
+            - img [ref=e112]
+      - generic [ref=e115]:
+        - button "المساعدة والدعم" [ref=e663] [cursor=pointer]:
+          - img [ref=e118]
+        - button "Change language" [ref=e124] [cursor=pointer]:
+          - img [ref=e125]
+          - img "Arabic (Saudi Arabia) Flag" [ref=e664]:
+            - generic [ref=e667]: لَا إِلٰهَ إِلَّا الله، مُحَمَّدٌ رَسُولُ الله
+        - button "Switch to dark mode" [ref=e134] [cursor=pointer]:
+          - img [ref=e135]
+        - button "View announcements" [ref=e138] [cursor=pointer]:
+          - img [ref=e139]
+        - button "User مرحباً! Admin" [ref=e669] [cursor=pointer]:
+          - img "User" [ref=e147]
+          - generic [ref=e148]:
+            - generic [ref=e149]: مرحباً!
+            - generic [ref=e150]: Admin
+          - img [ref=e151]
+    - main [ref=e153]:
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - img [ref=e157]
+            - generic [ref=e160]:
+              - heading "بوصلة" [level=1] [ref=e670]
+              - paragraph [ref=e162]: منصة إدارة الأهداف والمشاريع الذكية
+          - generic [ref=e163]:
+            - button [ref=e164] [cursor=pointer]:
+              - img [ref=e165]
+            - button "التقارير" [ref=e671] [cursor=pointer]:
+              - img [ref=e172]
+              - generic [ref=e174]: التقارير
+            - generic [ref=e175]:
+              - img [ref=e176]
+              - generic [ref=e178] [cursor=pointer]: وضع العرض
+              - switch "وضع العرض" [ref=e672] [cursor=pointer]
+            - button [ref=e181] [cursor=pointer]:
+              - img [ref=e182]
+        - generic [ref=e185]:
+          - generic [ref=e186]:
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - img [ref=e189]
+                - generic [ref=e191]:
+                  - 'heading "تنبيه ذكي للهدف: Strengthen the organization''s financial sustainability" [level=4] [ref=e673]'
+                  - list [ref=e193]:
+                    - listitem [ref=e194]: مؤشر "Self-funding ratio" أقل من 50% من الهدف.
+                    - listitem [ref=e195]: مؤشر "New fundraising campaigns" أقل من 50% من الهدف.
+              - generic [ref=e196]:
+                - paragraph [ref=e680]:
+                  - img [ref=e681]
+                  - text: "التوصيات:"
+                - paragraph [ref=e684]: تعذر إنشاء التوصية حالياً. يرجى المحاولة لاحقاً.
+            - button [ref=e202] [cursor=pointer]:
+              - img [ref=e203]
+          - generic [ref=e206]:
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - img [ref=e209]
+                - generic [ref=e211]:
+                  - 'heading "تنبيه ذكي للهدف: Expand educational services reach" [level=4] [ref=e674]'
+                  - list [ref=e213]:
+                    - listitem [ref=e214]: مؤشر "Course completion rate" في اتجاه هبوطي.
+              - generic [ref=e215]:
+                - paragraph [ref=e685]:
+                  - img [ref=e686]
+                  - text: "التوصيات:"
+                - paragraph [ref=e689]: تعذر إنشاء التوصية حالياً. يرجى المحاولة لاحقاً.
+            - button [ref=e221] [cursor=pointer]:
+              - img [ref=e222]
+        - generic [ref=e225]:
+          - button "لوحة المتابعة" [ref=e675] [cursor=pointer]
+          - button "تحليل تنبؤي" [ref=e676] [cursor=pointer]
+        - generic [ref=e690]:
+          - generic [ref=e691]:
+            - generic [ref=e692]:
+              - generic [ref=e694]:
+                - generic [ref=e695]:
+                  - generic [ref=e696]:
+                    - img [ref=e697]
+                    - generic [ref=e701]:
+                      - heading "Strengthen the organization's financial sustainability" [level=3] [ref=e702]
+                      - paragraph [ref=e703]: Increase self-funding sources by 20% during the current fiscal year.
+                      - paragraph [ref=e704]:
+                        - generic [ref=e705]: "المسؤول:"
+                        - text: Fatma Kaya
+                  - generic [ref=e706]:
+                    - button "تعديل الهدف" [ref=e707] [cursor=pointer]:
+                      - img [ref=e708]
+                    - button "حذف الهدف" [ref=e711] [cursor=pointer]:
+                      - img [ref=e712]
+                    - button [ref=e715] [cursor=pointer]:
+                      - img [ref=e716]
+                - generic [ref=e720]:
+                  - generic [ref=e721]: التقدم
+                  - generic [ref=e722]: 65%
+                - generic [ref=e725]:
+                  - button "اقتراحات الذكاء الاصطناعي" [ref=e727] [cursor=pointer]:
+                    - img [ref=e728]
+                    - text: اقتراحات الذكاء الاصطناعي
+                  - button "إضافة مؤشر أداء" [ref=e741] [cursor=pointer]:
+                    - img [ref=e742]
+                    - text: إضافة مؤشر أداء
+              - generic [ref=e745]:
+                - generic [ref=e746]:
+                  - heading "مؤشرات الأداء" [level=5] [ref=e747]
+                  - generic [ref=e748]:
+                    - generic [ref=e750]:
+                      - generic [ref=e751]:
+                        - heading "Self-funding ratio" [level=5] [ref=e752]
+                        - generic [ref=e753]:
+                          - button "تعديل المؤشر" [ref=e754] [cursor=pointer]:
+                            - img [ref=e755]
+                          - button "حذف المؤشر" [ref=e758] [cursor=pointer]:
+                            - img [ref=e759]
+                          - img [ref=e763]
+                      - generic [ref=e766]:
+                        - generic [ref=e767]: "9"
+                        - generic [ref=e768]: / 20 %
+                    - generic [ref=e772]:
+                      - generic [ref=e773]:
+                        - heading "New fundraising campaigns" [level=5] [ref=e774]
+                        - generic [ref=e775]:
+                          - button "تعديل المؤشر" [ref=e776] [cursor=pointer]:
+                            - img [ref=e777]
+                          - button "حذف المؤشر" [ref=e780] [cursor=pointer]:
+                            - img [ref=e781]
+                          - img [ref=e785]
+                      - generic [ref=e786]:
+                        - generic [ref=e787]: "2"
+                        - generic [ref=e788]: / 5 campaign
+                - generic [ref=e791]:
+                  - heading "المشاريع:" [level=5] [ref=e792]
+                  - generic [ref=e794]:
+                    - generic [ref=e795]:
+                      - button "Launch annual waqf campaign Marketing campaign to raise donations for the waqf fund." [ref=e796] [cursor=pointer]:
+                        - generic [ref=e797]:
+                          - img [ref=e798]
+                          - generic [ref=e801]:
+                            - heading "Launch annual waqf campaign" [level=4] [ref=e802]
+                            - paragraph [ref=e803]: Marketing campaign to raise donations for the waqf fund.
+                        - img [ref=e804]
+                      - generic [ref=e806]:
+                        - button "تعديل المشروع" [ref=e807] [cursor=pointer]:
+                          - img [ref=e808]
+                        - button "إلغاء ربط المشروع" [ref=e811] [cursor=pointer]:
+                          - img [ref=e812]
+                    - generic [ref=e817]:
+                      - generic [ref=e818]: التقدم
+                      - generic [ref=e819]: 65%
+            - generic [ref=e824]:
+              - generic [ref=e825]:
+                - generic [ref=e826]:
+                  - img [ref=e827]
+                  - generic [ref=e831]:
+                    - heading "Expand educational services reach" [level=3] [ref=e832]
+                    - paragraph [ref=e833]: Reach 500 new beneficiaries in educational programs by year end.
+                    - paragraph [ref=e834]:
+                      - generic [ref=e835]: "المسؤول:"
+                      - text: Ali Veli
+                - generic [ref=e836]:
+                  - button "تعديل الهدف" [ref=e837] [cursor=pointer]:
+                    - img [ref=e838]
+                  - button "حذف الهدف" [ref=e841] [cursor=pointer]:
+                    - img [ref=e842]
+                  - button [ref=e845] [cursor=pointer]:
+                    - img [ref=e846]
+              - generic [ref=e850]:
+                - generic [ref=e851]: التقدم
+                - generic [ref=e852]: 42%
+              - generic [ref=e855]:
+                - button "اقتراحات الذكاء الاصطناعي" [ref=e857] [cursor=pointer]:
+                  - img [ref=e858]
+                  - text: اقتراحات الذكاء الاصطناعي
+                - button "إضافة مؤشر أداء" [ref=e871] [cursor=pointer]:
+                  - img [ref=e872]
+                  - text: إضافة مؤشر أداء
+            - generic [ref=e876]:
+              - generic [ref=e877]:
+                - generic [ref=e878]:
+                  - img [ref=e879]
+                  - generic [ref=e1013]:
+                    - generic [ref=e1014]:
+                      - generic [ref=e1015]: عنوان الهدف
+                      - textbox [ref=e1016]: Phase 3 Test Goal
+                    - generic [ref=e1017]:
+                      - generic [ref=e1018]: الوصف
+                      - textbox [ref=e1019]: Created during browser verification
+                    - generic [ref=e1020]:
+                      - generic [ref=e1021]: المسؤول
+                      - combobox [ref=e1022]:
+                        - option "اختر المسؤول"
+                        - option "محمد أحمد"
+                        - option "Fatma Ali"
+                        - option "John Smith" [selected]
+                    - generic [ref=e1023]:
+                      - button "حفظ" [ref=e1024] [cursor=pointer]:
+                        - img [ref=e1025]
+                        - text: حفظ
+                      - button "إلغاء" [ref=e1027] [cursor=pointer]:
+                        - img [ref=e1028]
+                        - text: إلغاء
+                - button [ref=e897] [cursor=pointer]:
+                  - img [ref=e898]
+              - generic [ref=e902]:
+                - generic [ref=e903]: التقدم
+                - generic [ref=e904]: 0%
+              - generic [ref=e906]:
+                - button "اقتراحات الذكاء الاصطناعي" [ref=e908] [cursor=pointer]:
+                  - img [ref=e909]
+                  - text: اقتراحات الذكاء الاصطناعي
+                - button "إضافة مؤشر أداء" [ref=e922] [cursor=pointer]:
+                  - img [ref=e923]
+                  - text: إضافة مؤشر أداء
+          - generic [ref=e927]:
+            - button "المساعد الذكي" [ref=e928] [cursor=pointer]:
+              - heading "المساعد الذكي" [level=3] [ref=e929]:
+                - img [ref=e930]
+                - text: المساعد الذكي
+              - generic [ref=e933]:
+                - img [ref=e934]
+                - img [ref=e941]
+            - generic [ref=e944]:
+              - generic [ref=e945]:
+                - button "التوصيات" [ref=e946] [cursor=pointer]:
+                  - heading "التوصيات" [level=4] [ref=e947]:
+                    - img [ref=e948]
+                    - text: التوصيات
+                  - img [ref=e951]
+                - generic [ref=e955]:
+                  - heading "General Suggestion" [level=5] [ref=e956]
+                  - generic [ref=e957]: Consider splitting larger tasks into smaller ones to track progress better.
+              - generic [ref=e958]:
+                - button "تحليلات الأداء" [ref=e959] [cursor=pointer]:
+                  - heading "تحليلات الأداء" [level=4] [ref=e960]:
+                    - img [ref=e961]
+                    - text: تحليلات الأداء
+                  - img [ref=e973]
+                - generic [ref=e977]:
+                  - heading "Performance Analysis" [level=5] [ref=e978]
+                  - generic [ref=e979]: Goal progress and linked project progress should be monitored together for better decisions.
+              - generic [ref=e980]:
+                - button "توقع المخاطر" [ref=e981] [cursor=pointer]:
+                  - heading "توقع المخاطر" [level=4] [ref=e982]:
+                    - img [ref=e983]
+                    - text: توقع المخاطر
+                  - img [ref=e985]
+                - generic [ref=e989]:
+                  - heading "Potential Risks" [level=5] [ref=e990]
+                  - generic [ref=e991]: Review key deadlines regularly to reduce the risk of delays.
+              - generic [ref=e992]:
+                - heading "الإجراءات المقترحة" [level=4] [ref=e993]:
+                  - img [ref=e994]
+                  - text: الإجراءات المقترحة
+                - generic [ref=e996]:
+                  - button "إضافة هدف" [ref=e997] [cursor=pointer]:
+                    - img [ref=e998]
+                    - text: إضافة هدف
+                  - button "إضافة مهمة" [ref=e1000] [cursor=pointer]:
+                    - img [ref=e1001]
+                    - text: إضافة مهمة
+                  - button "ربط مشروع" [ref=e1004] [cursor=pointer]:
+                    - img [ref=e1005]
+                    - text: ربط مشروع
+                  - button "عرض التقارير" [ref=e1008] [cursor=pointer]:
+                    - img [ref=e1009]
+                    - text: عرض التقارير

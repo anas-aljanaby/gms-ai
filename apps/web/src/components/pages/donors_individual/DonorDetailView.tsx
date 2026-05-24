@@ -17,6 +17,7 @@ import DonorGivingTab from './tabs/DonorGivingTab';
 import DonorOverviewTab from './tabs/DonorOverviewTab';
 import DonorRelationshipActivityTab from './tabs/DonorRelationshipActivityTab';
 import { Chip, EmptyPanel, InfoRow, RelationshipHealthChip, RelationshipLikelihoodChip, Section } from './tabs/profileUi';
+import { getCountryDisplayName } from '../../../lib/countryOptions';
 
 interface DonorDetailViewProps {
     donor: IndividualDonor;
@@ -731,7 +732,8 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
     const tier = summary?.donor.tier || editableDonor.tier;
     const donorType = editableDonor.donorType;
     const donorTypeLabel = donorType ? t(`donors.types.${donorType.replace(/ /g, '')}`, donorType) : 'N/A';
-    const location = [editableDonor.city, summary?.donor.country || editableDonor.country].filter(Boolean).join(', ');
+    const locationCountry = getCountryDisplayName(summary?.donor.country || editableDonor.country, language === 'ar' ? 'ar' : 'en');
+    const location = [editableDonor.city, locationCountry].filter(Boolean).join(', ');
 
     return (
         <>

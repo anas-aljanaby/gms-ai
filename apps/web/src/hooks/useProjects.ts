@@ -1,7 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { buildOptimisticProject } from '../lib/projectOptimistic';
+import {
+    buildOptimisticProjectTask,
+    insertProjectTaskSorted,
+    sortProjectTasksByStart,
+} from '../lib/projectTaskOptimistic';
 import type { ExpenseLogItem, GanttTask, Project, Risk } from '../types';
+
+export { isOptimisticProjectTask } from '../lib/projectTaskOptimistic';
 
 export const PROJECTS_QUERY_KEY = ['projects'] as const;
 const PROJECT_QUERY_KEY = (projectId: string) => ['project', projectId] as const;
@@ -142,12 +149,40 @@ export const useProjectTasks = (projectId: string | null) => {
         enabled: !!projectId,
     });
 
+    type CreateTaskContext = { previous?: GanttTask[]; optimisticId: string };
+
     const createMutation = useMutation({
         mutationFn: (task: Omit<GanttTask, 'id'>) => createProjectTask(projectId as string, task),
-        onSuccess: () => {
+        onMutate: async (input) => {
+            if (!projectId) return { previous: undefined, optimisticId: '' };
+            const key = PROJECT_TASKS_QUERY_KEY(projectId);
+            await queryClient.cancelQueries({ queryKey: key });
+            const previous = queryClient.getQueryData<GanttTask[]>(key);
+            const optimistic = buildOptimisticProjectTask(input);
+            queryClient.setQueryData<GanttTask[]>(key, (old) =>
+                insertProjectTaskSorted(old ?? [], optimistic),
+            );
+            return { previous, optimisticId: optimistic.id } satisfies CreateTaskContext;
+        },
+        onSuccess: (created, _input, context) => {
             if (!projectId) return;
-            void queryClient.invalidateQueries({ queryKey: PROJECT_TASKS_QUERY_KEY(projectId) });
+            const key = PROJECT_TASKS_QUERY_KEY(projectId);
+            queryClient.setQueryData<GanttTask[]>(key, (old) => {
+                const list = old ?? [];
+                const optimisticId = context?.optimisticId;
+                if (optimisticId && list.some((t) => t.id === optimisticId)) {
+                    return sortProjectTasksByStart(
+                        list.map((t) => (t.id === optimisticId ? created : t)),
+                    );
+                }
+                if (list.some((t) => t.id === created.id)) return list;
+                return insertProjectTaskSorted(list, created);
+            });
             void queryClient.invalidateQueries({ queryKey: PROJECT_QUERY_KEY(projectId) });
+        },
+        onError: (_error, _input, context) => {
+            if (!projectId || !context?.previous) return;
+            queryClient.setQueryData(PROJECT_TASKS_QUERY_KEY(projectId), context.previous);
         },
     });
 
@@ -171,7 +206,7 @@ export const useProjectTasks = (projectId: string | null) => {
 
     return {
         ...query,
-        createTask: createMutation.mutateAsync,
+        createTask: createMutation.mutate,
         updateTask: updateMutation.mutateAsync,
         deleteTask: deleteMutation.mutateAsync,
     };

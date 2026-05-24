@@ -1,0 +1,194 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e17]:
+    - navigation [ref=e18]:
+      - button "Collapse sidebar" [expanded] [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+      - generic [ref=e22]:
+        - generic [ref=e24]: M
+        - heading "MSS.2" [level=1] [ref=e25]
+      - list [ref=e27]:
+        - listitem [ref=e867]:
+          - link "Dashboard" [ref=e868] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e870]
+            - generic [ref=e875]: Dashboard
+        - listitem [ref=e876]:
+          - link "Bousala" [ref=e877] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e879]
+            - generic [ref=e882]: Bousala
+        - listitem [ref=e883]:
+          - link "Stakeholder Management" [ref=e884] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e886]
+            - generic [ref=e891]: Stakeholder Management
+        - listitem [ref=e892]:
+          - link "Donor Management" [ref=e893] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e895]
+            - generic [ref=e897]: Donor Management
+        - listitem [ref=e898]:
+          - link "Institutional Donors" [ref=e899] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e901]
+            - generic [ref=e903]: Institutional Donors
+        - listitem [ref=e904]:
+          - link "Beneficiary Management" [ref=e905] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e907]
+            - generic [ref=e912]: Beneficiary Management
+        - listitem [ref=e913]:
+          - link "Project Management" [ref=e914] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e916]
+            - generic [ref=e920]: Project Management
+        - listitem [ref=e921]:
+          - link "Financial Management" [ref=e922] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e924]
+            - generic [ref=e926]: Financial Management
+        - listitem [ref=e927]:
+          - link "Help & Support" [ref=e928] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e930]
+            - generic [ref=e933]: Help & Support
+        - listitem [ref=e934]:
+          - link "Settings" [ref=e935] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e937]
+            - generic [ref=e940]: Settings
+      - list [ref=e103]:
+        - listitem [ref=e941]:
+          - link "Logout" [ref=e942] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e944]
+            - generic [ref=e947]: Logout
+    - generic [ref=e111]:
+      - banner [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - heading "Project Management" [level=1] [ref=e948]
+            - button "liveIndicator.offline" [ref=e1096] [cursor=pointer]
+          - generic [ref=e120]:
+            - generic:
+              - img
+            - searchbox "Search everything..." [ref=e121]
+            - button "Search by voice" [ref=e123] [cursor=pointer]:
+              - img [ref=e124]
+        - generic [ref=e127]:
+          - button "Help & Support" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - button "Change language" [ref=e136] [cursor=pointer]:
+            - img [ref=e137]
+            - img "English (US) Flag" [ref=e140]
+          - button "Switch to dark mode" [ref=e146] [cursor=pointer]:
+            - img [ref=e147]
+          - button "View announcements" [ref=e150] [cursor=pointer]:
+            - img [ref=e151]
+          - button "User Welcome! Admin" [ref=e158] [cursor=pointer]:
+            - img "User" [ref=e159]
+            - generic [ref=e160]:
+              - generic [ref=e161]: Welcome!
+              - generic [ref=e162]: Admin
+            - img [ref=e163]
+      - main [ref=e165]:
+        - generic [ref=e1097]:
+          - generic [ref=e1098]:
+            - generic [ref=e1099]:
+              - button "Back to project list" [ref=e1100] [cursor=pointer]:
+                - img [ref=e1101]
+                - text: Back to project list
+              - button "Edit" [ref=e1103] [cursor=pointer]:
+                - img [ref=e1104]
+                - text: Edit
+            - generic [ref=e1107]:
+              - generic [ref=e1108]:
+                - generic [ref=e1109]:
+                  - heading "Albania Islamic Center" [level=1] [ref=e1110]
+                  - generic [ref=e1111]: Implementation
+                - generic [ref=e1113]:
+                  - generic [ref=e1114]:
+                    - img [ref=e1115]
+                    - text: Tirana, Albania
+                  - generic [ref=e1118]:
+                    - img [ref=e1119]
+                    - text: 1/1/2025 - 9/30/2025
+              - generic [ref=e1121]:
+                - generic [ref=e1122]:
+                  - paragraph [ref=e1123]: Progress
+                  - generic [ref=e1127]: 35%
+                - generic [ref=e1128]:
+                  - paragraph [ref=e1129]: Budget
+                  - paragraph [ref=e1130]: $55,250
+          - generic [ref=e1131]:
+            - navigation [ref=e1134]:
+              - button "Overview" [ref=e1135] [cursor=pointer]
+              - button "Monitoring" [ref=e1136] [cursor=pointer]
+              - button "Scope" [ref=e1137] [cursor=pointer]
+              - button "Schedule" [ref=e1138] [cursor=pointer]
+              - button "Cost" [ref=e1139] [cursor=pointer]
+              - button "Human Resources" [ref=e1140] [cursor=pointer]
+              - button "Risks" [ref=e1141] [cursor=pointer]
+              - button "Beneficiary Management" [ref=e1142] [cursor=pointer]
+              - button "Documents" [ref=e1143] [cursor=pointer]
+              - button "Reports" [ref=e1144] [cursor=pointer]
+            - generic [ref=e1146]:
+              - generic [ref=e1147]:
+                - generic [ref=e1148]:
+                  - generic [ref=e1149]:
+                    - img [ref=e1151]
+                    - generic [ref=e1154]: Overall Completion
+                  - paragraph [ref=e1155]: 35%
+                - generic [ref=e1156]:
+                  - generic [ref=e1157]:
+                    - img [ref=e1159]
+                    - generic [ref=e1161]: Budget Status
+                  - paragraph [ref=e1162]: $17,100
+                  - paragraph [ref=e1163]: of $55,250
+                - generic [ref=e1164]:
+                  - generic [ref=e1165]:
+                    - img [ref=e1167]
+                    - generic [ref=e1170]: Schedule Status
+                  - paragraph [ref=e1171]: At Risk
+                - generic [ref=e1172]:
+                  - generic [ref=e1173]:
+                    - img [ref=e1175]
+                    - generic [ref=e1177]: Active Risks
+                  - paragraph [ref=e1178]: "2"
+              - generic [ref=e1179]:
+                - heading "Project Information" [level=3] [ref=e1181]
+                - generic [ref=e1182]:
+                  - generic [ref=e1183]:
+                    - term [ref=e1184]: Project Manager
+                    - definition [ref=e1185]: Fatma Kaya
+                  - generic [ref=e1186]:
+                    - term [ref=e1187]: Project Dates
+                    - definition [ref=e1188]: Jan 1, 2025 – Sep 30, 2025
+                  - generic [ref=e1189]:
+                    - term [ref=e1190]: Location
+                    - definition [ref=e1191]: Tirana, Albania
+                  - generic [ref=e1192]:
+                    - term [ref=e1193]: Donor
+                    - definition [ref=e1194]: International Islamic Charity Organization
+                  - generic [ref=e1196]:
+                    - term [ref=e1197]: Goal
+                    - definition [ref=e1198]: Build a community Islamic center serving youth education and welfare programs.
+              - generic [ref=e1199]:
+                - heading "SDG Alignment" [level=3] [ref=e1201]
+                - generic [ref=e1202]:
+                  - 'img "SDG 4: Quality Education" [ref=e1204]'
+                  - 'img "SDG 11: Sustainable Cities and Communities" [ref=e1206]'
+              - generic [ref=e1207]:
+                - heading "Project Team" [level=3] [ref=e1209]
+                - generic [ref=e1210]:
+                  - generic [ref=e1211]:
+                    - img "Fatma Kaya" [ref=e1212]
+                    - generic [ref=e1213]:
+                      - paragraph [ref=e1214]: Fatma Kaya
+                      - paragraph
+                  - generic [ref=e1215]:
+                    - img "John Doe" [ref=e1216]
+                    - generic [ref=e1217]:
+                      - paragraph [ref=e1218]: John Doe
+                      - paragraph
+  - generic [ref=e783]: $0

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { AidItem, AidStatus, AidType, ProgramProject } from '../../../types';
+import type { DisbursementStatus } from '../../../types/financials';
 import { useLocalization } from '../../../hooks/useLocalization';
 import ModalPortal from '../../common/ModalPortal';
 import { XIcon } from '../../icons/GenericIcons';
@@ -14,7 +15,6 @@ export type AidItemFormInput = {
     unit: string;
     status: AidStatus;
     relatedProjectId: string;
-    requestDisbursement?: boolean;
 };
 
 interface AidItemModalProps {
@@ -22,8 +22,7 @@ interface AidItemModalProps {
     onClose: () => void;
     onSubmit: (data: AidItemFormInput) => void;
     initialItem?: AidItem | null;
-    allowDisbursementRequest?: boolean;
-    // TODO: Replace with real API when projects module is activated
+    linkedDisbursementStatus?: DisbursementStatus;
     projects?: ProgramProject[];
 }
 
@@ -50,9 +49,8 @@ const emptyForm = (): AidItemFormInput => ({
     descriptionAr: '',
     value: '',
     unit: 'USD',
-    status: 'Delivered',
+    status: 'Pending',
     relatedProjectId: '',
-    requestDisbursement: false,
 });
 
 const formFromItem = (item: AidItem): AidItemFormInput => ({
@@ -64,7 +62,6 @@ const formFromItem = (item: AidItem): AidItemFormInput => ({
     unit: item.unit || defaultUnitForType(item.type),
     status: item.status,
     relatedProjectId: item.relatedProjectId || '',
-    requestDisbursement: false,
 });
 
 type AidFormErrors = {
@@ -78,7 +75,7 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
     onClose,
     onSubmit,
     initialItem,
-    allowDisbursementRequest = false,
+    linkedDisbursementStatus,
     projects = [],
 }) => {
     const { t, language } = useLocalization(['common', 'beneficiaries']);
@@ -86,6 +83,9 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
     const [form, setForm] = useState<AidItemFormInput>(emptyForm);
     const [errors, setErrors] = useState<AidFormErrors>({});
     const isFinancialType = form.type === 'financial';
+    const hasLinkedDisbursement = isFinancialType && !!initialItem?.disbursementId;
+    const isDisbursementLocked = hasLinkedDisbursement && linkedDisbursementStatus !== 'pending_approval';
+    const isAmountLocked = hasLinkedDisbursement;
 
     useEffect(() => {
         if (isOpen) {
@@ -107,6 +107,7 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
         setForm((prev) => ({
             ...prev,
             type,
+            status: type === 'financial' ? 'Pending' : prev.status,
             unit: prev.type === type ? (prev.unit || defaultUnitForType(type)) : defaultUnitForType(type),
         }));
         clearError('unit');
@@ -139,7 +140,10 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
-        onSubmit(form);
+        onSubmit({
+            ...form,
+            status: isFinancialType ? 'Pending' : form.status,
+        });
         onClose();
     };
 
@@ -161,38 +165,58 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                         <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-2 text-xs text-gray-600 dark:border-slate-600 dark:bg-slate-800/40 dark:text-gray-300">
                             <span className="text-red-500">*</span> {t('beneficiaries.aidLog.requiredHint')}
                         </div>
+                        {isFinancialType && (
+                            <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-900/20 dark:text-amber-100">
+                                {t('beneficiaries.aidLog.financialApprovalNotice')}
+                            </div>
+                        )}
+                        {isDisbursementLocked && (
+                            <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-600 dark:border-slate-600 dark:bg-slate-800/40 dark:text-gray-300">
+                                {t('beneficiaries.aidLog.financialLockedNotice')}
+                            </div>
+                        )}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <label className="block min-w-0">
                                 <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.aidLog.type')}</span>
                                 <select
                                     value={form.type}
                                     onChange={(e) => handleTypeChange(e.target.value as AidType)}
-                                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
+                                    disabled={isEdit && (hasLinkedDisbursement || initialItem?.type === 'financial')}
+                                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none disabled:opacity-60 dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
                                 >
                                     {AID_TYPES.map((type) => (
                                         <option key={type} value={type}>{t(`beneficiaries.aidLog.types.${type}`)}</option>
                                     ))}
                                 </select>
                             </label>
-                            <EditableField label={t('beneficiaries.aidLog.date')} value={form.date} onChange={v => setForm(f => ({ ...f, date: v }))} type="date" />
-                            <label className="block min-w-0">
-                                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.aidLog.statusLabel')}</span>
-                                <select
-                                    value={form.status}
-                                    onChange={(e) => setForm(f => ({ ...f, status: e.target.value as AidStatus }))}
-                                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
-                                >
-                                    {AID_STATUSES.map((status) => (
-                                        <option key={status} value={status}>{t(`beneficiaries.aidLog.status.${status.toLowerCase()}`)}</option>
-                                    ))}
-                                </select>
-                            </label>
+                            <EditableField
+                                label={t('beneficiaries.aidLog.date')}
+                                value={form.date}
+                                onChange={v => setForm(f => ({ ...f, date: v }))}
+                                type="date"
+                                disabled={isAmountLocked}
+                            />
+                            {!isFinancialType && (
+                                <label className="block min-w-0">
+                                    <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.aidLog.statusLabel')}</span>
+                                    <select
+                                        value={form.status}
+                                        onChange={(e) => setForm(f => ({ ...f, status: e.target.value as AidStatus }))}
+                                        className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
+                                    >
+                                        {AID_STATUSES.map((status) => (
+                                            <option key={status} value={status}>{t(`beneficiaries.aidLog.status.${status.toLowerCase()}`)}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                            )}
                             <label className="block min-w-0">
                                 <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{t('beneficiaries.fields.project')}</span>
                                 <select
                                     value={form.relatedProjectId}
                                     onChange={(e) => setForm(f => ({ ...f, relatedProjectId: e.target.value }))}
-                                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
+                                    disabled={isDisbursementLocked}
+                                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold outline-none disabled:opacity-60 dark:border-slate-600 dark:bg-slate-900 dark:text-dark-foreground"
                                 >
                                     <option value="">{t('beneficiaries.fields.noProject')}</option>
                                     {projects.map((proj) => (
@@ -211,6 +235,7 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                                 }}
                                 required
                                 error={errors.description}
+                                disabled={isDisbursementLocked}
                             />
                             <EditableField
                                 label={t('beneficiaries.aidLog.descriptionAr')}
@@ -222,25 +247,12 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                                 dir="rtl"
                                 required
                                 error={errors.description}
+                                disabled={isDisbursementLocked}
                             />
                         </div>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                             {t('beneficiaries.aidLog.descriptionHint')}
                         </p>
-                        {allowDisbursementRequest && isFinancialType && !initialItem?.disbursementId && (
-                            <label className="flex items-start gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800/40">
-                                <input
-                                    type="checkbox"
-                                    checked={!!form.requestDisbursement}
-                                    onChange={(e) => setForm(f => ({ ...f, requestDisbursement: e.target.checked }))}
-                                    className="mt-0.5"
-                                />
-                                <span>
-                                    <span className="font-semibold text-foreground dark:text-dark-foreground">{t('beneficiaries.aidLog.requestDisbursement')}</span>
-                                    <span className="mt-0.5 block text-xs text-gray-500 dark:text-gray-400">{t('beneficiaries.aidLog.requestDisbursementHint')}</span>
-                                </span>
-                            </label>
-                        )}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <EditableField
                                 label={t(isFinancialType ? 'beneficiaries.aidLog.amount' : 'beneficiaries.aidLog.quantity')}
@@ -252,6 +264,7 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                                 type="number"
                                 required
                                 error={errors.value}
+                                disabled={isAmountLocked}
                             />
                             {isFinancialType ? (
                                 <label className="block min-w-0">
@@ -265,10 +278,11 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                                             setForm(f => ({ ...f, unit: e.target.value }));
                                             clearError('unit');
                                         }}
+                                        disabled={isAmountLocked}
                                         aria-invalid={!!errors.unit}
-                                        className={`mt-1 w-full rounded-lg border bg-white px-3 py-2 text-sm font-semibold outline-none dark:bg-slate-900 dark:text-dark-foreground ${
+                                        className={`mt-1 w-full rounded-lg border bg-white px-3 py-2 text-sm font-semibold outline-none disabled:opacity-60 dark:bg-slate-900 dark:text-dark-foreground ${
                                             errors.unit
-                                                ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500/20 dark:border-red-500/70 dark:focus:border-red-400'
+                                                ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500/20 dark:border-red-500/70'
                                                 : 'border-gray-300 dark:border-slate-600'
                                         }`}
                                     >
@@ -294,8 +308,12 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                     </div>
                     <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-2xl flex justify-end gap-3 border-t dark:border-slate-700">
                         <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.cancel')}</button>
-                        <button type="submit" className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold hover:bg-secondary-dark transition-colors">
-                            {t('common.save')}
+                        <button
+                            type="submit"
+                            disabled={isDisbursementLocked}
+                            className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold hover:bg-secondary-dark transition-colors disabled:opacity-60"
+                        >
+                            {isFinancialType && !isEdit ? t('beneficiaries.aidLog.submitForApproval') : t('common.save')}
                         </button>
                     </div>
                 </form>

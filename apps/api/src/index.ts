@@ -11,6 +11,7 @@ import { beneficiariesRouter } from './routes/beneficiaries';
 import { financialsRouter } from './routes/financials';
 import { aiRouter } from './routes/ai';
 import { projectsRouter } from './routes/projects';
+import { bousalaRouter } from './routes/bousala';
 
 type Variables = {
     user: User;
@@ -54,6 +55,7 @@ app.route('/beneficiaries', beneficiariesRouter);
 app.route('/financials', financialsRouter);
 app.route('/ai', aiRouter);
 app.route('/projects', projectsRouter);
+app.route('/bousala', bousalaRouter);
 
 const port = Number(process.env.PORT) || 3000;
 
