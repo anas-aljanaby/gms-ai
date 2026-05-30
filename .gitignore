@@ -27,3 +27,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Playwright CLI / agent artifacts
+.playwright-cli/
+.playwright-mcp/

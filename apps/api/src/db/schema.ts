@@ -537,6 +537,40 @@ export const project_team_members = pgTable('project_team_members', {
     created_at: timestamp('created_at').defaultNow(),
 });
 
+// ═══════════════════════════════════════════════════════════════════════════
+// STAKEHOLDERS MODULE
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const stakeholders = pgTable('stakeholders', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    name_en: text('name_en').notNull(),
+    name_ar: text('name_ar').default(''),
+    type: text('type').notNull(),
+    category: text('category').notNull(),
+    status: text('status').notNull().default('active'),
+    classification: text('classification').notNull().default('secondary'),
+    email: text('email').default(''),
+    phone: text('phone').default(''),
+    country: text('country').default(''),
+    health_score: integer('health_score').notNull().default(75),
+    engagement_score: integer('engagement_score').notNull().default(50),
+    relationship_level: text('relationship_level').notNull().default('core'),
+    risk_level: text('risk_level').notNull().default('low'),
+    risk_profile: text('risk_profile').notNull().default('neutral'),
+    power: integer('power').notNull().default(50),
+    interest: integer('interest').notNull().default(50),
+    ai_insights: text('ai_insights').notNull().default('stakeholder_management.insights.newly_added'),
+    last_contact: timestamp('last_contact').defaultNow(),
+    needs: jsonb('needs').default([]),
+    total_donations: numeric('total_donations', { precision: 12, scale: 2 }),
+    support_received: numeric('support_received', { precision: 12, scale: 2 }),
+    partnership_value: numeric('partnership_value', { precision: 12, scale: 2 }),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
 export const bousala_goals = pgTable('bousala_goals', {
     id: uuid('id').primaryKey().defaultRandom(),
     org_id: uuid('org_id').notNull().references(() => organizations.id),

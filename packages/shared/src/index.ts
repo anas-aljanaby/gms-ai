@@ -3,6 +3,7 @@ export * from './schemas/beneficiary';
 export * from './schemas/financials';
 export * from './schemas/project';
 export * from './schemas/bousala';
+export * from './schemas/stakeholder';
 export * from './constants/donorOptions';
 export * from './constants/beneficiaryOptions';
 export * from './constants/financialOptions';

@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "concurrently": "^10.0.0",
-    "drizzle-kit": "^0.18.1"
+    "drizzle-kit": "^0.31.10"
   }
 }

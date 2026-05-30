@@ -1,21 +1,24 @@
 
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../lib/optimisticSubmit';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../lib/optimisticSubmit';
 import {
-    buildOptimisticStakeholder,
     isOptimisticStakeholder,
-    nextStakeholderNumericId,
 } from '../../lib/stakeholderOptimistic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
-import { MOCK_STAKEHOLDERS } from '../../data/stakeholderData';
 import type { Stakeholder, StakeholderType } from '../../types';
 import { formatDate } from '../../lib/utils';
 import AddStakeholderModal, { type StakeholderFormValues } from './stakeholders/AddStakeholderModal';
 import StakeholderDetailPanel from './stakeholders/StakeholderDetailPanel';
 import StakeholderMatrix from './stakeholders/StakeholderMatrix';
 import StakeholderCard from './stakeholders/StakeholderCard';
+import {
+    useCreateStakeholder,
+    useDeleteStakeholder,
+    useStakeholders,
+    useUpdateStakeholder,
+} from '../../hooks/useStakeholders';
 import { Users, Activity, AlertCircle, Shield, Heart, Building2, Handshake, UserCheck, Globe, Package, Newspaper, Search, Filter, Download, Plus, RefreshCw, Eye, Edit, Trash2, Calendar, Award, Zap, List, LayoutGrid, BarChart2, DollarSign, BrainCircuit } from 'lucide-react';
 import { useToast } from '../../hooks/useToast';
 import { useTabParam } from '../../hooks/useTabParam';
@@ -44,7 +47,6 @@ const STAKEHOLDER_VIEW_TABS = ['table', 'card', 'matrix'] as const;
 
 const StakeholderManagement: React.FC = () => {
     const { t, language } = useLocalization(['common', 'stakeholders', 'misc']);
-    const [stakeholders, setStakeholders] = useState<Stakeholder[]>(MOCK_STAKEHOLDERS);
     const [selectedCategory, setSelectedCategory] = useState<StakeholderType | 'all'>('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -54,6 +56,10 @@ const StakeholderManagement: React.FC = () => {
     const [view, setView] = useTabParam('tab', 'card', STAKEHOLDER_VIEW_TABS);
     const [highlightedId, setHighlightedId] = useState<Stakeholder['id'] | null>(null);
     const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const { data: stakeholders = [] } = useStakeholders();
+    const createStakeholderMutation = useCreateStakeholder();
+    const updateStakeholderMutation = useUpdateStakeholder();
+    const deleteStakeholderMutation = useDeleteStakeholder();
 
     // Voice Search State
     const toast = useToast();
@@ -99,6 +105,31 @@ const StakeholderManagement: React.FC = () => {
             if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
         };
     }, []);
+
+    useEffect(() => {
+        if (!selectedStakeholder) return;
+        const latest = stakeholders.find((row) => row.id === selectedStakeholder.id);
+        if (!latest) {
+            setSelectedStakeholder(null);
+            return;
+        }
+        if (latest !== selectedStakeholder) {
+            setSelectedStakeholder(latest);
+        }
+    }, [stakeholders, selectedStakeholder]);
+
+    useEffect(() => {
+        if (!editingStakeholder) return;
+        const latest = stakeholders.find((row) => row.id === editingStakeholder.id);
+        if (!latest) {
+            setEditingStakeholder(null);
+            setIsEditModalOpen(false);
+            return;
+        }
+        if (latest !== editingStakeholder) {
+            setEditingStakeholder(latest);
+        }
+    }, [stakeholders, editingStakeholder]);
 
     const flashHighlight = useCallback((id: Stakeholder['id']) => {
         if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
@@ -175,16 +206,14 @@ const StakeholderManagement: React.FC = () => {
     };
 
     const handleAddStakeholder = async (data: StakeholderFormValues) => {
-        const optimistic = buildOptimisticStakeholder(data);
-        setStakeholders(prev => [optimistic, ...prev]);
-
-        const created = await simulateLocalPersist((): Stakeholder => ({
-            ...optimistic,
-            id: nextStakeholderNumericId(stakeholders),
-        }));
-        setStakeholders(prev => prev.map(s => (s.id === optimistic.id ? created : s)));
-        flashHighlight(created.id);
-        toast.showSuccess(t('stakeholder_management.notifications.createSuccess'));
+        try {
+            const created = await createStakeholderMutation.mutateAsync(data);
+            flashHighlight(created.id);
+            toast.showSuccess(t('stakeholder_management.notifications.createSuccess'));
+        } catch {
+            toast.showError(t('stakeholder_management.add_modal.submitError'));
+            throw new Error('create_stakeholder_failed');
+        }
     };
 
     const handleOpenEditModal = (stakeholder: Stakeholder) => {
@@ -192,47 +221,55 @@ const StakeholderManagement: React.FC = () => {
         setIsEditModalOpen(true);
     };
 
-    const handleUpdateStakeholder = async (data: StakeholderFormValues) => {
+    const handleUpdateStakeholder = async (data: StakeholderFormValues): Promise<void> => {
         if (!editingStakeholder) return;
         const targetId = editingStakeholder.id;
-        const target = stakeholders.find((s) => s.id === targetId);
+        const target = stakeholders.find((row) => row.id === targetId);
         if (!target) return;
 
-        const updated = await simulateLocalPersist<Stakeholder>(() => ({
-            ...target,
-            ...data,
-            name: {
-                en: data.name.en || data.name.ar,
-                ar: data.name.ar || data.name.en,
-            },
-        }));
-
-        setStakeholders((prev) => prev.map((s) => (s.id === targetId ? updated : s)));
-        setSelectedStakeholder((prev) => (prev && prev.id === targetId ? updated : prev));
-        setEditingStakeholder(updated);
-        flashHighlight(updated.id);
-        toast.showSuccess(t('stakeholder_management.notifications.updateSuccess'));
+        try {
+            const updated = await updateStakeholderMutation.mutateAsync({
+                id: targetId,
+                ...target,
+                ...data,
+                name: {
+                    en: data.name.en || data.name.ar,
+                    ar: data.name.ar || data.name.en,
+                },
+            });
+            setSelectedStakeholder((prev) => (prev && prev.id === targetId ? updated : prev));
+            setEditingStakeholder(updated);
+            flashHighlight(updated.id);
+            toast.showSuccess(t('stakeholder_management.notifications.updateSuccess'));
+        } catch {
+            toast.showError(t('stakeholder_management.add_modal.submitError'));
+            throw new Error('update_stakeholder_failed');
+        }
     };
 
     const handleSaveFromDetailPanel = async (stakeholderId: Stakeholder['id'], updates: Partial<Stakeholder>) => {
         const existing = stakeholders.find((s) => s.id === stakeholderId);
         if (!existing) return;
 
-        const updated = await simulateLocalPersist<Stakeholder>(() => ({
-            ...existing,
-            ...updates,
-            name: updates.name
-                ? {
-                    en: updates.name.en || updates.name.ar,
-                    ar: updates.name.ar || updates.name.en,
-                }
-                : existing.name,
-        }));
+        try {
+            const updated = await updateStakeholderMutation.mutateAsync({
+                id: stakeholderId,
+                ...existing,
+                ...updates,
+                name: updates.name
+                    ? {
+                        en: updates.name.en || updates.name.ar,
+                        ar: updates.name.ar || updates.name.en,
+                    }
+                    : existing.name,
+            });
 
-        setStakeholders((prev) => prev.map((s) => (s.id === stakeholderId ? updated : s)));
-        setSelectedStakeholder((prev) => (prev && prev.id === stakeholderId ? updated : prev));
-        flashHighlight(updated.id);
-        toast.showSuccess(t('stakeholder_management.notifications.updateSuccess'));
+            setSelectedStakeholder((prev) => (prev && prev.id === stakeholderId ? updated : prev));
+            flashHighlight(updated.id);
+            toast.showSuccess(t('stakeholder_management.notifications.updateSuccess'));
+        } catch {
+            toast.showError(t('stakeholder_management.add_modal.submitError'));
+        }
     };
 
     const handleDeleteStakeholder = async (stakeholderId: Stakeholder['id']) => {
@@ -244,14 +281,17 @@ const StakeholderManagement: React.FC = () => {
         );
         if (!confirmed) return;
 
-        await simulateLocalPersist(() => true);
-        setStakeholders((prev) => prev.filter((s) => s.id !== stakeholderId));
-        setSelectedStakeholder((prev) => (prev && prev.id === stakeholderId ? null : prev));
-        if (editingStakeholder?.id === stakeholderId) {
-            setEditingStakeholder(null);
-            setIsEditModalOpen(false);
+        try {
+            await deleteStakeholderMutation.mutateAsync(stakeholderId);
+            setSelectedStakeholder((prev) => (prev && prev.id === stakeholderId ? null : prev));
+            if (editingStakeholder?.id === stakeholderId) {
+                setEditingStakeholder(null);
+                setIsEditModalOpen(false);
+            }
+            toast.showSuccess(t('stakeholder_management.notifications.deleteSuccess'));
+        } catch {
+            toast.showError(t('stakeholder_management.add_modal.submitError'));
         }
-        toast.showSuccess(t('stakeholder_management.notifications.deleteSuccess'));
     };
     
     const ViewButton: React.FC<{ viewType: 'table' | 'card' | 'matrix'; icon: React.ReactNode; }> = ({ viewType, icon }) => (
