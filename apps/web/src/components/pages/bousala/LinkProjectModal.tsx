@@ -14,7 +14,7 @@ interface LinkProjectModalProps {
 }
 
 const LinkProjectModal: React.FC<LinkProjectModalProps> = ({ isOpen, onClose, onLink, allProjects, linkedProjectIds }) => {
-    const { t, language, dir } = useLocalization(['common', 'bousala', 'projects']);
+    const { t, language, dir, pickLocalized } = useLocalization(['common', 'bousala', 'projects']);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
     const linkedSet = useMemo(() => new Set(linkedProjectIds), [linkedProjectIds]);
@@ -65,7 +65,7 @@ const LinkProjectModal: React.FC<LinkProjectModalProps> = ({ isOpen, onClose, on
                                     className="w-5 h-5 text-primary rounded"
                                 />
                                 <div>
-                                    <p className="font-semibold" dir="auto">{project.name[language] || project.name.en}</p>
+                                    <p className="font-semibold" dir="auto">{pickLocalized(project.name)}</p>
                                     <p className="text-xs text-gray-500">{t(`projects.types.${project.type}`)}</p>
                                 </div>
                             </label>

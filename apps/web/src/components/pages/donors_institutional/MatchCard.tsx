@@ -20,7 +20,7 @@ interface MatchCardProps {
 }
 
 const MatchCard: React.FC<MatchCardProps> = ({ donor, match, onViewProfile, onPrepareDraft }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors']);
 
     return (
         <motion.div
@@ -32,7 +32,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ donor, match, onViewProfile, onPr
             <div className="p-4 flex items-center gap-4 border-b dark:border-slate-700/50">
                 <img src={donor.logo} alt={donor.organizationName.en} className="w-12 h-12 rounded-lg object-cover bg-gray-100" />
                 <div>
-                    <h4 className="font-bold text-foreground dark:text-dark-foreground">{donor.organizationName[language] || donor.organizationName.en}</h4>
+                    <h4 className="font-bold text-foreground dark:text-dark-foreground">{pickLocalized(donor.organizationName)}</h4>
                     <p className="text-xs text-gray-500">{t(`institutional_donors.types.${donor.type}`)}</p>
                 </div>
             </div>

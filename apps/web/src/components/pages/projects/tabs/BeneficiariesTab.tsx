@@ -27,7 +27,7 @@ function prependLinkedBeneficiary(list: Beneficiary[], beneficiary: Beneficiary)
 }
 
 const BeneficiariesTab: React.FC<BeneficiariesTabProps> = ({ project }) => {
-    const { t, language } = useLocalization(['common', 'projects', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'projects', 'beneficiaries']);
     const toast = useToast();
     const queryClient = useQueryClient();
     const { data: projectBeneficiaries = [], isLoading, isError, refetch } = useProjectBeneficiaries(project.id);
@@ -97,7 +97,7 @@ const BeneficiariesTab: React.FC<BeneficiariesTabProps> = ({ project }) => {
 
     const gradeLabel = (b: Beneficiary) => {
         if (b.profile.type === 'student') {
-            return b.profile.academicInfo?.level?.[language] ?? '—';
+            return b.profile.academicInfo?.level ? pickLocalized(b.profile.academicInfo.level) : '—';
         }
         return t(`beneficiaries.types.${b.beneficiaryType}`);
     };
@@ -174,7 +174,7 @@ const BeneficiariesTab: React.FC<BeneficiariesTabProps> = ({ project }) => {
                                             } ${highlighted ? 'ring-2 ring-inset ring-emerald-300 dark:ring-emerald-700' : ''}`}
                                         >
                                             <td className="p-3 font-semibold">
-                                                {b.name[language]}
+                                                {pickLocalized(b.name)}
                                                 {saving && (
                                                     <span className="block text-xs font-normal text-gray-500 dark:text-gray-400">
                                                         {t('projects.beneficiariesTab.saving')}

@@ -22,7 +22,7 @@ const FunnelChart: React.FC<FunnelChartProps> = ({
   height = 400,
   showPercentages = true,
 }) => {
-  const { language } = useLocalization();
+  const { language, pickLocalized } = useLocalization();
   const [hoveredStage, setHoveredStage] = useState<any | null>(null);
 
   const colors = [
@@ -116,7 +116,7 @@ const FunnelChart: React.FC<FunnelChartProps> = ({
             dominantBaseline="middle"
             className="font-bold text-lg fill-white pointer-events-none"
           >
-            {item.stage[language] || item.stage.en}
+            {pickLocalized(item.stage)}
           </text>
           <text
             x={item.width / 2}

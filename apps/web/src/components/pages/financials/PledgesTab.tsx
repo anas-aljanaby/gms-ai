@@ -16,7 +16,7 @@ import type { FinancialPledge } from '../../../types/financials';
 import { usePledges, useRecordPledgePayment } from '../../../hooks/usePledges';
 
 const PledgesTab: React.FC = () => {
-  const { t, language } = useLocalization();
+  const { t, language, pickLocalized } = useLocalization();
   const { showSuccess, showError } = useToast();
   const { data: pledges = [] } = usePledges();
   const recordPayment = useRecordPledgePayment();
@@ -168,7 +168,7 @@ const PledgesTab: React.FC = () => {
                         )}
                       </td>
                       <td className="px-4 py-3 text-foreground dark:text-dark-foreground font-medium">
-                        {pledge.donorName[language]}
+                        {pickLocalized(pledge.donorName)}
                       </td>
                       <td className="px-4 py-3 text-foreground dark:text-dark-foreground">
                         {formatDate(pledge.pledgeDate, language)}

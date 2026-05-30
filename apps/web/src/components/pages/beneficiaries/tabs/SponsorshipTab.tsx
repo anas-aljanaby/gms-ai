@@ -32,7 +32,7 @@ const formFromBeneficiary = (beneficiary: Beneficiary, sponsorship?: Sponsorship
 });
 
 const SponsorshipTab: React.FC<SponsorshipTabProps> = ({ beneficiary, onUpdate }) => {
-    const { t, language, dir } = useLocalization(['common', 'beneficiaries']);
+    const { t, language, dir, pickLocalized } = useLocalization(['common', 'beneficiaries']);
     const toast = useToast();
     const { data: donors = [], isLoading: donorsLoading } = useDonors();
 
@@ -54,7 +54,7 @@ const SponsorshipTab: React.FC<SponsorshipTabProps> = ({ beneficiary, onUpdate }
     }, [donors, sponsorship?.donorId]);
 
     const donorName = linkedDonor
-        ? (linkedDonor.fullName[language] || linkedDonor.fullName.en)
+        ? (pickLocalized(linkedDonor.fullName))
         : sponsorship?.donorId
             ? t('beneficiaries.sponsorship.donorNotFound')
             : null;

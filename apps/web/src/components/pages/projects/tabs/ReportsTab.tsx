@@ -26,7 +26,7 @@ const InfoRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label
 
 
 const ReportsTab: React.FC<{ project: Project }> = ({ project }) => {
-    const { t, language } = useLocalization();
+    const { t, language, pickLocalized } = useLocalization();
     const [openModal, setOpenModal] = useState<ReportType | null>(null);
     const [favorite, setFavorite] = useState<string | null>(() => localStorage.getItem('favoriteReport'));
     const [activeTab, setActiveTab] = useState('create');
@@ -188,7 +188,7 @@ const ReportsTab: React.FC<{ project: Project }> = ({ project }) => {
             >
                 <div className="space-y-6">
                     <div className="text-center border-b dark:border-slate-700 pb-4 mb-4">
-                        <h1 className="text-2xl font-bold">{project.name[language]}</h1>
+                        <h1 className="text-2xl font-bold">{pickLocalized(project.name)}</h1>
                         <p className="text-gray-500">{t('projects.reporting.modal.timeline.title')}</p>
                     </div>
                     <dl className="max-w-md mx-auto">

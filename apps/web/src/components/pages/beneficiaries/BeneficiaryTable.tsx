@@ -22,7 +22,7 @@ const typeColor: Record<string, string> = {
 };
 
 const BeneficiaryTable: React.FC<BeneficiaryTableProps> = ({ beneficiaries, projects, onSelect }) => {
-    const { t, language } = useLocalization(['beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['beneficiaries']);
 
     const getLastAidDate = (b: Beneficiary): string | null => {
         if (!b.aidLog.length) return null;
@@ -48,7 +48,7 @@ const BeneficiaryTable: React.FC<BeneficiaryTableProps> = ({ beneficiaries, proj
                     </thead>
                     <tbody className="divide-y divide-gray-100 dark:divide-slate-700/50">
                         {beneficiaries.map(b => {
-                            const name = b.name[language] || b.name.en || b.name.ar;
+                            const name = pickLocalized(b.name);
                             const subtitle = getBeneficiarySubtitle(b, language, t);
                             const project = projects.find(p => p.id === b.projectId);
                             const lastAid = getLastAidDate(b);
@@ -85,7 +85,7 @@ const BeneficiaryTable: React.FC<BeneficiaryTableProps> = ({ beneficiaries, proj
                                         {getCountryDisplayName(b.country, language === 'ar' ? 'ar' : 'en')}
                                     </td>
                                     <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300 truncate max-w-[180px]">
-                                        {project ? project.name[language] : '—'}
+                                        {project ? pickLocalized(project.name) : '—'}
                                     </td>
                                     <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
                                         {lastAid ? formatDate(lastAid, language) : '—'}

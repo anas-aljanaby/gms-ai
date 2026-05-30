@@ -19,7 +19,7 @@ import {
 } from 'recharts';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
-import { formatCurrency } from '../../../lib/utils';
+import { pickLocalizedText, formatCurrency , pickLocalizedText} from '../../../lib/utils';
 import StatusBadge from './shared/StatusBadge';
 import FinancialKpiCard from './shared/FinancialKpiCard';
 import DataTable, { type Column } from './shared/DataTable';
@@ -29,7 +29,7 @@ import type { BudgetLine } from '../../../types/financials';
 import ModalPortal from '../../common/ModalPortal';
 
 const BudgetsTab: React.FC = () => {
-  const { t, language } = useLocalization();
+  const { t, language, pickLocalized } = useLocalization();
   const { showSuccess, showError } = useToast();
   const { data: budgets = [] } = useBudgets();
   const createBudget = useCreateBudget();
@@ -82,7 +82,7 @@ const BudgetsTab: React.FC = () => {
   const chartData = useMemo(() => {
     if (!selectedBudget) return [];
     return selectedBudget.lines.map((line) => ({
-      category: line.accountName[language],
+      category: pickLocalizedText(line.accountName, language),
       planned: line.planned,
       actual: line.actual,
     }));
@@ -136,7 +136,7 @@ const BudgetsTab: React.FC = () => {
         label: t('financials.budgets.category'),
         render: (row) => (
           <span className="font-medium text-foreground dark:text-dark-foreground">
-            {row.accountName[language]}
+            {pickLocalized(row.accountName)}
           </span>
         ),
       },
@@ -386,7 +386,7 @@ const BudgetsTab: React.FC = () => {
           >
             {budgets.map((budget) => (
               <option key={budget.id} value={budget.id}>
-                {budget.projectName[language]}
+                {pickLocalized(budget.projectName)}
                 {isOptimisticBudget(budget.id) ? ` (${t('common.saving')})` : ''} — {budget.fiscalYear}
               </option>
             ))}

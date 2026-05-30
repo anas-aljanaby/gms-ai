@@ -92,7 +92,7 @@ const ALWAYS_VISIBLE: ColumnId[] = ['donor'];
 const DEFAULT_HIDDEN: ColumnId[] = ['country', 'tags'];
 
 const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortColumn, sortDirection, onSort, stageByDonorId, highlightedId }) => {
-    const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'individual_donors', 'donors']);
     const [selectedDonors, setSelectedDonors] = useState<Set<string>>(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const [hiddenColumns, setHiddenColumns] = useState<Set<ColumnId>>(new Set(DEFAULT_HIDDEN));
@@ -255,7 +255,7 @@ const DonorsTable: React.FC<DonorsTableProps> = ({ donors, onDonorSelect, sortCo
                         <div className="flex min-w-0 items-center gap-3">
                             <img className="w-9 h-9 rounded-full flex-shrink-0" src={donor.avatar} alt={donor.fullName.en} loading="lazy" />
                             <div className="min-w-0">
-                                <button onClick={() => !isOptimisticDonor(donor.id) && onDonorSelect(donor)} className="block max-w-full truncate font-bold text-foreground dark:text-dark-foreground hover:underline text-start">{donor.fullName[language]}</button>
+                                <button onClick={() => !isOptimisticDonor(donor.id) && onDonorSelect(donor)} className="block max-w-full truncate font-bold text-foreground dark:text-dark-foreground hover:underline text-start">{pickLocalized(donor.fullName)}</button>
                                 <div className="max-w-full truncate text-xs text-gray-500">{isOptimisticDonor(donor.id) ? t('common.saving') : (normalizeDonorEmail(donor.email) || t('common.notAvailable', 'N/A'))}</div>
                             </div>
                         </div>

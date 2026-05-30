@@ -6,7 +6,7 @@ import { useLocalization } from '../../../../hooks/useLocalization';
 import { formatNumber } from '../../../../lib/utils';
 
 const TasksReport: React.FC<{ project: Project }> = ({ project }) => {
-    const { t, language } = useLocalization();
+    const { t, language, pickLocalized } = useLocalization();
     
     const taskStats = useMemo(() => {
         const stats = { pending: 0, inProgress: 0, completed: 0 };
@@ -28,7 +28,7 @@ const TasksReport: React.FC<{ project: Project }> = ({ project }) => {
     return (
         <div className="space-y-6">
             <div className="text-center border-b dark:border-slate-700 pb-4 mb-4">
-                <h1 className="text-2xl font-bold">{project.name[language]}</h1>
+                <h1 className="text-2xl font-bold">{pickLocalized(project.name)}</h1>
                 <p className="text-gray-500">{t('projects.reporting.modal.tasks.title')}</p>
             </div>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">

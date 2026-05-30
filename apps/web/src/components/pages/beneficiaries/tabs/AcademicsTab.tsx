@@ -55,7 +55,7 @@ interface AcademicsTabProps {
 }
 
 const AcademicsTab: React.FC<AcademicsTabProps> = ({ profile, onUpdate }) => {
-    const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'beneficiaries']);
     const toast = useToast();
     const info = profile.academicInfo;
     const [isEditing, setIsEditing] = useState(false);
@@ -148,7 +148,7 @@ const AcademicsTab: React.FC<AcademicsTabProps> = ({ profile, onUpdate }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <InfoRow label={t('beneficiaries.fields.university')} value={info?.university} />
                         <InfoRow label={t('beneficiaries.fields.major')} value={info?.field} />
-                        <InfoRow label={t('beneficiaries.fields.academicYear')} value={info?.level?.[language]} />
+                        <InfoRow label={t('beneficiaries.fields.academicYear')} value={info?.level ? pickLocalized(info.level) : undefined} />
                         <InfoRow label={t('beneficiaries.fields.gpa')} value={info?.gpa?.toFixed(2)} />
                     </div>
                 )}

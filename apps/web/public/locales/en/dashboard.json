@@ -41,7 +41,8 @@
       "timePeriod": "Time Period",
       "department": "Department",
       "indicators": "Indicators",
-      "selected": "{count} selected",
+      "selected": "{{count}} selected",
+      "indicatorsWithCount": "Indicators ({{count}} selected)",
       "searchIndicators": "Search indicators...",
       "autoRefresh": "Auto Refresh",
       "periods": {
@@ -75,7 +76,12 @@
       "recommendations": "Recommendations",
       "forecasts": "Forecasts",
       "viewMore": "View More Insights",
-      "confidence": "Conf"
+      "confidence": "Conf",
+      "impact": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      }
     }
   },
   "kpiCard": {

@@ -111,7 +111,7 @@ const ToggleSwitch: React.FC<{ checked: boolean; onChange: (checked: boolean) =>
 
 // --- MAIN COMPONENT ---
 const DashboardControls: React.FC<DashboardControlsProps> = ({ onFilterChange, defaultValues, onCustomizeClick, setActiveModule, dashboardRef }) => {
-  const { t, dir } = useLocalization();
+  const { t, dir } = useLocalization(['common', 'dashboard', 'misc']);
 
   const defaultInitialState: FilterState = {
     timePeriod: 'd30',
@@ -124,7 +124,11 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({ onFilterChange, d
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        return { ...defaultInitialState, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved) as Partial<FilterState>;
+        const indicators = Array.isArray(parsed.indicators)
+          ? parsed.indicators
+          : defaultInitialState.indicators;
+        return { ...defaultInitialState, ...parsed, indicators };
       }
     } catch (e) {
       console.error("Failed to parse filters from localStorage", e);
@@ -159,6 +163,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({ onFilterChange, d
   const kpiOptions = useMemo(() => Object.keys(t('dashboard.controls.kpis', {returnObjects: true})).map(key => ({ value: key, label: t(`dashboard.controls.kpis.${key}`) })), [t]);
 
   const filteredKpiOptions = useMemo(() => kpiOptions.filter(opt => opt.label.toLowerCase().includes(indicatorSearch.toLowerCase())), [kpiOptions, indicatorSearch]);
+  const selectedIndicatorCount = filters.indicators.length;
   
   const handleIndicatorToggle = (kpi: Kpi) => {
     setFilters(prev => {
@@ -205,7 +210,10 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({ onFilterChange, d
               <button onClick={() => setOpenDropdown(openDropdown === 'indicators' ? null : 'indicators')} className="w-full flex items-center justify-between p-2 text-sm border border-gray-300 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
                   <span className="flex items-center gap-2">
                       <BarChart3 size={16} />
-                      {t('dashboard.controls.indicators')} ({t('dashboard.controls.selected', {count: filters.indicators.length})})
+                      {t('dashboard.controls.indicatorsWithCount', {
+                        count: selectedIndicatorCount,
+                        defaultValue: `Indicators (${selectedIndicatorCount} selected)`,
+                      })}
                   </span>
                   <ChevronDown size={16} />
               </button>

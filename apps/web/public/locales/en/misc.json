@@ -80,7 +80,15 @@
     }
   },
   "matrix": {
-    "title": "Performance Matrix"
+    "title": "Performance Matrix",
+    "governance": "Governance",
+    "finance": "Finance",
+    "programs": "Programs",
+    "resources": "Resources",
+    "performance": "Performance",
+    "risk": "Risk",
+    "compliance": "Compliance",
+    "trend": "Trend"
   },
   "placeholder": {
     "underConstruction": "{moduleName} is under construction."

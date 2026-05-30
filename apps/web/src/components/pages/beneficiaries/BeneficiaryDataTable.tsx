@@ -34,7 +34,7 @@ const BeneficiaryDataTable: React.FC<BeneficiaryDataTableProps> = ({
   onStatusChange,
   onRemove,
 }) => {
-  const { t, language } = useLocalization(['common', 'beneficiaries']);
+  const { t, language, pickLocalized } = useLocalization(['common', 'beneficiaries']);
 
   const getLastAidDate = (beneficiary: Beneficiary): string | null => {
     const aidLog = Array.isArray(beneficiary.aidLog) ? beneficiary.aidLog : [];
@@ -54,7 +54,7 @@ const BeneficiaryDataTable: React.FC<BeneficiaryDataTableProps> = ({
         label: t('beneficiaries.table.name'),
         sortable: true,
         render: (beneficiary) => {
-          const name = beneficiary.name[language] || beneficiary.name.en || beneficiary.name.ar;
+          const name = pickLocalized(beneficiary.name);
           const optimistic = isOptimisticBeneficiary(beneficiary.id);
           const subtitle = optimistic ? t('common.saving') : getBeneficiarySubtitle(beneficiary, language, t);
 

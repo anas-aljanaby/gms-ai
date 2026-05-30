@@ -78,7 +78,7 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
     linkedDisbursementStatus,
     projects = [],
 }) => {
-    const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'beneficiaries']);
     const isEdit = !!initialItem;
     const [form, setForm] = useState<AidItemFormInput>(emptyForm);
     const [errors, setErrors] = useState<AidFormErrors>({});
@@ -220,7 +220,7 @@ const AidItemModal: React.FC<AidItemModalProps> = ({
                                 >
                                     <option value="">{t('beneficiaries.fields.noProject')}</option>
                                     {projects.map((proj) => (
-                                        <option key={proj.id} value={proj.id}>{proj.name[language] || proj.name.en}</option>
+                                        <option key={proj.id} value={proj.id}>{pickLocalized(proj.name)}</option>
                                     ))}
                                 </select>
                             </label>

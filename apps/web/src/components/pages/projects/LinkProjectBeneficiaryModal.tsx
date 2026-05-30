@@ -24,7 +24,7 @@ const LinkProjectBeneficiaryModal: React.FC<LinkProjectBeneficiaryModalProps> = 
     linkedIds,
     onSubmit,
 }) => {
-    const { t, language } = useLocalization(['common', 'projects', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'projects', 'beneficiaries']);
     const { data: allBeneficiaries = [], isLoading } = useBeneficiaries();
     const [selectedId, setSelectedId] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
@@ -115,7 +115,7 @@ const LinkProjectBeneficiaryModal: React.FC<LinkProjectBeneficiaryModalProps> = 
                             </option>
                             {available.map((b) => (
                                 <option key={b.id} value={b.id}>
-                                    {b.name[language] || b.name.en}
+                                    {pickLocalized(b.name)}
                                 </option>
                             ))}
                         </select>

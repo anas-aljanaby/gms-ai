@@ -50,7 +50,7 @@ interface GrantsTabProps {
 }
 
 const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors', 'projects']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors', 'projects']);
     const donorGrants = useMemo(() => grantsForDonor(donor), [donor]);
 
     const [filters, setFilters] = useState({
@@ -189,7 +189,7 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
             <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProjects.length > 0 ? filteredProjects.map(({ project, grant }) => (
                     <div key={grant.id} className="project-card bg-card dark:bg-dark-card rounded-lg p-4 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-shadow">
-                        <h4 className="font-bold text-lg text-foreground dark:text-dark-foreground h-14 overflow-hidden">{project.name?.[language] || project.name?.en}</h4>
+                        <h4 className="font-bold text-lg text-foreground dark:text-dark-foreground h-14 overflow-hidden">{pickLocalized(project.name)}</h4>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 h-16 overflow-hidden">{project.goal}</p>
                         <div className="project-stats mt-4 pt-4 border-t dark:border-slate-700 flex justify-between items-center text-sm">
                             <span className="font-semibold text-foreground dark:text-dark-foreground">{formatCurrency(grant.amount, language, grant.currency)}</span>

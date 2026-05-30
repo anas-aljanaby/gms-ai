@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { Project } from '../../../types';
 import { projectListKey } from '../../../data/projectData';
-import { formatCurrency } from '../../../lib/utils';
+import { formatCurrency, pickLocalizedText } from '../../../lib/utils';
 import { isOptimisticProject } from '../../../lib/projectOptimistic';
 import EmptyState from '../../common/EmptyState';
 import SkeletonLoader from '../../common/SkeletonLoader';
@@ -35,7 +35,7 @@ const progressColor = (progress: number) => {
 };
 
 const ProjectList: React.FC<ProjectListProps> = ({ projects, isLoading = false, highlightedId, onProjectSelect }) => {
-    const { t, language, dir } = useLocalization();
+    const { t, language, dir, pickLocalized } = useLocalization();
     const [view, setView] = useState<'list' | 'card'>('list');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -46,7 +46,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, isLoading = false, 
             if (!searchTerm) return items;
             const lower = searchTerm.toLowerCase();
             return items.filter(p =>
-                (p.name[language] || p.name.en)?.toLowerCase().includes(lower) ||
+                (pickLocalizedText(p.name, language))?.toLowerCase().includes(lower) ||
                 p.id.toLowerCase().includes(lower) ||
                 p.location?.country?.toLowerCase().includes(lower) ||
                 p.location?.city?.toLowerCase().includes(lower)
@@ -87,7 +87,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, isLoading = false, 
                                 >
                                     <td className="p-4">
                                         <p className="font-semibold text-foreground dark:text-dark-foreground group-hover:text-primary dark:group-hover:text-secondary transition-colors">
-                                            {project.name[language] || project.name.en}
+                                            {pickLocalized(project.name)}
                                         </p>
                                         {optimistic ? (
                                             <p className="text-xs text-gray-400 mt-1">{t('common.saving')}</p>

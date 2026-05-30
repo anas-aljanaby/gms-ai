@@ -29,7 +29,7 @@ const progressColor = (progress: number) => {
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, highlighted, onSelect }) => {
-    const { t, language } = useLocalization();
+    const { t, language, pickLocalized } = useLocalization();
     const optimistic = isOptimisticProject(project.id);
     const stage = stageConfig[project.stage] || stageConfig.design;
     const budgetUsed = project.budget > 0 ? Math.round((project.spent / project.budget) * 100) : 0;
@@ -55,7 +55,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, highlighted, onSelec
             <div className="p-5 flex flex-col flex-grow">
                 <div className="flex justify-between items-start gap-3 mb-3">
                     <h3 className="font-semibold text-foreground dark:text-dark-foreground leading-snug group-hover:text-primary dark:group-hover:text-secondary transition-colors line-clamp-2">
-                        {project.name[language] || project.name.en}
+                        {pickLocalized(project.name)}
                     </h3>
                     {optimistic && (
                         <span className="text-xs text-gray-400 shrink-0">{t('common.saving')}</span>

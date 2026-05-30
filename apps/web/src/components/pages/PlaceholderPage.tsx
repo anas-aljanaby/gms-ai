@@ -21,7 +21,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ moduleKey }) => {
   
   const moduleInfo = SIDEBAR_MODULES.find(m => m.key === moduleKey);
   const Icon = moduleInfo?.icon || (() => null);
-  const moduleName = t(`sidebar.${moduleKey}`);
+  const moduleName = t(`sidebar.${moduleKey}`, moduleKey.replace(/_/g, ' '));
 
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-soft">

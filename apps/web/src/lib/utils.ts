@@ -1,6 +1,45 @@
 
 import type { DateFormat, Language, TimeFormat } from '../types';
 
+/** User-entered or API-provided text in one or both UI languages. */
+export type LocalizedText = Partial<Record<Language, string | null | undefined>>;
+
+const TRANSLATION_KEY_PATTERN = /^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)+$/i;
+
+/**
+ * Picks display text for bilingual user/API fields: preferred language first,
+ * then the other language if present, otherwise empty.
+ */
+export const pickLocalizedText = (
+    value: LocalizedText | string | null | undefined,
+    language: Language,
+): string => {
+    if (value == null) return '';
+    if (typeof value === 'string') return value.trim();
+
+    const primary = value[language]?.trim() ?? '';
+    if (primary) return primary;
+
+    const fallbackLang: Language = language === 'en' ? 'ar' : 'en';
+    return value[fallbackLang]?.trim() ?? '';
+};
+
+/** True when a string looks like a backend/i18n dot-notation key (e.g. matrix.governance). */
+export const isTranslationKey = (value: string): boolean => {
+    const trimmed = value.trim();
+    if (!trimmed || trimmed.includes(' ')) return false;
+    return TRANSLATION_KEY_PATTERN.test(trimmed);
+};
+
+/** Last segment of a dot key, title-cased — fallback when a translation is missing. */
+export const humanizeTranslationKey = (key: string): string => {
+    const lastSegment = key.split('.').pop() ?? key;
+    return lastSegment
+        .replace(/_/g, ' ')
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 // --- Caching for Intl Formatters ---
 const numberFormatCache = new Map<string, Intl.NumberFormat>();
 const dateTimeFormatCache = new Map<string, Intl.DateTimeFormat>();

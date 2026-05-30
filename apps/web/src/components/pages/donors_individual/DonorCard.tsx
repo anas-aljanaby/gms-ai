@@ -23,14 +23,14 @@ const tierAccentClasses: Record<IndividualDonor['tier'], string> = {
 };
 
 const DonorCard: React.FC<DonorCardProps> = ({ donor, highlighted, onClick }) => {
-    const { t, language } = useLocalization(['common', 'individual_donors', 'donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'individual_donors', 'donors']);
     const optimistic = isOptimisticDonor(donor.id);
     const [imageFailed, setImageFailed] = React.useState(false);
     const openTasks = donor.relationshipTasks?.filter(task => !task.completed) || [];
     const today = new Date().toISOString().split('T')[0];
     const nextTask = openTasks.slice().sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
     const isUrgent = nextTask ? nextTask.dueDate < today : false;
-    const donorName = donor.fullName[language] || donor.fullName.en;
+    const donorName = pickLocalized(donor.fullName);
     const donorInitial = donorName.trim().charAt(0).toUpperCase() || '?';
     const donorType = donor.donorType ? t(`donors.types.${donor.donorType.replace(/ /g, '')}`, donor.donorType) : '';
     const stageLabel = donor.relationshipStage ? t(`donors.stages.${donor.relationshipStage}`) : t('individual_donors.relationship.noStage');

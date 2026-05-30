@@ -16,7 +16,7 @@ interface DraftApplicationModalProps {
 }
 
 const DraftApplicationModal: React.FC<DraftApplicationModalProps> = ({ isOpen, onClose, project, donor }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors', 'donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors', 'donors']);
     const toast = useToast();
     const [draft, setDraft] = useState('');
     const [isGenerating, setIsGenerating] = useState(true);
@@ -29,7 +29,7 @@ const DraftApplicationModal: React.FC<DraftApplicationModalProps> = ({ isOpen, o
                     const systemInstruction = `You are an expert grant writer for a non-profit. Your task is to write a concise, compelling, and professional initial grant proposal draft. The tone should be formal but passionate. The response MUST be only the text of the proposal, with no extra explanations. The proposal should be in ${language}.`;
 
                     const prompt = `
-                    Write an initial grant proposal draft to "${donor.organizationName[language] || donor.organizationName.en}" for the project "${project.name[language] || project.name.en}".
+                    Write an initial grant proposal draft to "${pickLocalized(donor.organizationName)}" for the project "${pickLocalized(project.name)}".
 
                     **Key Information to Include:**
                     - **Project Goal:** ${project.goal}

@@ -17,10 +17,11 @@ const SimpleMarkdown: React.FC<{ text: string }> = ({ text }) => {
 };
 
 const ImpactIndicator: React.FC<{ impact: 'high' | 'medium' | 'low' }> = ({ impact }) => {
+    const { t } = useLocalization(['dashboard']);
     const config = {
-        high: { color: 'bg-red-500', label: 'High' },
-        medium: { color: 'bg-yellow-500', label: 'Medium' },
-        low: { color: 'bg-blue-500', label: 'Low' },
+        high: { color: 'bg-red-500', label: t('dashboard.aiInsights.impact.high', 'High') },
+        medium: { color: 'bg-yellow-500', label: t('dashboard.aiInsights.impact.medium', 'Medium') },
+        low: { color: 'bg-blue-500', label: t('dashboard.aiInsights.impact.low', 'Low') },
     };
     return (
         <div className="flex items-center gap-1 text-xs font-semibold text-gray-500 dark:text-gray-400">
@@ -31,10 +32,10 @@ const ImpactIndicator: React.FC<{ impact: 'high' | 'medium' | 'low' }> = ({ impa
 };
 
 const InsightItem: React.FC<{ item: AiInsightItem }> = ({ item }) => {
-    const { language, t } = useLocalization();
+    const { t, pickLocalized } = useLocalization(['dashboard']);
     return (
          <div className="space-y-1">
-            <SimpleMarkdown text={item.text[language] || item.text.en} />
+            <SimpleMarkdown text={pickLocalized(item.text)} />
             <div className="flex items-center justify-end gap-3 text-xs text-gray-400 dark:text-gray-500">
                 <ImpactIndicator impact={item.impact} />
                 <span>{t('dashboard.aiInsights.confidence')}: {(item.confidence * 100).toFixed(0)}%</span>

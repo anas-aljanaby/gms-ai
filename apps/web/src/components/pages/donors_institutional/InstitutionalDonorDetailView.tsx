@@ -21,7 +21,7 @@ interface InstitutionalDonorDetailViewProps {
 const INSTITUTIONAL_DONOR_DETAIL_TABS = ['overview', 'grants', 'contacts', 'documents'] as const;
 
 const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> = ({ donor, onBack, onDonorUpdated, existingCountries = [] }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors']);
     const [activeTab, setActiveTab] = useTabParam('tab', 'overview', INSTITUTIONAL_DONOR_DETAIL_TABS);
 
     const tabs = [
@@ -55,9 +55,9 @@ const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> 
             <section className="overflow-hidden rounded-2xl border border-gray-200 bg-card shadow-soft dark:border-slate-700/60 dark:bg-dark-card">
                 <div className="grid grid-cols-1 gap-5 p-5 sm:p-6 xl:grid-cols-[minmax(0,1fr)_auto]">
                     <div className="flex min-w-0 items-center gap-4 sm:gap-5">
-                        <img src={donor.logo} alt={donor.organizationName[language] || donor.organizationName.en} className="h-20 w-20 flex-shrink-0 rounded-2xl bg-gray-100 object-cover dark:bg-slate-800 sm:h-24 sm:w-24" />
+                        <img src={donor.logo} alt={pickLocalized(donor.organizationName)} className="h-20 w-20 flex-shrink-0 rounded-2xl bg-gray-100 object-cover dark:bg-slate-800 sm:h-24 sm:w-24" />
                         <div className="min-w-0">
-                            <h1 className="break-words text-2xl font-bold leading-tight text-foreground dark:text-dark-foreground sm:text-3xl">{donor.organizationName[language] || donor.organizationName.en}</h1>
+                            <h1 className="break-words text-2xl font-bold leading-tight text-foreground dark:text-dark-foreground sm:text-3xl">{pickLocalized(donor.organizationName)}</h1>
                             <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
                                 <MapPin size={15} /> {t(`institutional_donors.types.${donor.type}`)} / {formatInstitutionalLocation(donor.city, donor.country, t) || t('common.notAvailable')}
                             </p>

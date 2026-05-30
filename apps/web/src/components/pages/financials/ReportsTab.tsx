@@ -40,7 +40,7 @@ const REPORT_ICON_COLORS: Record<FinancialReportType, string> = {
 };
 
 const ReportsTab: React.FC = () => {
-  const { t, language } = useLocalization();
+  const { t, language, pickLocalized } = useLocalization();
   const { showSuccess, showError } = useToast();
   const { data: reports = [] } = useReports();
   const generateReport = useGenerateReport();
@@ -90,10 +90,10 @@ const ReportsTab: React.FC = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="text-base font-semibold text-foreground dark:text-dark-foreground">
-                  {report.name[language]}
+                  {pickLocalized(report.name)}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-0.5">
-                  {report.description[language]}
+                  {pickLocalized(report.description)}
                 </p>
               </div>
             </div>

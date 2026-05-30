@@ -37,7 +37,7 @@ const progressColor = (progress: number) => {
 };
 
 const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) => {
-    const { t, language } = useLocalization(['projects']);
+    const { t, language, pickLocalized } = useLocalization(['projects']);
     const [selectedSdg, setSelectedSdg] = useState<number | null>(null);
 
     const sdgData = MOCK_PROGRAM_DATA.sdgs;
@@ -196,7 +196,7 @@ const SDGAlignmentDashboard: React.FC<{ projects: Project[] }> = ({ projects }) 
                     <div className="space-y-2.5 max-h-[280px] overflow-y-auto">
                         {filteredProjects.length > 0 ? filteredProjects.map(p => (
                             <div key={p.id} className="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-lg">
-                                <p className="font-semibold text-sm text-foreground dark:text-dark-foreground truncate">{p.name[language]}</p>
+                                <p className="font-semibold text-sm text-foreground dark:text-dark-foreground truncate">{pickLocalized(p.name)}</p>
                                 <div className="flex justify-between items-center text-xs text-gray-500 mt-1.5">
                                     <span className="font-medium">{formatCurrency(p.budget, language)}</span>
                                     <div className="flex items-center gap-2">

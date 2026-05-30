@@ -55,7 +55,7 @@ const PROJECT_DETAIL_TABS = [
 ] as const;
 
 const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project, onBack, onUpdate, initialTab, existingCountries = [] }) => {
-    const { t, language, dir } = useLocalization(['common', 'projects']);
+    const { t, language, dir, pickLocalized } = useLocalization(['common', 'projects']);
     const [activeTab, setActiveTab] = useTabParam('projectTab', 'overview', PROJECT_DETAIL_TABS);
     const syncedProjectIdRef = useRef<string | null>(null);
 
@@ -127,7 +127,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project, onBack, 
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-1">
                             <h1 className="text-2xl font-bold text-foreground dark:text-dark-foreground truncate">
-                                {project.name[language]}
+                                {pickLocalized(project.name)}
                             </h1>
                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full shrink-0 ${stage.bg} ${stage.text}`}>
                                 <span className={`w-1.5 h-1.5 rounded-full ${stage.dot}`}></span>

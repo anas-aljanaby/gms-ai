@@ -57,7 +57,7 @@ const KpiCard: React.FC<{ title: string; value: string; icon: React.ReactNode; s
 );
 
 const SmartAnalyticsDashboard: React.FC<{donors: InstitutionalDonor[]}> = ({donors}) => {
-    const { t, language } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
 
     const stats = useMemo(() => {
         const totalFunding = donors.reduce((sum, d) => sum + d.totalGrantsAwarded, 0);
@@ -212,7 +212,7 @@ const InstitutionalDonors: React.FC = () => {
 
         let filtered = rest.filter(donor => {
             const searchLower = searchTerm.toLowerCase();
-            const orgName = donor.organizationName[language] || donor.organizationName.en;
+            const orgName = pickLocalized(donor.organizationName);
             const matchesSearch = orgName.toLowerCase().includes(searchLower) ||
                    donor.primaryContact.name.toLowerCase().includes(searchLower) ||
                    donor.focusAreas.some(area => area.toLowerCase().includes(searchLower));
@@ -260,8 +260,8 @@ const InstitutionalDonors: React.FC = () => {
                 }
 
                 if (sortColumn === 'organizationName') {
-                     const aName = a.organizationName[language] || a.organizationName.en;
-                     const bName = b.organizationName[language] || b.organizationName.en;
+                     const aName = pickLocalized(a.organizationName);
+                     const bName = pickLocalized(b.organizationName);
                      return sortDirection === 'asc' ? aName.localeCompare(bName) : bName.localeCompare(aName);
                 }
             }
@@ -308,7 +308,7 @@ const InstitutionalDonors: React.FC = () => {
 
     const handleDeleteInstitution = useCallback((donor: InstitutionalDonor) => {
         if (isOptimisticInstitution(donor.id)) return;
-        const orgName = donor.organizationName[language] || donor.organizationName.en;
+        const orgName = pickLocalized(donor.organizationName);
         if (!window.confirm(t('institutional_donors.deleteInstitutionConfirm', { name: orgName }))) {
             return;
         }

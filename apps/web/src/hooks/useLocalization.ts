@@ -9,21 +9,18 @@ import i18n, {
   getDirectionForLanguage,
   resolveNamespaceForKey,
 } from '../lib/i18n';
+import {
+  humanizeTranslationKey,
+  isTranslationKey,
+  pickLocalizedText,
+  type LocalizedText,
+} from '../lib/utils';
 
 /**
- * useLocalization - خطاف مخصص للوصول إلى وظائف الترجمة واللغة الحالية.
- * 
- * @returns {{ t: (key: string, options?: any) => string, language: 'en' | 'ar', setLanguage: (lang: 'en' | 'ar') => void, dir: 'ltr' | 'rtl' }} - كائن يحتوي على دالة الترجمة، اللغة الحالية، دالة لتغيير اللغة، واتجاه النص.
- * 
- * @example
- * const { t, language, dir } = useLocalization();
- * return <div dir={dir}>{t('dashboard.title')}</div>;
+ * useLocalization - Hook for translation, current language, and bilingual field display.
  */
 export const useLocalization = (namespaces: AppNamespace[] = DEFAULT_NAMESPACES) => {
   const { t: baseT, i18n: instance } = useTranslation(namespaces);
-  // Subscribe to dateFormat/timeFormat so components re-render when settings change.
-  // The actual format values are read from the module-level store in utils.ts (kept in sync
-  // by DashboardContext via useMemo), so no explicit prop-threading is needed at call sites.
   useDashboard();
 
   const language = (instance.resolvedLanguage === 'ar' ? 'ar' : 'en') as Language;
@@ -37,28 +34,54 @@ export const useLocalization = (namespaces: AppNamespace[] = DEFAULT_NAMESPACES)
           : optionsOrDefault ?? {};
       const inferredNamespace = normalizedOptions.ns ? undefined : resolveNamespaceForKey(key);
 
-      if (inferredNamespace) {
-        return instance.t(key, { ns: inferredNamespace, ...normalizedOptions });
+      const result =
+        inferredNamespace != null
+          ? instance.t(key, { ns: inferredNamespace, ...normalizedOptions })
+          : baseT(key, normalizedOptions);
+
+      if (typeof result === 'string' && result === key && isTranslationKey(key)) {
+        return normalizedOptions.defaultValue ?? humanizeTranslationKey(key);
       }
 
-      return baseT(key, normalizedOptions);
+      return result;
     },
-    [baseT, instance]
+    [baseT, instance],
   );
 
-  const setLanguage = useCallback((nextLanguage: Language) => {
-    if (instance.resolvedLanguage === nextLanguage) {
-      applyLanguageToDocument(nextLanguage);
-      return;
-    }
+  const pickLocalized = useCallback(
+    (value: LocalizedText | string | null | undefined) => pickLocalizedText(value, language),
+    [language],
+  );
 
-    void i18n.changeLanguage(nextLanguage);
-  }, [instance.resolvedLanguage]);
+  /** Resolves stored i18n keys (e.g. from API) or returns plain text as-is. */
+  const translateMaybeKey = useCallback(
+    (value: string | null | undefined) => {
+      const trimmed = value?.trim() ?? '';
+      if (!trimmed) return '';
+      if (!isTranslationKey(trimmed)) return trimmed;
+      return t(trimmed, humanizeTranslationKey(trimmed));
+    },
+    [t],
+  );
+
+  const setLanguage = useCallback(
+    (nextLanguage: Language) => {
+      if (instance.resolvedLanguage === nextLanguage) {
+        applyLanguageToDocument(nextLanguage);
+        return;
+      }
+
+      void i18n.changeLanguage(nextLanguage);
+    },
+    [instance.resolvedLanguage],
+  );
 
   return {
     t,
     language,
     setLanguage,
     dir,
+    pickLocalized,
+    translateMaybeKey,
   };
 };

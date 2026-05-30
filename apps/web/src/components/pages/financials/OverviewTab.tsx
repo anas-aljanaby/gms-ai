@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { formatCurrency } from '../../../lib/utils';
+import { formatCurrency, pickLocalizedText } from '../../../lib/utils';
 import FinancialKpiCard from './shared/FinancialKpiCard';
 import StatusBadge from './shared/StatusBadge';
 import { useFinancialOverview } from '../../../hooks/useFinancialOverview';
@@ -79,8 +79,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigateToTab }) => {
   const fundChartData = useMemo(
     () =>
       funds.map((f) => ({
-        name: language === 'ar' ? f.name.ar : f.name.en,
-        chartLabel: language === 'ar' ? f.name.ar : f.name.en,
+        name: pickLocalizedText(f.name, language),
+        chartLabel: pickLocalizedText(f.name, language),
         balance: f.balance,
         type: f.type,
         fill: FUND_TYPE_COLORS[f.type] || '#6b7280',
@@ -119,10 +119,10 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigateToTab }) => {
   };
 
   const getTransactionDescription = (desc: { en: string; ar: string }) =>
-    language === 'ar' ? desc.ar : desc.en;
+    pickLocalizedText(desc, language);
 
   const getAlertMessage = (msg: { en: string; ar: string }) =>
-    language === 'ar' ? msg.ar : msg.en;
+    pickLocalizedText(msg, language);
 
   return (
     <div className="space-y-6">

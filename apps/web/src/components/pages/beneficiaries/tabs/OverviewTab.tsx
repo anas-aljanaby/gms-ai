@@ -43,7 +43,7 @@ const milestoneToForm = (m: Milestone): MilestoneFormState => ({
 });
 
 const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projects = [], existingCountries = [] }) => {
-    const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'beneficiaries']);
     const toast = useToast();
     const p = beneficiary.profile;
 
@@ -194,7 +194,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
         toast.showSuccess(t('beneficiaries.actions.saved'));
     };
 
-    const projectName = projects.find((proj) => proj.id === beneficiary.projectId)?.name[language];
+    const linkedProject = projects.find((proj) => proj.id === beneficiary.projectId);
+    const projectName = linkedProject?.name ? pickLocalized(linkedProject.name) : undefined;
     const localizedCountry = getCountryDisplayName(beneficiary.country, language === 'ar' ? 'ar' : 'en');
 
     const renderGenderField = (value: string, onChange: (v: string) => void) => (
@@ -241,7 +242,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
                                 >
                                     <option value="">{t('beneficiaries.fields.noProject')}</option>
                                     {projects.map((proj) => (
-                                        <option key={proj.id} value={proj.id}>{proj.name[language] || proj.name.en}</option>
+                                        <option key={proj.id} value={proj.id}>{pickLocalized(proj.name)}</option>
                                     ))}
                                 </select>
                             </label>
@@ -338,7 +339,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
                         <InfoRow label={t('beneficiaries.fields.university')} value={p.academicInfo?.university} />
                         <InfoRow label={t('beneficiaries.fields.major')} value={p.academicInfo?.field} />
                         <InfoRow label={t('beneficiaries.fields.gpa')} value={p.academicInfo?.gpa} />
-                        <InfoRow label={t('beneficiaries.fields.academicYear')} value={p.academicInfo?.level?.[language]} />
+                        <InfoRow label={t('beneficiaries.fields.academicYear')} value={p.academicInfo?.level ? pickLocalized(p.academicInfo.level) : undefined} />
                     </>
                 );
             case 'orphan':
@@ -356,7 +357,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
                     <>
                         <InfoRow label={t('beneficiaries.fields.dob')} value={p.dob} />
                         <InfoRow label={t('beneficiaries.fields.gender')} value={p.gender} />
-                        <InfoRow label={t('beneficiaries.fields.memorizationLevel')} value={p.memorization?.level?.[language]} />
+                        <InfoRow label={t('beneficiaries.fields.memorizationLevel')} value={p.memorization?.level ? pickLocalized(p.memorization.level) : undefined} />
                         <InfoRow label={t('beneficiaries.fields.circle')} value={p.memorization?.circle} />
                         <InfoRow label={t('beneficiaries.fields.juzCompleted')} value={p.memorization?.juzCompleted ? `${p.memorization.juzCompleted} / 30` : null} />
                     </>
@@ -523,7 +524,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ beneficiary, onUpdate, projec
                                 <div className={`w-3 h-3 rounded-full flex-shrink-0 ${cfg.dot}`} />
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-bold text-foreground dark:text-dark-foreground">
-                                        {m.title[language] || m.title.en}
+                                        {pickLocalized(m.title)}
                                     </p>
                                     <p className="text-xs text-gray-500 dark:text-gray-400">{cfg.label}</p>
                                 </div>

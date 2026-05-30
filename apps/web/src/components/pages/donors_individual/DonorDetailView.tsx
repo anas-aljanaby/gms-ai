@@ -127,7 +127,7 @@ const LoadingProfile = () => (
 );
 
 const DonorDocumentsTab: React.FC<{ donor: IndividualDonor; onChanged: () => void }> = ({ donor, onChanged }) => {
-    const { t, language } = useLocalization(['common', 'individual_donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'individual_donors']);
     const toast = useToast();
     const queryClient = useQueryClient();
     const [label, setLabel] = useState('');
@@ -274,7 +274,9 @@ const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDono
     const interactionsQuery = useDonorProfileInteractions(editableDonor.id);
 
     const summary = summaryQuery.data;
-    const donorName = summary ? (language === 'ar' && summary.donor.full_name_ar ? summary.donor.full_name_ar : summary.donor.full_name_en) : (editableDonor.fullName[language] || editableDonor.fullName.en);
+    const donorName = summary
+        ? pickLocalized({ en: summary.donor.full_name_en, ar: summary.donor.full_name_ar })
+        : pickLocalized(editableDonor.fullName);
     const statusKey = (summary?.donor.status || editableDonor.status).replace(/ /g, '');
     const tierKey = (summary?.donor.tier || editableDonor.tier).replace(/ /g, '');
     const visibleTags = useMemo(() => (summary?.donor.tags || editableDonor.tags || []).filter(Boolean).slice(0, 6), [editableDonor.tags, summary?.donor.tags]);

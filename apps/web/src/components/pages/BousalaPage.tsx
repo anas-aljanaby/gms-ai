@@ -174,7 +174,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
 
 
 const ProgressBar: React.FC<{ progress: number, color?: string }> = ({ progress, color = 'bg-primary' }) => {
-    const { t } = useLocalization();
+    const { t, pickLocalized } = useLocalization();
     return (
         <div className="group">
             <div className="flex justify-between text-sm font-semibold mb-1">
@@ -537,7 +537,7 @@ const ProjectItem: React.FC<{
                                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
                                     <h5 className="font-semibold text-sm mb-2">{t('bousala.common.linkedExecutionProject')}:</h5>
                                     <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm space-y-1">
-                                        <p className="font-bold text-blue-800 dark:text-blue-300">{linkedSystemProject.name[language] || linkedSystemProject.name.en}</p>
+                                        <p className="font-bold text-blue-800 dark:text-blue-300">{pickLocalized(linkedSystemProject.name)}</p>
                                         <p><strong>{t('bousala.common.budget')}:</strong> {formatCurrency(linkedSystemProject.budget, language)}</p>
                                         <p><strong>{t('bousala.common.progress')}:</strong> {linkedSystemProject.progress}%</p>
                                         <h6 className="font-semibold mt-2">{t('bousala.common.kpiIndicators')}:</h6>

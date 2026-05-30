@@ -8,7 +8,7 @@ interface MatrixViewProps {
 }
 
 const MatrixView: React.FC<MatrixViewProps> = ({ mode }) => {
-  const { t, language } = useLocalization();
+  const { t, language } = useLocalization(['common', 'misc']);
   const isRTL = language === 'ar';
 
   const canonicalColumns: string[] = ["governance", "finance", "programs", "resources"];

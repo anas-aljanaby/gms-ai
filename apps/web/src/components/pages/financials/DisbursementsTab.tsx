@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { DollarSign, Clock, Calendar, AlertTriangle, ExternalLink } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { formatCurrency, formatDate } from '../../../lib/utils';
+import { pickLocalizedText, formatCurrency, formatDate , pickLocalizedText} from '../../../lib/utils';
 import { getDisbursementSourceRoute, navigateToFinancialSource } from '../../../lib/financialSourceNavigation';
 import { HIGHLIGHT_ROW_CLASS, useUrlHighlight } from '../../../hooks/useUrlHighlight';
 import DataTable, { type Column } from './shared/DataTable';
@@ -45,7 +45,7 @@ const TYPE_BADGE_CLASSES: Record<DisbursementType, string> = {
 };
 
 const DisbursementsTab: React.FC = () => {
-  const { t, language } = useLocalization(['common', 'financials']);
+  const { t, language, pickLocalized } = useLocalization(['common', 'financials']);
   const { data: disbursements = [] } = useDisbursements();
   const { highlightedId, consumeHighlightParam } = useUrlHighlight();
 
@@ -113,7 +113,7 @@ const DisbursementsTab: React.FC = () => {
       if (searchTerm) {
         const term = searchTerm.toLowerCase();
         const matchesName =
-          dis.beneficiaryName[language].toLowerCase().includes(term);
+          pickLocalizedText(dis.beneficiaryName, language).toLowerCase().includes(term);
         if (!matchesName) return false;
       }
       if (typeFilter && dis.type !== typeFilter) return false;
@@ -154,7 +154,7 @@ const DisbursementsTab: React.FC = () => {
         label: t('financials.disbursements.beneficiary'),
         render: (row) => (
           <span className="text-sm font-medium text-foreground dark:text-dark-foreground">
-            {row.beneficiaryName[language]}
+            {pickLocalized(row.beneficiaryName)}
           </span>
         ),
       },
@@ -194,7 +194,7 @@ const DisbursementsTab: React.FC = () => {
         label: t('financials.disbursements.project'),
         render: (row) => (
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            {row.projectName?.[language] || '—'}
+            {pickLocalized(row.projectName) || '—'}
           </span>
         ),
       },

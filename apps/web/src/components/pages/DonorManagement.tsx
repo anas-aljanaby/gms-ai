@@ -59,7 +59,7 @@ const DEFAULT_DONOR_FILTERS: DonorFilters = {
 };
 
 const CategoryCard: React.FC<{ category: string; count: number }> = ({ category, count }) => {
-    const { t } = useLocalization();
+    const { t, pickLocalized } = useLocalization();
     return (
         <div className="rounded-xl border dark:border-slate-700 bg-card dark:bg-dark-card p-4">
             <p className="text-sm text-gray-500">{getDonorCategoryLabel(category, t)}</p>
@@ -284,8 +284,8 @@ const RegistryTab: React.FC<{
                 }
 
                 if (sortColumn === 'fullName') {
-                    const aName = a.fullName[language] || a.fullName.en;
-                    const bName = b.fullName[language] || b.fullName.en;
+                    const aName = pickLocalized(a.fullName);
+                    const bName = pickLocalized(b.fullName);
                     return sortDirection === 'asc' ? aName.localeCompare(bName) : bName.localeCompare(aName);
                 }
 

@@ -41,7 +41,8 @@
       "timePeriod": "الفترة الزمنية",
       "department": "القسم",
       "indicators": "المؤشرات",
-      "selected": "تم اختيار {count}",
+      "selected": "تم اختيار {{count}}",
+      "indicatorsWithCount": "المؤشرات (تم اختيار {{count}})",
       "searchIndicators": "ابحث في المؤشرات...",
       "autoRefresh": "تحديث تلقائي",
       "periods": {
@@ -75,7 +76,12 @@
       "recommendations": "التوصيات",
       "forecasts": "التوقعات",
       "viewMore": "عرض المزيد من الرؤى",
-      "confidence": "الثقة"
+      "confidence": "الثقة",
+      "impact": {
+        "high": "مرتفع",
+        "medium": "متوسط",
+        "low": "منخفض"
+      }
     }
   },
   "kpiCard": {

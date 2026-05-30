@@ -7,7 +7,7 @@ import { formatCurrency, formatDate } from '../../../../lib/utils';
 import { useTheme } from '../../../../hooks/useTheme';
 
 const OverviewReport: React.FC<{ project: Project }> = ({ project }) => {
-    const { t, language } = useLocalization(['projects']);
+    const { t, language, pickLocalized } = useLocalization(['projects']);
     const { theme } = useTheme();
 
     const data = [
@@ -19,7 +19,7 @@ const OverviewReport: React.FC<{ project: Project }> = ({ project }) => {
     return (
         <div className="space-y-6">
             <div className="text-center border-b dark:border-slate-700 pb-4 mb-4">
-                <h1 className="text-2xl font-bold">{project.name[language]}</h1>
+                <h1 className="text-2xl font-bold">{pickLocalized(project.name)}</h1>
                 <p className="text-gray-500">{t('projects.reporting.modal.overview.title')}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">

@@ -25,7 +25,7 @@ interface BeneficiariesModuleProps {
 }
 
 const BeneficiariesModule: React.FC<BeneficiariesModuleProps> = ({ deepLinkTarget }) => {
-    const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'beneficiaries']);
     const { data: beneficiaries = [], isLoading, isError, refetch } = useBeneficiaries();
     const createBeneficiaryMutation = useCreateBeneficiary();
     const updateBeneficiaryMutation = useUpdateBeneficiary();
@@ -92,7 +92,7 @@ const BeneficiariesModule: React.FC<BeneficiariesModuleProps> = ({ deepLinkTarge
 
             if (searchTerm) {
                 const term = searchTerm.toLowerCase();
-                const name = (b.name[language] || b.name.en || b.name.ar || '').toLowerCase();
+                const name = (pickLocalized(b.name) || '').toLowerCase();
                 const country = b.country.toLowerCase();
                 const contact = b.profile.contact;
                 const matchesName = name.includes(term);

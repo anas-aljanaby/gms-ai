@@ -11,7 +11,7 @@ import { PlusCircleIcon } from '../../../icons/GenericIcons';
 import { formatCurrency } from '../../../../lib/utils';
 
 const ApprovalWorkflowsConfiguration: React.FC = () => {
-    const { t, language, dir } = useLocalization();
+    const { t, language, dir, pickLocalized } = useLocalization();
     const [workflows, setWorkflows] = useState<ApprovalWorkflow[]>(MOCK_WORKFLOWS);
     const [authLimits, setAuthLimits] = useState<AuthorizationLimit[]>(MOCK_AUTH_LIMITS);
     const [selectedWorkflowId, setSelectedWorkflowId] = useState<TransactionType | null>(null);
@@ -45,8 +45,8 @@ const ApprovalWorkflowsConfiguration: React.FC = () => {
                                 <div key={wf.id} className={`p-3 rounded-lg border-l-4 transition-colors ${selectedWorkflowId === wf.id ? 'bg-primary-light/50 border-primary' : 'hover:bg-gray-100 dark:hover:bg-slate-800/50 border-transparent'}`}>
                                     <div className="flex justify-between items-center">
                                         <div>
-                                            <h4 className="font-bold">{wf.name[language]}</h4>
-                                            <p className="text-xs text-gray-500">{wf.description[language]}</p>
+                                            <h4 className="font-bold">{pickLocalized(wf.name)}</h4>
+                                            <p className="text-xs text-gray-500">{pickLocalized(wf.description)}</p>
                                         </div>
                                         <button onClick={() => setSelectedWorkflowId(wf.id)} className="px-3 py-1 text-xs font-semibold bg-white dark:bg-slate-700 rounded-full shadow-sm hover:bg-gray-200">
                                             {t('financialSettings.workflows.configure')}
@@ -62,7 +62,7 @@ const ApprovalWorkflowsConfiguration: React.FC = () => {
                          <div className="space-y-6">
                             <SettingsCard
                                 title={t('financialSettings.workflows.workflowConfiguration')}
-                                description={selectedWorkflow.description[language]}
+                                description={pickLocalized(selectedWorkflow.description)}
                             >
                                 <ToggleSwitch
                                     label={t('financialSettings.workflows.workflowEnabled')}

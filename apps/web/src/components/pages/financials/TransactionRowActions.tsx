@@ -3,6 +3,7 @@ import { MoreHorizontal, Trash2 } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import ConfirmationModal from '../../common/ConfirmationModal';
 import type { FinancialTransaction } from '../../../types/financials';
+import { pickLocalizedText } from '../../../lib/utils';
 
 interface TransactionRowActionsProps {
   transaction: FinancialTransaction;
@@ -33,9 +34,7 @@ const TransactionRowActions: React.FC<TransactionRowActionsProps> = ({
   }, []);
 
   const displayDescription =
-    transaction.description[language]?.trim() ||
-    transaction.description[language === 'en' ? 'ar' : 'en']?.trim() ||
-    transaction.reference;
+    pickLocalizedText(transaction.description, language) || transaction.reference;
 
   useEffect(() => {
     if (!isConfirmOpen) {

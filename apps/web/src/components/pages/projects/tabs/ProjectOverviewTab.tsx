@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import { useToast } from '../../../../hooks/useToast';
 import type { Project, ProjectLifecycleStageId, ProjectType } from '../../../../types';
-import { formatCurrency } from '../../../../lib/utils';
+import { formatCurrency, pickLocalizedText } from '../../../../lib/utils';
 import AiCard from '../../ai/AiCard';
 import CountryCombobox from '../../../common/CountryCombobox';
 import { MOCK_PROGRAM_DATA } from '../../../../data/programData';
@@ -190,8 +190,7 @@ const ProjectOverviewTab: React.FC<ProjectOverviewTabProps> = ({ project, onUpda
 
                 {!isEditing ? (
                     <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-5">
-                        <InfoItem label={t('projects.wizard.form.nameEn', 'Project Name (English)')} value={project.name.en} />
-                        <InfoItem label={t('projects.wizard.form.nameAr', 'Project Name (Arabic)')} value={project.name.ar} />
+                        <InfoItem label={t('projects.overview.projectName', 'Project Name')} value={pickLocalizedText(project.name, language)} />
                         <InfoItem label={t('projects.list.stage', 'Stage')} value={t(`projects.stages.${project.stage}`)} />
                         <InfoItem label={t('projects.wizard.form.type', 'Type')} value={t(`projects.types.${project.type}`)} />
                         <InfoItem label={t('projects.overview.location')} value={formatProjectLocation(project.location, t, language)} />

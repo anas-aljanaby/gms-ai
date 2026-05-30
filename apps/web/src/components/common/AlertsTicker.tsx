@@ -18,7 +18,7 @@ const AlertsTicker: React.FC<AlertsTickerProps> = ({
   onAlertClick,
   onAlertDismiss,
 }) => {
-  const { t, dir, language } = useLocalization();
+  const { t, dir, language, pickLocalized } = useLocalization();
   const tickerContentRef = useRef<HTMLDivElement>(null);
   const [animationDuration, setAnimationDuration] = useState('0s');
 
@@ -40,7 +40,7 @@ const AlertsTicker: React.FC<AlertsTickerProps> = ({
 
   const TickerItem: React.FC<{ alert: Alert }> = ({ alert }) => {
     const config = priorityConfig[alert.priority];
-    const alertText = alert.text[language] || alert.text.en;
+    const alertText = pickLocalized(alert.text);
     return (
       <button
         className={`flex items-center text-left gap-3 px-4 py-2 mx-2 rounded-full border-l-4 cursor-pointer hover:shadow-md transition-shadow ${config.classes}`}

@@ -1,13 +1,18 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();
 
-if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Supabase env vars missing — auth will not work. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+if (!isSupabaseConfigured) {
+    console.warn(
+        'Supabase env vars missing — only local demo sign-in works. ' +
+            'Copy apps/web/.env.example to apps/web/.env and set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.',
+    );
 }
 
-export const supabase = createClient(
-    supabaseUrl || 'https://placeholder.supabase.co',
-    supabaseAnonKey || 'placeholder'
-);
+/** Supabase client; null when env vars are not set (avoids placeholder URL CORS errors). */
+export const supabase: SupabaseClient | null = isSupabaseConfigured
+    ? createClient(supabaseUrl!, supabaseAnonKey!)
+    : null;

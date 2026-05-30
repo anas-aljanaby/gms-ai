@@ -14,7 +14,7 @@ interface InstitutionalDonorCardProps {
 }
 
 const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, highlighted = false, onSelect, onDelete }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors']);
     const optimistic = isOptimisticInstitution(donor.id);
 
     const priorityClasses: Record<PriorityLevel, string> = {
@@ -43,9 +43,9 @@ const InstitutionalDonorCard: React.FC<InstitutionalDonorCardProps> = ({ donor, 
             <div className="p-4 flex-grow">
                 <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                        <img src={donor.logo} alt={`${donor.organizationName[language] || donor.organizationName.en} logo`} className="w-12 h-12 rounded-lg object-cover bg-gray-100" />
+                        <img src={donor.logo} alt={`${pickLocalized(donor.organizationName)} logo`} className="w-12 h-12 rounded-lg object-cover bg-gray-100" />
                         <div>
-                            <h3 className="font-bold text-lg text-foreground dark:text-dark-foreground">{donor.organizationName[language] || donor.organizationName.en}</h3>
+                            <h3 className="font-bold text-lg text-foreground dark:text-dark-foreground">{pickLocalized(donor.organizationName)}</h3>
                             <p className="text-xs text-gray-500 flex items-center gap-1">
                                 <MapPin size={12}/> {optimistic ? t('common.saving') : `${t(`institutional_donors.types.${donor.type}`)} • ${formatInstitutionalCountry(donor.country, t)}`}
                             </p>

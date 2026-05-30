@@ -15,7 +15,7 @@ const FUND_TYPE_BADGE_CLASSES: Record<FundType, string> = {
 };
 
 const GrantsFundsTab: React.FC = () => {
-  const { t, language } = useLocalization();
+  const { t, language, pickLocalized } = useLocalization();
   const { showSuccess, showError } = useToast();
   const { data: funds = [] } = useFunds();
   const { data: grants = [] } = useGrants();
@@ -135,7 +135,7 @@ const FundCard: React.FC<FundCardProps> = ({ fund, language, t }) => {
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-3">
         <h3 className="text-sm font-semibold text-foreground dark:text-dark-foreground leading-tight">
-          {fund.name[language]}
+          {pickLocalized(fund.name)}
         </h3>
         <span
           className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ${FUND_TYPE_BADGE_CLASSES[fund.type]}`}
@@ -213,7 +213,7 @@ const FundCard: React.FC<FundCardProps> = ({ fund, language, t }) => {
       {fund.projectName && (
         <div className="flex items-center gap-1.5 text-xs text-primary dark:text-primary-light">
           <Landmark className="w-3.5 h-3.5" />
-          <span>{fund.projectName[language]}</span>
+          <span>{pickLocalized(fund.projectName)}</span>
         </div>
       )}
     </div>
@@ -352,7 +352,7 @@ const GrantRow: React.FC<GrantRowProps> = ({
           {grant.grantorName}
         </td>
         <td className="px-4 py-3 text-sm font-medium text-foreground dark:text-dark-foreground">
-          {grant.title[language]}
+          {pickLocalized(grant.title)}
         </td>
         <td className="px-4 py-3 text-sm font-semibold text-foreground dark:text-dark-foreground text-right whitespace-nowrap">
           {formatCurrency(grant.totalAmount, language)}

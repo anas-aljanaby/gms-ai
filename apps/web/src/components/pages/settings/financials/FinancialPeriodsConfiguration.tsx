@@ -7,7 +7,7 @@ import { MoreHorizontalIcon } from '../../../icons/GenericIcons';
 import { ListIcon, CalendarIcon, LockIcon, UnlockIcon, CheckSquareIcon, UndoIcon } from '../../../icons/ActionIcons';
 
 const FinancialPeriodsConfiguration: React.FC = () => {
-    const { t, language } = useLocalization();
+    const { t, language, pickLocalized } = useLocalization();
     const [periods, setPeriods] = useState<FinancialPeriod[]>(MOCK_FISCAL_YEAR_2024);
     const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
     const [fiscalYearExists, setFiscalYearExists] = useState(true); // Control between setup and dashboard
@@ -61,7 +61,7 @@ const FinancialPeriodsConfiguration: React.FC = () => {
 
                             return (
                                 <tr key={period.id} className="bg-card dark:bg-dark-card border-b dark:border-slate-700 hover:bg-gray-50/50 dark:hover:bg-slate-800/20">
-                                    <th scope="row" className="px-6 py-4 font-bold text-foreground dark:text-dark-foreground whitespace-nowrap">{period.name[language]}</th>
+                                    <th scope="row" className="px-6 py-4 font-bold text-foreground dark:text-dark-foreground whitespace-nowrap">{pickLocalized(period.name)}</th>
                                     <td className="px-6 py-4">{formatDate(period.startDate, language)}</td>
                                     <td className="px-6 py-4">{formatDate(period.endDate, language)}</td>
                                     <td className="px-6 py-4"><StatusBadge status={period.status} /></td>
@@ -101,7 +101,7 @@ const FinancialPeriodsConfiguration: React.FC = () => {
                     <div>
                         <h4 className="font-bold text-lg">{t('financialSettings.periods.dashboard.title', { year: '2024' })}</h4>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                           {t('financialSettings.periods.dashboard.currentOpen')}: <span className="font-semibold text-green-600 dark:text-green-400">{openPeriod?.name[language] || t('financialSettings.periods.dashboard.noOpenPeriod')}</span>
+                           {t('financialSettings.periods.dashboard.currentOpen')}: <span className="font-semibold text-green-600 dark:text-green-400">{pickLocalized(openPeriod?.name) || t('financialSettings.periods.dashboard.noOpenPeriod')}</span>
                         </p>
                     </div>
                     <div className="flex items-center gap-2">

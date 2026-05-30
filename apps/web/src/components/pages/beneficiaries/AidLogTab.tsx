@@ -25,7 +25,7 @@ type TimelineEntry =
 
 const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects = [] }) => {
     const aidLog = Array.isArray(beneficiary.aidLog) ? beneficiary.aidLog : [];
-    const { language, dir, t } = useLocalization(['common', 'beneficiaries', 'financials']);
+    const { language, dir, t, pickLocalized } = useLocalization(['common', 'beneficiaries', 'financials']);
     const toast = useToast();
     const { data: disbursements = [] } = useBeneficiaryDisbursements(beneficiary.id);
     const createDisbursement = useCreateDisbursement();
@@ -248,7 +248,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
 
     const projectName = (projectId?: string) => {
         if (!projectId) return null;
-        return projects.find((p) => p.id === projectId)?.name[language];
+        return projects.find((p) => p.id === projectId)?.name ? pickLocalized(projects.find((p) => p.id === projectId).name) : undefined;
     };
 
     const openFinancialsForDisbursement = (disbursementId: string, status?: DisbursementStatus) => {
@@ -278,7 +278,7 @@ const AidLogTab: React.FC<AidLogTabProps> = ({ beneficiary, onUpdate, projects =
                 >
                     <div className="flex justify-between items-start gap-3">
                         <div className="min-w-0 flex-1">
-                            <p className="font-bold text-foreground dark:text-dark-foreground">{item.description[language] || item.description.en}</p>
+                            <p className="font-bold text-foreground dark:text-dark-foreground">{pickLocalized(item.description)}</p>
                             <p className="text-sm text-gray-500">{formatDate(item.date, language, 'long')}</p>
                         </div>
                         <div className="flex items-start gap-2">

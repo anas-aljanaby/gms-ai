@@ -80,7 +80,15 @@
     }
   },
   "matrix": {
-    "title": "مصفوفة الأداء"
+    "title": "مصفوفة الأداء",
+    "governance": "الحوكمة",
+    "finance": "المالية",
+    "programs": "البرامج",
+    "resources": "الموارد",
+    "performance": "الأداء",
+    "risk": "المخاطر",
+    "compliance": "الامتثال",
+    "trend": "الاتجاه"
   },
   "placeholder": {
     "underConstruction": "{moduleName} قيد التطوير."

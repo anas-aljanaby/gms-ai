@@ -23,7 +23,7 @@ interface Match {
 }
 
 const PartnershipOpportunitiesTab: React.FC<PartnershipOpportunitiesTabProps> = ({ donors, onSelectDonor }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors', 'donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors', 'donors']);
     const toast = useToast();
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [matches, setMatches] = useState<Match[]>([]);
@@ -97,7 +97,7 @@ Base your matching primarily on 'focusAreas' and 'geographicFocus'. Consider the
                         >
                             <option value="" disabled>{t('institutional_donors.opportunities.selectProject')}</option>
                             {MOCK_PROJECTS.map((p, index) => (
-                                <option key={projectListKey(p, index)} value={p.id}>{p.name[language] || p.name.en}</option>
+                                <option key={projectListKey(p, index)} value={p.id}>{pickLocalized(p.name)}</option>
                             ))}
                         </select>
                         <button

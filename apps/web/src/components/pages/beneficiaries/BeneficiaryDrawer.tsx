@@ -18,7 +18,7 @@ const BeneficiaryDrawer: React.FC<BeneficiaryDrawerProps> = ({
   onClose,
   onUpdate,
 }) => {
-  const { t, dir, language } = useLocalization(['beneficiaries']);
+  const { t, dir, language, pickLocalized } = useLocalization(['beneficiaries']);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -62,7 +62,7 @@ const BeneficiaryDrawer: React.FC<BeneficiaryDrawerProps> = ({
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-slate-700">
             <h2 className="truncate text-lg font-bold text-foreground dark:text-dark-foreground">
-              {beneficiary.name[language] || beneficiary.name.en || beneficiary.name.ar}
+              {pickLocalized(beneficiary.name)}
             </h2>
             <button
               onClick={onClose}

@@ -128,7 +128,7 @@ const ChipList: React.FC<{ items: string[]; emptyText: string; tone?: React.Comp
 };
 
 const StatusBadge: React.FC<{ status: GrantmakerRelationshipStatus }> = ({ status }) => {
-    const { t } = useLocalization(['institutional_donors']);
+    const { t, pickLocalized } = useLocalization(['institutional_donors']);
     const tones: Record<GrantmakerRelationshipStatus, React.ComponentProps<typeof Chip>['tone']> = {
         Cold: 'neutral',
         Prospect: 'blue',
@@ -210,7 +210,7 @@ const DetailOverviewTabInstitutional: React.FC<DetailOverviewTabInstitutionalPro
         if (!editingProfile) setProfileForm(buildProfileForm(donor));
     }, [donor, editingProfile]);
 
-    const organizationName = donor.organizationName[language] || donor.organizationName.en;
+    const organizationName = pickLocalized(donor.organizationName);
     const location = formatInstitutionalLocation(donor.city, donor.country, t);
     const notAvailable = t('common.notAvailable');
     const nextDeadlineDate = donor.nextDeadline ? new Date(donor.nextDeadline) : null;

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Search, ChevronDown, Check, X } from 'lucide-react';
+import { pickLocalizedText } from '../../lib/utils';
+import type { Language } from '../../types';
 
 export interface DonorSearchOption {
   id: string;
@@ -36,8 +38,8 @@ const DonorSearchSelect: React.FC<DonorSearchSelectProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const langKey = dir === 'rtl' ? 'ar' : 'en';
-  const getDonorName = (d: DonorSearchOption) => d.fullName[langKey] || d.fullName.en;
+  const language: Language = dir === 'rtl' ? 'ar' : 'en';
+  const getDonorName = (d: DonorSearchOption) => pickLocalizedText(d.fullName, language);
 
   const selectedDonor = donors.find((d) => d.id === selectedId);
 

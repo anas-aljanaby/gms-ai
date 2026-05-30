@@ -19,7 +19,7 @@ const fileTypeToIcon: Record<SupportedFileType, React.FC<{className?: string}>> 
 };
 
 const DocumentsTab: React.FC<DocumentsTabProps> = ({ project }) => {
-    const { t, language, dir } = useLocalization();
+    const { t, language, dir, pickLocalized } = useLocalization();
     const [currentPath, setCurrentPath] = useState<string[]>(['/']);
     const [selectedItem, setSelectedItem] = useState<DocumentItem | null>(null);
 
@@ -49,7 +49,7 @@ const DocumentsTab: React.FC<DocumentsTabProps> = ({ project }) => {
                 <React.Fragment key={index}>
                     {index > 0 && <span className="mx-2">/</span>}
                     <button onClick={() => navigateBack(index)} className={`hover:underline ${index === currentPath.length - 1 ? 'text-foreground dark:text-dark-foreground font-semibold' : ''}`}>
-                        {part === '/' ? project.name[language] : part}
+                        {part === '/' ? pickLocalized(project.name) : part}
                     </button>
                 </React.Fragment>
             ))}

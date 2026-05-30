@@ -1,5 +1,6 @@
 import type { Language } from '../types';
 import type { ApprovalItem, Disbursement, DisbursementType } from '../types/financials';
+import { pickLocalizedText } from './utils';
 
 type TranslateFn = (key: string, options?: Record<string, unknown>) => string;
 
@@ -12,18 +13,18 @@ export function resolveBeneficiaryName(
     disbursementById?: Map<string, Disbursement>,
 ): string | undefined {
     const meta = item.metadata;
-    if (meta?.beneficiaryNameEn) {
-        return language === 'ar' && meta.beneficiaryNameAr
-            ? meta.beneficiaryNameAr
-            : meta.beneficiaryNameEn;
+    if (meta?.beneficiaryNameEn || meta?.beneficiaryNameAr) {
+        return pickLocalizedText(
+            { en: meta.beneficiaryNameEn, ar: meta.beneficiaryNameAr },
+            language,
+        );
     }
 
     if (item.relatedEntityId && disbursementById) {
         const linked = disbursementById.get(item.relatedEntityId);
         if (linked) {
-            const localized = linked.beneficiaryName[language]?.trim();
+            const localized = pickLocalizedText(linked.beneficiaryName, language);
             if (localized) return localized;
-            if (linked.beneficiaryName.en) return linked.beneficiaryName.en;
         }
     }
 

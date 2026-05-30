@@ -17,7 +17,7 @@ interface SmartKPICardProps {
 }
 
 const SmartKPICard: React.FC<SmartKPICardProps> = memo(({ title, value, icon, changePercentage, target, daysRemaining, trend, priority }) => {
-  const { language, t } = useLocalization();
+  const { language, t, pickLocalized } = useLocalization();
 
   const renderChange = () => {
     if (changePercentage === undefined) return null;
@@ -48,7 +48,7 @@ const SmartKPICard: React.FC<SmartKPICardProps> = memo(({ title, value, icon, ch
         <div>
           <div className="flex justify-between items-start">
             <h3 className="font-semibold text-gray-600 dark:text-gray-400 pr-2">
-              {title[language] || title.en}
+              {pickLocalized(title)}
             </h3>
             <span className="text-2xl">{icon}</span>
           </div>

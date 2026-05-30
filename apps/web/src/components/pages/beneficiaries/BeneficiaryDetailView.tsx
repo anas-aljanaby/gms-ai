@@ -95,7 +95,7 @@ export const BeneficiaryProfileRoute: React.FC<{
     existingCountries?: string[];
     initialTab?: string;
 }> = ({ beneficiaryId, beneficiaries, isLoading, onBack, onUpdate, projects, existingCountries, initialTab }) => {
-    const { t } = useLocalization(['common', 'beneficiaries']);
+    const { t, pickLocalized } = useLocalization(['common', 'beneficiaries']);
 
     if (isLoading) {
         return (
@@ -140,7 +140,7 @@ const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficia
     })), [tabIds, t]);
 
     const kpis = getKpis(beneficiary, t, language);
-    const name = beneficiary.name[language] || beneficiary.name.en || beneficiary.name.ar;
+    const name = pickLocalized(beneficiary.name);
     const subtitle = getBeneficiarySubtitle(beneficiary, language, t);
     const localizedCountry = getCountryDisplayName(beneficiary.country, language === 'ar' ? 'ar' : 'en');
 

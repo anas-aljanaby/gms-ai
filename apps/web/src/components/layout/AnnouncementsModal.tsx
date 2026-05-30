@@ -12,7 +12,7 @@ interface AnnouncementsModalProps {
 }
 
 const AnnouncementItem: React.FC<{ announcement: Announcement }> = ({ announcement }) => {
-    const { language } = useLocalization();
+    const { language, pickLocalized, t } = useLocalization();
 
     return (
         <motion.div
@@ -28,20 +28,20 @@ const AnnouncementItem: React.FC<{ announcement: Announcement }> = ({ announceme
                     <div className="flex items-center gap-3">
                         {announcement.tag && (
                             <span className="text-xs font-bold text-white px-2 py-0.5 rounded-full" style={{ backgroundColor: announcement.tag.color }}>
-                                {announcement.tag.text[language]}
+                                {pickLocalized(announcement.tag.text)}
                             </span>
                         )}
                         <p className="text-sm text-gray-500">{formatDate(announcement.date, language)}</p>
                     </div>
-                    <h3 className="font-bold text-lg mt-1">{announcement.title[language]}</h3>
+                    <h3 className="font-bold text-lg mt-1">{pickLocalized(announcement.title)}</h3>
                 </div>
                 {announcement.isNew && (
                     <span className="text-xs font-bold text-green-600 bg-green-100 dark:bg-green-900/50 px-2 py-0.5 rounded-full">
-                        NEW
+                        {t('common.new', 'New')}
                     </span>
                 )}
             </div>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{announcement.content[language]}</p>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{pickLocalized(announcement.content)}</p>
         </motion.div>
     );
 };

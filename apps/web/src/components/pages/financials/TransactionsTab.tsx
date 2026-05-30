@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { Plus } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
-import { formatCurrency, formatDate } from '../../../lib/utils';
+import { formatCurrency, formatDate, pickLocalizedText } from '../../../lib/utils';
 import DataTable, { type Column } from './shared/DataTable';
 import FilterBar, { type FilterDef } from './shared/FilterBar';
 import StatusBadge from './shared/StatusBadge';
@@ -205,15 +205,11 @@ const TransactionsTab: React.FC = () => {
       {
         key: 'description',
         label: t('financials.transactions.description'),
-        render: (row) => {
-          const desc =
-            row.description[language]?.trim() ||
-            row.description[language === 'en' ? 'ar' : 'en']?.trim() ||
-            '—';
-          return (
-            <span className="text-sm text-foreground dark:text-dark-foreground">{desc}</span>
-          );
-        },
+        render: (row) => (
+          <span className="text-sm text-foreground dark:text-dark-foreground">
+            {pickLocalizedText(row.description, language) || '—'}
+          </span>
+        ),
       },
       {
         key: 'category',

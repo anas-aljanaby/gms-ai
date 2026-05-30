@@ -35,7 +35,7 @@ const RECEIPT_STATUSES: ReceiptStatus[] = [
 const HIGHLIGHT_MS = 2200;
 
 const DonationsTab: React.FC = () => {
-  const { t, language } = useLocalization();
+  const { t, language, pickLocalized } = useLocalization();
   const toast = useToast();
   const { data: donations = [], isLoading } = useDonations();
   const createTransaction = useCreateTransaction();
@@ -188,7 +188,7 @@ const DonationsTab: React.FC = () => {
         label: t('financials.donations.donor'),
         render: (row) => (
           <span className="text-sm font-medium text-foreground dark:text-dark-foreground">
-            {row.donorName[language]}
+            {pickLocalized(row.donorName)}
           </span>
         ),
       },
@@ -217,7 +217,7 @@ const DonationsTab: React.FC = () => {
         label: t('financials.donations.designation'),
         render: (row) => (
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            {row.designation || row.projectName?.[language] || '—'}
+            {row.designation || pickLocalized(row.projectName) || '—'}
           </span>
         ),
       },
