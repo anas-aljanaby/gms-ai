@@ -63,8 +63,7 @@ const getLocale = (language: Language): string => {
     return language === 'ar' ? 'ar-SA-u-nu-latn' : 'en-US';
 };
 
-export const formatNumber = (num: number, language: Language, options: Intl.NumberFormatOptions = {}): string => {
-    const locale = getLocale(language);
+const formatNumberForLocale = (num: number, locale: string, options: Intl.NumberFormatOptions = {}): string => {
     const cacheKey = `${locale}-${JSON.stringify(options)}`;
 
     try {
@@ -78,6 +77,10 @@ export const formatNumber = (num: number, language: Language, options: Intl.Numb
     }
 };
 
+export const formatNumber = (num: number, language: Language, options: Intl.NumberFormatOptions = {}): string => {
+    return formatNumberForLocale(num, getLocale(language), options);
+};
+
 export const formatCurrency = (amount: number, language: Language, currency: string = 'USD'): string => {
     const options: Intl.NumberFormatOptions = {
         style: 'currency',
@@ -89,7 +92,9 @@ export const formatCurrency = (amount: number, language: Language, currency: str
         options.minimumFractionDigits = 0;
         options.maximumFractionDigits = 0;
     }
-    return formatNumber(amount, language, options);
+    // Arabic locales render USD as "6,000 US$" / "$US 6,000"; en-US yields "$6,000".
+    const locale = currency === 'USD' ? 'en-US' : getLocale(language);
+    return formatNumberForLocale(amount, locale, options);
 };
 
 export const formatPercentage = (value: number, language: Language, options: Intl.NumberFormatOptions = {}): string => {

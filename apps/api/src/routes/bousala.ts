@@ -3,10 +3,13 @@ import { User } from '@supabase/supabase-js';
 import { and, eq, inArray } from 'drizzle-orm';
 import { db } from '../db';
 import {
+    beneficiaries,
     bousala_goal_projects,
     bousala_goals,
     bousala_kpis,
     bousala_tasks,
+    financial_transactions,
+    individual_donors,
     memberships,
     organizations,
     projects,
@@ -659,6 +662,39 @@ bousalaRouter.patch('/direction', async (c) => {
 
     const tree = await fetchBousalaTree(orgId);
     return c.json(tree.direction ?? nextDirection);
+});
+
+bousalaRouter.get('/impact', async (c) => {
+    const user = c.get('user');
+    const orgId = await getOrgId(user.id);
+    if (!orgId) return c.json({ error: 'No organization membership found' }, 403);
+
+    const [projectRows, txnRows, beneficiaryRows, donorRows] = await Promise.all([
+        db.select({ stage: projects.stage }).from(projects).where(eq(projects.org_id, orgId)),
+        db
+            .select({ direction: financial_transactions.direction, amount: financial_transactions.amount })
+            .from(financial_transactions)
+            .where(eq(financial_transactions.org_id, orgId)),
+        db.select({ status: beneficiaries.status }).from(beneficiaries).where(eq(beneficiaries.org_id, orgId)),
+        db.select({ id: individual_donors.id }).from(individual_donors).where(eq(individual_donors.org_id, orgId)),
+    ]);
+
+    const activeProjects = projectRows.filter((row) => row.stage !== 'closure').length;
+    const fundsRaised = txnRows
+        .filter((row) => row.direction === 'inflow')
+        .reduce((sum, row) => sum + asNumber(row.amount), 0);
+    const fundsSpent = txnRows
+        .filter((row) => row.direction === 'outflow')
+        .reduce((sum, row) => sum + asNumber(row.amount), 0);
+    const beneficiariesReached = beneficiaryRows.filter((row) => row.status === 'active').length;
+
+    return c.json({
+        beneficiariesReached,
+        fundsRaised,
+        fundsSpent,
+        activeProjects,
+        donors: donorRows.length,
+    });
 });
 
 export { bousalaRouter };

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { DollarSign, Clock, Calendar, AlertTriangle, ExternalLink } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { pickLocalizedText, formatCurrency, formatDate , pickLocalizedText} from '../../../lib/utils';
+import { pickLocalizedText, formatCurrency, formatDate } from '../../../lib/utils';
 import { getDisbursementSourceRoute, navigateToFinancialSource } from '../../../lib/financialSourceNavigation';
 import { HIGHLIGHT_ROW_CLASS, useUrlHighlight } from '../../../hooks/useUrlHighlight';
 import DataTable, { type Column } from './shared/DataTable';

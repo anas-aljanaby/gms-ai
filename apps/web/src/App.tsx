@@ -60,7 +60,7 @@ const ModuleRenderer: React.FC<ModuleRendererProps> = ({
         case 'projects': return <ProjectManagement deepLinkTarget={deepLinkTarget} />;
         case 'beneficiaries': return <BeneficiariesModule deepLinkTarget={deepLinkTarget} />;
         case 'stakeholder_management': return <StakeholderManagement />;
-        case 'bousala': return <BousalaPage projects={projects} hrData={hrData} role={role} />;
+        case 'bousala': return <BousalaPage projects={projects} hrData={hrData} role={role} setActiveModule={updateActiveModule} />;
         case 'financials': return <FinancialsPage />;
         case 'settings': return <SettingsPage enabledLanguages={enabledLanguages} onEnabledLanguagesChange={onEnabledLanguagesChange} />;
         case 'help': return <HelpSupportPage />;

@@ -44,10 +44,10 @@ const formatAxisCurrency = (value: number, language: 'en' | 'ar') => {
         const compactValue = absoluteValue >= 100000
             ? Math.round(absoluteValue / 1000)
             : Number((absoluteValue / 1000).toFixed(1));
-        return `${sign}US$${formatNumber(compactValue, language, { maximumFractionDigits: 1 })}k`;
+        return `${sign}$${formatNumber(compactValue, language, { maximumFractionDigits: 1 })}k`;
     }
 
-    return `${sign}US$${formatNumber(absoluteValue, language, { maximumFractionDigits: 0 })}`;
+    return `${sign}$${formatNumber(absoluteValue, language, { maximumFractionDigits: 0 })}`;
 };
 
 const KpiCard: React.FC<{ title: string; value: string; colorClass: string }> = ({ title, value, colorClass }) => (

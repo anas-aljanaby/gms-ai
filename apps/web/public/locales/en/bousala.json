@@ -1,7 +1,37 @@
 {
   "bousala": {
     "title": "Bousala",
-    "linkedModules": "Smart goals and projects management platform",
+    "linkedModules": "Strategic compass linking goals, KPIs, and projects to impact",
+    "overview": {
+      "addGoal": "Add Goal",
+      "kpisLabel": "KPIs",
+      "projectsLabel": "Projects"
+    },
+    "impact": {
+      "title": "Impact at a glance",
+      "beneficiaries": "Beneficiaries reached",
+      "fundsRaised": "Funds raised",
+      "fundsSpent": "Funds spent",
+      "activeProjects": "Active projects",
+      "donors": "Donors"
+    },
+    "health": {
+      "totalGoals": "Goals",
+      "onTrack": "On track",
+      "atRisk": "At risk",
+      "offTrack": "Off track",
+      "avgProgress": "Avg progress"
+    },
+    "ai": {
+      "title": "AI insights",
+      "comingSoon": "Coming soon",
+      "description": "AI-powered strategic recommendations and forecasts are coming soon."
+    },
+    "goalDetail": {
+      "back": "Back to strategy",
+      "deadline": "Deadline",
+      "spent": "Spent"
+    },
     "reports": {
       "title": "Reports",
       "goal": "Goal",

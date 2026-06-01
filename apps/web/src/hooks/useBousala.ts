@@ -20,6 +20,21 @@ export const useBousala = () => useQuery({
     queryFn: fetchBousalaTree,
 });
 
+export interface BousalaImpact {
+    beneficiariesReached: number;
+    fundsRaised: number;
+    fundsSpent: number;
+    activeProjects: number;
+    donors: number;
+}
+
+export const BOUSALA_IMPACT_QUERY_KEY = ['bousala', 'impact'] as const;
+
+export const useBousalaImpact = () => useQuery({
+    queryKey: BOUSALA_IMPACT_QUERY_KEY,
+    queryFn: () => api.get<BousalaImpact>('/bousala/impact'),
+});
+
 export interface CreateBousalaGoalInput {
     title: string;
     description: string;

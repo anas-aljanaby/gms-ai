@@ -3,6 +3,61 @@
     "title": "Dashboard",
     "activeFilters": "Active Filters",
     "vsLastPeriod": "vs last period",
+    "overview": {
+      "subtitle": "A real-time overview of your organization's performance.",
+      "kpis": {
+        "totalRaised": "Total Raised",
+        "netIncome": "Net Income",
+        "outstandingPledges": "Outstanding Pledges",
+        "activeProjects": "Active Projects",
+        "beneficiaries": "Beneficiaries",
+        "activeDonors": "Active Donors"
+      },
+      "compass": {
+        "title": "Strategic Compass",
+        "subtitle": "Progress toward your organizational goals",
+        "viewAll": "Open Bousala",
+        "onTrack": "On track",
+        "atRisk": "At risk",
+        "empty": "No strategic goals defined yet."
+      },
+      "revenueChart": {
+        "title": "Financial Health",
+        "subtitle": "Revenue vs. expenses over the last 12 months",
+        "viewAll": "View financials",
+        "revenue": "Revenue",
+        "expenses": "Expenses"
+      },
+      "funds": {
+        "title": "Fund Allocation",
+        "viewAll": "View all",
+        "total": "Total",
+        "empty": "No funds with a balance yet."
+      },
+      "projects": {
+        "title": "Projects Health",
+        "viewAll": "View projects",
+        "active": "Active projects",
+        "atRisk": "{{count}} at risk",
+        "empty": "No projects yet.",
+        "stages": {
+          "design": "Design",
+          "planning": "Planning",
+          "implementation": "Implementation",
+          "monitoring": "Monitoring",
+          "closure": "Closure"
+        }
+      },
+      "activity": {
+        "title": "Recent Activity",
+        "viewAll": "View all",
+        "empty": "No recent transactions."
+      },
+      "alerts": {
+        "title": "Needs Attention",
+        "empty": "All clear — nothing needs your attention."
+      }
+    },
     "favoriteReport": {
       "title": "Favorite Report",
       "noneSelected": "No favorite report selected."

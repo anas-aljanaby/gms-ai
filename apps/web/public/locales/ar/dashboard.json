@@ -1,8 +1,63 @@
 {
   "dashboard": {
-    "title": "Dashboard",
+    "title": "لوحة القيادة",
     "activeFilters": "الفلاتر النشطة",
     "vsLastPeriod": "مقارنة بالفترة السابقة",
+    "overview": {
+      "subtitle": "نظرة لحظية على أداء مؤسستك.",
+      "kpis": {
+        "totalRaised": "إجمالي التبرعات",
+        "netIncome": "صافي الدخل",
+        "outstandingPledges": "التعهدات المستحقة",
+        "activeProjects": "المشاريع النشطة",
+        "beneficiaries": "المستفيدون",
+        "activeDonors": "المانحون النشطون"
+      },
+      "compass": {
+        "title": "البوصلة الاستراتيجية",
+        "subtitle": "التقدم نحو أهداف مؤسستك",
+        "viewAll": "فتح بوصلة",
+        "onTrack": "على المسار",
+        "atRisk": "في خطر",
+        "empty": "لم يتم تحديد أهداف استراتيجية بعد."
+      },
+      "revenueChart": {
+        "title": "الصحة المالية",
+        "subtitle": "الإيرادات مقابل المصروفات خلال آخر ١٢ شهرًا",
+        "viewAll": "عرض المالية",
+        "revenue": "الإيرادات",
+        "expenses": "المصروفات"
+      },
+      "funds": {
+        "title": "توزيع الصناديق",
+        "viewAll": "عرض الكل",
+        "total": "الإجمالي",
+        "empty": "لا توجد صناديق برصيد بعد."
+      },
+      "projects": {
+        "title": "صحة المشاريع",
+        "viewAll": "عرض المشاريع",
+        "active": "المشاريع النشطة",
+        "atRisk": "{{count}} في خطر",
+        "empty": "لا توجد مشاريع بعد.",
+        "stages": {
+          "design": "التصميم",
+          "planning": "التخطيط",
+          "implementation": "التنفيذ",
+          "monitoring": "المتابعة",
+          "closure": "الإغلاق"
+        }
+      },
+      "activity": {
+        "title": "النشاط الأخير",
+        "viewAll": "عرض الكل",
+        "empty": "لا توجد حركات حديثة."
+      },
+      "alerts": {
+        "title": "يتطلب الانتباه",
+        "empty": "كل شيء على ما يرام — لا شيء يتطلب انتباهك."
+      }
+    },
     "favoriteReport": {
       "title": "التقرير المفضل",
       "noneSelected": "لم يتم اختيار تقرير مفضل بعد."
