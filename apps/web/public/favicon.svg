@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="hsl(210, 40%, 50%)"/>
+  <!-- North needle (bright) -->
+  <path d="M16 6 L19.2 16 L16 14.2 L12.8 16 Z" fill="#ffffff"/>
+  <!-- South needle (muted) -->
+  <path d="M16 26 L12.8 16 L16 17.8 L19.2 16 Z" fill="hsl(210, 40%, 78%)"/>
+  <!-- Center pivot -->
+  <circle cx="16" cy="16" r="1.6" fill="hsl(210, 40%, 50%)" stroke="#ffffff" stroke-width="1"/>
+</svg>
