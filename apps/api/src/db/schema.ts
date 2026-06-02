@@ -113,6 +113,53 @@ export const donor_documents = pgTable('donor_documents', {
     uploaded_at: timestamp('uploaded_at').defaultNow(),
 });
 
+export const institutional_donors = pgTable('institutional_donors', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    name_en: text('name_en').notNull(),
+    name_ar: text('name_ar').default(''),
+    type: text('type').notNull().default('Foundation'),
+    relationship_status: text('relationship_status').notNull().default('Prospect'),
+    priority: text('priority').notNull().default('Medium'),
+    assigned_manager: text('assigned_manager').default(''),
+    primary_contact_name: text('primary_contact_name').default(''),
+    primary_contact_email: text('primary_contact_email').default(''),
+    focus_areas: jsonb('focus_areas').default([]),
+    geographic_focus: jsonb('geographic_focus').default([]),
+    country: text('country').default(''),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+    updated_at: timestamp('updated_at').defaultNow(),
+});
+
+export const institutional_donor_contacts = pgTable('institutional_donor_contacts', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    institutional_donor_id: uuid('institutional_donor_id').notNull().references(() => institutional_donors.id),
+    name: text('name').notNull(),
+    position: text('position').notNull().default(''),
+    email: text('email').notNull().default(''),
+    phone: text('phone').default(''),
+    whatsapp: text('whatsapp').default(''),
+    is_primary: boolean('is_primary').notNull().default(false),
+    photo_url: text('photo_url').default(''),
+    custom_fields: jsonb('custom_fields').default({}),
+    created_at: timestamp('created_at').defaultNow(),
+});
+
+export const institutional_donor_documents = pgTable('institutional_donor_documents', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    org_id: uuid('org_id').notNull().references(() => organizations.id),
+    institutional_donor_id: uuid('institutional_donor_id').notNull().references(() => institutional_donors.id),
+    filename: text('filename').notNull(),
+    file_url: text('file_url').notNull(),
+    label: text('label').default('Document'),
+    content_type: text('content_type'),
+    size_bytes: integer('size_bytes'),
+    custom_fields: jsonb('custom_fields').default({}),
+    uploaded_at: timestamp('uploaded_at').defaultNow(),
+});
+
 // ═══════════════════════════════════════════════════════════════════════════
 // BENEFICIARIES MODULE
 // ═══════════════════════════════════════════════════════════════════════════

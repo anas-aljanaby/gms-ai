@@ -13,6 +13,7 @@ import { aiRouter } from './routes/ai';
 import { projectsRouter } from './routes/projects';
 import { bousalaRouter } from './routes/bousala';
 import { stakeholdersRouter } from './routes/stakeholders';
+import { institutionalDonorsRouter } from './routes/institutionalDonors';
 
 type Variables = {
     user: User;
@@ -70,6 +71,7 @@ app.route('/ai', aiRouter);
 app.route('/projects', projectsRouter);
 app.route('/bousala', bousalaRouter);
 app.route('/stakeholders', stakeholdersRouter);
+app.route('/institutional-donors', institutionalDonorsRouter);
 
 const port = Number(process.env.PORT) || 3000;
 

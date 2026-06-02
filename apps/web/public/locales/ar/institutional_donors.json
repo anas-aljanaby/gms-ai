@@ -267,12 +267,7 @@
         "phone": "الهاتف",
         "whatsapp": "واتساب",
         "profilePicture": "رابط صورة الملف",
-        "isPrimary": "جهة اتصال رئيسية",
-        "permissions": "الصلاحيات",
-        "permissionsDesc": "اختر صلاحيات الوصول لجهة الاتصال.",
-        "permViewProjects": "عرض المشاريع",
-        "permManageFinances": "إدارة الشؤون المالية",
-        "permApproveReports": "اعتماد التقارير"
+        "isPrimary": "جهة اتصال رئيسية"
       }
     }
   }

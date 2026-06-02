@@ -4,7 +4,7 @@ import type { InstitutionalDonor } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import Tabs from '../../common/Tabs';
 import DetailOverviewTabInstitutional from './DetailOverviewTabInstitutional';
-import { ArrowLeft, CalendarClock, Mail, MapPin, WalletCards } from 'lucide-react';
+import { ArrowLeft, CalendarClock, Mail, MapPin, Trash2, WalletCards } from 'lucide-react';
 import GrantsTab from './GrantsTab';
 import ContactsTab from './ContactsTab';
 import DocumentsTab from './DocumentsTab';
@@ -15,14 +15,16 @@ interface InstitutionalDonorDetailViewProps {
     donor: InstitutionalDonor;
     onBack: () => void;
     onDonorUpdated?: (donor: InstitutionalDonor) => void;
+    onDeleteDonor?: (donor: InstitutionalDonor) => void;
     existingCountries?: string[];
 }
 
 const INSTITUTIONAL_DONOR_DETAIL_TABS = ['overview', 'grants', 'contacts', 'documents'] as const;
 
-const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> = ({ donor, onBack, onDonorUpdated, existingCountries = [] }) => {
+const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> = ({ donor, onBack, onDonorUpdated, onDeleteDonor, existingCountries = [] }) => {
     const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors']);
-    const [activeTab, setActiveTab] = useTabParam('tab', 'overview', INSTITUTIONAL_DONOR_DETAIL_TABS);
+    // Use a dedicated query param to avoid clashing with parent page view tabs.
+    const [activeTab, setActiveTab] = useTabParam('detailTab', 'overview', INSTITUTIONAL_DONOR_DETAIL_TABS);
 
     const tabs = [
         { id: 'overview', label: t('institutional_donors.detail.overview') },
@@ -74,6 +76,16 @@ const InstitutionalDonorDetailView: React.FC<InstitutionalDonorDetailViewProps> 
                         <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm font-bold text-foreground dark:border-slate-700 dark:bg-slate-900/30 dark:text-dark-foreground">
                             <span className="flex items-center justify-center gap-2"><WalletCards size={16} /> {formatCurrency(donor.totalGrantsAwarded, language, 'USD')}</span>
                         </div>
+                        {onDeleteDonor && (
+                            <button
+                                type="button"
+                                onClick={() => onDeleteDonor(donor)}
+                                className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-bold text-red-700 transition-colors hover:bg-red-100 dark:border-red-800/60 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/40"
+                            >
+                                <Trash2 size={16} />
+                                {t('institutional_donors.deleteInstitution')}
+                            </button>
+                        )}
                     </div>
                 </div>
 

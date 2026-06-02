@@ -11,7 +11,6 @@ import {
     FinancialPeriodsIcon,
     ApprovalWorkflowsIcon,
     BankingAndPaymentsIcon,
-    TaxAndComplianceIcon,
 } from '../../../components/icons/SettingsIcons';
 
 const FinancialSettings: React.FC = () => {
@@ -23,7 +22,6 @@ const FinancialSettings: React.FC = () => {
         { id: 'financialPeriods', icon: FinancialPeriodsIcon },
         { id: 'approvalWorkflows', icon: ApprovalWorkflowsIcon },
         { id: 'bankingAndPayments', icon: BankingAndPaymentsIcon },
-        { id: 'taxAndCompliance', icon: TaxAndComplianceIcon },
     ];
 
     const renderActiveSubCategory = () => {
@@ -36,14 +34,6 @@ const FinancialSettings: React.FC = () => {
                 return <ApprovalWorkflowsConfiguration />;
             case 'bankingAndPayments':
                 return <BankingAndPaymentsConfiguration />;
-            default:
-                return (
-                    <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-inner">
-                        <div className="text-6xl mb-4">🚧</div>
-                        <h2 className="text-2xl font-bold mb-2">{t(`financialSettings.${activeSubCategory}`)}</h2>
-                        <p>{t('placeholder.underConstruction')}</p>
-                    </div>
-                );
         }
     };
 

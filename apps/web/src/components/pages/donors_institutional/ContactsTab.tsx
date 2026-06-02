@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../../lib/optimisticSubmit';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../../lib/optimisticSubmit';
 import { buildOptimisticContact, isOptimisticContact } from '../../../lib/contactOptimistic';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import type { InstitutionalDonor } from '../../../types';
+import { useCreateInstitutionalDonorContact, useDeleteInstitutionalDonorContact, useInstitutionalDonorContacts } from '../../../hooks/useInstitutionalDonors';
 import { Mail, Phone, PlusCircle, Globe, Linkedin, Twitter, Facebook, MapPin, Handshake, Trash2 } from 'lucide-react';
 import AddContactModal from './AddContactModal';
 
@@ -91,39 +92,6 @@ const ContactInfoCard: React.FC<{ donor: InstitutionalDonor }> = ({ donor }) => 
 };
 
 
-// Mock data based on the donor prop
-const getMockContacts = (donor: InstitutionalDonor): Contact[] => {
-    return [
-        {
-            id: `contact-primary-${donor.id}`,
-            name: donor.primaryContact.name,
-            position: 'Program Director, MENA', // Mock position
-            email: donor.primaryContact.email,
-            phone: donor.phone || '+32 2 299 11 11',
-            whatsapp: '+32 475 12 34 56',
-            isPrimary: true,
-            photoUrl: `https://picsum.photos/seed/${donor.primaryContact.name.split(' ')[0]}/200/200`,
-        },
-        {
-            id: `contact-${donor.id}-2`,
-            name: 'Jean-Luc Picard',
-            position: 'Grants Officer',
-            email: 'jl.picard@eda.eu',
-            phone: '+32 2 299 11 12',
-            isPrimary: false,
-            photoUrl: 'https://picsum.photos/seed/Picard/200/200',
-        },
-        {
-            id: `contact-${donor.id}-3`,
-            name: 'Catherine Janeway',
-            position: 'Head of Compliance',
-            email: 'c.janeway@eda.eu',
-            isPrimary: false,
-            photoUrl: 'https://picsum.photos/seed/Janeway/200/200',
-        },
-    ];
-};
-
 interface ContactsTabProps {
     donor: InstitutionalDonor;
 }
@@ -188,14 +156,12 @@ const ContactCard: React.FC<{ contact: Contact; highlighted?: boolean; onDelete?
 const ContactsTab: React.FC<ContactsTabProps> = ({ donor }) => {
     const { t } = useLocalization(['common', 'institutional_donors']);
     const toast = useToast();
-    const [contacts, setContacts] = useState<Contact[]>(() => getMockContacts(donor));
+    const { data: contacts = [], isLoading } = useInstitutionalDonorContacts(donor.id);
+    const createContact = useCreateInstitutionalDonorContact(donor.id);
+    const deleteContact = useDeleteInstitutionalDonorContact(donor.id);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [highlightedId, setHighlightedId] = useState<string | null>(null);
     const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    useEffect(() => {
-        setContacts(getMockContacts(donor));
-    }, [donor.id]);
 
     useEffect(() => {
         return () => {
@@ -211,17 +177,19 @@ const ContactsTab: React.FC<ContactsTabProps> = ({ donor }) => {
 
     const handleAddContact = (newContactData: Omit<Contact, 'id' | 'isPrimary'> & { isPrimary?: boolean }) => {
         const optimistic = buildOptimisticContact(newContactData);
-        setContacts(prev => [optimistic, ...prev]);
-
-        void simulateLocalPersist((): Contact => ({
-            ...optimistic,
-            id: `contact-${donor.id}-${Date.now()}`,
-        })).then((created) => {
-            setContacts(prev => prev.map(c => (c.id === optimistic.id ? created : c)));
+        void createContact.mutateAsync({
+            name: optimistic.name,
+            position: optimistic.position,
+            email: optimistic.email,
+            phone: optimistic.phone || '',
+            whatsapp: optimistic.whatsapp || '',
+            is_primary: optimistic.isPrimary,
+            photo_url: optimistic.photoUrl || '',
+            custom_fields: {},
+        }).then((created) => {
             flashHighlight(created.id);
             toast.showSuccess(t('institutional_donors.detail.contactAdded'));
         }).catch(() => {
-            setContacts(prev => prev.filter(c => c.id !== optimistic.id));
             toast.showError(t('institutional_donors.errors.generic'));
         });
     };
@@ -230,9 +198,16 @@ const ContactsTab: React.FC<ContactsTabProps> = ({ donor }) => {
         if (!window.confirm(t('institutional_donors.detail.deleteContactConfirm'))) {
             return;
         }
-        setContacts((prev) => prev.filter((c) => c.id !== contactId));
-        toast.showInfo(t('institutional_donors.detail.contactDeleted'));
+        void deleteContact.mutateAsync(contactId).then(() => {
+            toast.showInfo(t('institutional_donors.detail.contactDeleted'));
+        }).catch(() => {
+            toast.showError(t('institutional_donors.errors.generic'));
+        });
     };
+
+    if (isLoading) {
+        return <div className="text-sm text-gray-500 dark:text-gray-400">{t('common.loading')}</div>;
+    }
 
     return (
         <div className="animate-fade-in space-y-6">

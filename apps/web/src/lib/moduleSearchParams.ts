@@ -14,7 +14,7 @@ export const MODULE_ALLOWED_SEARCH_PARAMS: Record<string, readonly string[]> = {
   financials: ['tab', 'highlight'],
   projects: ['tab', 'projectTab'],
   donors: ['tab', 'detailTab', 'registryView', 'highlight'],
-  institutional_donors: ['tab'],
+  institutional_donors: ['tab', 'detailTab'],
   beneficiaries: ['tab', 'highlight'],
   stakeholder_management: ['tab'],
   bousala: ['tab'],
@@ -37,13 +37,8 @@ export const MODULE_TAB_VALUES: Record<string, readonly string[]> = {
     'users',
     'translations',
     'financials',
-    'hr',
     'projects',
     'documents',
-    'system',
-    'reporting',
-    'notifications',
-    'advanced',
   ],
 };
 

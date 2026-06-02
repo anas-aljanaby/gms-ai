@@ -3,7 +3,7 @@ import ModalPortal from '../../common/ModalPortal';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import { useDropzone } from 'react-dropzone';
-import { XIcon, UploadCloud, User } from 'lucide-react';
+import { XIcon, UploadCloud } from 'lucide-react';
 import type { ContactPerson } from '../../../types';
 
 interface AddContactModalProps {
@@ -22,7 +22,6 @@ const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAd
     const [phone, setPhone] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [isPrimary, setIsPrimary] = useState(false);
-    const [permissions, setPermissions] = useState<string[]>([]);
     const [photo, setPhoto] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -75,7 +74,6 @@ const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAd
         setPhone('');
         setWhatsapp('');
         setIsPrimary(false);
-        setPermissions([]);
         setPhoto(null);
         setPhotoPreview(null);
         setErrors({});
@@ -135,16 +133,17 @@ const AddContactModal: React.FC<AddContactModalProps> = ({ isOpen, onClose, onAd
                              <label className="block text-sm font-medium">{t('institutional_donors.detail.form.whatsapp')}</label>
                             <input type="tel" value={whatsapp} onChange={e => setWhatsapp(e.target.value)} className="w-full p-2 mt-1 border rounded-md" />
                         </div>
-                         <div className="pt-4 border-t dark:border-slate-700">
-                             <h4 className="font-semibold">{t('institutional_donors.detail.form.permissions')}</h4>
-                             <p className="text-xs text-gray-500">{t('institutional_donors.detail.form.permissionsDesc')}</p>
-                             <div className="space-y-2 mt-2">
-                                <label className="flex items-center gap-2"><input type="checkbox" checked={isPrimary} onChange={e => setIsPrimary(e.target.checked)} className="w-4 h-4 text-primary rounded" /> {t('institutional_donors.detail.form.isPrimary')}</label>
-                                <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-primary rounded" /> {t('institutional_donors.detail.form.permViewProjects')}</label>
-                                <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-primary rounded" /> {t('institutional_donors.detail.form.permManageFinances')}</label>
-                                <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-primary rounded" /> {t('institutional_donors.detail.form.permApproveReports')}</label>
-                             </div>
-                         </div>
+                        <div className="pt-4 border-t dark:border-slate-700">
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={isPrimary}
+                                    onChange={e => setIsPrimary(e.target.checked)}
+                                    className="w-4 h-4 text-primary rounded"
+                                />
+                                {t('institutional_donors.detail.form.isPrimary')}
+                            </label>
+                        </div>
 
                     </div>
                     <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-xl flex justify-end gap-3 flex-shrink-0">

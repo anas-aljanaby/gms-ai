@@ -246,7 +246,7 @@ export const DonorProfileRoute: React.FC<{
 const DONOR_DETAIL_TABS = ['overview', 'giving', 'relationship', 'documents'] as const;
 
 const DonorDetailView: React.FC<DonorDetailViewProps> = ({ donor, onBack, onDonorUpdated, existingCountries = [] }) => {
-    const { t, language } = useLocalization(['common', 'individual_donors', 'donors', 'misc']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'individual_donors', 'donors', 'misc']);
     const toast = useToast();
     const queryClient = useQueryClient();
     const [editableDonor, setEditableDonor] = useState(donor);

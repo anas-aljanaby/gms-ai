@@ -1,12 +1,11 @@
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { OPTIMISTIC_HIGHLIGHT_MS, simulateLocalPersist } from '../../lib/optimisticSubmit';
-import { buildOptimisticInstitution, isOptimisticInstitution } from '../../lib/institutionOptimistic';
+import { OPTIMISTIC_HIGHLIGHT_MS } from '../../lib/optimisticSubmit';
 import { useLocalization } from '../../hooks/useLocalization';
 import { useToast } from '../../hooks/useToast';
 import { useTabParam } from '../../hooks/useTabParam';
-import { MOCK_INSTITUTIONAL_DONORS } from '../../data/institutionalDonorsData';
 import type { InstitutionalDonor, SortDirection, InstitutionType } from '../../types';
+import { useCreateInstitutionalDonor, useDeleteInstitutionalDonor, useInstitutionalDonors, useUpdateInstitutionalDonor } from '../../hooks/useInstitutionalDonors';
 import InstitutionalDonorsControls from './donors_institutional/InstitutionalDonorsControls';
 import AdvancedFilterPanelInstitutional, {
     DEFAULT_INSTITUTIONAL_DONOR_FILTERS,
@@ -21,7 +20,6 @@ import { useCountUp } from '../../hooks/useCountUp';
 import { formatCurrency, formatNumber } from '../../lib/utils';
 import { DollarSign, Filter, AlertTriangle, CalendarClock } from 'lucide-react';
 import PartnershipOpportunitiesTab from './donors_institutional/PartnershipOpportunitiesTab';
-import { clearDonorDocumentsCache } from './donors_institutional/DocumentsTab';
 
 // Add SpeechRecognition type definition
 interface SpeechRecognition extends EventTarget {
@@ -108,9 +106,12 @@ const SmartAnalyticsDashboard: React.FC<{donors: InstitutionalDonor[]}> = ({dono
 const INSTITUTIONAL_DONOR_VIEW_TABS = ['list', 'card', 'map', 'opportunities'] as const;
 
 const InstitutionalDonors: React.FC = () => {
-    const { t, language } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
     const toast = useToast();
-    const [donors, setDonors] = useState<InstitutionalDonor[]>(MOCK_INSTITUTIONAL_DONORS);
+    const { data: donors = [], isLoading, isError } = useInstitutionalDonors();
+    const createInstitution = useCreateInstitutionalDonor();
+    const updateInstitution = useUpdateInstitutionalDonor();
+    const deleteInstitution = useDeleteInstitutionalDonor();
     const [view, setView] = useTabParam('tab', 'list', INSTITUTIONAL_DONOR_VIEW_TABS);
     const [selectedDonor, setSelectedDonor] = useState<InstitutionalDonor | null>(null);
     const [filtersOpen, setFiltersOpen] = useState(false);
@@ -168,6 +169,15 @@ const InstitutionalDonors: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (!selectedDonor) return;
+        const latest = donors.find((donor) => donor.id === selectedDonor.id);
+        if (!latest) return;
+        if (latest !== selectedDonor) {
+            setSelectedDonor(latest);
+        }
+    }, [donors, selectedDonor]);
+
     const flashHighlight = useCallback((id: string) => {
         if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
         setHighlightedId(id);
@@ -205,12 +215,9 @@ const InstitutionalDonors: React.FC = () => {
     );
 
     const filteredAndSortedDonors = useMemo(() => {
-        const optimistic = donors.filter((d) => isOptimisticInstitution(d.id));
-        const rest = donors.filter((d) => !isOptimisticInstitution(d.id));
-
         const focusQuery = appliedFilters.grantFocusArea.trim().toLowerCase();
 
-        let filtered = rest.filter(donor => {
+        let filtered = donors.filter(donor => {
             const searchLower = searchTerm.toLowerCase();
             const orgName = pickLocalized(donor.organizationName);
             const matchesSearch = orgName.toLowerCase().includes(searchLower) ||
@@ -269,7 +276,7 @@ const InstitutionalDonors: React.FC = () => {
             return 0;
         });
 
-        return [...optimistic, ...filtered];
+        return filtered;
     }, [donors, searchTerm, appliedFilters, sortColumn, sortDirection, language]);
 
     const handleSort = useCallback((column: keyof InstitutionalDonor) => {
@@ -282,43 +289,87 @@ const InstitutionalDonors: React.FC = () => {
     }, [sortColumn]);
 
     const handleAddInstitution = async (newDonorData: Omit<InstitutionalDonor, 'id' | 'logo' | 'totalGrantsAwarded' | 'activeGrants' | 'nextDeadline' | 'lastContactDate' | 'assignedManager' | 'createdDate'>) => {
-        const optimistic = buildOptimisticInstitution(newDonorData);
-        const realCount = donors.filter((d) => !isOptimisticInstitution(d.id)).length;
-        setDonors(prev => [optimistic, ...prev]);
-
         try {
-            const created = await simulateLocalPersist((): InstitutionalDonor => ({
-                ...optimistic,
-                id: `G-${String(realCount + 1).padStart(5, '0')}`,
-            }));
-            setDonors(prev => prev.map(d => (d.id === optimistic.id ? created : d)));
+            const created = await createInstitution.mutateAsync({
+                name_en: newDonorData.organizationName.en.trim(),
+                name_ar: (newDonorData.organizationName.ar || newDonorData.organizationName.en).trim(),
+                type: newDonorData.type,
+                relationship_status: newDonorData.relationshipStatus,
+                priority: newDonorData.priority,
+                assigned_manager: 'Unassigned',
+                primary_contact_name: newDonorData.primaryContact.name.trim(),
+                primary_contact_email: newDonorData.primaryContact.email.trim(),
+                focus_areas: newDonorData.focusAreas,
+                geographic_focus: newDonorData.geographicFocus,
+                country: newDonorData.country.trim(),
+                custom_fields: {
+                    city: newDonorData.city || '',
+                    registration_number: newDonorData.registrationNumber || '',
+                    establishment_date: newDonorData.establishmentDate || null,
+                },
+            });
             flashHighlight(created.id);
             toast.showSuccess(t('institutional_donors.addInstitutionSuccess'));
         } catch {
-            setDonors(prev => prev.filter(d => d.id !== optimistic.id));
             toast.showError(t('institutional_donors.errors.generic'));
             throw new Error('add institution failed');
         }
     };
 
     const handleDonorUpdated = useCallback((updated: InstitutionalDonor) => {
-        setDonors((prev) => prev.map((d) => (d.id === updated.id ? updated : d)));
-        setSelectedDonor(updated);
-    }, []);
+        void updateInstitution.mutateAsync({
+            donorId: updated.id,
+            payload: {
+                relationship_status: updated.relationshipStatus,
+                priority: updated.priority,
+                assigned_manager: updated.assignedManager,
+                primary_contact_name: updated.primaryContact.name,
+                primary_contact_email: updated.primaryContact.email,
+                focus_areas: updated.focusAreas,
+                geographic_focus: updated.geographicFocus,
+                country: updated.country,
+                custom_fields: {
+                    city: updated.city || '',
+                    registration_number: updated.registrationNumber || '',
+                    establishment_date: updated.establishmentDate || null,
+                    phone: updated.phone || '',
+                    website: updated.website || '',
+                    address: updated.address || '',
+                    social_media: updated.socialMedia || {},
+                    coordinates: updated.coordinates || null,
+                    logo: updated.logo || '',
+                    last_contact_date: updated.lastContactDate || null,
+                },
+            },
+        }).then(() => {
+            setSelectedDonor(updated);
+        }).catch(() => {
+            toast.showError(t('institutional_donors.errors.generic'));
+        });
+    }, [t, toast, updateInstitution]);
 
     const handleDeleteInstitution = useCallback((donor: InstitutionalDonor) => {
-        if (isOptimisticInstitution(donor.id)) return;
         const orgName = pickLocalized(donor.organizationName);
         if (!window.confirm(t('institutional_donors.deleteInstitutionConfirm', { name: orgName }))) {
             return;
         }
-        setDonors((prev) => prev.filter((d) => d.id !== donor.id));
-        clearDonorDocumentsCache(donor.id);
-        if (selectedDonor?.id === donor.id) {
-            setSelectedDonor(null);
-        }
-        toast.showInfo(t('institutional_donors.institutionDeleted'));
-    }, [language, selectedDonor?.id, t, toast]);
+        void deleteInstitution.mutateAsync(donor.id).then(() => {
+            if (selectedDonor?.id === donor.id) {
+                setSelectedDonor(null);
+            }
+            toast.showInfo(t('institutional_donors.institutionDeleted'));
+        }).catch(() => {
+            toast.showError(t('institutional_donors.errors.generic'));
+        });
+    }, [deleteInstitution, selectedDonor?.id, t, toast]);
+
+    if (isLoading) {
+        return <div className="py-8 text-sm text-gray-500 dark:text-gray-400">{t('common.loading')}</div>;
+    }
+
+    if (isError) {
+        return <div className="py-8 text-sm text-red-500">{t('institutional_donors.errors.generic')}</div>;
+    }
 
     if (selectedDonor) {
         return (
@@ -326,6 +377,7 @@ const InstitutionalDonors: React.FC = () => {
                 donor={selectedDonor}
                 onBack={() => setSelectedDonor(null)}
                 onDonorUpdated={handleDonorUpdated}
+                onDeleteDonor={handleDeleteInstitution}
                 existingCountries={existingCountries}
             />
         );
@@ -375,10 +427,8 @@ const InstitutionalDonors: React.FC = () => {
                             donors={filteredAndSortedDonors}
                             highlightedId={highlightedId}
                             onDonorSelect={(donor) => {
-                                if (isOptimisticInstitution(donor.id)) return;
                                 setSelectedDonor(donor);
                             }}
-                            onDonorDelete={handleDeleteInstitution}
                             sortColumn={sortColumn}
                             sortDirection={sortDirection}
                             onSort={handleSort}
@@ -392,7 +442,6 @@ const InstitutionalDonors: React.FC = () => {
                                     donor={donor}
                                     highlighted={highlightedId === donor.id}
                                     onSelect={(d) => {
-                                        if (isOptimisticInstitution(d.id)) return;
                                         setSelectedDonor(d);
                                     }}
                                     onDelete={handleDeleteInstitution}

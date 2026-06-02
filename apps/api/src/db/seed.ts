@@ -154,6 +154,54 @@ const SEED_DONORS = [
 
 const SAMPLE_PROGRAMS = ['Education', 'Healthcare', 'Orphan Care', 'Water Projects', 'Emergency Relief', 'Ramadan Campaign'];
 
+const SEED_INSTITUTIONAL_DONORS = [
+    {
+        key: 'qatar_charity',
+        name_en: 'Qatar Charity',
+        name_ar: 'قطر الخيرية',
+        type: 'Foundation',
+        relationship_status: 'Active',
+        priority: 'High',
+        assigned_manager: 'Fatma Kaya',
+        primary_contact_name: 'Yousef Al-Kuwari',
+        primary_contact_email: 'info@qcharity.org',
+        focus_areas: ['Humanitarian Aid', 'Education'],
+        geographic_focus: ['Global'],
+        country: 'Qatar',
+        custom_fields: { city: 'Doha', registration_number: 'QC-REG-1992', website: 'https://www.qcharity.org' },
+    },
+    {
+        key: 'eda',
+        name_en: 'European Development Agency',
+        name_ar: 'وكالة التنمية الأوروبية',
+        type: 'Government',
+        relationship_status: 'Active',
+        priority: 'High',
+        assigned_manager: 'Ali Veli',
+        primary_contact_name: 'Sophie Dubois',
+        primary_contact_email: 's.dubois@eda.eu',
+        focus_areas: ['Humanitarian Aid', 'Refugee Support'],
+        geographic_focus: ['MENA', 'Eastern Europe'],
+        country: 'Belgium',
+        custom_fields: { city: 'Brussels', registration_number: 'EU-DA-54321' },
+    },
+    {
+        key: 'unicef',
+        name_en: 'UNICEF',
+        name_ar: 'اليونيسف',
+        type: 'Multilateral',
+        relationship_status: 'Active',
+        priority: 'High',
+        assigned_manager: 'System Admin',
+        primary_contact_name: 'Grants Division',
+        primary_contact_email: 'grants@unicef.org',
+        focus_areas: ['Child Protection', 'Education'],
+        geographic_focus: ['Global'],
+        country: 'USA',
+        custom_fields: { city: 'New York', website: 'https://www.unicef.org' },
+    },
+] as const;
+
 function randomDonations(donorId: string, orgId: string, count: number) {
     const rows = [];
     for (let i = 0; i < count; i++) {
@@ -183,6 +231,9 @@ async function reset() {
     await db.delete(schema.approval_items);
     await db.delete(schema.grant_installments);
     await db.delete(schema.grants);
+    await db.delete(schema.institutional_donor_documents);
+    await db.delete(schema.institutional_donor_contacts);
+    await db.delete(schema.institutional_donors);
     await db.delete(schema.disbursements);
     await db.delete(schema.budget_lines);
     await db.delete(schema.project_budgets);
@@ -218,7 +269,7 @@ async function reset() {
     console.log('All tables truncated.');
 }
 
-async function seedFinancials(orgId: string, requestedBy: string) {
+async function seedFinancials(orgId: string, requestedBy: string, institutionalDonorIds: Record<string, string>) {
     const now = new Date();
 
     const fundRows = await db.insert(schema.funds).values([
@@ -381,7 +432,7 @@ async function seedFinancials(orgId: string, requestedBy: string) {
         },
         {
             org_id: orgId,
-            donor_id: 'QA-001',
+            donor_id: institutionalDonorIds.qatar_charity,
             donor_name_en: 'Qatar Charity',
             donor_name_ar: 'قطر الخيرية',
             donor_type: 'institutional',
@@ -457,7 +508,7 @@ async function seedFinancials(orgId: string, requestedBy: string) {
 
     const [grant] = await db.insert(schema.grants).values({
         org_id: orgId,
-        grantor_id: 'QA-001',
+        grantor_id: institutionalDonorIds.qatar_charity,
         grantor_name: 'Qatar Charity',
         grant_number: 'QC-ALB-2024-001',
         title_en: 'Albania Islamic Center Construction Grant',
@@ -752,6 +803,17 @@ async function seed() {
         console.log(`  Donor: ${inserted.full_name_en} + ${donationCount} donations`);
     }
 
+    const institutionalDonorIdByKey: Record<string, string> = {};
+    for (const donor of SEED_INSTITUTIONAL_DONORS) {
+        const { key, ...values } = donor;
+        const [inserted] = await db
+            .insert(schema.institutional_donors)
+            .values({ org_id: org.id, ...values })
+            .returning();
+        institutionalDonorIdByKey[key] = inserted.id;
+        console.log(`  Institutional Donor: ${inserted.name_en}`);
+    }
+
     const resolveSponsorshipDonorId = (raw: unknown): string | undefined => {
         if (raw == null) return undefined;
         if (raw === 'DN-001') return seededDonorIds[0];
@@ -793,7 +855,7 @@ async function seed() {
         console.log(`  Stakeholder: ${label} (${inserted.type})`);
     }
 
-    await seedFinancials(org.id, userEmail);
+    await seedFinancials(org.id, userEmail, institutionalDonorIdByKey);
 
     console.log('\nSeed complete.');
 }

@@ -56,6 +56,15 @@
       "alerts": {
         "title": "يتطلب الانتباه",
         "empty": "كل شيء على ما يرام — لا شيء يتطلب انتباهك."
+      },
+      "quickActions": {
+        "title": "إجراءات سريعة",
+        "recordDonation": "تسجيل تبرع",
+        "addProject": "مشروع جديد",
+        "addBeneficiary": "إضافة مستفيد",
+        "manageDonors": "إدارة المانحين",
+        "openBousala": "فتح البوصلة",
+        "viewReports": "عرض التقارير"
       }
     },
     "favoriteReport": {

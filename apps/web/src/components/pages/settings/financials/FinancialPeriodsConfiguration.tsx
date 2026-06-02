@@ -4,13 +4,11 @@ import { MOCK_FISCAL_YEAR_2024 } from '../../../../data/financialData';
 import type { FinancialPeriod, FinancialPeriodStatus } from '../../../../types';
 import { formatDate } from '../../../../lib/utils';
 import { MoreHorizontalIcon } from '../../../icons/GenericIcons';
-import { ListIcon, CalendarIcon, LockIcon, UnlockIcon, CheckSquareIcon, UndoIcon } from '../../../icons/ActionIcons';
+import { LockIcon, UnlockIcon, CheckSquareIcon, UndoIcon } from '../../../icons/ActionIcons';
 
 const FinancialPeriodsConfiguration: React.FC = () => {
     const { t, language, pickLocalized } = useLocalization();
-    const [periods, setPeriods] = useState<FinancialPeriod[]>(MOCK_FISCAL_YEAR_2024);
-    const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
-    const [fiscalYearExists, setFiscalYearExists] = useState(true); // Control between setup and dashboard
+    const [periods] = useState<FinancialPeriod[]>(MOCK_FISCAL_YEAR_2024);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -105,10 +103,6 @@ const FinancialPeriodsConfiguration: React.FC = () => {
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="p-1 bg-gray-200 dark:bg-slate-700 rounded-lg flex">
-                            <button onClick={() => setViewMode('list')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-slate-800 shadow' : ''}`}><ListIcon/></button>
-                            <button onClick={() => setViewMode('calendar')} className={`px-3 py-1 text-sm font-semibold rounded-md transition-colors ${viewMode === 'calendar' ? 'bg-white dark:bg-slate-800 shadow' : ''}`}><CalendarIcon/></button>
-                        </div>
                         <button disabled={!openPeriod} className="px-4 py-2 text-sm font-semibold text-white bg-secondary hover:bg-secondary-dark rounded-lg transition-colors disabled:bg-gray-300 dark:disabled:bg-slate-600 disabled:cursor-not-allowed">
                             {t('financialSettings.periods.dashboard.closePeriod')}
                         </button>
@@ -116,11 +110,7 @@ const FinancialPeriodsConfiguration: React.FC = () => {
                 </div>
             </div>
 
-            {viewMode === 'list' ? renderPeriodList() : (
-                <div className="text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-soft">
-                    <p>{t('financialSettings.periods.calendarUnderConstruction')}</p>
-                </div>
-            )}
+            {renderPeriodList()}
 
         </div>
     );

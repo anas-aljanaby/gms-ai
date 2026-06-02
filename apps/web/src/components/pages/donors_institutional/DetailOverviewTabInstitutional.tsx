@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import type { InstitutionalDonor, GrantmakerRelationshipStatus, PriorityLevel } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
-import { simulateLocalPersist } from '../../../lib/optimisticSubmit';
 import { formatCurrency, formatDate, formatNumber, formatRelativeTime } from '../../../lib/utils';
 import { Building2, CalendarClock, CircleDollarSign, Flag, Globe2, Handshake, MapPin, Pencil, Sparkles, UserRound, WalletCards, X, Check } from 'lucide-react';
 import CountryCombobox from '../../common/CountryCombobox';
@@ -185,7 +184,7 @@ const EditActions: React.FC<{
 const fieldClass = 'mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold dark:border-slate-600 dark:bg-slate-900';
 
 const DetailOverviewTabInstitutional: React.FC<DetailOverviewTabInstitutionalProps> = ({ donor, onDonorUpdated, existingCountries = [] }) => {
-    const { t, language } = useLocalization(['common', 'institutional_donors']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors']);
     const toast = useToast();
 
     const [editingRelationship, setEditingRelationship] = useState(false);
@@ -224,9 +223,8 @@ const DetailOverviewTabInstitutional: React.FC<DetailOverviewTabInstitutionalPro
 
     const persistDonor = async (patch: Partial<InstitutionalDonor>) => {
         const updated: InstitutionalDonor = { ...donor, ...patch };
-        const saved = await simulateLocalPersist(() => updated);
-        onDonorUpdated?.(saved);
-        return saved;
+        onDonorUpdated?.(updated);
+        return updated;
     };
 
     const handleSaveRelationship = async () => {

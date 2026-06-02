@@ -14,13 +14,8 @@ import {
     UsersSettingsIcon,
     LanguagesIcon,
     FinancialsSettingsIcon,
-    HrSettingsIcon,
     ProjectsSettingsIcon,
     DocumentsIcon,
-    SystemIcon,
-    ReportingIcon,
-    NotificationsIcon,
-    AdvancedIcon
 } from '../icons/SettingsIcons';
 
 
@@ -34,13 +29,8 @@ const SETTINGS_TABS: readonly SettingsCategory[] = [
     'users',
     'translations',
     'financials',
-    'hr',
     'projects',
     'documents',
-    'system',
-    'reporting',
-    'notifications',
-    'advanced',
 ];
 
 const SettingsPage: React.FC<SettingsPageProps> = ({ enabledLanguages, onEnabledLanguagesChange }) => {
@@ -52,13 +42,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ enabledLanguages, onEnabled
         { id: 'users', icon: UsersSettingsIcon },
         { id: 'translations', icon: LanguagesIcon },
         { id: 'financials', icon: FinancialsSettingsIcon },
-        { id: 'hr', icon: HrSettingsIcon },
         { id: 'projects', icon: ProjectsSettingsIcon },
         { id: 'documents', icon: DocumentsIcon },
-        { id: 'system', icon: SystemIcon },
-        { id: 'reporting', icon: ReportingIcon },
-        { id: 'notifications', icon: NotificationsIcon },
-        { id: 'advanced', icon: AdvancedIcon },
     ];
 
     const renderActiveCategory = () => {
@@ -75,14 +60,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ enabledLanguages, onEnabled
                 return <DocumentSettings />;
             case 'projects':
                 return <ProgramSettings />;
-            default:
-                return (
-                     <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-card dark:bg-dark-card rounded-2xl shadow-soft">
-                        <div className="text-6xl mb-4">🚧</div>
-                        <h2 className="text-2xl font-bold mb-2">{t(`settings.categories.${activeCategory}`)}</h2>
-                        <p>{t('placeholder.underConstruction')}</p>
-                    </div>
-                );
         }
     };
     

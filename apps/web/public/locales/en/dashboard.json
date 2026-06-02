@@ -56,6 +56,15 @@
       "alerts": {
         "title": "Needs Attention",
         "empty": "All clear — nothing needs your attention."
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "recordDonation": "Record Donation",
+        "addProject": "New Project",
+        "addBeneficiary": "Add Beneficiary",
+        "manageDonors": "Manage Donors",
+        "openBousala": "Open Bousala",
+        "viewReports": "View Reports"
       }
     },
     "favoriteReport": {

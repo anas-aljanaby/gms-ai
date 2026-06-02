@@ -7,13 +7,8 @@
       "users": "Users & Access",
       "translations": "Translation Management",
       "financials": "Financial Settings",
-      "hr": "HR",
       "projects": "Program Settings",
-      "documents": "Documents",
-      "system": "System",
-      "reporting": "Reporting",
-      "notifications": "Notifications",
-      "advanced": "Advanced"
+      "documents": "Documents"
     },
     "organization": {
       "profileTitle": "Organization Profile",
@@ -103,14 +98,14 @@
       },
       "types": {
         "title": "Document Type Configuration",
-        "desc": "Define and manage document types.",
-        "placeholder": "Document type configuration content."
+        "desc": "Define the document types used across donor, project, finance, and policy records."
       },
       "templates": {
         "title": "Folder Template Configuration",
-        "desc": "Standardize folder structures across modules.",
-        "placeholder": "Folder template configuration content."
+        "desc": "Standardize folder structures for new project workspaces."
       },
+      "editType": "Edit document type",
+      "editTemplate": "Edit folder template",
       "metadata": {
         "title": "Metadata Tags",
         "desc": "Manage reusable metadata tags.",
@@ -120,7 +115,18 @@
       "versioning": {
         "title": "Versioning and Retention",
         "desc": "Configure version and retention rules.",
-        "placeholder": "Versioning and retention configuration content."
+        "policy": "Policy",
+        "appliesTo": "Applies To",
+        "retention": "Retention",
+        "endOfLifeAction": "End of Life",
+        "enabled": "Enabled",
+        "allDocuments": "All documents",
+        "years": "{{count}} years",
+        "actions": {
+          "archive": "Archive",
+          "delete": "Delete",
+          "review": "Review"
+        }
       }
     },
     "programSettings": {
@@ -130,22 +136,30 @@
         "geography": "Geography",
         "beneficiaries": "Beneficiaries",
         "lifecycle": "Lifecycle",
-        "frameworks": "Frameworks",
-        "indicators": "Indicators"
+        "frameworks": "Frameworks"
       },
       "structure": {
         "categoriesTitle": "Program Categories",
-        "categoriesDesc": "Manage program category taxonomy.",
-        "placeholder": "Manage program categories..."
+        "categoriesDesc": "Manage the program categories used when creating and reporting on projects."
+      },
+      "geography": {
+        "title": "Operating Geography",
+        "desc": "Maintain the country, province, and district hierarchy used by projects and beneficiaries.",
+        "childCount": "{{count}} locations",
+        "leaf": "No child locations"
+      },
+      "beneficiaries": {
+        "title": "Beneficiary Groups",
+        "desc": "Manage the primary groups used for program targeting and impact reporting."
       },
       "lifecycle": {
         "title": "Project Lifecycle",
-        "desc": "Define lifecycle stages and transitions.",
-        "placeholder": "Define project lifecycle stages..."
+        "desc": "Define the stages projects move through from proposal to closure."
       },
       "frameworks": {
         "sdgTitle": "SDG Mapping",
-        "sdgDesc": "Map program outcomes to SDGs."
+        "sdgDesc": "Choose which Sustainable Development Goals are available for project alignment.",
+        "enableSdg": "Available for projects"
       }
     }
   },
@@ -155,7 +169,6 @@
     "financialPeriods": "Financial Periods",
     "approvalWorkflows": "Approval Workflows",
     "bankingAndPayments": "Banking and Payments",
-    "taxAndCompliance": "Tax and Compliance",
     "coa": {
       "title": "Chart of Accounts Configuration",
       "templatesTitle": "COA Templates",
@@ -204,8 +217,7 @@
         "currentOpen": "Current open period",
         "noOpenPeriod": "No open period",
         "closePeriod": "Close Current Period"
-      },
-      "calendarUnderConstruction": "Calendar view is under construction."
+      }
     },
     "workflows": {
       "title": "Approval Workflows",

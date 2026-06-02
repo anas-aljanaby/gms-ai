@@ -2,46 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { formatCurrency } from '../../../lib/utils';
 import type { InstitutionalDonor, Project, ProjectType } from '../../../types';
+import { useInstitutionalDonorGrants } from '../../../hooks/useInstitutionalDonors';
+// TODO: Replace MOCK_PROJECTS with the Projects API once the Projects module is activated.
 import { MOCK_PROJECTS } from '../../../data/projectData';
-
-interface Grant {
-  id: string;
-  date: string;
-  amount: number;
-  currency: 'USD' | 'EUR' | 'TRY';
-  type: 'Restricted' | 'Unrestricted';
-  projectBeneficiary: string;
-  status: 'Paid' | 'Pending' | 'Scheduled';
-  attachmentUrl?: string;
-}
-
-const mockGrants: Grant[] = [
-    { id: 'GR-01', date: '2024-06-01T00:00:00Z', amount: 50000, currency: 'USD', type: 'Restricted', projectBeneficiary: 'Clean Water Initiative for Rural Villages', status: 'Paid'},
-    { id: 'GR-02', date: '2023-11-15T00:00:00Z', amount: 100000, currency: 'USD', type: 'Restricted', projectBeneficiary: 'Education for All', status: 'Paid'},
-    { id: 'GR-04', date: '2024-09-01T00:00:00Z', amount: 125000, currency: 'USD', type: 'Restricted', projectBeneficiary: "Rise Aleppo: Women's Empowerment through Vocational Training, Entrepreneurship and Traditional Crafts", status: 'Scheduled' },
-    { id: 'GR-03', date: '2023-05-20T00:00:00Z', amount: 250000, currency: 'USD', type: 'Restricted', projectBeneficiary: 'Emergency Food Aid for Conflict Zones', status: 'Paid'},
-];
-
-/** PLACEHOLDER: Replace with grants API when institutional donors backend is activated. */
-const GRANT_IDS_BY_DONOR: Record<string, string[]> = {
-    'G-00123': ['GR-01', 'GR-02'],
-    'G-00301': ['GR-01', 'GR-04'],
-    'UN-001': ['GR-02', 'GR-03'],
-    'UN-002': ['GR-03'],
-    'QA-001': ['GR-03', 'GR-04'],
-};
-
-function grantsForDonor(donor: InstitutionalDonor): Grant[] {
-    const explicit = GRANT_IDS_BY_DONOR[donor.id];
-    if (explicit) {
-        return mockGrants.filter((grant) => explicit.includes(grant.id));
-    }
-    if (donor.activeGrants <= 0) {
-        return [];
-    }
-    const count = Math.min(donor.activeGrants, mockGrants.length);
-    return mockGrants.slice(0, count);
-}
 
 const FILTER_ALL = 'all';
 
@@ -51,7 +14,7 @@ interface GrantsTabProps {
 
 const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
     const { t, language, pickLocalized } = useLocalization(['common', 'institutional_donors', 'projects']);
-    const donorGrants = useMemo(() => grantsForDonor(donor), [donor]);
+    const { data: donorGrants = [], isLoading } = useInstitutionalDonorGrants(donor.id);
 
     const [filters, setFilters] = useState({
         status: FILTER_ALL,
@@ -96,11 +59,11 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
 
     const allSponsoredProjects = useMemo(() => {
         return donorGrants.map(grant => {
-            const project = MOCK_PROJECTS.find(p => p.name.en === grant.projectBeneficiary);
+            const project = MOCK_PROJECTS.find(p => p.name.en === grant.project_beneficiary);
             if (project) {
                 return { project, grant };
             }
-            if (grant.projectBeneficiary === 'Education for All') {
+            if (grant.project_beneficiary === 'Education for All') {
                  return {
                     grant,
                     project: {
@@ -123,7 +86,7 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
             if (filters.sector !== FILTER_ALL && project.type !== filters.sector) {
                 return false;
             }
-            if (filters.year !== FILTER_ALL && new Date(grant.date).getFullYear().toString() !== filters.year) {
+            if (filters.year !== FILTER_ALL && (!grant.date || new Date(grant.date).getFullYear().toString() !== filters.year)) {
                 return false;
             }
             if (filters.amount !== FILTER_ALL) {
@@ -138,7 +101,14 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
     }, [allSponsoredProjects, filters, t]);
 
     const sectorOptions = useMemo(() => Array.from(new Set(allSponsoredProjects.map(p => p.project.type).filter(Boolean))) as ProjectType[], [allSponsoredProjects]);
-    const yearOptions = useMemo(() => Array.from(new Set(donorGrants.map(g => new Date(g.date).getFullYear().toString()))).sort((a, b) => Number(b) - Number(a)), [donorGrants]);
+    const yearOptions = useMemo(
+        () => Array.from(new Set(donorGrants.filter((g) => !!g.date).map((g) => new Date(g.date as string).getFullYear().toString()))).sort((a, b) => Number(b) - Number(a)),
+        [donorGrants],
+    );
+
+    if (isLoading) {
+        return <div className="text-sm text-gray-500 dark:text-gray-400">{t('common.loading')}</div>;
+    }
 
     if (donorGrants.length === 0) {
         return (
@@ -192,7 +162,7 @@ const GrantsTab: React.FC<GrantsTabProps> = ({ donor }) => {
                         <h4 className="font-bold text-lg text-foreground dark:text-dark-foreground h-14 overflow-hidden">{pickLocalized(project.name)}</h4>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 h-16 overflow-hidden">{project.goal}</p>
                         <div className="project-stats mt-4 pt-4 border-t dark:border-slate-700 flex justify-between items-center text-sm">
-                            <span className="font-semibold text-foreground dark:text-dark-foreground">{formatCurrency(grant.amount, language, grant.currency)}</span>
+                            <span className="font-semibold text-foreground dark:text-dark-foreground">{formatCurrency(grant.amount, language, grant.currency as 'USD' | 'EUR' | 'TRY')}</span>
                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(project.stage)}`}>
                                 {getProjectStatusText(project.stage)}
                             </span>

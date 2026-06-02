@@ -686,13 +686,8 @@ export type SettingsCategory =
     | 'users'
     | 'translations'
     | 'financials'
-    | 'hr'
     | 'projects'
-    | 'documents'
-    | 'system'
-    | 'reporting'
-    | 'notifications'
-    | 'advanced';
+    | 'documents';
 
 export type UserStatus = 'Active' | 'Invited' | 'Deactivated';
 
@@ -720,7 +715,7 @@ export interface AppRole {
     permissions: RolePermissions;
 }
 
-export type FinancialSettingsCategory = 'chartOfAccounts' | 'financialPeriods' | 'approvalWorkflows' | 'bankingAndPayments' | 'taxAndCompliance';
+export type FinancialSettingsCategory = 'chartOfAccounts' | 'financialPeriods' | 'approvalWorkflows' | 'bankingAndPayments';
 
 export type COATemplate = 'ifrs' | 'aaoifi' | 'hybrid' | 'custom';
 export type FinancialPeriodStatus = 'Future' | 'Open' | 'Soft-Closed' | 'Hard-Closed';
@@ -784,7 +779,7 @@ export interface DocumentType { id: string; name: Record<Language, string>; icon
 export interface FolderTemplate { id: string; name: Record<Language, string>; description: Record<Language, string>; structure: any; }
 export interface MetadataTag { id: string; name: string; color: string; }
 export interface RetentionPolicy { id: string; name: string; appliesTo: any; durationYears: number; endOfLifeAction: 'archive' | 'delete' | 'review'; isEnabled: boolean; }
-export type ProgramSettingsSubCategory = 'structure' | 'geography' | 'beneficiaries' | 'lifecycle' | 'frameworks' | 'indicators';
+export type ProgramSettingsSubCategory = 'structure' | 'geography' | 'beneficiaries' | 'lifecycle' | 'frameworks';
 export interface ProgramCategory { id: string; name: Record<Language, string>; description: Record<Language, string>; icon: string; color: string; }
 export interface ProjectLifecycleStage { id: string; name: Record<Language, string>; order: number; description: Record<Language, string>; }
 export interface ProjectClassification { id: string; name: Record<Language, string>; description: Record<Language, string>; }

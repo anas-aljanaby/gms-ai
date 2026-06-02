@@ -3,7 +3,6 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import type { InstitutionalDonor, GrantmakerRelationshipStatus, PriorityLevel, SortDirection } from '../../../types';
 import { formatDate, formatCurrency } from '../../../lib/utils';
 import { ChevronDownIcon } from '../../icons/GenericIcons';
-import { Eye, Trash2 } from 'lucide-react';
 import { isOptimisticInstitution } from '../../../lib/institutionOptimistic';
 import { formatInstitutionalCountry } from './countryDisplay';
 
@@ -11,13 +10,12 @@ interface InstitutionalDonorsTableProps {
     donors: InstitutionalDonor[];
     highlightedId?: string | null;
     onDonorSelect: (donor: InstitutionalDonor) => void;
-    onDonorDelete?: (donor: InstitutionalDonor) => void;
     sortColumn: keyof InstitutionalDonor | null;
     sortDirection: SortDirection;
     onSort: (column: keyof InstitutionalDonor) => void;
 }
 
-const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ donors, highlightedId = null, onDonorSelect, onDonorDelete, sortColumn, sortDirection, onSort }) => {
+const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ donors, highlightedId = null, onDonorSelect, sortColumn, sortDirection, onSort }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
 
     const SortableHeader: React.FC<{ column: keyof InstitutionalDonor, labelKey: string, className?: string }> = ({ column, labelKey, className }) => (
@@ -65,7 +63,6 @@ const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ don
                             <SortableHeader column="relationshipStatus" labelKey="institutional_donors.columns.status" />
                             <SortableHeader column="focusAreas" labelKey="institutional_donors.columns.focus" />
                             <SortableHeader column="priority" labelKey="institutional_donors.columns.priority" />
-                            <th scope="col" className="px-4 py-3 text-end">{t('institutional_donors.columns.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,34 +110,6 @@ const InstitutionalDonorsTable: React.FC<InstitutionalDonorsTableProps> = ({ don
                                     </div>
                                 </td>
                                 <td className="px-4 py-4"><PriorityBadge priority={donor.priority} /></td>
-                                <td className="px-4 py-4 text-end">
-                                    {optimistic ? (
-                                        <span className="text-xs text-gray-400">—</span>
-                                    ) : (
-                                        <div className="flex items-center justify-end gap-1">
-                                            <button
-                                                type="button"
-                                                onClick={() => onDonorSelect(donor)}
-                                                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300"
-                                                title={t('institutional_donors.card.viewProfile')}
-                                                aria-label={t('institutional_donors.card.viewProfile')}
-                                            >
-                                                <Eye size={16} />
-                                            </button>
-                                            {onDonorDelete && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => onDonorDelete(donor)}
-                                                    className="p-2 rounded-full hover:bg-red-100 text-red-600 dark:hover:bg-red-900/30"
-                                                    title={t('institutional_donors.deleteInstitution')}
-                                                    aria-label={t('institutional_donors.deleteInstitution')}
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            )}
-                                        </div>
-                                    )}
-                                </td>
                             </tr>
                         );
                         })}

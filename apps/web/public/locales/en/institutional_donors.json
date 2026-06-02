@@ -267,12 +267,7 @@
         "phone": "Phone",
         "whatsapp": "WhatsApp",
         "profilePicture": "Profile Picture URL",
-        "isPrimary": "Primary Contact",
-        "permissions": "Permissions",
-        "permissionsDesc": "Select access rights for this contact.",
-        "permViewProjects": "View Projects",
-        "permManageFinances": "Manage Finances",
-        "permApproveReports": "Approve Reports"
+        "isPrimary": "Primary Contact"
       }
     }
   }

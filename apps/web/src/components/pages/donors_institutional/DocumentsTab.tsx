@@ -4,6 +4,7 @@ import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
 import { useDropzone } from 'react-dropzone';
 import type { InstitutionalDonor } from '../../../types';
+import { useDeleteInstitutionalDonorDocument, useInstitutionalDonorDocuments, useUploadInstitutionalDonorDocument } from '../../../hooks/useInstitutionalDonors';
 import { Upload, FolderPlus, Trash2, Download, X as XIcon, Eye } from 'lucide-react';
 import { PdfIcon, WordIcon, ImageIcon, VideoIcon, FileIcon as GenericFileIcon, FolderIcon } from '../../icons/FiletypeIcons';
 import { formatDate } from '../../../lib/utils';
@@ -52,38 +53,10 @@ const CATEGORY_LABEL_KEYS: Record<DocumentCategoryId, string> = {
     projectReports: 'institutional_donors.documentsTab.categoryProjectReports',
 };
 
-const initialDocuments: DocumentItem[] = [
-    { id: 'folder1', name: 'Legal Documents', category: 'legal', date: '2022-08-10', size: '--', type: 'folder' },
-    { id: 'doc1', name: 'Partnership Agreement 2024.pdf', category: 'agreements', date: '2024-01-15', size: '2.5 MB', type: 'pdf' },
-    { id: 'doc2', name: 'Annual Report 2023.pdf', category: 'annualReports', date: '2024-02-01', size: '15.2 MB', type: 'pdf' },
-    { id: 'doc4', name: 'Water Project Correspondence.docx', category: 'correspondence', date: '2024-05-20', size: '1.1 MB', type: 'docx' },
-    { id: 'doc5', name: 'Signing Ceremony.jpg', category: 'media', date: '2024-01-16', size: '4.8 MB', type: 'jpg' },
-    { id: 'doc6', name: 'Institutional Overview.mp4', category: 'media', date: '2023-11-10', size: '58.4 MB', type: 'mp4' },
-];
-
-/** PLACEHOLDER: Replace with institutional donor documents API when backend is activated. */
-const DONORS_WITH_SEED_DOCUMENTS = new Set(['G-00123', 'G-00301', 'UN-001', 'QA-001']);
-const donorDocumentsCache = new Map<string, DocumentItem[]>();
-
-function seedDocumentsForDonor(donorId: string): DocumentItem[] {
-    if (!DONORS_WITH_SEED_DOCUMENTS.has(donorId)) {
-        return [];
-    }
-    return initialDocuments.map((doc) => ({
-        ...doc,
-        id: `${donorId}-${doc.id}`,
-    }));
-}
-
-function loadDocumentsForDonor(donorId: string): DocumentItem[] {
-    if (!donorDocumentsCache.has(donorId)) {
-        donorDocumentsCache.set(donorId, seedDocumentsForDonor(donorId));
-    }
-    return [...(donorDocumentsCache.get(donorId) ?? [])];
-}
-
-export function clearDonorDocumentsCache(donorId: string) {
-    donorDocumentsCache.delete(donorId);
+function parseDocumentType(filename: string): DocumentType {
+    const extension = filename.split('.').pop()?.toLowerCase() || 'generic';
+    if (['pdf', 'docx', 'jpg', 'mp4'].includes(extension)) return extension as DocumentType;
+    return 'generic';
 }
 
 const getFileIcon = (type: DocumentType) => {
@@ -150,41 +123,36 @@ interface DocumentsTabProps {
 const DocumentsTab: React.FC<DocumentsTabProps> = ({ donor }) => {
     const { t, language } = useLocalization(['common', 'institutional_donors']);
     const toast = useToast();
-    const [documents, setDocuments] = useState<DocumentItem[]>(() => loadDocumentsForDonor(donor.id));
+    const { data: apiDocuments = [], isLoading } = useInstitutionalDonorDocuments(donor.id);
+    const uploadDocument = useUploadInstitutionalDonorDocument(donor.id);
+    const deleteDocument = useDeleteInstitutionalDonorDocument(donor.id);
     const [selectedCategory, setSelectedCategory] = useState<DocumentCategoryId>('all');
     const [previewItem, setPreviewItem] = useState<DocumentItem | null>(null);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
     useEffect(() => {
-        setDocuments(loadDocumentsForDonor(donor.id));
         setSelectedCategory('all');
         setPreviewItem(null);
         setSelectedIds(new Set());
     }, [donor.id]);
 
-    useEffect(() => {
-        donorDocumentsCache.set(donor.id, documents);
-    }, [donor.id, documents]);
+    const documents = useMemo<DocumentItem[]>(() => apiDocuments.map((doc) => ({
+        id: doc.id,
+        name: doc.filename,
+        category: 'correspondence',
+        date: doc.uploaded_at || new Date().toISOString(),
+        size: doc.size_bytes ? `${(doc.size_bytes / 1024 / 1024).toFixed(2)} MB` : '--',
+        type: parseDocumentType(doc.filename),
+    })), [apiDocuments]);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        const newFiles: DocumentItem[] = acceptedFiles.map(file => {
-            const extension = file.name.split('.').pop()?.toLowerCase() || 'generic';
-            let type: DocumentType = 'generic';
-            if (['pdf', 'docx', 'jpg', 'mp4'].includes(extension)) {
-                type = extension as DocumentType;
-            }
-            return {
-                id: `${donor.id}-file-${Date.now()}-${Math.random()}`,
-                name: file.name,
-                category: selectedCategory === 'all' ? 'correspondence' : selectedCategory,
-                date: new Date().toISOString(),
-                size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-                type: type,
-                file: file,
-            };
-        });
-        setDocuments(prev => [...newFiles, ...prev]);
-        toast.showSuccess(t('institutional_donors.documentsTab.uploadSuccess', { count: newFiles.length }));
+        Promise.all(acceptedFiles.map((file) => uploadDocument.mutateAsync({ file })))
+            .then(() => {
+                toast.showSuccess(t('institutional_donors.documentsTab.uploadSuccess', { count: acceptedFiles.length }));
+            })
+            .catch(() => {
+                toast.showError(t('institutional_donors.errors.generic'));
+            });
     }, [donor.id, selectedCategory, toast, t]);
 
     const { getRootProps, getInputProps, open, isDragActive } = useDropzone({ onDrop, noClick: true, noKeyboard: true });
@@ -201,29 +169,27 @@ const DocumentsTab: React.FC<DocumentsTabProps> = ({ donor }) => {
                 size: '--',
                 type: 'folder'
             };
-            setDocuments(prev => [newFolder, ...prev]);
-            toast.showSuccess(t('institutional_donors.documentsTab.folderCreated', { name: folderName.trim() }));
+            toast.showInfo(t('institutional_donors.documentsTab.folderCreated', { name: newFolder.name }));
         }
     }, [donor.id, selectedCategory, toast, t]);
 
     const handleDelete = (id: string) => {
         if (window.confirm(t('institutional_donors.documentsTab.deleteConfirm'))) {
-            setDocuments(prev => prev.filter(doc => doc.id !== id));
-            toast.showInfo(t('institutional_donors.documentsTab.deleteSuccess'));
+            void deleteDocument.mutateAsync(id).then(() => {
+                toast.showInfo(t('institutional_donors.documentsTab.deleteSuccess'));
+            }).catch(() => {
+                toast.showError(t('institutional_donors.errors.generic'));
+            });
         }
     };
     
     const handleDownload = (item: DocumentItem) => {
-        if (item.file) {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(item.file);
-            link.download = item.name;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } else {
+        const doc = apiDocuments.find((d) => d.id === item.id);
+        if (!doc?.file_url) {
             toast.showWarning(t('institutional_donors.documentsTab.mockDownloadWarning'));
+            return;
         }
+        window.open(doc.file_url, '_blank', 'noopener,noreferrer');
     };
 
     const handleSelect = (id: string) => {
@@ -251,6 +217,10 @@ const DocumentsTab: React.FC<DocumentsTabProps> = ({ donor }) => {
             selectedCategory === 'all' || doc.category === selectedCategory
         ).sort((a,b) => (a.type === 'folder' ? -1 : 1) - (b.type === 'folder' ? -1 : 1));
     }, [documents, selectedCategory]);
+
+    if (isLoading) {
+        return <div className="text-sm text-gray-500 dark:text-gray-400">{t('common.loading')}</div>;
+    }
 
     return (
         <div {...getRootProps({ className: `flex flex-col md:flex-row gap-6 relative transition-colors ${isDragActive ? 'bg-blue-50' : ''}` })}>
