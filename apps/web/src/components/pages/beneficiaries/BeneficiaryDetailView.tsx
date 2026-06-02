@@ -95,7 +95,7 @@ export const BeneficiaryProfileRoute: React.FC<{
     existingCountries?: string[];
     initialTab?: string;
 }> = ({ beneficiaryId, beneficiaries, isLoading, onBack, onUpdate, projects, existingCountries, initialTab }) => {
-    const { t, pickLocalized } = useLocalization(['common', 'beneficiaries']);
+    const { t } = useLocalization(['common', 'beneficiaries']);
 
     if (isLoading) {
         return (
@@ -125,7 +125,7 @@ export const BeneficiaryProfileRoute: React.FC<{
 };
 
 const BeneficiaryDetailView: React.FC<BeneficiaryDetailViewProps> = ({ beneficiary, onBack, onUpdate, projects, existingCountries, initialTab }) => {
-    const { t, language } = useLocalization(['common', 'beneficiaries']);
+    const { t, language, pickLocalized } = useLocalization(['common', 'beneficiaries']);
     const tabIds = TAB_CONFIG[beneficiary.beneficiaryType] || TAB_CONFIG.student;
     const [activeTab, setActiveTab] = useTabParam('tab', 'overview', tabIds);
 

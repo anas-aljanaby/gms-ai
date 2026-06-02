@@ -127,7 +127,7 @@ const ChipList: React.FC<{ items: string[]; emptyText: string; tone?: React.Comp
 };
 
 const StatusBadge: React.FC<{ status: GrantmakerRelationshipStatus }> = ({ status }) => {
-    const { t, pickLocalized } = useLocalization(['institutional_donors']);
+    const { t } = useLocalization(['institutional_donors']);
     const tones: Record<GrantmakerRelationshipStatus, React.ComponentProps<typeof Chip>['tone']> = {
         Cold: 'neutral',
         Prospect: 'blue',

@@ -127,7 +127,7 @@ const LoadingProfile = () => (
 );
 
 const DonorDocumentsTab: React.FC<{ donor: IndividualDonor; onChanged: () => void }> = ({ donor, onChanged }) => {
-    const { t, language, pickLocalized } = useLocalization(['common', 'individual_donors']);
+    const { t, language } = useLocalization(['common', 'individual_donors']);
     const toast = useToast();
     const queryClient = useQueryClient();
     const [label, setLabel] = useState('');

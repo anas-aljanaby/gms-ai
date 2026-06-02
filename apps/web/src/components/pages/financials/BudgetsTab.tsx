@@ -19,7 +19,7 @@ import {
 } from 'recharts';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
-import { pickLocalizedText, formatCurrency , pickLocalizedText} from '../../../lib/utils';
+import { pickLocalizedText, formatCurrency } from '../../../lib/utils';
 import StatusBadge from './shared/StatusBadge';
 import FinancialKpiCard from './shared/FinancialKpiCard';
 import DataTable, { type Column } from './shared/DataTable';

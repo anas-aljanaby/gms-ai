@@ -15,7 +15,7 @@ const FUND_TYPE_BADGE_CLASSES: Record<FundType, string> = {
 };
 
 const GrantsFundsTab: React.FC = () => {
-  const { t, language, pickLocalized } = useLocalization();
+  const { t, language } = useLocalization();
   const { showSuccess, showError } = useToast();
   const { data: funds = [] } = useFunds();
   const { data: grants = [] } = useGrants();
@@ -125,6 +125,7 @@ interface FundCardProps {
 }
 
 const FundCard: React.FC<FundCardProps> = ({ fund, language, t }) => {
+  const { pickLocalized } = useLocalization();
   const utilizationPercent =
     fund.totalReceived > 0
       ? Math.min((fund.totalSpent / fund.totalReceived) * 100, 100)
@@ -324,6 +325,7 @@ const GrantRow: React.FC<GrantRowProps> = ({
   receivingInstallmentId,
   isReceivingInstallment,
 }) => {
+  const { pickLocalized } = useLocalization();
   const progressPercent =
     grant.totalAmount > 0
       ? Math.min((grant.receivedAmount / grant.totalAmount) * 100, 100)

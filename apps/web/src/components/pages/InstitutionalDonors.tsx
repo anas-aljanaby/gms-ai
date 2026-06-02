@@ -55,7 +55,7 @@ const KpiCard: React.FC<{ title: string; value: string; icon: React.ReactNode; s
 );
 
 const SmartAnalyticsDashboard: React.FC<{donors: InstitutionalDonor[]}> = ({donors}) => {
-    const { t, language, pickLocalized } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
+    const { t, language } = useLocalization(['common', 'donors', 'institutional_donors', 'misc']);
 
     const stats = useMemo(() => {
         const totalFunding = donors.reduce((sum, d) => sum + d.totalGrantsAwarded, 0);

@@ -59,7 +59,7 @@ const DEFAULT_DONOR_FILTERS: DonorFilters = {
 };
 
 const CategoryCard: React.FC<{ category: string; count: number }> = ({ category, count }) => {
-    const { t, pickLocalized } = useLocalization();
+    const { t } = useLocalization();
     return (
         <div className="rounded-xl border dark:border-slate-700 bg-card dark:bg-dark-card p-4">
             <p className="text-sm text-gray-500">{getDonorCategoryLabel(category, t)}</p>
@@ -85,7 +85,7 @@ const REGISTRY_VIEW_TABS = ['list', 'card', 'kanban'] as const;
 const RegistryTab: React.FC<{
     deepLinkTarget?: { id?: string; tab?: string } | null;
 }> = ({ deepLinkTarget }) => {
-    const { t, language, dir } = useLocalization(['common', 'donors', 'individual_donors', 'misc']);
+    const { t, language, dir, pickLocalized } = useLocalization(['common', 'donors', 'individual_donors', 'misc']);
     const toast = useToast();
     const queryClient = useQueryClient();
     const { data: donors = [], isLoading, isError, refetch } = useDonors();
