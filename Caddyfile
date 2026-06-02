@@ -1,0 +1,11 @@
+ssgm.app, www.ssgm.app {
+    # API — strip the /api prefix, forward to the Hono container
+    handle_path /api/* {
+        reverse_proxy api:3000
+    }
+
+    # Everything else — the React SPA (nginx container)
+    handle {
+        reverse_proxy web:80
+    }
+}
