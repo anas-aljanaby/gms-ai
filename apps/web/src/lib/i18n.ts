@@ -75,7 +75,7 @@ export const NAMESPACE_BY_ROOT_KEY: Record<string, AppNamespace> = {
 };
 
 const STORAGE_KEY = 'dashboardState';
-const DEFAULT_LANGUAGE: Language = 'en';
+const DEFAULT_LANGUAGE: Language = 'ar';
 
 const normalizeLanguage = (value: string | null | undefined): Language =>
   value === 'ar' ? 'ar' : 'en';
