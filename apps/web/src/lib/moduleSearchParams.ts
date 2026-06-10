@@ -34,6 +34,7 @@ export const MODULE_TAB_VALUES: Record<string, readonly string[]> = {
   bousala: ['dashboard', 'predictive'],
   settings: [
     'organization',
+    'pages',
     'users',
     'translations',
     'financials',

@@ -14,7 +14,11 @@ class ApiClient {
         this.orgId = orgId;
     }
 
-    private async request<T>(path: string, options: RequestInit = {}): Promise<T> {
+    private async request<T>(
+        path: string,
+        options: RequestInit = {},
+        orgIdOverride?: string | null,
+    ): Promise<T> {
         const isFormData = options.body instanceof FormData;
         const headers: Record<string, string> = {
             ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
@@ -25,8 +29,9 @@ class ApiClient {
             headers['Authorization'] = `Bearer ${this.token}`;
         }
 
-        if (this.orgId) {
-            headers['x-org-id'] = this.orgId;
+        const scopedOrgId = orgIdOverride !== undefined ? orgIdOverride : this.orgId;
+        if (scopedOrgId) {
+            headers['x-org-id'] = scopedOrgId;
         }
 
         const res = await fetch(`${API_BASE}${path}`, {
@@ -43,24 +48,24 @@ class ApiClient {
         return res.json();
     }
 
-    get<T>(path: string) {
-        return this.request<T>(path);
+    get<T>(path: string, orgIdOverride?: string | null) {
+        return this.request<T>(path, {}, orgIdOverride);
     }
 
-    post<T>(path: string, body: unknown) {
-        return this.request<T>(path, { method: 'POST', body: JSON.stringify(body) });
+    post<T>(path: string, body: unknown, orgIdOverride?: string | null) {
+        return this.request<T>(path, { method: 'POST', body: JSON.stringify(body) }, orgIdOverride);
     }
 
-    upload<T>(path: string, body: FormData) {
-        return this.request<T>(path, { method: 'POST', body });
+    upload<T>(path: string, body: FormData, orgIdOverride?: string | null) {
+        return this.request<T>(path, { method: 'POST', body }, orgIdOverride);
     }
 
-    patch<T>(path: string, body: unknown) {
-        return this.request<T>(path, { method: 'PATCH', body: JSON.stringify(body) });
+    patch<T>(path: string, body: unknown, orgIdOverride?: string | null) {
+        return this.request<T>(path, { method: 'PATCH', body: JSON.stringify(body) }, orgIdOverride);
     }
 
-    delete<T>(path: string) {
-        return this.request<T>(path, { method: 'DELETE' });
+    delete<T>(path: string, orgIdOverride?: string | null) {
+        return this.request<T>(path, { method: 'DELETE' }, orgIdOverride);
     }
 }
 

@@ -1,120 +1,184 @@
 {
-  "title": "Implementing Partners List",
-  "breadcrumbHome": "Home",
-  "breadcrumbPartners": "Partners",
-  "breadcrumbList": "Partners List",
-  "analyticsTitle": "Analytical Overview",
-  "kpi": {
-    "total": "Total Partners",
-    "active": "Active Partners",
-    "totalBudget": "Total Budgets",
-    "avgRating": "Average Rating"
-  },
-  "sectorChartTitle": "Partners by Sector",
-  "chartTooltip": "partners",
-  "chartSeries": "Partner Count",
-  "searchPlaceholder": "Search by name, country, or sector...",
-  "listening": "Listening...",
-  "filters": {
-    "sector": "Sector",
-    "status": "Status",
-    "region": "Region",
-    "rating": "Rating",
-    "all": "All"
-  },
-  "exportList": "Export List",
-  "addPartner": "Add New Partner",
-  "pagination": {
-    "showing": "Showing {{from}}-{{to}} of {{total}} partners",
-    "prev": "Previous",
-    "next": "Next"
-  },
-  "card": {
-    "projects": "Projects",
-    "completed": "completed",
-    "inProgress": "In Progress",
-    "rating": "Rating",
-    "budget": "Budget",
-    "viewProfile": "View Profile"
-  },
-  "detail": {
-    "backToList": "Back to List",
-    "tabs": {
+  "partners": {
+    "title": "Implementing Partners",
+    "subtitle": "Manage partner eligibility, contacts, agreements, project history, and performance.",
+    "breadcrumbHome": "Home",
+    "breadcrumbPartners": "Partners",
+    "breadcrumbList": "Implementing Partners",
+    "summaryTitle": "Operational Summary",
+    "kpi": {
+      "total": "Total Partners",
+      "active": "Active / Eligible",
+      "pendingReview": "Pending Review",
+      "avgPerformance": "Avg. Performance Score"
+    },
+    "searchPlaceholder": "Search by name, country, or sector...",
+    "filters": {
+      "sector": "Sector",
+      "status": "Status",
+      "country": "Country",
+      "performance": "Performance",
+      "all": "All",
+      "performanceHigh": "4.5+",
+      "performanceGood": "4.0+",
+      "performanceFair": "3.0+"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pendingReview": "Pending Review"
+    },
+    "exportList": "Export List",
+    "registerPartner": "Register Partner",
+    "pagination": {
+      "showing": "Showing {{from}}-{{to}} of {{total}} partners",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "card": {
       "projects": "Projects",
-      "evaluations": "Evaluations",
-      "documents": "Documents",
-      "contact": "Contact Info"
+      "completed": "completed",
+      "inProgress": "Active",
+      "performance": "Performance",
+      "budget": "Budget",
+      "viewProfile": "View Profile"
     },
-    "contactsTitle": "Key Contacts",
-    "addContact": "Add Contact",
-    "noLocation": "No location data provided"
-  },
-  "projects": {
-    "filterAll": "All",
-    "statusActive": "In Progress",
-    "statusCompleted": "Completed",
-    "statusPaused": "Paused",
-    "sortNewest": "Newest",
-    "sortOldest": "Oldest",
-    "sortBudget": "By Budget",
-    "linkProject": "Link New Project",
-    "progress": "Progress",
-    "beneficiaries": "beneficiaries",
-    "viewDetails": "View Details",
-    "linkModalTitle": "Link New Project",
-    "selectProject": "Select Project",
-    "selectPlaceholder": "-- Select from project list --",
-    "linkSubmit": "Link Project",
-    "linkSuccess": "Project \"{{name}}\" linked successfully."
-  },
-  "evaluations": {
-    "basedOn": "Based on {{count}} reviews",
-    "addEvaluation": "Add Evaluation",
-    "breakdownTitle": "Rating Breakdown",
-    "stars": "{{count}} stars",
-    "reviewsCount": "{{count}} reviews ({{percent}}%)",
-    "kpiTitle": "Key Performance Indicators",
-    "individualTitle": "Individual Reviews",
-    "helpful": "{{count}} found this helpful",
-    "viewAll": "View All Reviews",
-    "projectLabel": "Project"
-  },
-  "documents": {
-    "upload": "Upload File",
-    "newFolder": "New Folder",
-    "fileName": "File Name",
-    "uploadDate": "Upload Date",
-    "size": "Size",
-    "actions": "Actions",
-    "preview": "Preview",
-    "download": "Download",
-    "delete": "Delete",
-    "empty": "No documents in this category."
-  },
-  "wizard": {
-    "title": "Add New Implementing Partner",
-    "breadcrumbAdd": " Add New Partner",
-    "steps": {
-      "basic": "Basic Information",
-      "org": "Organization Details",
-      "contact": "Contact Information",
-      "documents": "Documents",
-      "review": "Review & Confirm"
+    "detail": {
+      "backToList": "Back to List",
+      "tabs": {
+        "overview": "Overview",
+        "projects": "Projects",
+        "performance": "Performance",
+        "documents": "Documents",
+        "contacts": "Contacts"
+      },
+      "contactsTitle": "Key Contacts",
+      "addContact": "Add Contact",
+      "noLocation": "No location data provided",
+      "contactInfoTitle": "Organization Contact Information",
+      "phone": "Phone",
+      "email": "Email",
+      "website": "Website",
+      "address": "Address",
+      "primaryContact": "Primary",
+      "addContactSuccess": "Contact added successfully.",
+      "overview": {
+        "summaryTitle": "Partner Summary",
+        "statusEligibility": "Status & Eligibility",
+        "sectorCountry": "Sector & Country",
+        "primaryContact": "Primary Contact",
+        "latestPerformance": "Latest Performance Score",
+        "agreementStatus": "Agreement Status",
+        "complianceStatus": "Compliance Status",
+        "activeProjects": "Active Projects",
+        "completedProjects": "Completed Projects",
+        "totalBudget": "Total Project Exposure",
+        "noPrimaryContact": "No primary contact on file",
+        "agreementActive": "Active agreement on file",
+        "agreementNone": "No active agreement",
+        "complianceCurrent": "Compliance documents current",
+        "compliancePending": "Compliance review pending",
+        "eligible": "Eligible for new assignments",
+        "notEligible": "Not eligible for new assignments"
+      }
     },
-    "basicTitle": "Partner Basic Information",
-    "cancel": "Cancel",
-    "prev": "Previous",
-    "next": "Next",
-    "saveDraft": "Save as Draft",
-    "submit": "Submit Request",
-    "confirmLabel": "I confirm that all entered information is accurate",
-    "successTitle": "Partner Added Successfully!",
-    "successSubtitle": "The partner request has been submitted for review.",
-    "requestNumber": "Request #:",
-    "status": "Status:",
-    "statusPending": "Under Review",
-    "emailNotice": "You will be notified by email when the review is complete.",
-    "backToList": "Back to Partners List",
-    "viewProfile": "View Partner Profile"
+    "projects": {
+      "filterAll": "All",
+      "statusActive": "In Progress",
+      "statusCompleted": "Completed",
+      "statusPaused": "Paused",
+      "sortNewest": "Newest",
+      "sortOldest": "Oldest",
+      "sortBudget": "By Budget",
+      "linkProject": "Link Project",
+      "progress": "Progress",
+      "beneficiaries": "beneficiaries",
+      "viewDetails": "View Details",
+      "linkModalTitle": "Link Project",
+      "selectProject": "Select Project",
+      "selectPlaceholder": "-- Select from project list --",
+      "linkSubmit": "Link Project",
+      "linkSuccess": "Project \"{{name}}\" linked successfully."
+    },
+    "performance": {
+      "overallScore": "Overall Performance Score",
+      "basedOn": "Based on {{count}} evaluation records",
+      "addEvaluation": "Add Evaluation",
+      "criteriaTitle": "Performance Criteria",
+      "recordsTitle": "Recent Evaluation Records",
+      "projectLabel": "Project",
+      "evaluatorLabel": "Evaluator",
+      "criteria": {
+        "deliveryQuality": "Delivery Quality",
+        "timeliness": "Timeliness",
+        "transparency": "Transparency & Reporting",
+        "communication": "Communication",
+        "beneficiarySatisfaction": "Beneficiary Satisfaction"
+      }
+    },
+    "documents": {
+      "upload": "Upload File",
+      "newFolder": "New Folder",
+      "fileName": "File Name",
+      "uploadDate": "Upload Date",
+      "size": "Size",
+      "actions": "Actions",
+      "preview": "Preview",
+      "download": "Download",
+      "delete": "Delete",
+      "empty": "No documents in this category.",
+      "categories": {
+        "all": "All",
+        "agreements": "Agreements",
+        "legalCompliance": "Legal & Compliance",
+        "reports": "Reports",
+        "correspondence": "Correspondence",
+        "media": "Media",
+        "projectReports": "Project Reports"
+      }
+    },
+    "wizard": {
+      "title": "Register Implementing Partner",
+      "breadcrumbRegister": "Register Partner",
+      "steps": {
+        "basic": "Basic Information",
+        "scope": "Operating Scope",
+        "contact": "Contact Information",
+        "documents": "Documents",
+        "review": "Review"
+      },
+      "basicTitle": "Partner Basic Information",
+      "fields": {
+        "organizationNameAr": "Organization Name (Arabic)",
+        "organizationNameEn": "Organization Name (English)",
+        "primarySector": "Primary Sector",
+        "description": "Description",
+        "country": "Country",
+        "city": "City",
+        "mainPhone": "Main Phone",
+        "officialEmail": "Official Email",
+        "website": "Website",
+        "dragDrop": "Drag files here or click to browse",
+        "fileTypes": "PDF, DOCX — up to 10 MB",
+        "reviewOrganization": "Organization",
+        "reviewSector": "Sector",
+        "reviewCity": "City",
+        "reviewEmail": "Email"
+      },
+      "cancel": "Cancel",
+      "prev": "Previous",
+      "next": "Next",
+      "saveDraft": "Save as Draft",
+      "submit": "Register Partner",
+      "confirmLabel": "I confirm that all entered information is accurate",
+      "successTitle": "Partner Registered",
+      "successSubtitle": "The partner has been added to the registry with Pending Review status.",
+      "referenceNumber": "Reference:",
+      "status": "Status:",
+      "statusPending": "Pending Review",
+      "successNotice": "You can update eligibility status from the partner profile once review is complete.",
+      "backToList": "Back to Partners",
+      "viewProfile": "View Partner Profile"
+    }
   }
 }

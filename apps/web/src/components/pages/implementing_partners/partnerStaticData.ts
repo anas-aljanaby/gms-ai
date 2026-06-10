@@ -24,51 +24,49 @@ export interface PartnerReview {
     project: string;
     rating: number;
     comment: string;
-    helpful: number;
 }
 
 export const MOCK_PARTNER_REVIEWS: PartnerReview[] = [
-    { reviewer: 'أحمد محمد - مدير المشروع', date: '15 ديسمبر 2023', project: 'برنامج محو الأمية', rating: 5, comment: 'أداء ممتاز في تنفيذ المشروع. الشريك أظهر احترافية عالية والتزام بالجدول الزمني. التواصل كان فعال وشفاف طوال فترة المشروع.', helpful: 12 },
-    { reviewer: 'فاطمة علي - مديرة البرامج', date: '20 نوفمبر 2023', project: 'حملة تطعيم الأطفال', rating: 4, comment: 'تنفيذ جيد بشكل عام. بعض التأخيرات البسيطة لكن تم معالجتها بسرعة.', helpful: 8 },
-    { reviewer: 'خالد سعيد', date: '5 نوفمبر 2023', project: 'تدريب مهني للشباب', rating: 5, comment: 'شريك موثوق وملتزم. نتطلع لمشاريع مستقبلية.', helpful: 15 },
-    { reviewer: 'مجهول', date: '18 أكتوبر 2023', project: 'بناء مركز صحي', rating: 4, comment: 'كان التسليم النهائي جيدًا.', helpful: 4 },
-    { reviewer: 'علي حسن', date: '30 سبتمبر 2023', project: 'توزيع مستلزمات مدرسية', rating: 5, comment: 'فريق متعاون جداً.', helpful: 9 },
+    { reviewer: 'أحمد محمد - مدير المشروع', date: '15 ديسمبر 2023', project: 'برنامج محو الأمية', rating: 5, comment: 'أداء ممتاز في تنفيذ المشروع. الشريك أظهر احترافية عالية والتزام بالجدول الزمني. التواصل كان فعال وشفاف طوال فترة المشروع.' },
+    { reviewer: 'فاطمة علي - مديرة البرامج', date: '20 نوفمبر 2023', project: 'حملة تطعيم الأطفال', rating: 4, comment: 'تنفيذ جيد بشكل عام. بعض التأخيرات البسيطة لكن تم معالجتها بسرعة.' },
+    { reviewer: 'خالد سعيد', date: '5 نوفمبر 2023', project: 'تدريب مهني للشباب', rating: 5, comment: 'شريك موثوق وملتزم. نتطلع لمشاريع مستقبلية.' },
+    { reviewer: 'علي حسن', date: '30 سبتمبر 2023', project: 'توزيع مستلزمات مدرسية', rating: 5, comment: 'فريق متعاون جداً.' },
 ];
 
-export const MOCK_RATING_BREAKDOWN: Record<number, number> = { 5: 8, 4: 5, 3: 2, 2: 0, 1: 0 };
 export const MOCK_EVALUATION_KPIS = [
-    { label: 'جودة التنفيذ', rating: 4.5, progress: 90 },
-    { label: 'الالتزام بالمواعيد', rating: 4, progress: 80 },
-    { label: 'الشفافية', rating: 4.8, progress: 96 },
-    { label: 'التواصل', rating: 4.2, progress: 84 },
-    { label: 'رضا المستفيدين', rating: 4.3, progress: 86 },
+    { label: 'deliveryQuality', rating: 4.5, progress: 90 },
+    { label: 'timeliness', rating: 4, progress: 80 },
+    { label: 'transparency', rating: 4.8, progress: 96 },
+    { label: 'communication', rating: 4.2, progress: 84 },
+    { label: 'beneficiarySatisfaction', rating: 4.3, progress: 86 },
 ];
+
+export type PartnerDocumentCategory = 'agreements' | 'legalCompliance' | 'reports' | 'correspondence' | 'media' | 'projectReports';
+
+export const PARTNER_DOCUMENT_CATEGORY_KEYS = [
+    'all',
+    'agreements',
+    'legalCompliance',
+    'reports',
+    'correspondence',
+    'media',
+    'projectReports',
+] as const;
 
 export interface PartnerDocument {
     id: string;
     name: string;
-    category: string;
+    category: PartnerDocumentCategory;
     date: string;
     size: string;
     type: 'folder' | 'pdf' | 'docx' | 'jpg' | 'mp4';
 }
 
-export const PARTNER_DOCUMENT_CATEGORIES = [
-    'الكل',
-    'الوثائق القانونية',
-    'التقارير السنوية',
-    'الاتفاقيات',
-    'المراسلات',
-    'الصور والفيديوهات',
-    'دراسات مشاريع',
-    'تقارير مشاريع',
-] as const;
-
 export const MOCK_PARTNER_DOCUMENTS: PartnerDocument[] = [
-    { id: 'folder1', name: 'الوثائق القانونية', category: 'الوثائق القانونية', date: '2022-08-10', size: '--', type: 'folder' },
-    { id: 'doc1', name: 'اتفاقية الشراكة 2024.pdf', category: 'الاتفاقيات', date: '2024-01-15', size: '2.5 MB', type: 'pdf' },
-    { id: 'doc2', name: 'التقرير السنوي 2023.pdf', category: 'التقارير السنوية', date: '2024-02-01', size: '15.2 MB', type: 'pdf' },
-    { id: 'doc4', name: 'مراسلات بخصوص مشروع المياه.docx', category: 'المراسلات', date: '2024-05-20', size: '1.1 MB', type: 'docx' },
-    { id: 'doc5', name: 'صور من حفل التوقيع.jpg', category: 'الصور والفيديوهات', date: '2024-01-16', size: '4.8 MB', type: 'jpg' },
-    { id: 'doc6', name: 'فيديو تعريفي بالمؤسسة.mp4', category: 'الصور والفيديوهات', date: '2023-11-10', size: '58.4 MB', type: 'mp4' },
+    { id: 'folder1', name: 'الوثائق القانونية', category: 'legalCompliance', date: '2022-08-10', size: '--', type: 'folder' },
+    { id: 'doc1', name: 'اتفاقية الشراكة 2024.pdf', category: 'agreements', date: '2024-01-15', size: '2.5 MB', type: 'pdf' },
+    { id: 'doc2', name: 'التقرير السنوي 2023.pdf', category: 'reports', date: '2024-02-01', size: '15.2 MB', type: 'pdf' },
+    { id: 'doc4', name: 'مراسلات بخصوص مشروع المياه.docx', category: 'correspondence', date: '2024-05-20', size: '1.1 MB', type: 'docx' },
+    { id: 'doc5', name: 'صور من حفل التوقيع.jpg', category: 'media', date: '2024-01-16', size: '4.8 MB', type: 'jpg' },
+    { id: 'doc6', name: 'فيديو تعريفي بالمؤسسة.mp4', category: 'media', date: '2023-11-10', size: '58.4 MB', type: 'mp4' },
 ];

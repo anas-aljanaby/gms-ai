@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Download, Eye, File, FileText, Folder, Image, Trash2, Video } from 'lucide-react';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import { formatDate } from '../../../../lib/utils';
-import { MOCK_PARTNER_DOCUMENTS, PARTNER_DOCUMENT_CATEGORIES, type PartnerDocument } from '../partnerStaticData';
+import { MOCK_PARTNER_DOCUMENTS, PARTNER_DOCUMENT_CATEGORY_KEYS, type PartnerDocument } from '../partnerStaticData';
 
 const FileIcon: React.FC<{ type: PartnerDocument['type'] }> = ({ type }) => {
     switch (type) {
@@ -17,12 +17,12 @@ const FileIcon: React.FC<{ type: PartnerDocument['type'] }> = ({ type }) => {
 
 const DocumentsTab: React.FC = () => {
     const { t, language } = useLocalization(['partners']);
-    const [category, setCategory] = useState<string>('الكل');
+    const [category, setCategory] = useState<string>('all');
     const [selected, setSelected] = useState<Set<string>>(new Set());
     const [documents] = useState(MOCK_PARTNER_DOCUMENTS);
 
     const filtered = useMemo(
-        () => (category === 'الكل' ? documents : documents.filter((d) => d.category === category)),
+        () => (category === 'all' ? documents : documents.filter((d) => d.category === category)),
         [documents, category],
     );
 
@@ -38,14 +38,14 @@ const DocumentsTab: React.FC = () => {
     return (
         <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
-                {PARTNER_DOCUMENT_CATEGORIES.map((cat) => (
+                {PARTNER_DOCUMENT_CATEGORY_KEYS.map((cat) => (
                     <button
                         key={cat}
                         type="button"
                         onClick={() => setCategory(cat)}
                         className={`px-3 py-1.5 text-sm font-semibold rounded-full transition-colors ${category === cat ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-slate-700 hover:bg-gray-200'}`}
                     >
-                        {cat}
+                        {t(`partners.documents.categories.${cat}`)}
                     </button>
                 ))}
             </div>

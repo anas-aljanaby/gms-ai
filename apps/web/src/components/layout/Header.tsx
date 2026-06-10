@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import type { Language } from '../../types';
 import { useLocalization } from '../../hooks/useLocalization';
+import { useSidebarLabel } from '../../hooks/useSidebarLabel';
 import { useTheme } from '../../hooks/useTheme';
 import { useOrg } from '../../contexts/OrgContext';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -43,7 +44,8 @@ interface HeaderProps {
  * />
  */
 const Header: React.FC<HeaderProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen, enabledLanguages, setActiveModule }) => {
-  const { t, sidebarLabel, language, setLanguage } = useLocalization(['common', 'header', 'sidebar', 'misc', 'staff', 'platform']);
+  const { t, language, setLanguage } = useLocalization(['common', 'header', 'sidebar', 'misc', 'staff', 'platform']);
+  const sidebarLabel = useSidebarLabel();
   const { theme, toggleTheme } = useTheme();
   const { orgs, activeOrgId, activeOrgName, isImpersonating, isPlatformAdmin, setActiveOrg } = useOrg();
   const { data: platformOrgs = [] } = usePlatformOrgs();

@@ -44,4 +44,4 @@ export async function deleteOrgData(orgId: string) {
     await db.delete(schema.memberships).where(eq(schema.memberships.org_id, orgId));
 }
 
-export const DEFAULT_ORG_MODULES = ['donors', 'beneficiaries', 'projects', 'stakeholders', 'hr', 'finance'] as const;
+export { DEFAULT_MODULE_ORDER as DEFAULT_ORG_MODULES } from './orgModules';

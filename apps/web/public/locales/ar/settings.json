@@ -4,11 +4,26 @@
     "saveChanges": "حفظ التغييرات",
     "categories": {
       "organization": "المنظمة",
+      "pages": "الصفحات",
       "users": "المستخدمون والصلاحيات",
       "translations": "إدارة الترجمة",
       "financials": "الإعدادات المالية",
       "projects": "إعدادات البرامج",
       "documents": "المستندات"
+    },
+    "pages": {
+      "title": "إدارة الصفحات",
+      "description": "تحكم في الوحدات الظاهرة في الشريط الجانبي لهذه المؤسسة وترتيبها وتخصيص التسميات.",
+      "enabled": "ظاهر",
+      "locked": "إلزامي",
+      "labelEn": "تسمية إنجليزية مخصصة",
+      "labelAr": "تسمية عربية مخصصة",
+      "moveUp": "تحريك لأعلى",
+      "moveDown": "تحريك لأسفل",
+      "saveSuccess": "تم حفظ إعدادات الصفحات",
+      "discardExitTitle": "تغييرات غير محفوظة",
+      "discardExitMessage": "لديك إعدادات صفحات لم تُحفظ بعد. هل تريد الخروج دون حفظ؟",
+      "discardExitConfirm": "الخروج دون حفظ"
     },
     "organization": {
       "profileTitle": "ملف المنظمة",

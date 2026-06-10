@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocalization } from '../../hooks/useLocalization';
-import { SIDEBAR_MODULES } from '../../constants';
+import { getRegistryIcon } from '../../moduleRegistry';
+import { useSidebarLabel } from '../../hooks/useSidebarLabel';
 
 interface PlaceholderPageProps {
   moduleKey: string;
@@ -17,10 +18,9 @@ interface PlaceholderPageProps {
  * <PlaceholderPage moduleKey="financials" />
  */
 const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ moduleKey }) => {
-  const { t, sidebarLabel } = useLocalization(['common', 'misc', 'sidebar']);
-  
-  const moduleInfo = SIDEBAR_MODULES.find(m => m.key === moduleKey);
-  const Icon = moduleInfo?.icon || (() => null);
+  const { t } = useLocalization(['common', 'misc', 'sidebar']);
+  const sidebarLabel = useSidebarLabel();
+  const Icon = getRegistryIcon(moduleKey);
   const moduleName = sidebarLabel(moduleKey);
 
   return (

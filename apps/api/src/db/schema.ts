@@ -1,4 +1,4 @@
-import { boolean, integer, jsonb, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { boolean, integer, jsonb, numeric, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 
 export const organizations = pgTable('organizations', {
     id: uuid('id').primaryKey().defaultRandom(),
@@ -35,13 +35,22 @@ export const platform_admins = pgTable('platform_admins', {
 // Per-org registry of enabled modules. config stores module-specific settings.
 // Convention: every domain table must have org_id (FK to organizations) and
 // custom_fields jsonb for client-specific extensions.
-export const modules = pgTable('modules', {
-    id: uuid('id').primaryKey().defaultRandom(),
-    org_id: uuid('org_id').notNull().references(() => organizations.id),
-    name: text('name').notNull(),
-    config: jsonb('config'),
-    created_at: timestamp('created_at').defaultNow()
-});
+export const modules = pgTable(
+    'modules',
+    {
+        id: uuid('id').primaryKey().defaultRandom(),
+        org_id: uuid('org_id').notNull().references(() => organizations.id),
+        name: text('name').notNull(),
+        enabled: boolean('enabled').notNull().default(true),
+        sort_order: integer('sort_order').notNull().default(0),
+        label_en: text('label_en'),
+        label_ar: text('label_ar'),
+        config: jsonb('config'),
+        created_at: timestamp('created_at').defaultNow(),
+        updated_at: timestamp('updated_at').defaultNow(),
+    },
+    (table) => [uniqueIndex('modules_org_id_name_unique').on(table.org_id, table.name)],
+);
 
 export const audit_log = pgTable('audit_log', {
     id: uuid('id').primaryKey().defaultRandom(),

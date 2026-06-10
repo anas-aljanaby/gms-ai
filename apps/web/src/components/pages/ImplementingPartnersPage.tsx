@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { LayoutGrid, List, Mic, Search, Users } from 'lucide-react';
+import { LayoutGrid, List, Search, Users } from 'lucide-react';
 import type { Partner, PartnerSector, PartnerStatus } from '../../types';
 import { MOCK_PARTNERS } from '../../data/partnersData';
 import { useLocalization } from '../../hooks/useLocalization';
-import { useToast } from '../../hooks/useToast';
 import { formatNumber } from '../../lib/utils';
 import EmptyState from '../common/EmptyState';
 import PartnerAnalytics from './implementing_partners/PartnerAnalytics';
@@ -13,42 +12,29 @@ import PartnerCardSkeleton from './implementing_partners/PartnerCardSkeleton';
 import PartnerDetailView from './implementing_partners/PartnerDetailView';
 import AddPartnerWizard from './implementing_partners/AddPartnerWizard';
 
-interface SpeechRecognition extends EventTarget {
-    lang: string;
-    continuous: boolean;
-    interimResults: boolean;
-    start: () => void;
-    stop: () => void;
-    onstart: (() => void) | null;
-    onend: (() => void) | null;
-    onerror: ((event: { error: string }) => void) | null;
-    onresult: ((event: { results: Iterable<{ 0: { transcript: string } }> }) => void) | null;
-}
-
-declare global {
-    interface Window {
-        SpeechRecognition?: new () => SpeechRecognition;
-        webkitSpeechRecognition?: new () => SpeechRecognition;
-    }
-}
-
 type ViewMode = 'list' | 'profile' | 'add';
 
 interface PartnerFilters {
     sector: string;
     status: string;
-    region: string;
-    rating: string;
+    country: string;
+    performance: string;
 }
 
 const SECTORS: PartnerSector[] = ['التعليم', 'الصحة', 'الإغاثة', 'التنمية', 'البيئة'];
 const STATUSES: PartnerStatus[] = ['نشط', 'غير نشط', 'قيد المراجعة'];
-const REGIONS = ['أفريقيا', 'آسيا', 'الشرق الأوسط', 'أوروبا', 'أمريكا'];
+const FILTER_ALL = 'الكل';
 const PAGE_SIZE = 12;
+
+const PERFORMANCE_FILTER_VALUES = {
+    high: '4.5+',
+    good: '4.0+',
+    fair: '3.0+',
+} as const;
 
 const FilterSelect: React.FC<{
     label: string;
-    options: string[];
+    options: { value: string; label: string }[];
     value: string;
     onChange: (value: string) => void;
 }> = ({ label, options, value, onChange }) => {
@@ -60,9 +46,9 @@ const FilterSelect: React.FC<{
             onChange={(e) => onChange(e.target.value)}
             className="p-2 border rounded-lg text-sm bg-gray-50 dark:bg-slate-800 dark:border-slate-600"
         >
-            <option value="الكل">{label}: {t('partners.filters.all')}</option>
+            <option value={FILTER_ALL}>{label}: {t('partners.filters.all')}</option>
             {options.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
             ))}
         </select>
     );
@@ -70,19 +56,20 @@ const FilterSelect: React.FC<{
 
 const ImplementingPartnersPage: React.FC = () => {
     const { t, language } = useLocalization(['partners', 'common']);
-    const toast = useToast();
 
     const [loading, setLoading] = useState(true);
     const [partners, setPartners] = useState<Partner[]>([]);
     const [viewMode, setViewMode] = useState<ViewMode>('list');
     const [layout, setLayout] = useState<'grid' | 'list'>('grid');
     const [search, setSearch] = useState('');
-    const [filters, setFilters] = useState<PartnerFilters>({ sector: 'الكل', status: 'الكل', region: 'الكل', rating: 'الكل' });
+    const [filters, setFilters] = useState<PartnerFilters>({
+        sector: FILTER_ALL,
+        status: FILTER_ALL,
+        country: FILTER_ALL,
+        performance: FILTER_ALL,
+    });
     const [page, setPage] = useState(1);
     const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
-    const [listening, setListening] = useState(false);
-    const [speechError, setSpeechError] = useState<string | null>(null);
-    const recognitionRef = useRef<SpeechRecognition | null>(null);
 
     useEffect(() => {
         setLoading(true);
@@ -93,48 +80,16 @@ const ImplementingPartnersPage: React.FC = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    useEffect(() => {
-        const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognitionCtor) {
-            setSpeechError('Speech recognition is not supported in this browser.');
-            return;
-        }
-        const recognition = new SpeechRecognitionCtor();
-        recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.onstart = () => setListening(true);
-        recognition.onend = () => setListening(false);
-        recognition.onerror = (event) => {
-            if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-                const message = 'Microphone permission was denied. Please enable it in your browser settings.';
-                setSpeechError(message);
-                toast.showError(message);
-            }
-            setListening(false);
-        };
-        recognition.onresult = (event) => {
-            const transcript = Array.from(event.results).map((r) => r[0].transcript).join('');
-            setSearch(transcript);
-        };
-        recognitionRef.current = recognition;
-    }, [toast]);
+    const countryOptions = useMemo(() => {
+        const countries = [...new Set(partners.map((p) => p.country))].sort();
+        return countries.map((c) => ({ value: c, label: c }));
+    }, [partners]);
 
-    const toggleVoiceSearch = useCallback(() => {
-        if (!recognitionRef.current) return;
-        if (listening) {
-            recognitionRef.current.stop();
-            return;
-        }
-        setSpeechError(null);
-        recognitionRef.current.lang = language === 'ar' ? 'ar-SA' : 'en-US';
-        try {
-            recognitionRef.current.start();
-        } catch {
-            const message = 'Could not start listening. Please try again.';
-            setSpeechError(message);
-            toast.showError(message);
-        }
-    }, [listening, language, toast]);
+    const performanceOptions = useMemo(() => [
+        { value: PERFORMANCE_FILTER_VALUES.high, label: t('partners.filters.performanceHigh') },
+        { value: PERFORMANCE_FILTER_VALUES.good, label: t('partners.filters.performanceGood') },
+        { value: PERFORMANCE_FILTER_VALUES.fair, label: t('partners.filters.performanceFair') },
+    ], [t]);
 
     const filtered = useMemo(() => {
         const query = search.toLowerCase();
@@ -143,13 +98,14 @@ const ImplementingPartnersPage: React.FC = () => {
                 partner.name.toLowerCase().includes(query) ||
                 partner.country.toLowerCase().includes(query) ||
                 partner.sector.toLowerCase().includes(query);
-            const matchesSector = filters.sector === 'الكل' || partner.sector === filters.sector;
-            const matchesStatus = filters.status === 'الكل' || partner.status === filters.status;
-            let matchesRating = true;
-            if (filters.rating === '5 نجوم') matchesRating = partner.rating >= 5;
-            else if (filters.rating === '4+ نجوم') matchesRating = partner.rating >= 4;
-            else if (filters.rating === '3+ نجوم') matchesRating = partner.rating >= 3;
-            return matchesSearch && matchesSector && matchesStatus && matchesRating;
+            const matchesSector = filters.sector === FILTER_ALL || partner.sector === filters.sector;
+            const matchesStatus = filters.status === FILTER_ALL || partner.status === filters.status;
+            const matchesCountry = filters.country === FILTER_ALL || partner.country === filters.country;
+            let matchesPerformance = true;
+            if (filters.performance === PERFORMANCE_FILTER_VALUES.high) matchesPerformance = partner.rating >= 4.5;
+            else if (filters.performance === PERFORMANCE_FILTER_VALUES.good) matchesPerformance = partner.rating >= 4.0;
+            else if (filters.performance === PERFORMANCE_FILTER_VALUES.fair) matchesPerformance = partner.rating >= 3.0;
+            return matchesSearch && matchesSector && matchesStatus && matchesCountry && matchesPerformance;
         });
     }, [partners, search, filters]);
 
@@ -167,7 +123,7 @@ const ImplementingPartnersPage: React.FC = () => {
 
     const resetFilters = () => {
         setSearch('');
-        setFilters({ sector: 'الكل', status: 'الكل', region: 'الكل', rating: 'الكل' });
+        setFilters({ sector: FILTER_ALL, status: FILTER_ALL, country: FILTER_ALL, performance: FILTER_ALL });
         setPage(1);
     };
 
@@ -200,6 +156,7 @@ const ImplementingPartnersPage: React.FC = () => {
                     <span className="font-semibold text-gray-700 dark:text-gray-300">{t('partners.breadcrumbList')}</span>
                 </nav>
                 <h1 className="text-2xl font-bold text-gray-800 dark:text-dark-foreground">{t('partners.title')}</h1>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('partners.subtitle')}</p>
             </div>
 
             {!loading && <PartnerAnalytics partners={partners} />}
@@ -209,30 +166,39 @@ const ImplementingPartnersPage: React.FC = () => {
                     <Search className="w-5 h-5 absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 pointer-events-none" />
                     <input
                         type="text"
-                        placeholder={listening ? t('partners.listening') : t('partners.searchPlaceholder')}
+                        placeholder={t('partners.searchPlaceholder')}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full p-2 pr-10 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500 transition dark:bg-slate-800 dark:border-slate-600"
+                        className="w-full p-2 pr-10 border rounded-lg focus:ring-2 focus:ring-blue-500 transition dark:bg-slate-800 dark:border-slate-600"
                     />
-                    <div className="absolute inset-y-0 left-3 flex items-center">
-                        <button
-                            type="button"
-                            onClick={toggleVoiceSearch}
-                            disabled={!!speechError}
-                            title={speechError || 'Search by voice'}
-                            className={`p-2 rounded-full transition-colors disabled:text-gray-400 disabled:cursor-not-allowed ${listening ? 'text-red-500 bg-red-100 dark:bg-red-900/50 animate-pulse' : 'text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700'}`}
-                        >
-                            <Mic className="w-5 h-5" />
-                        </button>
-                    </div>
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-4 justify-between">
                     <div className="flex flex-wrap gap-2 items-center">
-                        <FilterSelect label={t('partners.filters.sector')} options={SECTORS} value={filters.sector} onChange={(v) => updateFilter('sector', v)} />
-                        <FilterSelect label={t('partners.filters.status')} options={STATUSES} value={filters.status} onChange={(v) => updateFilter('status', v)} />
-                        <FilterSelect label={t('partners.filters.region')} options={REGIONS} value={filters.region} onChange={(v) => updateFilter('region', v)} />
-                        <FilterSelect label={t('partners.filters.rating')} options={['5 نجوم', '4+ نجوم', '3+ نجوم']} value={filters.rating} onChange={(v) => updateFilter('rating', v)} />
+                        <FilterSelect
+                            label={t('partners.filters.sector')}
+                            options={SECTORS.map((s) => ({ value: s, label: s }))}
+                            value={filters.sector}
+                            onChange={(v) => updateFilter('sector', v)}
+                        />
+                        <FilterSelect
+                            label={t('partners.filters.status')}
+                            options={STATUSES.map((s) => ({ value: s, label: s }))}
+                            value={filters.status}
+                            onChange={(v) => updateFilter('status', v)}
+                        />
+                        <FilterSelect
+                            label={t('partners.filters.country')}
+                            options={countryOptions}
+                            value={filters.country}
+                            onChange={(v) => updateFilter('country', v)}
+                        />
+                        <FilterSelect
+                            label={t('partners.filters.performance')}
+                            options={performanceOptions}
+                            value={filters.performance}
+                            onChange={(v) => updateFilter('performance', v)}
+                        />
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                         <button type="button" className="px-4 py-2 text-sm font-semibold border rounded-lg hover:bg-gray-100 dark:border-slate-600 dark:hover:bg-slate-700">
@@ -243,7 +209,7 @@ const ImplementingPartnersPage: React.FC = () => {
                             onClick={() => setViewMode('add')}
                             className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700"
                         >
-                            {t('partners.addPartner')}
+                            {t('partners.registerPartner')}
                         </button>
                         <div className="p-1 bg-gray-100 dark:bg-slate-700 rounded-lg flex items-center">
                             <button type="button" onClick={() => setLayout('grid')} className={`p-1.5 rounded-md ${layout === 'grid' ? 'bg-white dark:bg-slate-800 shadow' : ''}`}>

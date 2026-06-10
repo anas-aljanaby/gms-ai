@@ -7,6 +7,7 @@ import FinancialSettings from './settings/FinancialSettings';
 import DocumentSettings from './settings/DocumentSettings';
 import ProgramSettings from './settings/ProgramSettings';
 import TranslationManagement from './settings/TranslationManagement';
+import PageManagementPanel from './settings/PageManagementPanel';
 import type { Language, SettingsCategory } from '../../types';
 
 import {
@@ -16,6 +17,7 @@ import {
     FinancialsSettingsIcon,
     ProjectsSettingsIcon,
     DocumentsIcon,
+    PagesSettingsIcon,
 } from '../icons/SettingsIcons';
 
 
@@ -26,6 +28,7 @@ interface SettingsPageProps {
 
 const SETTINGS_TABS: readonly SettingsCategory[] = [
     'organization',
+    'pages',
     'users',
     'translations',
     'financials',
@@ -39,6 +42,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ enabledLanguages, onEnabled
 
     const categories: { id: SettingsCategory; icon: React.FC<{className?: string}> }[] = [
         { id: 'organization', icon: OrganizationIcon },
+        { id: 'pages', icon: PagesSettingsIcon },
         { id: 'users', icon: UsersSettingsIcon },
         { id: 'translations', icon: LanguagesIcon },
         { id: 'financials', icon: FinancialsSettingsIcon },
@@ -50,6 +54,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ enabledLanguages, onEnabled
         switch (activeCategory) {
             case 'organization':
                 return <OrganizationSettings enabledLanguages={enabledLanguages} onEnabledLanguagesChange={onEnabledLanguagesChange} />;
+            case 'pages':
+                return <PageManagementPanel />;
             case 'users':
                 return <UserManagement />;
             case 'translations':

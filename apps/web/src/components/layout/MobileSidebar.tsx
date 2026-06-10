@@ -3,10 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLocalization } from '../../hooks/useLocalization';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
-import type { RbacModule } from '@gms/shared';
-import { SIDEBAR_MODULES, PLATFORM_MODULE } from '../../constants';
-import { usePermissions } from '../../hooks/usePermissions';
-import { useOrg } from '../../contexts/OrgContext';
+import { useVisibleSidebarModules } from '../../hooks/useVisibleSidebarModules';
+import { useSidebarLabel } from '../../hooks/useSidebarLabel';
 import { LogoutIcon } from '../icons/ModuleIcons';
 import { SunIcon, MoonIcon, ChevronDownIcon } from '../icons/GenericIcons';
 import { SUPPORTED_LANGUAGES } from '../../lib/i18n';
@@ -24,31 +22,12 @@ interface MobileSidebarProps {
 }
 
 const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose, activeModule, setActiveModule, role, setRole }) => {
-  const { t, sidebarLabel, language, setLanguage, dir } = useLocalization(['common', 'sidebar', 'header']);
+  const { t, language, setLanguage, dir } = useLocalization(['common', 'sidebar', 'header']);
+  const sidebarLabel = useSidebarLabel();
   const { signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { can, isPlatformAdmin } = usePermissions();
-  const { isImpersonating } = useOrg();
+  const { visibleModules } = useVisibleSidebarModules();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-
-  const UNGATED_MODULES = new Set(['help']);
-
-  const visibleModules = useMemo(() => {
-    const filtered = SIDEBAR_MODULES.filter((module) => {
-      if (UNGATED_MODULES.has(module.key)) return true;
-      return can(module.key as RbacModule, 'read');
-    });
-    if (!isPlatformAdmin || isImpersonating) return filtered;
-
-    const settingsIndex = filtered.findIndex((module) => module.key === 'settings');
-    if (settingsIndex === -1) return [...filtered, PLATFORM_MODULE];
-
-    return [
-      ...filtered.slice(0, settingsIndex),
-      PLATFORM_MODULE,
-      ...filtered.slice(settingsIndex),
-    ];
-  }, [can, isPlatformAdmin, isImpersonating]);
 
   useEffect(() => {
     if (isOpen) {
@@ -142,7 +121,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose, activeMo
         
          <div 
             className={`transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 ltr:-translate-x-5 rtl:translate-x-5'}`}
-            style={{ transitionDelay: `${isOpen ? 150 + (SIDEBAR_MODULES.length) * 20 : 0}ms` }}
+            style={{ transitionDelay: `${isOpen ? 150 + visibleModules.length * 20 : 0}ms` }}
         >
             <div className="p-4 border-t dark:border-slate-800 space-y-4">
                 <div className="flex items-center justify-around">

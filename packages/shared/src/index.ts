@@ -10,3 +10,5 @@ export * from './constants/donorOptions';
 export * from './constants/beneficiaryOptions';
 export * from './constants/financialOptions';
 export * from './constants/rbac';
+export * from './constants/modules';
+export * from './schemas/module';

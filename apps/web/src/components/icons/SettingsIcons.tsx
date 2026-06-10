@@ -16,7 +16,8 @@ import {
     CalendarDays,
     CheckSquare,
     Landmark,
-    Scale
+    Scale,
+    LayoutGrid,
 } from 'lucide-react';
 
 export const OrganizationIcon = Building;
@@ -37,3 +38,4 @@ export const FinancialPeriodsIcon = CalendarDays;
 export const ApprovalWorkflowsIcon = CheckSquare;
 export const BankingAndPaymentsIcon = Landmark;
 export const TaxAndComplianceIcon = Scale;
+export const PagesSettingsIcon = LayoutGrid;

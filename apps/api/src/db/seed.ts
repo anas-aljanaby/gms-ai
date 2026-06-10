@@ -7,6 +7,7 @@ import { SEED_BENEFICIARIES } from './beneficiarySeed';
 import { resolveProjectId, seedProjects } from './projectSeed';
 import { seedBousala } from './bousalaSeed';
 import { SEED_STAKEHOLDERS } from './stakeholderSeed';
+import { seedOrgModules } from '../lib/orgModules';
 
 const client = postgres(process.env.DIRECT_URL || process.env.DATABASE_URL!);
 const db = drizzle(client, { schema });
@@ -769,11 +770,8 @@ async function seed() {
     await db.insert(schema.platform_admins).values({ user_id: userId }).onConflictDoNothing();
     console.log('Set as platform admin');
 
-    const moduleNames = ['donors', 'beneficiaries', 'projects', 'stakeholders', 'hr', 'finance'];
-    await db.insert(schema.modules).values(
-        moduleNames.map((name) => ({ org_id: org.id, name })),
-    );
-    console.log(`Registered ${moduleNames.length} modules`);
+    await seedOrgModules(org.id, db);
+    console.log('Registered org module catalog');
 
     console.log('Seeding projects...');
     const projectLegacyMap = await seedProjects(db, org.id);
@@ -900,9 +898,7 @@ async function seed() {
         department: 'IT',
         status: 'active',
     });
-    await db.insert(schema.modules).values(
-        moduleNames.map((name) => ({ org_id: org2.id, name })),
-    );
+    await seedOrgModules(org2.id, db);
     console.log(`Created second org: ${org2.name}`);
 
     console.log('\nSeed complete.');

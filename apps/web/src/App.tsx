@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, Suspense, lazy, useCallback } from 'react';
+import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import type { Role, Language, Project, HrData } from './types';
 import { useLocation, useNavigate } from 'react-router';
 import { pruneSearchParamsForModule } from './lib/moduleSearchParams';
@@ -20,23 +20,12 @@ import AiFab from './components/common/AiFab';
 
 import { useHrData } from './hooks/useHrData';
 import { MOCK_PROJECTS } from './data/projectData';
-
-
-// Page Components (Lazy Loaded)
-const Dashboard = lazy(() => import('./components/pages/Dashboard'));
-const DonorManagement = lazy(() => import('./components/pages/DonorManagement'));
-const InstitutionalDonors = lazy(() => import('./components/pages/InstitutionalDonors'));
-const ProjectManagement = lazy(() => import('./components/pages/ProjectManagement'));
-const BeneficiariesModule = lazy(() => import('./components/pages/BeneficiariesModule'));
-const StakeholderManagement = lazy(() => import('./components/pages/StakeholderManagement'));
-const SettingsPage = lazy(() => import('./components/pages/SettingsPage'));
-const HelpSupportPage = lazy(() => import('./components/pages/HelpSupportPage'));
-const PlaceholderPage = lazy(() => import('./components/pages/PlaceholderPage'));
-const BousalaPage = lazy(() => import('./components/pages/BousalaPage'));
-const FinancialsPage = lazy(() => import('./components/pages/FinancialsPage'));
-const StaffPage = lazy(() => import('./components/pages/StaffPage'));
-const ImplementingPartnersPage = lazy(() => import('./components/pages/ImplementingPartnersPage'));
-const PlatformPage = lazy(() => import('./components/pages/PlatformPage'));
+import { useModuleRouteGuard } from './hooks/useModuleRouteGuard';
+import {
+    getRegistryEntry,
+    PLATFORM_MODULE,
+    PLACEHOLDER_MODULE,
+} from './moduleRegistry';
 
 
 interface ModuleRendererProps {
@@ -56,21 +45,33 @@ const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 }) => {
     const { projects } = { projects: MOCK_PROJECTS as Project[] };
 
+    if (activeModule === PLATFORM_MODULE.key) {
+        const PlatformPage = PLATFORM_MODULE.component;
+        return <PlatformPage setActiveModule={updateActiveModule} />;
+    }
+
+    const entry = getRegistryEntry(activeModule);
+    if (!entry) {
+        const PlaceholderPage = PLACEHOLDER_MODULE;
+        return <PlaceholderPage moduleKey={activeModule} />;
+    }
+
+    const Page = entry.component;
+
     switch (activeModule) {
-        case 'dashboard': return <Dashboard setActiveModule={updateActiveModule} />;
-        case 'donors': return <DonorManagement role={role} deepLinkTarget={deepLinkTarget} />;
-        case 'institutional_donors': return <InstitutionalDonors />;
-        case 'projects': return <ProjectManagement deepLinkTarget={deepLinkTarget} />;
-        case 'beneficiaries': return <BeneficiariesModule deepLinkTarget={deepLinkTarget} />;
-        case 'stakeholder_management': return <StakeholderManagement />;
-        case 'bousala': return <BousalaPage projects={projects} hrData={hrData} role={role} setActiveModule={updateActiveModule} />;
-        case 'financials': return <FinancialsPage />;
-        case 'implementing_partners': return <ImplementingPartnersPage />;
-        case 'staff': return <StaffPage />;
-        case 'platform': return <PlatformPage setActiveModule={updateActiveModule} />;
-        case 'settings': return <SettingsPage enabledLanguages={enabledLanguages} onEnabledLanguagesChange={onEnabledLanguagesChange} />;
-        case 'help': return <HelpSupportPage />;
-        default: return <PlaceholderPage moduleKey={activeModule} />;
+        case 'dashboard':
+            return <Page setActiveModule={updateActiveModule} />;
+        case 'donors':
+            return <Page role={role} deepLinkTarget={deepLinkTarget} />;
+        case 'projects':
+        case 'beneficiaries':
+            return <Page deepLinkTarget={deepLinkTarget} />;
+        case 'bousala':
+            return <Page projects={projects} hrData={hrData} role={role} setActiveModule={updateActiveModule} />;
+        case 'settings':
+            return <Page enabledLanguages={enabledLanguages} onEnabledLanguagesChange={onEnabledLanguagesChange} />;
+        default:
+            return <Page />;
     }
 };
 
@@ -91,12 +92,13 @@ function App() {
     const [_isAiFabVisible, setIsAiFabVisible] = useState(false);
     const [deepLinkTarget, setDeepLinkTarget] = useState<{ id?: string; tab?: string } | null>(null);
 
-    // Get all necessary data at the top level
     const { hrData } = useHrData();
 
     const updateActiveModule = useCallback((module: string) => {
         window.location.hash = module;
     }, []);
+
+    useModuleRouteGuard(activeModule, updateActiveModule);
     
     const syncModuleFromHash = useCallback(() => {
         const hashContent = window.location.hash.substring(1) || 'dashboard';
@@ -178,7 +180,7 @@ function App() {
                             activeModule={activeModule}
                             setActiveModule={updateActiveModule}
                             onMenuClick={() => setIsMobileMenuOpen(true)}
-                            notificationCount={3} // Example notification count
+                            notificationCount={3}
                         />
                     </div>
                 </ToastProvider>

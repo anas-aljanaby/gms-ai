@@ -7,11 +7,11 @@ import {
     beneficiaries,
     individual_donors,
     memberships,
-    modules,
     organizations,
     projects,
 } from '../db/schema';
-import { DEFAULT_ORG_MODULES, deleteOrgData } from '../lib/deleteOrgData';
+import { deleteOrgData } from '../lib/deleteOrgData';
+import { seedOrgModules } from '../lib/orgModules';
 import { authMiddleware } from '../middleware/auth';
 import { requirePlatformAdmin } from '../middleware/orgContext';
 
@@ -75,9 +75,7 @@ platformRouter.post('/orgs', async (c) => {
         .values({ name: parsed.data.name, custom_fields: {} })
         .returning();
 
-    await db.insert(modules).values(
-        DEFAULT_ORG_MODULES.map((name) => ({ org_id: org.id, name })),
-    );
+    await seedOrgModules(org.id);
 
     const user = c.get('user');
     const profile = creatorProfile(user);

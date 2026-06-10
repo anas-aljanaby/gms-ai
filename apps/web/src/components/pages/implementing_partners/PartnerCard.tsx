@@ -72,7 +72,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ partner, onClick }) => {
                 />
                 <StatRow
                     icon={<Star size={16} />}
-                    label={t('partners.card.rating')}
+                    label={t('partners.card.performance')}
                     value={`${partner.rating.toFixed(1)} / 5.0`}
                 />
                 <StatRow

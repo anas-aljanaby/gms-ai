@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLocalization } from '../../hooks/useLocalization';
 import { PLATFORM_ORGS_KEY, useCreateOrg, useDeleteOrg, usePlatformOrgs } from '../../hooks/usePlatform';
@@ -8,6 +8,8 @@ import { useDestructiveConfirmation } from '../../hooks/useDestructiveConfirmati
 import ModalPortal from '../common/ModalPortal';
 import ConfirmationModal from '../common/ConfirmationModal';
 import type { PlatformOrg } from '../../hooks/usePlatform';
+import PageManagementPanel from './settings/PageManagementPanel';
+import { XIcon } from '../icons/GenericIcons';
 
 interface PlatformPageProps {
     setActiveModule: (module: string) => void;
@@ -125,6 +127,9 @@ const PlatformPage: React.FC<PlatformPageProps> = ({ setActiveModule }) => {
 
     const [createOpen, setCreateOpen] = useState(false);
     const [manageTarget, setManageTarget] = useState<PlatformOrg | null>(null);
+    const [pagesDirty, setPagesDirty] = useState(false);
+    const [discardConfirmOpen, setDiscardConfirmOpen] = useState(false);
+    const pendingDiscardActionRef = useRef<(() => void) | null>(null);
     const [optimisticOrgs, setOptimisticOrgs] = useState<PlatformOrg[]>([]);
     const [highlightedId, setHighlightedId] = useState<string | null>(null);
     const deletion = useDestructiveConfirmation<PlatformOrg>({ getRowId: (org) => org.id });
@@ -134,6 +139,41 @@ const PlatformPage: React.FC<PlatformPageProps> = ({ setActiveModule }) => {
         const timeout = window.setTimeout(() => setHighlightedId(null), HIGHLIGHT_DURATION_MS);
         return () => window.clearTimeout(timeout);
     }, [highlightedId]);
+
+    useEffect(() => {
+        if (!manageTarget) setPagesDirty(false);
+    }, [manageTarget]);
+
+    const runWithDiscardCheck = useCallback((action: () => void) => {
+        if (deletion.isPending) return;
+        if (!pagesDirty) {
+            action();
+            return;
+        }
+        pendingDiscardActionRef.current = action;
+        setDiscardConfirmOpen(true);
+    }, [deletion.isPending, pagesDirty]);
+
+    const tryCloseManageModal = useCallback(() => {
+        runWithDiscardCheck(() => setManageTarget(null));
+    }, [runWithDiscardCheck]);
+
+    const confirmDiscardAndContinue = useCallback(() => {
+        setPagesDirty(false);
+        setDiscardConfirmOpen(false);
+        pendingDiscardActionRef.current?.();
+        pendingDiscardActionRef.current = null;
+    }, []);
+
+    useEffect(() => {
+        if (!manageTarget) return;
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== 'Escape' || discardConfirmOpen) return;
+            tryCloseManageModal();
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [manageTarget, discardConfirmOpen, tryCloseManageModal]);
 
     const visibleOrgs = sortPlatformOrgs([...orgs, ...optimisticOrgs]);
 
@@ -292,60 +332,89 @@ const PlatformPage: React.FC<PlatformPageProps> = ({ setActiveModule }) => {
 
             <CreateOrgModal isOpen={createOpen} onClose={() => setCreateOpen(false)} onSubmit={handleCreate} />
 
-            <ModalPortal isOpen={!!manageTarget} onClose={() => !deletion.isPending && setManageTarget(null)}>
-                <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl w-full max-w-lg p-6 space-y-6">
-                    <div className="space-y-1">
-                        <h3 className="text-lg font-semibold text-foreground dark:text-dark-foreground">
-                            {t('platform.manage_org_title', { name: manageTarget?.name ?? '' })}
-                        </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {t('platform.manage_org_description')}
-                        </p>
-                    </div>
-
-                    <div className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 space-y-3">
-                        <div className="flex items-center justify-between gap-3">
-                            <div>
-                                <h4 className="font-medium text-foreground dark:text-dark-foreground">{t('platform.enter')}</h4>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('platform.enter_description')}</p>
-                            </div>
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    if (!manageTarget) return;
-                                    enterOrg(manageTarget.id, manageTarget.name);
-                                    setManageTarget(null);
-                                }}
-                                className="shrink-0 px-4 py-2 text-sm font-medium bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                            >
-                                {t('platform.enter')}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="rounded-xl border border-red-200 dark:border-red-900/60 p-4 space-y-3">
-                        <div>
-                            <h4 className="font-medium text-red-700 dark:text-red-300">{t('platform.danger_zone')}</h4>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('platform.delete_hint')}</p>
+            <ModalPortal isOpen={!!manageTarget} onClose={tryCloseManageModal}>
+                <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+                    <div className="flex items-start justify-between gap-4 border-b border-gray-200 dark:border-slate-700 px-6 py-5">
+                        <div className="space-y-1 min-w-0">
+                            <h3 className="text-lg font-semibold text-foreground dark:text-dark-foreground">
+                                {t('platform.manage_org_title', { name: manageTarget?.name ?? '' })}
+                            </h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                {t('platform.manage_org_description')}
+                            </p>
                         </div>
                         <button
                             type="button"
-                            onClick={() => {
-                                if (!manageTarget) return;
-                                deletion.open(manageTarget);
-                                setManageTarget(null);
-                            }}
-                            disabled={deletion.isPending}
-                            className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                            onClick={tryCloseManageModal}
+                            className="shrink-0 p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-slate-700 dark:hover:text-gray-200"
+                            aria-label={t('common.close')}
                         >
-                            {t('platform.delete_org')}
+                            <XIcon />
                         </button>
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5 [scrollbar-gutter:stable]">
+                        <div className="space-y-5">
+                            {manageTarget && (
+                                <div className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 space-y-3">
+                                    <div>
+                                        <h4 className="font-medium text-foreground dark:text-dark-foreground">{t('platform.manage_pages')}</h4>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{t('platform.manage_pages_description')}</p>
+                                    </div>
+                                    <PageManagementPanel orgId={manageTarget.id} compact onDirtyChange={setPagesDirty} />
+                                </div>
+                            )}
+
+                            <div className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 space-y-3">
+                                <div className="flex items-center justify-between gap-3">
+                                    <div>
+                                        <h4 className="font-medium text-foreground dark:text-dark-foreground">{t('platform.enter')}</h4>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{t('platform.enter_description')}</p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            if (!manageTarget) return;
+                                            runWithDiscardCheck(() => {
+                                                enterOrg(manageTarget.id, manageTarget.name);
+                                                setManageTarget(null);
+                                            });
+                                        }}
+                                        className="shrink-0 px-4 py-2 text-sm font-medium bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                                    >
+                                        {t('platform.enter')}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="rounded-xl border border-red-200 dark:border-red-900/60 p-4 space-y-3">
+                                <div>
+                                    <h4 className="font-medium text-red-700 dark:text-red-300">{t('platform.danger_zone')}</h4>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('platform.delete_hint')}</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (!manageTarget) return;
+                                        const org = manageTarget;
+                                        runWithDiscardCheck(() => {
+                                            deletion.open(org);
+                                            setManageTarget(null);
+                                        });
+                                    }}
+                                    disabled={deletion.isPending}
+                                    className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                                >
+                                    {t('platform.delete_org')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end border-t border-gray-200 dark:border-slate-700 bg-card/95 dark:bg-dark-card/95 px-6 py-4">
                         <button
                             type="button"
-                            onClick={() => setManageTarget(null)}
+                            onClick={tryCloseManageModal}
                             className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg"
                         >
                             {t('common.close')}
@@ -353,6 +422,19 @@ const PlatformPage: React.FC<PlatformPageProps> = ({ setActiveModule }) => {
                     </div>
                 </div>
             </ModalPortal>
+
+            <ConfirmationModal
+                isOpen={discardConfirmOpen}
+                onClose={() => {
+                    setDiscardConfirmOpen(false);
+                    pendingDiscardActionRef.current = null;
+                }}
+                onConfirm={confirmDiscardAndContinue}
+                title={t('platform.discard_pages_title')}
+                message={t('platform.discard_pages_message')}
+                confirmLabel={t('platform.discard_pages_confirm')}
+                cancelLabel={t('platform.discard_pages_cancel')}
+            />
 
             <ConfirmationModal
                 isOpen={deletion.isOpen}

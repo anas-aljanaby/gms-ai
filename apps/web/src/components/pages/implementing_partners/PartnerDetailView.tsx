@@ -3,8 +3,9 @@ import { ArrowLeft } from 'lucide-react';
 import type { Partner } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
 import Tabs from '../../common/Tabs';
+import OverviewTab from './tabs/OverviewTab';
 import ProjectsTab from './tabs/ProjectsTab';
-import EvaluationsTab from './tabs/EvaluationsTab';
+import PerformanceTab from './tabs/PerformanceTab';
 import DocumentsTab from './tabs/DocumentsTab';
 import ContactTab from './tabs/ContactTab';
 
@@ -15,24 +16,27 @@ interface PartnerDetailViewProps {
 
 const PartnerDetailView: React.FC<PartnerDetailViewProps> = ({ partner, onBack }) => {
     const { t } = useLocalization(['partners']);
-    const [activeTab, setActiveTab] = useState('contact');
+    const [activeTab, setActiveTab] = useState('overview');
 
     const tabs = [
+        { id: 'overview', label: t('partners.detail.tabs.overview') },
         { id: 'projects', label: t('partners.detail.tabs.projects') },
-        { id: 'evaluations', label: t('partners.detail.tabs.evaluations') },
+        { id: 'performance', label: t('partners.detail.tabs.performance') },
         { id: 'documents', label: t('partners.detail.tabs.documents') },
-        { id: 'contact', label: t('partners.detail.tabs.contact') },
+        { id: 'contacts', label: t('partners.detail.tabs.contacts') },
     ];
 
     const renderTab = () => {
         switch (activeTab) {
+            case 'overview':
+                return <OverviewTab partner={partner} />;
             case 'projects':
                 return <ProjectsTab />;
-            case 'evaluations':
-                return <EvaluationsTab partnerRating={partner.rating} />;
+            case 'performance':
+                return <PerformanceTab partnerRating={partner.rating} />;
             case 'documents':
                 return <DocumentsTab />;
-            case 'contact':
+            case 'contacts':
                 return <ContactTab partner={partner} />;
             default:
                 return null;
@@ -40,7 +44,7 @@ const PartnerDetailView: React.FC<PartnerDetailViewProps> = ({ partner, onBack }
     };
 
     return (
-        <div dir="rtl" className="bg-gray-50 dark:bg-dark-background p-6 space-y-6 animate-fade-in">
+        <div className="bg-gray-50 dark:bg-dark-background p-6 space-y-6 animate-fade-in">
             <button type="button" onClick={onBack} className="flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline">
                 <ArrowLeft size={16} className="rotate-180" /> {t('partners.detail.backToList')}
             </button>

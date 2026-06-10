@@ -51,33 +51,33 @@ interface ContactTabProps {
 }
 
 const ContactTab: React.FC<ContactTabProps> = ({ partner }) => {
-    const { t } = useLocalization(['partners', 'institutional_donors', 'common']);
+    const { t } = useLocalization(['partners', 'common']);
     const toast = useToast();
     const [contacts, setContacts] = useState<ContactPerson[]>(partner.contacts ?? []);
     const [addOpen, setAddOpen] = useState(false);
-    const na = <span className="text-gray-400 dark:text-gray-500 italic">N/A</span>;
+    const na = <span className="text-gray-400 dark:text-gray-500 italic">{t('common.notAvailable', 'N/A')}</span>;
 
     const handleAdd = (contact: Omit<ContactPerson, 'id'>) => {
         setContacts((prev) => [{ ...contact, id: `pc-${Date.now()}` }, ...prev]);
-        toast.showSuccess(t('institutional_donors.contacts.addSuccess', 'Contact added successfully!'));
+        toast.showSuccess(t('partners.detail.addContactSuccess'));
         setAddOpen(false);
     };
 
     return (
         <div className="animate-fade-in space-y-6">
             <div className="bg-card dark:bg-dark-card p-6 rounded-xl shadow-inner border dark:border-slate-700/50">
-                <h3 className="text-xl font-bold mb-4">{t('institutional_donors.detail.contactInfoTitle')}</h3>
+                <h3 className="text-xl font-bold mb-4">{t('partners.detail.contactInfoTitle')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-6">
-                        <InfoRow icon={<Phone size={18} />} label={t('institutional_donors.detail.phone')} value={partner.phone || na} />
+                        <InfoRow icon={<Phone size={18} />} label={t('partners.detail.phone')} value={partner.phone || na} />
                         <InfoRow
                             icon={<Mail size={18} />}
-                            label={t('institutional_donors.detail.email')}
+                            label={t('partners.detail.email')}
                             value={partner.email ? <a href={`mailto:${partner.email}`} className="text-primary hover:underline">{partner.email}</a> : na}
                         />
                         <InfoRow
                             icon={<Globe size={18} />}
-                            label={t('institutional_donors.detail.website')}
+                            label={t('partners.detail.website')}
                             value={partner.website ? (
                                 <a href={partner.website.startsWith('http') ? partner.website : `https://${partner.website}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                     {partner.website}
@@ -86,7 +86,7 @@ const ContactTab: React.FC<ContactTabProps> = ({ partner }) => {
                         />
                         <InfoRow
                             icon={<MapPin size={18} />}
-                            label={t('institutional_donors.detail.address')}
+                            label={t('partners.detail.address')}
                             value={partner.address ? (
                                 <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(partner.address)}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                     {partner.address}
@@ -114,7 +114,7 @@ const ContactTab: React.FC<ContactTabProps> = ({ partner }) => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {contacts.map((contact) => (
-                        <ContactPersonCard key={contact.id} contact={contact} primaryLabel={t('institutional_donors.detail.form.isPrimary')} />
+                        <ContactPersonCard key={contact.id} contact={contact} primaryLabel={t('partners.detail.primaryContact')} />
                     ))}
                 </div>
             </div>

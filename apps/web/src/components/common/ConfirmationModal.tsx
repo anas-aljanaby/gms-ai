@@ -11,6 +11,7 @@ interface ConfirmationModalProps {
   title: string;
   message: string;
   confirmLabel?: string;
+  cancelLabel?: string;
   confirmingLabel?: string;
   /** Parent-controlled pending state (e.g. from useDestructiveConfirmation). */
   isConfirming?: boolean;
@@ -27,10 +28,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   title,
   message,
   confirmLabel,
+  cancelLabel,
   confirmingLabel,
   isConfirming = false,
 }) => {
-  const { t } = useLocalization();
+  const { t, dir } = useLocalization();
   const [internalPending, setInternalPending] = React.useState(false);
   const busy = isConfirming || internalPending;
 
@@ -76,7 +78,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const pendingLabel = confirmingLabel ?? t('common.deleting', 'Deleting…');
 
   return (
-    <ModalPortal isOpen={isOpen} onClose={handleClose} labelledBy="confirmation-title">
+    <ModalPortal isOpen={isOpen} onClose={handleClose} dir={dir} labelledBy="confirmation-title">
       <div
         className="bg-card dark:bg-dark-card rounded-2xl shadow-xl w-full max-w-md"
         onClick={(e) => e.stopPropagation()}
@@ -86,7 +88,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/50 sm:mx-0 sm:h-10 sm:w-10">
               <WarningTriangleIcon className="h-6 w-6 text-red-600 dark:text-red-300" />
             </div>
-            <div className="mt-0 text-center sm:text-left">
+            <div className="mt-0 text-center sm:text-start">
               <h3 className="text-lg leading-6 font-bold text-foreground dark:text-dark-foreground" id="confirmation-title">
                 {title}
               </h3>
@@ -105,7 +107,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             disabled={busy}
             className="w-full sm:w-auto px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {t('common.cancel')}
+            {cancelLabel ?? t('common.cancel')}
           </button>
           <button
             type="button"

@@ -1,20 +1,6 @@
 
 
 import {
-    DashboardIcon,
-    DonorIcon,
-    ProjectIcon,
-    BeneficiaryIcon,
-    SettingsIcon,
-    HrIcon,
-    HelpSupportIcon,
-    BousalaIcon,
-    FinancialsIcon,
-    StaffIcon,
-    PlatformIcon,
-    PartnerIcon,
-} from './components/icons/ModuleIcons';
-import {
     CommunityServiceIcon,
     ResearchIcon,
     InnovationIcon,
@@ -24,27 +10,18 @@ import {
     CulturalIcon,
 } from './components/icons/ProjectIcons';
 import type { Role } from './types';
+import {
+    SIDEBAR_MODULES_FROM_REGISTRY,
+    SIDEBAR_MODULES_FOR_PERMISSIONS as REGISTRY_PERMISSIONS_MODULES,
+    PLATFORM_MODULE,
+} from './moduleRegistry';
 
-export const SIDEBAR_MODULES: any[] = [
-    { key: 'dashboard', icon: DashboardIcon },
-    { key: 'bousala', icon: BousalaIcon },
-    { key: 'stakeholder_management', icon: HrIcon },
-    { key: 'donors', icon: DonorIcon },
-    { key: 'institutional_donors', icon: DonorIcon },
-    { key: 'beneficiaries', icon: BeneficiaryIcon },
-    { key: 'projects', icon: ProjectIcon },
-    { key: 'financials', icon: FinancialsIcon },
-    { key: 'implementing_partners', icon: PartnerIcon },
-    { key: 'staff', icon: StaffIcon },
-    { key: 'help', icon: HelpSupportIcon },
-    { key: 'settings', icon: SettingsIcon },
-];
+/** @deprecated Use moduleRegistry / useVisibleSidebarModules instead. */
+export const SIDEBAR_MODULES = SIDEBAR_MODULES_FROM_REGISTRY;
 
-// Platform console is not in SIDEBAR_MODULES — it's injected conditionally for super admins.
-export const PLATFORM_MODULE = { key: 'platform', icon: PlatformIcon };
+export { PLATFORM_MODULE };
 
-export const SIDEBAR_MODULES_FOR_PERMISSIONS = SIDEBAR_MODULES.filter(m => !['settings', 'help'].includes(m.key));
-
+export const SIDEBAR_MODULES_FOR_PERMISSIONS = REGISTRY_PERMISSIONS_MODULES;
 
 export const USER_ROLES: Role[] = ['Admin', 'Manager', 'Staff', 'Volunteer'];
 

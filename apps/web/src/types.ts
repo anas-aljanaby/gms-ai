@@ -683,6 +683,7 @@ export interface Student {
 
 export type SettingsCategory = 
     | 'organization'
+    | 'pages'
     | 'users'
     | 'translations'
     | 'financials'

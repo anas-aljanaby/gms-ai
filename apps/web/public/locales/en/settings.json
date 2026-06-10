@@ -4,11 +4,26 @@
     "saveChanges": "Save Changes",
     "categories": {
       "organization": "Organization",
+      "pages": "Pages",
       "users": "Users & Access",
       "translations": "Translation Management",
       "financials": "Financial Settings",
       "projects": "Program Settings",
       "documents": "Documents"
+    },
+    "pages": {
+      "title": "Page Management",
+      "description": "Control which modules appear in the sidebar for this organization, their order, and optional label overrides.",
+      "enabled": "Visible",
+      "locked": "Required",
+      "labelEn": "English label override",
+      "labelAr": "Arabic label override",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "saveSuccess": "Page settings saved",
+      "discardExitTitle": "Unsaved page changes",
+      "discardExitMessage": "You have unsaved page settings. Exit without saving?",
+      "discardExitConfirm": "Exit without saving"
     },
     "organization": {
       "profileTitle": "Organization Profile",

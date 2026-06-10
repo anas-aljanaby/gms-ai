@@ -7,7 +7,9 @@ interface AddPartnerWizardProps {
     onBack: () => void;
 }
 
-const STEPS = ['basic', 'org', 'contact', 'documents', 'review'] as const;
+const STEPS = ['basic', 'scope', 'contact', 'documents', 'review'] as const;
+
+const SECTOR_OPTIONS = ['التعليم', 'الصحة', 'الإغاثة', 'التنمية', 'البيئة'] as const;
 
 const StepIndicator: React.FC<{ currentStep: number; labels: string[] }> = ({ currentStep, labels }) => (
     <nav aria-label="Progress">
@@ -48,7 +50,7 @@ const FormField: React.FC<{ label: string; required?: boolean; children: React.R
 const inputClass = 'w-full p-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600';
 
 const SuccessScreen: React.FC<{ onBack: () => void; t: (key: string) => string }> = ({ onBack, t }) => (
-    <div dir="rtl" className="bg-gray-50 dark:bg-dark-background p-6 flex items-center justify-center min-h-[calc(100vh-10rem)]">
+    <div className="bg-gray-50 dark:bg-dark-background p-6 flex items-center justify-center min-h-[calc(100vh-10rem)]">
         <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -62,15 +64,15 @@ const SuccessScreen: React.FC<{ onBack: () => void; t: (key: string) => string }
             <p className="mt-2 text-gray-500">{t('partners.wizard.successSubtitle')}</p>
             <div className="mt-6 bg-gray-50 dark:bg-slate-800 rounded-lg p-4 space-y-2 text-sm">
                 <div className="flex justify-between">
-                    <span className="text-gray-500">{t('partners.wizard.requestNumber')}</span>
-                    <span className="font-mono font-semibold">#12345</span>
+                    <span className="text-gray-500">{t('partners.wizard.referenceNumber')}</span>
+                    <span className="font-mono font-semibold">P-2024-001</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-gray-500">{t('partners.wizard.status')}</span>
                     <span className="font-semibold text-yellow-600">{t('partners.wizard.statusPending')}</span>
                 </div>
             </div>
-            <p className="mt-4 text-xs text-gray-400">{t('partners.wizard.emailNotice')}</p>
+            <p className="mt-4 text-xs text-gray-400">{t('partners.wizard.successNotice')}</p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <button type="button" onClick={onBack} className="flex-1 px-6 py-3 text-sm font-semibold border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">
                     {t('partners.wizard.backToList')}
@@ -91,14 +93,13 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
     const [form, setForm] = useState({
         organizationName: '',
         organizationNameEn: '',
-        primarySector: 'التعليم',
+        primarySector: 'التعليم' as typeof SECTOR_OPTIONS[number],
         country: 'SA',
         city: '',
         description: '',
         mainPhone: '',
         officialEmail: '',
         website: '',
-        notes: '',
     });
 
     const stepLabels = STEPS.map((s) => t(`partners.wizard.steps.${s}`));
@@ -116,20 +117,20 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                     <div className="space-y-6 max-w-4xl mx-auto">
                         <h2 className="text-xl font-bold text-center">{t('partners.wizard.basicTitle')}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label="اسم المنظمة (عربي)" required>
+                            <FormField label={t('partners.wizard.fields.organizationNameAr')} required>
                                 <input className={inputClass} value={form.organizationName} onChange={(e) => update({ organizationName: e.target.value })} />
                             </FormField>
-                            <FormField label="اسم المنظمة (إنجليزي)">
+                            <FormField label={t('partners.wizard.fields.organizationNameEn')}>
                                 <input className={inputClass} value={form.organizationNameEn} onChange={(e) => update({ organizationNameEn: e.target.value })} />
                             </FormField>
-                            <FormField label="القطاع الرئيسي" required>
-                                <select className={inputClass} value={form.primarySector} onChange={(e) => update({ primarySector: e.target.value })}>
-                                    {['التعليم', 'الصحة', 'الإغاثة', 'التنمية', 'البيئة'].map((s) => (
+                            <FormField label={t('partners.wizard.fields.primarySector')} required>
+                                <select className={inputClass} value={form.primarySector} onChange={(e) => update({ primarySector: e.target.value as typeof form.primarySector })}>
+                                    {SECTOR_OPTIONS.map((s) => (
                                         <option key={s} value={s}>{s}</option>
                                     ))}
                                 </select>
                             </FormField>
-                            <FormField label="الوصف">
+                            <FormField label={t('partners.wizard.fields.description')}>
                                 <textarea className={inputClass} rows={4} value={form.description} onChange={(e) => update({ description: e.target.value })} />
                             </FormField>
                         </div>
@@ -138,12 +139,12 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
             case 2:
                 return (
                     <div className="space-y-6 max-w-4xl mx-auto">
-                        <h2 className="text-xl font-bold text-center">{t('partners.wizard.steps.org')}</h2>
+                        <h2 className="text-xl font-bold text-center">{t('partners.wizard.steps.scope')}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label="الدولة" required>
+                            <FormField label={t('partners.wizard.fields.country')} required>
                                 <input className={inputClass} value={form.country} onChange={(e) => update({ country: e.target.value })} />
                             </FormField>
-                            <FormField label="المدينة">
+                            <FormField label={t('partners.wizard.fields.city')}>
                                 <input className={inputClass} value={form.city} onChange={(e) => update({ city: e.target.value })} />
                             </FormField>
                         </div>
@@ -154,13 +155,13 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                     <div className="space-y-6 max-w-4xl mx-auto">
                         <h2 className="text-xl font-bold text-center">{t('partners.wizard.steps.contact')}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label="الهاتف الرئيسي">
+                            <FormField label={t('partners.wizard.fields.mainPhone')}>
                                 <input className={inputClass} value={form.mainPhone} onChange={(e) => update({ mainPhone: e.target.value })} />
                             </FormField>
-                            <FormField label="البريد الرسمي" required>
+                            <FormField label={t('partners.wizard.fields.officialEmail')} required>
                                 <input type="email" className={inputClass} value={form.officialEmail} onChange={(e) => update({ officialEmail: e.target.value })} />
                             </FormField>
-                            <FormField label="الموقع الإلكتروني">
+                            <FormField label={t('partners.wizard.fields.website')}>
                                 <input className={inputClass} value={form.website} onChange={(e) => update({ website: e.target.value })} />
                             </FormField>
                         </div>
@@ -171,8 +172,8 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                     <div className="space-y-6 max-w-4xl mx-auto text-center">
                         <h2 className="text-xl font-bold">{t('partners.wizard.steps.documents')}</h2>
                         <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-12">
-                            <p className="text-gray-500">اسحب الملفات هنا أو انقر للاختيار</p>
-                            <p className="text-xs text-gray-400 mt-2">PDF, DOCX — حتى 10MB</p>
+                            <p className="text-gray-500">{t('partners.wizard.fields.dragDrop')}</p>
+                            <p className="text-xs text-gray-400 mt-2">{t('partners.wizard.fields.fileTypes')}</p>
                         </div>
                     </div>
                 );
@@ -181,10 +182,10 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                     <div className="space-y-6 max-w-4xl mx-auto">
                         <h2 className="text-xl font-bold text-center">{t('partners.wizard.steps.review')}</h2>
                         <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-6 space-y-3 text-sm">
-                            <p><strong>اسم المنظمة:</strong> {form.organizationName || '—'}</p>
-                            <p><strong>القطاع:</strong> {form.primarySector}</p>
-                            <p><strong>المدينة:</strong> {form.city || '—'}</p>
-                            <p><strong>البريد:</strong> {form.officialEmail || '—'}</p>
+                            <p><strong>{t('partners.wizard.fields.reviewOrganization')}:</strong> {form.organizationName || '—'}</p>
+                            <p><strong>{t('partners.wizard.fields.reviewSector')}:</strong> {form.primarySector}</p>
+                            <p><strong>{t('partners.wizard.fields.reviewCity')}:</strong> {form.city || '—'}</p>
+                            <p><strong>{t('partners.wizard.fields.reviewEmail')}:</strong> {form.officialEmail || '—'}</p>
                         </div>
                         <label className="flex items-center gap-2">
                             <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} className="w-4 h-4 text-blue-600 rounded" />
@@ -198,14 +199,14 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
     };
 
     return (
-        <div dir="rtl" className="bg-gray-50 dark:bg-dark-background p-6 space-y-6">
+        <div className="bg-gray-50 dark:bg-dark-background p-6 space-y-6">
             <div>
                 <nav className="text-sm mb-2">
                     <button type="button" onClick={onBack} className="text-gray-500 hover:underline">{t('partners.breadcrumbHome')}</button>
                     {' > '}
                     <button type="button" onClick={onBack} className="text-gray-500 hover:underline">{t('partners.breadcrumbPartners')}</button>
                     {' > '}
-                    <span className="font-semibold text-gray-700 dark:text-gray-300">{t('partners.wizard.breadcrumbAdd')}</span>
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">{t('partners.wizard.breadcrumbRegister')}</span>
                 </nav>
                 <h1 className="text-2xl font-bold text-gray-800 dark:text-dark-foreground">{t('partners.wizard.title')}</h1>
             </div>

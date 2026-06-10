@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocalization } from '../../hooks/useLocalization';
 import { useAuth } from '../../contexts/AuthContext';
-import { usePermissions } from '../../hooks/usePermissions';
-import { useOrg } from '../../contexts/OrgContext';
-import { SIDEBAR_MODULES, PLATFORM_MODULE } from '../../constants';
+import { useVisibleSidebarModules } from '../../hooks/useVisibleSidebarModules';
+import { useSidebarLabel } from '../../hooks/useSidebarLabel';
+import { useLocalization } from '../../hooks/useLocalization';
 import { LogoutIcon } from '../icons/ModuleIcons';
 import { ChevronDownIcon } from '../icons/GenericIcons';
-import type { RbacModule } from '@gms/shared';
 
 interface SidebarProps {
   activeModule: string;
@@ -15,40 +13,18 @@ interface SidebarProps {
   role?: unknown;
 }
 
-const UNGATED_MODULES = new Set(['help']);
-
 const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
-  const { sidebarLabel, dir } = useLocalization(['common', 'sidebar']);
+  const { dir } = useLocalization(['common', 'sidebar']);
+  const sidebarLabel = useSidebarLabel();
   const { signOut } = useAuth();
-  const { can, isPlatformAdmin } = usePermissions();
-  const { isImpersonating } = useOrg();
+  const { visibleModules } = useVisibleSidebarModules();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(() => {
     return localStorage.getItem('sidebarExpanded') !== 'false';
   });
 
-  const visibleModules = useMemo(() => {
-    const filtered = SIDEBAR_MODULES.filter(module => {
-      if (UNGATED_MODULES.has(module.key)) return true;
-      return can(module.key as RbacModule, 'read');
-    });
-    if (!isPlatformAdmin || isImpersonating) return filtered;
-
-    const settingsIndex = filtered.findIndex((module) => module.key === 'settings');
-    if (settingsIndex === -1) {
-      return [...filtered, PLATFORM_MODULE];
-    }
-
-    // Platform console is an infrequent admin utility, so keep it near settings.
-    return [
-      ...filtered.slice(0, settingsIndex),
-      PLATFORM_MODULE,
-      ...filtered.slice(settingsIndex),
-    ];
-  }, [can, isPlatformAdmin, isImpersonating]);
-
   useEffect(() => {
-    const parentMenu = visibleModules.find(m => m.submenu && m.submenu.some((sub: any) => sub.key === activeModule));
+    const parentMenu = visibleModules.find(m => m.submenu && m.submenu.some((sub) => sub.key === activeModule));
     if (parentMenu) {
         setOpenSubmenu(parentMenu.key);
     }
@@ -99,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
           {visibleModules.map((module) => {
             if (module.submenu) {
               const isSubmenuOpen = openSubmenu === module.key;
-              const isActive = module.submenu.some((sub: any) => sub.key === activeModule);
+              const isActive = module.submenu.some((sub) => sub.key === activeModule);
               const Icon = module.icon;
               return (
                 <li key={module.key}>
@@ -126,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden ps-8 rtl:ps-0 rtl:pe-8 pt-1 space-y-1"
                       >
-                        {module.submenu.map((subItem: any) => (
+                        {module.submenu.map((subItem) => (
                           <li key={subItem.key}>
                             <a href="#" onClick={(e) => { e.preventDefault(); setActiveModule(subItem.key); }}
                                 className={`block p-2 rounded-md text-sm font-medium ${activeModule === subItem.key ? 'bg-primary-light/50 text-primary-dark dark:bg-primary/20 dark:text-white font-bold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50'}`}
