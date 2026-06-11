@@ -137,12 +137,27 @@ const ImplementingPartnersPage: React.FC = () => {
         setViewMode('list');
     };
 
+    const handlePartnerUpdate = (updated: Partner) => {
+        setPartners((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+        setSelectedPartner(updated);
+    };
+
+    const handlePartnerCreate = (partner: Partner) => {
+        setPartners((prev) => [partner, ...prev]);
+    };
+
     if (viewMode === 'profile' && selectedPartner) {
-        return <PartnerDetailView partner={selectedPartner} onBack={backToList} />;
+        return (
+            <PartnerDetailView
+                partner={selectedPartner}
+                onBack={backToList}
+                onPartnerUpdate={handlePartnerUpdate}
+            />
+        );
     }
 
     if (viewMode === 'add') {
-        return <AddPartnerWizard onBack={backToList} />;
+        return <AddPartnerWizard onBack={backToList} onSubmit={handlePartnerCreate} />;
     }
 
     return (

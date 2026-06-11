@@ -12,9 +12,10 @@ import ContactTab from './tabs/ContactTab';
 interface PartnerDetailViewProps {
     partner: Partner;
     onBack: () => void;
+    onPartnerUpdate: (updated: Partner) => void;
 }
 
-const PartnerDetailView: React.FC<PartnerDetailViewProps> = ({ partner, onBack }) => {
+const PartnerDetailView: React.FC<PartnerDetailViewProps> = ({ partner, onBack, onPartnerUpdate }) => {
     const { t } = useLocalization(['partners']);
     const [activeTab, setActiveTab] = useState('overview');
 
@@ -29,15 +30,20 @@ const PartnerDetailView: React.FC<PartnerDetailViewProps> = ({ partner, onBack }
     const renderTab = () => {
         switch (activeTab) {
             case 'overview':
-                return <OverviewTab partner={partner} />;
+                return <OverviewTab partner={partner} onPartnerUpdate={onPartnerUpdate} />;
             case 'projects':
                 return <ProjectsTab />;
             case 'performance':
-                return <PerformanceTab partnerRating={partner.rating} />;
+                return (
+                    <PerformanceTab
+                        partnerRating={partner.rating}
+                        onRatingChange={(rating) => onPartnerUpdate({ ...partner, rating })}
+                    />
+                );
             case 'documents':
                 return <DocumentsTab />;
             case 'contacts':
-                return <ContactTab partner={partner} />;
+                return <ContactTab partner={partner} onPartnerUpdate={onPartnerUpdate} />;
             default:
                 return null;
         }

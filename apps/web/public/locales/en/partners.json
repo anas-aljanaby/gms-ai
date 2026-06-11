@@ -30,6 +30,10 @@
     },
     "exportList": "Export List",
     "registerPartner": "Register Partner",
+    "validation": {
+      "required": "This field is required.",
+      "invalidEmail": "Please enter a valid email address."
+    },
     "pagination": {
       "showing": "Showing {{from}}-{{to}} of {{total}} partners",
       "prev": "Previous",
@@ -62,6 +66,11 @@
       "address": "Address",
       "primaryContact": "Primary",
       "addContactSuccess": "Contact added successfully.",
+      "contactInfoSaveSuccess": "Contact information saved.",
+      "contactsEmpty": "No contacts added yet.",
+      "deleteContactTitle": "Remove Contact",
+      "deleteContactMessage": "Remove {{name}} from this partner's contacts?",
+      "deleteContactSuccess": "Contact removed.",
       "overview": {
         "summaryTitle": "Partner Summary",
         "statusEligibility": "Status & Eligibility",
@@ -80,7 +89,8 @@
         "compliancePending": "Compliance review pending",
         "eligible": "Eligible for new assignments",
         "notEligible": "Not eligible for new assignments"
-      }
+      },
+      "overviewSaveSuccess": "Partner overview updated."
     },
     "projects": {
       "filterAll": "All",
@@ -98,12 +108,20 @@
       "selectProject": "Select Project",
       "selectPlaceholder": "-- Select from project list --",
       "linkSubmit": "Link Project",
-      "linkSuccess": "Project \"{{name}}\" linked successfully."
+      "linkSuccess": "Project \"{{name}}\" linked successfully.",
+      "empty": "No projects linked to this partner yet.",
+      "emptyFiltered": "No projects match the selected filter.",
+      "noAvailableProjects": "All available projects are already linked."
     },
     "performance": {
       "overallScore": "Overall Performance Score",
       "basedOn": "Based on {{count}} evaluation records",
       "addEvaluation": "Add Evaluation",
+      "addModalTitle": "Add Evaluation Record",
+      "ratingLabel": "Rating",
+      "commentLabel": "Comments",
+      "addSuccess": "Evaluation added.",
+      "empty": "No evaluation records yet.",
       "criteriaTitle": "Performance Criteria",
       "recordsTitle": "Recent Evaluation Records",
       "projectLabel": "Project",
@@ -127,6 +145,14 @@
       "download": "Download",
       "delete": "Delete",
       "empty": "No documents in this category.",
+      "uploadSuccess": "File added.",
+      "folderCreated": "Folder created.",
+      "deleteSuccess": "Document removed.",
+      "previewPlaceholder": "Document preview will be available when storage is connected.",
+      "downloadPlaceholder": "Document download will be available when storage is connected.",
+      "folderNamePlaceholder": "Folder name",
+      "deleteTitle": "Delete Document",
+      "deleteMessage": "Delete \"{{name}}\"? This cannot be undone.",
       "categories": {
         "all": "All",
         "agreements": "Agreements",
@@ -163,8 +189,10 @@
         "reviewOrganization": "Organization",
         "reviewSector": "Sector",
         "reviewCity": "City",
-        "reviewEmail": "Email"
+        "reviewEmail": "Email",
+        "reviewDocuments": "Documents"
       },
+      "draftSaved": "Draft saved locally.",
       "cancel": "Cancel",
       "prev": "Previous",
       "next": "Next",

@@ -30,6 +30,10 @@
     },
     "exportList": "تصدير القائمة",
     "registerPartner": "تسجيل شريك منفذ",
+    "validation": {
+      "required": "هذا الحقل مطلوب.",
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صالح."
+    },
     "pagination": {
       "showing": "عرض {{from}}-{{to}} من {{total}} شريك",
       "prev": "السابق",
@@ -62,6 +66,11 @@
       "address": "العنوان",
       "primaryContact": "رئيسي",
       "addContactSuccess": "تمت إضافة جهة الاتصال بنجاح.",
+      "contactInfoSaveSuccess": "تم حفظ معلومات التواصل.",
+      "contactsEmpty": "لا توجد جهات اتصال بعد.",
+      "deleteContactTitle": "إزالة جهة الاتصال",
+      "deleteContactMessage": "إزالة {{name}} من جهات اتصال هذا الشريك؟",
+      "deleteContactSuccess": "تمت إزالة جهة الاتصال.",
       "overview": {
         "summaryTitle": "ملخص الشريك",
         "statusEligibility": "الحالة والأهلية",
@@ -80,7 +89,8 @@
         "compliancePending": "مراجعة الامتثال قيد الانتظار",
         "eligible": "مؤهل لتكليفات جديدة",
         "notEligible": "غير مؤهل لتكليفات جديدة"
-      }
+      },
+      "overviewSaveSuccess": "تم تحديث نظرة عامة الشريك."
     },
     "projects": {
       "filterAll": "الكل",
@@ -98,12 +108,20 @@
       "selectProject": "اختر المشروع",
       "selectPlaceholder": "-- اختر من قائمة المشاريع --",
       "linkSubmit": "ربط المشروع",
-      "linkSuccess": "تم ربط مشروع \"{{name}}\" بنجاح."
+      "linkSuccess": "تم ربط مشروع \"{{name}}\" بنجاح.",
+      "empty": "لا توجد مشاريع مرتبطة بهذا الشريك بعد.",
+      "emptyFiltered": "لا توجد مشاريع تطابق الفلتر المحدد.",
+      "noAvailableProjects": "جميع المشاريع المتاحة مرتبطة بالفعل."
     },
     "performance": {
       "overallScore": "درجة الأداء الإجمالية",
       "basedOn": "بناءً على {{count}} سجل تقييم",
       "addEvaluation": "إضافة تقييم",
+      "addModalTitle": "إضافة سجل تقييم",
+      "ratingLabel": "التقييم",
+      "commentLabel": "التعليقات",
+      "addSuccess": "تمت إضافة التقييم.",
+      "empty": "لا توجد سجلات تقييم بعد.",
       "criteriaTitle": "معايير الأداء",
       "recordsTitle": "سجلات التقييم الأخيرة",
       "projectLabel": "المشروع",
@@ -127,6 +145,14 @@
       "download": "تنزيل",
       "delete": "حذف",
       "empty": "لا توجد وثائق في هذا التصنيف.",
+      "uploadSuccess": "تمت إضافة الملف.",
+      "folderCreated": "تم إنشاء المجلد.",
+      "deleteSuccess": "تم حذف المستند.",
+      "previewPlaceholder": "ستتوفر معاينة المستندات عند ربط التخزين.",
+      "downloadPlaceholder": "سيتوفر تنزيل المستندات عند ربط التخزين.",
+      "folderNamePlaceholder": "اسم المجلد",
+      "deleteTitle": "حذف المستند",
+      "deleteMessage": "حذف \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
       "categories": {
         "all": "الكل",
         "agreements": "الاتفاقيات",
@@ -163,8 +189,10 @@
         "reviewOrganization": "المنظمة",
         "reviewSector": "القطاع",
         "reviewCity": "المدينة",
-        "reviewEmail": "البريد"
+        "reviewEmail": "البريد",
+        "reviewDocuments": "المستندات"
       },
+      "draftSaved": "تم حفظ المسودة محلياً.",
       "cancel": "إلغاء",
       "prev": "السابق",
       "next": "التالي",

@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Calendar, ChevronDown, DollarSign, MapPin, Tag, UsersRound } from 'lucide-react';
+import { Calendar, ChevronDown, DollarSign, MapPin, Tag, UsersRound, X } from 'lucide-react';
 import { useLocalization } from '../../../../hooks/useLocalization';
 import { formatCurrency } from '../../../../lib/utils';
 import { MOCK_PARTNER_PROJECTS, type PartnerProject } from '../partnerStaticData';
 import { MOCK_PROJECTS } from '../../../../data/projectData';
 import ModalPortal from '../../../common/ModalPortal';
-import { X } from 'lucide-react';
 import { useToast } from '../../../../hooks/useToast';
+
+// TODO: Replace MOCK_PARTNER_PROJECTS / MOCK_PROJECTS with useProjects when projects are wired per-partner
 
 const STATUS_STYLES: Record<string, { badge: string; bar: string }> = {
     'مكتمل': { badge: 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300', bar: 'bg-green-500' },
@@ -71,7 +72,7 @@ const ProjectsTab: React.FC = () => {
     const [selectedProjectId, setSelectedProjectId] = useState('');
 
     const filtered = useMemo(() => {
-        let list = statusFilter === 'الكل' ? projects : projects.filter((p) => p.status === statusFilter);
+        const list = statusFilter === 'الكل' ? projects : projects.filter((p) => p.status === statusFilter);
         return [...list].sort((a, b) => {
             if (sortBy === 'حسب الميزانية') return b.budget - a.budget;
             return 0;
@@ -85,10 +86,14 @@ const ProjectsTab: React.FC = () => {
 
     const handleLink = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedProjectId) return;
+        if (!selectedProjectId) {
+            toast.showError(t('partners.validation.required'));
+            return;
+        }
         const project = MOCK_PROJECTS.find((p) => p.id === selectedProjectId);
         if (!project) return;
         const linked: PartnerProject = {
+            id: `pp-${Date.now()}`,
             status: 'جاري التنفيذ',
             name: project.name.ar,
             sector: t(`projects.types.${project.type}`, project.type),
@@ -140,19 +145,23 @@ const ProjectsTab: React.FC = () => {
                         </button>
                     </div>
                 </div>
-                <AnimatePresence>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filtered.map((project) => (
-                            <ProjectCard key={project.name} project={project} />
-                        ))}
+                {filtered.length === 0 ? (
+                    <div className="text-center py-16 text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
+                        <p>{projects.length === 0 ? t('partners.projects.empty') : t('partners.projects.emptyFiltered')}</p>
                     </div>
-                </AnimatePresence>
+                ) : (
+                    <AnimatePresence>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {filtered.map((project) => (
+                                <ProjectCard key={project.id} project={project} />
+                            ))}
+                        </div>
+                    </AnimatePresence>
+                )}
             </div>
 
-            {linkOpen && (
-                <ModalPortal>
-                    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-in" onClick={() => setLinkOpen(false)}>
-                        <div className="bg-card dark:bg-dark-card rounded-2xl shadow-xl w-full max-w-lg m-4" onClick={(e) => e.stopPropagation()}>
+            <ModalPortal isOpen={linkOpen} onClose={() => setLinkOpen(false)}>
+                <div className="bg-card dark:bg-dark-card rounded-2xl shadow-xl w-full max-w-lg m-4" onClick={(e) => e.stopPropagation()}>
                             <div className="flex items-center justify-between p-4 border-b dark:border-slate-700">
                                 <h2 className="text-xl font-bold">{t('partners.projects.linkModalTitle')}</h2>
                                 <button type="button" onClick={() => setLinkOpen(false)} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700">
@@ -162,27 +171,29 @@ const ProjectsTab: React.FC = () => {
                             <form onSubmit={handleLink}>
                                 <div className="p-6">
                                     <label htmlFor="project-select" className="block text-sm font-medium mb-2">{t('partners.projects.selectProject')}</label>
-                                    <select
-                                        id="project-select"
-                                        value={selectedProjectId}
-                                        onChange={(e) => setSelectedProjectId(e.target.value)}
-                                        className="w-full p-2 border rounded-md bg-white dark:bg-slate-800 dark:border-slate-600"
-                                    >
-                                        <option value="" disabled>{t('partners.projects.selectPlaceholder')}</option>
-                                        {availableProjects.map((p) => (
-                                            <option key={p.id} value={p.id}>{language === 'ar' ? p.name.ar : p.name.en}</option>
-                                        ))}
-                                    </select>
+                                    {availableProjects.length === 0 ? (
+                                        <p className="text-sm text-gray-500">{t('partners.projects.noAvailableProjects')}</p>
+                                    ) : (
+                                        <select
+                                            id="project-select"
+                                            value={selectedProjectId}
+                                            onChange={(e) => setSelectedProjectId(e.target.value)}
+                                            className="w-full p-2 border rounded-md bg-white dark:bg-slate-800 dark:border-slate-600"
+                                        >
+                                            <option value="">{t('partners.projects.selectPlaceholder')}</option>
+                                            {availableProjects.map((p) => (
+                                                <option key={p.id} value={p.id}>{language === 'ar' ? p.name.ar : p.name.en}</option>
+                                            ))}
+                                        </select>
+                                    )}
                                 </div>
                                 <div className="px-6 py-4 bg-gray-50 dark:bg-dark-card/50 rounded-b-xl flex justify-end gap-3">
                                     <button type="button" onClick={() => setLinkOpen(false)} className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-sm font-semibold">{t('common.cancel')}</button>
-                                    <button type="submit" className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold">{t('partners.projects.linkSubmit')}</button>
+                                    <button type="submit" disabled={availableProjects.length === 0} className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold disabled:opacity-50">{t('partners.projects.linkSubmit')}</button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </ModalPortal>
-            )}
+                </div>
+            </ModalPortal>
         </>
     );
 };

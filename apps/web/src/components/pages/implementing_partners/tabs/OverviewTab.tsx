@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Briefcase, CheckCircle, FileCheck, Mail, MapPin, Star, Tag, User } from 'lucide-react';
-import type { Partner } from '../../../../types';
+import type { Partner, PartnerSector, PartnerStatus } from '../../../../types';
 import { useLocalization } from '../../../../hooks/useLocalization';
+import { useToast } from '../../../../hooks/useToast';
 import { formatCurrency } from '../../../../lib/utils';
+import { EditActions, fieldClass } from '../shared';
 
 const STATUS_STYLES: Record<string, string> = {
     'نشط': 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300',
     'غير نشط': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
     'قيد المراجعة': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300',
 };
+
+const SECTORS: PartnerSector[] = ['التعليم', 'الصحة', 'الإغاثة', 'التنمية', 'البيئة'];
+const STATUSES: PartnerStatus[] = ['نشط', 'غير نشط', 'قيد المراجعة'];
 
 interface OverviewRowProps {
     icon: React.ReactNode;
@@ -28,19 +33,68 @@ const OverviewRow: React.FC<OverviewRowProps> = ({ icon, label, value }) => (
 
 interface OverviewTabProps {
     partner: Partner;
+    onPartnerUpdate: (updated: Partner) => void;
 }
 
-const OverviewTab: React.FC<OverviewTabProps> = ({ partner }) => {
-    const { t, language } = useLocalization(['partners']);
+const OverviewTab: React.FC<OverviewTabProps> = ({ partner, onPartnerUpdate }) => {
+    const { t, language } = useLocalization(['partners', 'common']);
+    const toast = useToast();
+    const [isEditing, setIsEditing] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [form, setForm] = useState({
+        status: partner.status,
+        sector: partner.sector,
+        country: partner.country,
+    });
+
+    useEffect(() => {
+        if (!isEditing) {
+            setForm({ status: partner.status, sector: partner.sector, country: partner.country });
+        }
+    }, [partner, isEditing]);
 
     const primaryContact = partner.contacts?.find((c) => c.isPrimary) ?? partner.contacts?.[0];
     const isEligible = partner.status === 'نشط';
+
+    // PLACEHOLDER: Agreement/compliance derived from status until dedicated backend exists
     const hasAgreement = partner.status !== 'غير نشط';
     const complianceCurrent = partner.status !== 'قيد المراجعة';
 
+    const handleSave = () => {
+        if (!form.country.trim()) {
+            toast.showError(t('partners.validation.required'));
+            return;
+        }
+        setIsSaving(true);
+        setTimeout(() => {
+            onPartnerUpdate({ ...partner, status: form.status, sector: form.sector, country: form.country.trim() });
+            setIsSaving(false);
+            setIsEditing(false);
+            toast.showSuccess(t('partners.detail.overviewSaveSuccess'));
+        }, 300);
+    };
+
+    const handleCancel = () => {
+        setForm({ status: partner.status, sector: partner.sector, country: partner.country });
+        setIsEditing(false);
+    };
+
     return (
         <div className="space-y-6 animate-fade-in">
-            <h3 className="text-xl font-bold">{t('partners.detail.overview.summaryTitle')}</h3>
+            <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold">{t('partners.detail.overview.summaryTitle')}</h3>
+                <EditActions
+                    isEditing={isEditing}
+                    isSaving={isSaving}
+                    onEdit={() => setIsEditing(true)}
+                    onSave={handleSave}
+                    onCancel={handleCancel}
+                    editLabel={t('common.edit')}
+                    saveLabel={t('common.save')}
+                    cancelLabel={t('common.cancel')}
+                    savingLabel={t('common.loading')}
+                />
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="bg-gray-50 dark:bg-slate-700/50 p-5 rounded-xl space-y-4">
@@ -48,20 +102,41 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ partner }) => {
                         icon={<CheckCircle size={18} />}
                         label={t('partners.detail.overview.statusEligibility')}
                         value={
-                            <div className="space-y-1">
-                                <span className={`inline-block text-xs font-bold px-2 py-1 rounded-full ${STATUS_STYLES[partner.status] ?? ''}`}>
-                                    {partner.status}
-                                </span>
-                                <p className="text-sm text-gray-600 dark:text-gray-300">
-                                    {isEligible ? t('partners.detail.overview.eligible') : t('partners.detail.overview.notEligible')}
-                                </p>
-                            </div>
+                            isEditing ? (
+                                <select className={fieldClass} value={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as PartnerStatus }))}>
+                                    {STATUSES.map((s) => (
+                                        <option key={s} value={s}>{s}</option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <div className="space-y-1">
+                                    <span className={`inline-block text-xs font-bold px-2 py-1 rounded-full ${STATUS_STYLES[partner.status] ?? ''}`}>
+                                        {partner.status}
+                                    </span>
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                                        {isEligible ? t('partners.detail.overview.eligible') : t('partners.detail.overview.notEligible')}
+                                    </p>
+                                </div>
+                            )
                         }
                     />
                     <OverviewRow
                         icon={<Tag size={18} />}
                         label={t('partners.detail.overview.sectorCountry')}
-                        value={`${partner.sector} · ${partner.country}`}
+                        value={
+                            isEditing ? (
+                                <div className="space-y-2">
+                                    <select className={fieldClass} value={form.sector} onChange={(e) => setForm((f) => ({ ...f, sector: e.target.value as PartnerSector }))}>
+                                        {SECTORS.map((s) => (
+                                            <option key={s} value={s}>{s}</option>
+                                        ))}
+                                    </select>
+                                    <input className={fieldClass} value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))} />
+                                </div>
+                            ) : (
+                                `${partner.sector} · ${partner.country}`
+                            )
+                        }
                     />
                 </div>
 
@@ -91,11 +166,13 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ partner }) => {
                 </div>
 
                 <div className="bg-gray-50 dark:bg-slate-700/50 p-5 rounded-xl space-y-4">
+                    {/* PLACEHOLDER: Agreement status — no agreements backend yet */}
                     <OverviewRow
                         icon={<FileCheck size={18} />}
                         label={t('partners.detail.overview.agreementStatus')}
                         value={hasAgreement ? t('partners.detail.overview.agreementActive') : t('partners.detail.overview.agreementNone')}
                     />
+                    {/* PLACEHOLDER: Compliance status — no compliance backend yet */}
                     <OverviewRow
                         icon={<MapPin size={18} />}
                         label={t('partners.detail.overview.complianceStatus')}

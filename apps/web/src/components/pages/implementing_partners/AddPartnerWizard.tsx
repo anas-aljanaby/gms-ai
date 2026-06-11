@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, FileText, X } from 'lucide-react';
+import type { Partner, PartnerSector } from '../../../types';
 import { useLocalization } from '../../../hooks/useLocalization';
+import { useToast } from '../../../hooks/useToast';
 
 interface AddPartnerWizardProps {
     onBack: () => void;
+    onSubmit: (partner: Partner) => void;
 }
 
 const STEPS = ['basic', 'scope', 'contact', 'documents', 'review'] as const;
 
-const SECTOR_OPTIONS = ['التعليم', 'الصحة', 'الإغاثة', 'التنمية', 'البيئة'] as const;
+const SECTOR_OPTIONS: PartnerSector[] = ['التعليم', 'الصحة', 'الإغاثة', 'التنمية', 'البيئة'];
+
+interface WizardForm {
+    organizationName: string;
+    organizationNameEn: string;
+    primarySector: PartnerSector;
+    country: string;
+    city: string;
+    description: string;
+    mainPhone: string;
+    officialEmail: string;
+    website: string;
+}
+
+interface UploadedFile {
+    name: string;
+    size: number;
+}
 
 const StepIndicator: React.FC<{ currentStep: number; labels: string[] }> = ({ currentStep, labels }) => (
     <nav aria-label="Progress">
@@ -38,18 +58,19 @@ const StepIndicator: React.FC<{ currentStep: number; labels: string[] }> = ({ cu
     </nav>
 );
 
-const FormField: React.FC<{ label: string; required?: boolean; children: React.ReactNode }> = ({ label, required, children }) => (
+const FormField: React.FC<{ label: string; required?: boolean; error?: string; children: React.ReactNode }> = ({ label, required, error, children }) => (
     <div>
         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
             {label} {required && <span className="text-red-500">*</span>}
         </label>
         {children}
+        {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
     </div>
 );
 
 const inputClass = 'w-full p-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600';
 
-const SuccessScreen: React.FC<{ onBack: () => void; t: (key: string) => string }> = ({ onBack, t }) => (
+const SuccessScreen: React.FC<{ referenceNumber: string; onBack: () => void; t: (key: string) => string }> = ({ referenceNumber, onBack, t }) => (
     <div className="bg-gray-50 dark:bg-dark-background p-6 flex items-center justify-center min-h-[calc(100vh-10rem)]">
         <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -65,7 +86,7 @@ const SuccessScreen: React.FC<{ onBack: () => void; t: (key: string) => string }
             <div className="mt-6 bg-gray-50 dark:bg-slate-800 rounded-lg p-4 space-y-2 text-sm">
                 <div className="flex justify-between">
                     <span className="text-gray-500">{t('partners.wizard.referenceNumber')}</span>
-                    <span className="font-mono font-semibold">P-2024-001</span>
+                    <span className="font-mono font-semibold">{referenceNumber}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-gray-500">{t('partners.wizard.status')}</span>
@@ -77,24 +98,27 @@ const SuccessScreen: React.FC<{ onBack: () => void; t: (key: string) => string }
                 <button type="button" onClick={onBack} className="flex-1 px-6 py-3 text-sm font-semibold border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">
                     {t('partners.wizard.backToList')}
                 </button>
-                <button type="button" className="flex-1 px-6 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                    {t('partners.wizard.viewProfile')}
-                </button>
             </div>
         </motion.div>
     </div>
 );
 
-const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
+const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack, onSubmit }) => {
     const { t } = useLocalization(['partners', 'common']);
+    const toast = useToast();
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [referenceNumber, setReferenceNumber] = useState('');
     const [confirmed, setConfirmed] = useState(false);
-    const [form, setForm] = useState({
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+    const [form, setForm] = useState<WizardForm>({
         organizationName: '',
         organizationNameEn: '',
-        primarySector: 'التعليم' as typeof SECTOR_OPTIONS[number],
-        country: 'SA',
+        primarySector: 'التعليم',
+        country: '',
         city: '',
         description: '',
         mainPhone: '',
@@ -104,10 +128,82 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
 
     const stepLabels = STEPS.map((s) => t(`partners.wizard.steps.${s}`));
 
-    const update = (patch: Partial<typeof form>) => setForm((prev) => ({ ...prev, ...patch }));
+    const update = (patch: Partial<WizardForm>) => setForm((prev) => ({ ...prev, ...patch }));
+
+    const validateStep = (currentStep: number): boolean => {
+        const next: Record<string, string> = {};
+        if (currentStep === 1) {
+            if (!form.organizationName.trim()) next.organizationName = t('partners.validation.required');
+        }
+        if (currentStep === 2) {
+            if (!form.country.trim()) next.country = t('partners.validation.required');
+        }
+        if (currentStep === 3) {
+            if (!form.officialEmail.trim()) {
+                next.officialEmail = t('partners.validation.required');
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.officialEmail)) {
+                next.officialEmail = t('partners.validation.invalidEmail');
+            }
+        }
+        setErrors(next);
+        return Object.keys(next).length === 0;
+    };
+
+    const handleNext = () => {
+        if (!validateStep(step)) return;
+        setErrors({});
+        setStep((s) => s + 1);
+    };
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files ?? []);
+        setUploadedFiles((prev) => [...prev, ...files.map((f) => ({ name: f.name, size: f.size }))]);
+        e.target.value = '';
+    };
+
+    const removeFile = (index: number) => {
+        setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const buildPartner = (): Partner => {
+        const name = form.organizationName.trim();
+        const logo = name.slice(0, 2).toUpperCase();
+        return {
+            id: `p-${Date.now()}`,
+            name,
+            logo,
+            country: form.city.trim() ? `${form.country} · ${form.city.trim()}` : form.country.trim(),
+            sector: form.primarySector,
+            status: 'قيد المراجعة',
+            projectsCompleted: 0,
+            projectsInProgress: 0,
+            rating: 0,
+            budget: 0,
+            phone: form.mainPhone.trim() || undefined,
+            email: form.officialEmail.trim(),
+            website: form.website.trim() || undefined,
+            contacts: [],
+        };
+    };
+
+    const handleSubmit = () => {
+        if (!confirmed) return;
+        setIsSubmitting(true);
+        const ref = `P-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`;
+        setTimeout(() => {
+            onSubmit(buildPartner());
+            setReferenceNumber(ref);
+            setIsSubmitting(false);
+            setSubmitted(true);
+        }, 500);
+    };
+
+    const handleSaveDraft = () => {
+        toast.showSuccess(t('partners.wizard.draftSaved'));
+    };
 
     if (submitted) {
-        return <SuccessScreen onBack={onBack} t={t} />;
+        return <SuccessScreen referenceNumber={referenceNumber} onBack={onBack} t={t} />;
     }
 
     const renderStep = () => {
@@ -117,14 +213,14 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                     <div className="space-y-6 max-w-4xl mx-auto">
                         <h2 className="text-xl font-bold text-center">{t('partners.wizard.basicTitle')}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label={t('partners.wizard.fields.organizationNameAr')} required>
+                            <FormField label={t('partners.wizard.fields.organizationNameAr')} required error={errors.organizationName}>
                                 <input className={inputClass} value={form.organizationName} onChange={(e) => update({ organizationName: e.target.value })} />
                             </FormField>
                             <FormField label={t('partners.wizard.fields.organizationNameEn')}>
                                 <input className={inputClass} value={form.organizationNameEn} onChange={(e) => update({ organizationNameEn: e.target.value })} />
                             </FormField>
                             <FormField label={t('partners.wizard.fields.primarySector')} required>
-                                <select className={inputClass} value={form.primarySector} onChange={(e) => update({ primarySector: e.target.value as typeof form.primarySector })}>
+                                <select className={inputClass} value={form.primarySector} onChange={(e) => update({ primarySector: e.target.value as PartnerSector })}>
                                     {SECTOR_OPTIONS.map((s) => (
                                         <option key={s} value={s}>{s}</option>
                                     ))}
@@ -141,7 +237,7 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                     <div className="space-y-6 max-w-4xl mx-auto">
                         <h2 className="text-xl font-bold text-center">{t('partners.wizard.steps.scope')}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label={t('partners.wizard.fields.country')} required>
+                            <FormField label={t('partners.wizard.fields.country')} required error={errors.country}>
                                 <input className={inputClass} value={form.country} onChange={(e) => update({ country: e.target.value })} />
                             </FormField>
                             <FormField label={t('partners.wizard.fields.city')}>
@@ -158,7 +254,7 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                             <FormField label={t('partners.wizard.fields.mainPhone')}>
                                 <input className={inputClass} value={form.mainPhone} onChange={(e) => update({ mainPhone: e.target.value })} />
                             </FormField>
-                            <FormField label={t('partners.wizard.fields.officialEmail')} required>
+                            <FormField label={t('partners.wizard.fields.officialEmail')} required error={errors.officialEmail}>
                                 <input type="email" className={inputClass} value={form.officialEmail} onChange={(e) => update({ officialEmail: e.target.value })} />
                             </FormField>
                             <FormField label={t('partners.wizard.fields.website')}>
@@ -171,10 +267,25 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                 return (
                     <div className="space-y-6 max-w-4xl mx-auto text-center">
                         <h2 className="text-xl font-bold">{t('partners.wizard.steps.documents')}</h2>
-                        <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-12">
+                        <input ref={fileInputRef} type="file" className="hidden" accept=".pdf,.doc,.docx" multiple onChange={handleFileUpload} />
+                        <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-12 w-full hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors"
+                        >
                             <p className="text-gray-500">{t('partners.wizard.fields.dragDrop')}</p>
                             <p className="text-xs text-gray-400 mt-2">{t('partners.wizard.fields.fileTypes')}</p>
-                        </div>
+                        </button>
+                        {uploadedFiles.length > 0 && (
+                            <ul className="text-right space-y-2 mt-4">
+                                {uploadedFiles.map((file, index) => (
+                                    <li key={`${file.name}-${index}`} className="flex items-center justify-between bg-gray-50 dark:bg-slate-800 rounded-lg px-4 py-2 text-sm">
+                                        <button type="button" onClick={() => removeFile(index)} className="text-red-500 hover:text-red-700"><X size={16} /></button>
+                                        <span className="flex items-center gap-2"><FileText size={16} /> {file.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 );
             case 5:
@@ -186,6 +297,9 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                             <p><strong>{t('partners.wizard.fields.reviewSector')}:</strong> {form.primarySector}</p>
                             <p><strong>{t('partners.wizard.fields.reviewCity')}:</strong> {form.city || '—'}</p>
                             <p><strong>{t('partners.wizard.fields.reviewEmail')}:</strong> {form.officialEmail || '—'}</p>
+                            {uploadedFiles.length > 0 && (
+                                <p><strong>{t('partners.wizard.fields.reviewDocuments')}:</strong> {uploadedFiles.length}</p>
+                            )}
                         </div>
                         <label className="flex items-center gap-2">
                             <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} className="w-4 h-4 text-blue-600 rounded" />
@@ -231,25 +345,25 @@ const AddPartnerWizard: React.FC<AddPartnerWizardProps> = ({ onBack }) => {
                         {step === 1 ? (
                             <button type="button" onClick={onBack} className="px-6 py-2 text-sm font-semibold border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">{t('partners.wizard.cancel')}</button>
                         ) : (
-                            <button type="button" onClick={() => setStep((s) => s - 1)} className="px-6 py-2 text-sm font-semibold border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">{t('partners.wizard.prev')}</button>
+                            <button type="button" onClick={() => { setErrors({}); setStep((s) => s - 1); }} className="px-6 py-2 text-sm font-semibold border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">{t('partners.wizard.prev')}</button>
                         )}
                     </div>
                     <div className="flex items-center gap-4">
                         {step > 1 && step < 5 && (
-                            <button type="button" className="px-6 py-2 text-sm font-semibold text-gray-700 border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">
+                            <button type="button" onClick={handleSaveDraft} className="px-6 py-2 text-sm font-semibold text-gray-700 border rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">
                                 {t('partners.wizard.saveDraft')}
                             </button>
                         )}
                         {step < 5 ? (
-                            <button type="button" onClick={() => setStep((s) => s + 1)} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">{t('partners.wizard.next')}</button>
+                            <button type="button" onClick={handleNext} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">{t('partners.wizard.next')}</button>
                         ) : (
                             <button
                                 type="button"
-                                onClick={() => setSubmitted(true)}
-                                disabled={!confirmed}
+                                onClick={handleSubmit}
+                                disabled={!confirmed || isSubmitting}
                                 className="px-8 py-3 text-base font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
                             >
-                                {t('partners.wizard.submit')}
+                                {isSubmitting ? t('common.loading') : t('partners.wizard.submit')}
                             </button>
                         )}
                     </div>
