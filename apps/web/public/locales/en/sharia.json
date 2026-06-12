@@ -1,0 +1,75 @@
+{
+  "kpi": {
+    "overallCompliance": "Overall Sharia Compliance",
+    "pendingFatwas": "Pending Fatwas",
+    "contractsUnderReview": "Contracts Under Review",
+    "recentAlerts": "Recent Alerts",
+    "last24h": "Last 24 hours",
+    "zakatDistribution": "Zakat Distribution",
+    "zakatTarget": "Target: {amount}"
+  },
+  "trend": {
+    "title": "Compliance Trend (6 Months)"
+  },
+  "alerts": {
+    "title": "Sharia Alerts"
+  },
+  "activity": {
+    "title": "Recent Activity"
+  },
+  "actions": {
+    "title": "Quick Actions",
+    "newFatwa": "Request New Fatwa",
+    "submitContract": "Submit Contract for Review",
+    "logZakat": "Log Zakat Expenditure"
+  },
+  "meetings": {
+    "agenda": "Agenda",
+    "presenter": "Presenter",
+    "downloadMinutes": "Download Minutes"
+  },
+  "board": {
+    "title": "Sharia Board",
+    "members": "Active members",
+    "tabs": {
+      "portal": "Board Portal",
+      "meetings": "Meetings",
+      "members": "Members"
+    },
+    "roles": {
+      "Chairman": "Chairman",
+      "Member": "Member",
+      "Secretary": "Secretary",
+      "Observer": "Observer"
+    },
+    "statuses": {
+      "Active": "Active",
+      "OnLeave": "On Leave",
+      "Inactive": "Inactive"
+    },
+    "table": {
+      "member": "Member",
+      "role": "Role",
+      "status": "Status",
+      "credentials": "Credentials",
+      "actions": "Actions"
+    },
+    "members": {
+      "title": "Board Members",
+      "add": "Add Member",
+      "searchPlaceholder": "Search members...",
+      "allRoles": "All Roles",
+      "allStatuses": "All Statuses"
+    },
+    "form": {
+      "name": "Full Name",
+      "title": "Title",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status"
+    },
+    "meetings": {
+      "schedule": "Schedule Meeting"
+    }
+  }
+}

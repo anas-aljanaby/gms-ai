@@ -1,0 +1,46 @@
+{
+  "title": "فحص الامتثال",
+  "totalEntities": "إجمالي الكيانات المفحوصة",
+  "highRisk": "كيانات عالية المخاطر",
+  "openAlerts": "التنبيهات المفتوحة",
+  "screenNew": "فحص كيان جديد",
+  "entityName": "اسم الكيان",
+  "entityType": "نوع الكيان",
+  "country": "الدولة",
+  "aiScreen": "تشغيل الفحص",
+  "recentlyScreened": "المفحوصة مؤخراً",
+  "results": "نتائج الفحص",
+  "score": "درجة المخاطر",
+  "level": "مستوى المخاطر",
+  "rec": "التوصية",
+  "details": "تفاصيل التحليل",
+  "saveSuccess": "تم حفظ الكيان وإنشاء تنبيه عند الحاجة.",
+  "activeAlerts": "التنبيهات النشطة",
+  "simulatedWatchlist": "قائمة مراقبة دولية محاكاة",
+  "types": {
+    "individual": "فرد",
+    "organization": "منظمة",
+    "vendor": "مورد",
+    "partner": "شريك"
+  },
+  "headers": {
+    "name": "الاسم",
+    "type": "النوع",
+    "riskLevel": "مستوى المخاطر",
+    "date": "التاريخ",
+    "entity": "الكيان",
+    "matchDetails": "تفاصيل التطابق",
+    "status": "الحالة"
+  },
+  "alertStatuses": {
+    "open": "مفتوح",
+    "in_review": "قيد المراجعة",
+    "closed": "مغلق"
+  },
+  "toasts": {
+    "missingInfoTitle": "معلومات ناقصة",
+    "missingInfoMessage": "يرجى إدخال اسم الكيان والدولة.",
+    "screeningFailedTitle": "فشل الفحص",
+    "screeningFailedMessage": "تعذر إكمال الفحص. يرجى المحاولة مرة أخرى."
+  }
+}

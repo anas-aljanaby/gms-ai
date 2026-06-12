@@ -26,6 +26,9 @@ export const ALL_NAMESPACES = [
   'staff',
   'partners',
   'platform',
+  'grc',
+  'compliance',
+  'sharia',
   'misc',
 ] as const;
 
@@ -60,7 +63,10 @@ export const NAMESPACE_BY_ROOT_KEY: Record<string, AppNamespace> = {
   roles: 'staff',
   partners: 'partners',
   platform: 'platform',
+  grc: 'grc',
   financials: 'financials',
+  compliance: 'compliance',
+  sharia: 'sharia',
   financialSettings: 'settings',
   layoutCustomizer: 'settings',
   translations: 'settings',

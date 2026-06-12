@@ -1,0 +1,106 @@
+{
+  "grc": {
+    "tabs": {
+      "dashboard": "لوحة المعلومات",
+      "governance": "الحوكمة",
+      "risk": "المخاطر",
+      "compliance": "الامتثال",
+      "audit": "التدقيق"
+    },
+    "dashboard": {
+      "pendingDecisions": "قرارات معلقة",
+      "nonCompliant": "غير ممتثل",
+      "highRisks": "مخاطر عالية",
+      "activeRisks": "مخاطر نشطة",
+      "activePolicies": "سياسات نشطة",
+      "recentActivity": "النشاط الأخير",
+      "underConstruction": "قيد الإنشاء",
+      "riskMatrix": "مصفوفة المخاطر"
+    },
+    "governance": {
+      "newPolicy": "سياسة جديدة",
+      "newDecision": "قرار جديد",
+      "policies": "السياسات",
+      "decisions": "القرارات",
+      "statuses": {
+        "draft": "مسودة",
+        "active": "نشط",
+        "archived": "مؤرشف"
+      },
+      "decision_statuses": {
+        "pending": "معلق",
+        "approved": "معتمد",
+        "rejected": "مرفوض",
+        "implemented": "منفذ"
+      },
+      "table": {
+        "policyTitle": "عنوان السياسة",
+        "category": "الفئة",
+        "version": "الإصدار",
+        "status": "الحالة",
+        "reviewDate": "تاريخ المراجعة",
+        "decisionTitle": "عنوان القرار",
+        "date": "التاريخ"
+      }
+    },
+    "risk": {
+      "totalRisks": "إجمالي المخاطر",
+      "criticalRisks": "مخاطر حرجة",
+      "highRisks": "مخاطر عالية",
+      "mediumRisks": "مخاطر متوسطة",
+      "register": "سجل المخاطر",
+      "searchPlaceholder": "بحث في المخاطر...",
+      "logRisk": "تسجيل مخاطرة",
+      "commonRisks": "مكتبة المخاطر الشائعة",
+      "level": "المستوى",
+      "scope": "النطاق",
+      "table": {
+        "description": "الوصف",
+        "score": "الدرجة"
+      },
+      "common": {
+        "operational": "تشغيلي",
+        "compliance": "امتثال",
+        "reputation": "سمعة",
+        "data": "بيانات وسيبراني",
+        "funding": "تمويل"
+      },
+      "statuses": {
+        "identified": "محدد",
+        "mitigating": "تخفيف",
+        "monitored": "مراقب",
+        "closed": "مغلق"
+      },
+      "mitigation": {
+        "title": "التدابير الوقائية",
+        "update": "تحديث التدابير"
+      }
+    },
+    "compliance": {
+      "title": "متطلبات الامتثال",
+      "statuses": {
+        "compliant": "ممتثل",
+        "partially_compliant": "ممتثل جزئياً",
+        "non_compliant": "غير ممتثل",
+        "not_assessed": "لم يُقيَّم"
+      },
+      "table": {
+        "requirement": "المتطلب",
+        "source": "المصدر",
+        "status": "الحالة",
+        "lastAssessed": "آخر تقييم",
+        "nextDue": "الاستحقاق القادم"
+      }
+    },
+    "audit": {
+      "title": "سجل التدقيق",
+      "table": {
+        "date": "التاريخ",
+        "user": "المستخدم",
+        "module": "الوحدة",
+        "action": "الإجراء",
+        "recordId": "معرف السجل"
+      }
+    }
+  }
+}

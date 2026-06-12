@@ -1,0 +1,106 @@
+{
+  "grc": {
+    "tabs": {
+      "dashboard": "Dashboard",
+      "governance": "Governance",
+      "risk": "Risk",
+      "compliance": "Compliance",
+      "audit": "Audit"
+    },
+    "dashboard": {
+      "pendingDecisions": "Pending Decisions",
+      "nonCompliant": "Non-Compliant",
+      "highRisks": "High Risks",
+      "activeRisks": "Active Risks",
+      "activePolicies": "Active Policies",
+      "recentActivity": "Recent Activity",
+      "underConstruction": "Under construction",
+      "riskMatrix": "Risk Matrix"
+    },
+    "governance": {
+      "newPolicy": "New Policy",
+      "newDecision": "New Decision",
+      "policies": "Policies",
+      "decisions": "Decisions",
+      "statuses": {
+        "draft": "Draft",
+        "active": "Active",
+        "archived": "Archived"
+      },
+      "decision_statuses": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "implemented": "Implemented"
+      },
+      "table": {
+        "policyTitle": "Policy Title",
+        "category": "Category",
+        "version": "Version",
+        "status": "Status",
+        "reviewDate": "Review Date",
+        "decisionTitle": "Decision Title",
+        "date": "Date"
+      }
+    },
+    "risk": {
+      "totalRisks": "Total Risks",
+      "criticalRisks": "Critical Risks",
+      "highRisks": "High Risks",
+      "mediumRisks": "Medium Risks",
+      "register": "Risk Register",
+      "searchPlaceholder": "Search risks...",
+      "logRisk": "Log Risk",
+      "commonRisks": "Common Risks Library",
+      "level": "Level",
+      "scope": "Scope",
+      "table": {
+        "description": "Description",
+        "score": "Score"
+      },
+      "common": {
+        "operational": "Operational",
+        "compliance": "Compliance",
+        "reputation": "Reputation",
+        "data": "Data & Cyber",
+        "funding": "Funding"
+      },
+      "statuses": {
+        "identified": "Identified",
+        "mitigating": "Mitigating",
+        "monitored": "Monitored",
+        "closed": "Closed"
+      },
+      "mitigation": {
+        "title": "Mitigation Measures",
+        "update": "Update Mitigation"
+      }
+    },
+    "compliance": {
+      "title": "Compliance Requirements",
+      "statuses": {
+        "compliant": "Compliant",
+        "partially_compliant": "Partially Compliant",
+        "non_compliant": "Non-Compliant",
+        "not_assessed": "Not Assessed"
+      },
+      "table": {
+        "requirement": "Requirement",
+        "source": "Source",
+        "status": "Status",
+        "lastAssessed": "Last Assessed",
+        "nextDue": "Next Due"
+      }
+    },
+    "audit": {
+      "title": "Audit Log",
+      "table": {
+        "date": "Date",
+        "user": "User",
+        "module": "Module",
+        "action": "Action",
+        "recordId": "Record ID"
+      }
+    }
+  }
+}
