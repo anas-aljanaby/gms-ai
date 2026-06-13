@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import {
-  Briefcase,
   Check,
   CirclePlus,
   LayoutGrid,
@@ -58,12 +57,6 @@ const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
           <a href={`mailto:${member.email}`} className="hover:text-primary">
             <Mail size={18} />
           </a>
-          <button type="button" className="hover:text-primary">
-            <Check size={18} />
-          </button>
-          <button type="button" className="hover:text-primary">
-            <Briefcase size={18} />
-          </button>
         </div>
       </div>
     </div>
@@ -168,27 +161,34 @@ interface AddMemberModalProps {
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({ isOpen, onClose, onAdd }) => {
   const { t } = useLocalization(['sharia', 'common']);
-  const [name, setName] = useState('');
-  const [title, setTitle] = useState('');
+  const [nameEn, setNameEn] = useState('');
+  const [nameAr, setNameAr] = useState('');
+  const [titleEn, setTitleEn] = useState('');
+  const [titleAr, setTitleAr] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<ShariaBoardRole>('Member');
   const [status, setStatus] = useState<ShariaMemberStatus>('Active');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     onAdd({
-      name: { en: name, ar: name },
-      title: { en: title, ar: title },
+      name: { en: nameEn, ar: nameAr },
+      title: { en: titleEn, ar: titleAr },
       email,
       role,
       status,
-      photoUrl: `https://picsum.photos/seed/${name.replace(/\s/g, '')}/200/200`,
+      photoUrl: `https://picsum.photos/seed/${nameEn.replace(/\s/g, '')}/200/200`,
     });
-    setName('');
-    setTitle('');
+    setNameEn('');
+    setNameAr('');
+    setTitleEn('');
+    setTitleAr('');
     setEmail('');
     setRole('Member');
     setStatus('Active');
+    setIsSubmitting(false);
   };
 
   if (!isOpen) return null;
@@ -214,25 +214,53 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ isOpen, onClose, onAdd 
         </div>
         <form onSubmit={handleSubmit}>
           <div className="p-6 space-y-4">
-            <div>
-              <label className="block text-sm font-medium">{t('sharia.board.form.name')}</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium">{t('sharia.board.form.nameEn')}</label>
+                <input
+                  type="text"
+                  value={nameEn}
+                  onChange={(e) => setNameEn(e.target.value)}
+                  required
+                  dir="ltr"
+                  className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">{t('sharia.board.form.nameAr')}</label>
+                <input
+                  type="text"
+                  value={nameAr}
+                  onChange={(e) => setNameAr(e.target.value)}
+                  required
+                  dir="rtl"
+                  className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium">{t('sharia.board.form.title')}</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-                className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium">{t('sharia.board.form.titleEn')}</label>
+                <input
+                  type="text"
+                  value={titleEn}
+                  onChange={(e) => setTitleEn(e.target.value)}
+                  required
+                  dir="ltr"
+                  className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">{t('sharia.board.form.titleAr')}</label>
+                <input
+                  type="text"
+                  value={titleAr}
+                  onChange={(e) => setTitleAr(e.target.value)}
+                  required
+                  dir="rtl"
+                  className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium">{t('sharia.board.form.email')}</label>
@@ -285,7 +313,8 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ isOpen, onClose, onAdd 
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold"
+              disabled={isSubmitting}
+              className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold disabled:opacity-60"
             >
               {t('sharia.board.members.add')}
             </button>

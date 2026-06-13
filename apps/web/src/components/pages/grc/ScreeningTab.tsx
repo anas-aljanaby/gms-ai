@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Loader2, Search } from 'lucide-react';
-import { useLocalization } from '../../hooks/useLocalization';
-import { useToast } from '../../hooks/useToast';
-import { ComplianceIcon } from '../icons/ModuleIcons';
+import { useLocalization } from '../../../hooks/useLocalization';
+import { useToast } from '../../../hooks/useToast';
 import {
   saveEntity,
   getEntities,
   saveAlert,
   getAlerts,
   getStats,
-} from '../../data/compliance';
-import type { ComplianceEntity, ComplianceEntityType, RiskLevel } from '../../types';
-import { formatDate, formatNumber } from '../../lib/utils';
+} from '../../../data/compliance';
+import type { ComplianceEntity, ComplianceEntityType, RiskLevel } from '../../../types';
+import { formatDate, formatNumber } from '../../../lib/utils';
 
 interface ScreeningResult {
   risk_score: number;
@@ -120,7 +119,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color }) => {
   );
 };
 
-const CompliancePage: React.FC = () => {
+const ScreeningTab: React.FC = () => {
   const { t, language } = useLocalization(['common', 'compliance', 'projects', 'sidebar', 'misc']);
   const toast = useToast();
 
@@ -230,12 +229,7 @@ const CompliancePage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <h1 className="text-3xl font-bold text-foreground dark:text-dark-foreground flex items-center gap-3">
-        <ComplianceIcon className="w-8 h-8" />
-        {t('compliance.title')}
-      </h1>
-
+    <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title={t('compliance.totalEntities')}
@@ -416,4 +410,4 @@ const CompliancePage: React.FC = () => {
   );
 };
 
-export default CompliancePage;
+export default ScreeningTab;

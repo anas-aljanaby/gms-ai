@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { useLocalization } from '../../hooks/useLocalization';
 import { ShariaBoardIcon } from '../icons/ModuleIcons';
 import Tabs from '../common/Tabs';
-import PortalTab from './sharia_board/PortalTab';
 import MeetingsTab from './sharia_board/MeetingsTab';
 import MembersTab from './sharia_board/MembersTab';
 
 const ShariaBoardManagementPage: React.FC = () => {
   const { t } = useLocalization(['common', 'compliance', 'sharia', 'sidebar', 'misc', 'projects']);
 
-  const [activeTab, setActiveTab] = useState('portal');
+  const [activeTab, setActiveTab] = useState('members');
 
   const tabs = [
-    { id: 'portal', label: t('sharia.board.tabs.portal') },
-    { id: 'meetings', label: t('sharia.board.tabs.meetings') },
     { id: 'members', label: t('sharia.board.tabs.members') },
+    { id: 'meetings', label: t('sharia.board.tabs.meetings') },
   ];
 
   const renderTab = () => {
@@ -23,8 +21,6 @@ const ShariaBoardManagementPage: React.FC = () => {
         return <MembersTab />;
       case 'meetings':
         return <MeetingsTab />;
-      case 'portal':
-        return <PortalTab />;
       default:
         return (
           <div className="p-8 text-center bg-card dark:bg-dark-card rounded-lg">

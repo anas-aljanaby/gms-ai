@@ -1,75 +1,85 @@
 {
-  "kpi": {
-    "overallCompliance": "الامتثال الشرعي العام",
-    "pendingFatwas": "فتاوى معلقة",
-    "contractsUnderReview": "عقود قيد المراجعة",
-    "recentAlerts": "تنبيهات حديثة",
-    "last24h": "آخر 24 ساعة",
-    "zakatDistribution": "توزيع الزكاة",
-    "zakatTarget": "الهدف: {amount}"
-  },
-  "trend": {
-    "title": "اتجاه الامتثال (6 أشهر)"
-  },
-  "alerts": {
-    "title": "تنبيهات شرعية"
-  },
-  "activity": {
-    "title": "النشاط الأخير"
-  },
-  "actions": {
-    "title": "إجراءات سريعة",
-    "newFatwa": "طلب فتوى جديدة",
-    "submitContract": "تقديم عقد للمراجعة",
-    "logZakat": "تسجيل نفقة زكاة"
-  },
-  "meetings": {
-    "agenda": "جدول الأعمال",
-    "presenter": "مقدم الموضوع",
-    "downloadMinutes": "تحميل المحضر"
-  },
-  "board": {
-    "title": "الهيئة الشرعية",
-    "members": "أعضاء نشطون",
-    "tabs": {
-      "portal": "بوابة الهيئة",
-      "meetings": "الاجتماعات",
-      "members": "الأعضاء"
+  "sharia": {
+    "kpi": {
+      "overallCompliance": "الامتثال الشرعي العام",
+      "pendingFatwas": "فتاوى معلقة",
+      "contractsUnderReview": "عقود قيد المراجعة",
+      "recentAlerts": "تنبيهات حديثة",
+      "last24h": "آخر 24 ساعة",
+      "zakatDistribution": "توزيع الزكاة",
+      "zakatTarget": "الهدف: {amount}"
     },
-    "roles": {
-      "Chairman": "رئيس",
-      "Member": "عضو",
-      "Secretary": "أمين سر",
-      "Observer": "مراقب"
+    "trend": {
+      "title": "اتجاه الامتثال (6 أشهر)"
     },
-    "statuses": {
-      "Active": "نشط",
-      "OnLeave": "في إجازة",
-      "Inactive": "غير نشط"
+    "alerts": {
+      "title": "تنبيهات شرعية"
     },
-    "table": {
-      "member": "العضو",
-      "role": "الدور",
-      "status": "الحالة",
-      "credentials": "المؤهلات",
-      "actions": "إجراءات"
+    "activity": {
+      "title": "النشاط الأخير"
     },
-    "members": {
-      "title": "أعضاء الهيئة",
-      "add": "إضافة عضو",
-      "searchPlaceholder": "البحث عن الأعضاء...",
-      "allRoles": "جميع الأدوار",
-      "allStatuses": "جميع الحالات"
-    },
-    "form": {
-      "name": "الاسم الكامل",
-      "title": "المسمى",
-      "email": "البريد الإلكتروني",
-      "role": "الدور",
-      "status": "الحالة"
+    "actions": {
+      "title": "إجراءات سريعة",
+      "newFatwa": "طلب فتوى جديدة",
+      "submitContract": "تقديم عقد للمراجعة",
+      "logZakat": "تسجيل نفقة زكاة"
     },
     "meetings": {
-      "schedule": "جدولة اجتماع"
+      "agenda": "جدول الأعمال",
+      "presenter": "مقدم الموضوع",
+      "downloadMinutes": "تحميل المحضر"
+    },
+    "board": {
+      "title": "الهيئة الشرعية",
+      "members": {
+        "title": "أعضاء الهيئة",
+        "add": "إضافة عضو",
+        "searchPlaceholder": "البحث عن الأعضاء...",
+        "allRoles": "جميع الأدوار",
+        "allStatuses": "جميع الحالات"
+      },
+      "tabs": {
+        "meetings": "الاجتماعات",
+        "members": "الأعضاء"
+      },
+      "roles": {
+        "Chairman": "رئيس",
+        "Member": "عضو",
+        "Secretary": "أمين سر",
+        "Observer": "مراقب"
+      },
+      "statuses": {
+        "Active": "نشط",
+        "OnLeave": "في إجازة",
+        "Inactive": "غير نشط"
+      },
+      "table": {
+        "member": "العضو",
+        "role": "الدور",
+        "status": "الحالة",
+        "credentials": "المؤهلات",
+        "actions": "إجراءات"
+      },
+      "form": {
+        "nameEn": "الاسم الكامل (بالإنجليزية)",
+        "nameAr": "الاسم الكامل (بالعربية)",
+        "titleEn": "المسمى (بالإنجليزية)",
+        "titleAr": "المسمى (بالعربية)",
+        "email": "البريد الإلكتروني",
+        "role": "الدور",
+        "status": "الحالة"
+      },
+      "meetings": {
+        "schedule": "جدولة اجتماع",
+        "form": {
+          "title": "عنوان الاجتماع",
+          "date": "التاريخ",
+          "location": "المكان",
+          "locationPlaceholder": "مثال: قاعة الاجتماعات 1",
+          "startTime": "وقت البدء",
+          "endTime": "وقت الانتهاء"
+        }
+      }
     }
   }
 }

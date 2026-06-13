@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CirclePlus, ClipboardCheck, Pencil, Trash2 } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
+import { useToast } from '../../../hooks/useToast';
 import { formatDate } from '../../../lib/utils';
 import type { Assessment, ComplianceRequirement, ComplianceStatus } from '../../../types';
 import AiCard from '../ai/AiCard';
+import RequirementModal, { type RequirementPayload } from './RequirementModal';
+import AssessmentModal, { type AssessmentPayload } from './AssessmentModal';
 
 interface ComplianceTabProps {
   requirements: ComplianceRequirement[];
@@ -24,54 +28,172 @@ const ComplianceStatusBadge: React.FC<{ status: ComplianceStatus }> = ({ status 
   );
 };
 
-const ComplianceTab: React.FC<ComplianceTabProps> = ({ requirements, assessments }) => {
+const ComplianceTab: React.FC<ComplianceTabProps> = ({
+  requirements: initialRequirements,
+  assessments: initialAssessments,
+}) => {
   const { t, language } = useLocalization(['common', 'grc']);
+  const toast = useToast();
+
+  const [requirements, setRequirements] = useState(initialRequirements);
+  const [assessments, setAssessments] = useState(initialAssessments);
+  const [isRequirementModalOpen, setIsRequirementModalOpen] = useState(false);
+  const [editingRequirement, setEditingRequirement] = useState<ComplianceRequirement | null>(null);
+  const [assessingRequirement, setAssessingRequirement] = useState<ComplianceRequirement | null>(
+    null,
+  );
+
+  const latestAssessmentFor = (requirementId: string): Assessment | undefined =>
+    assessments
+      .filter((a) => a.requirementId === requirementId)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+
+  const openAddRequirement = () => {
+    setEditingRequirement(null);
+    setIsRequirementModalOpen(true);
+  };
+
+  const openEditRequirement = (requirement: ComplianceRequirement) => {
+    setEditingRequirement(requirement);
+    setIsRequirementModalOpen(true);
+  };
+
+  const handleSubmitRequirement = (payload: RequirementPayload) => {
+    if (editingRequirement) {
+      setRequirements((prev) =>
+        prev.map((req) =>
+          req.id === editingRequirement.id ? { ...req, ...payload } : req,
+        ),
+      );
+      toast.showSuccess(t('grc.compliance.toasts.requirementUpdated'));
+    } else {
+      const newRequirement: ComplianceRequirement = {
+        id: `REQ-${Date.now()}`,
+        ...payload,
+      };
+      setRequirements((prev) => [newRequirement, ...prev]);
+      toast.showSuccess(t('grc.compliance.toasts.requirementAdded'));
+    }
+  };
+
+  const handleDeleteRequirement = (requirement: ComplianceRequirement) => {
+    setRequirements((prev) => prev.filter((req) => req.id !== requirement.id));
+    setAssessments((prev) => prev.filter((a) => a.requirementId !== requirement.id));
+    toast.showSuccess(t('grc.compliance.toasts.requirementDeleted'));
+  };
+
+  const handleSubmitAssessment = (payload: AssessmentPayload) => {
+    if (!assessingRequirement) return;
+    const newAssessment: Assessment = {
+      id: `ASS-${Date.now()}`,
+      requirementId: assessingRequirement.id,
+      assessorId: 'current-user',
+      ...payload,
+    };
+    setAssessments((prev) => [newAssessment, ...prev]);
+    toast.showSuccess(t('grc.compliance.toasts.assessmentLogged'));
+  };
 
   return (
-    <AiCard title={t('grc.compliance.title')}>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="text-left text-xs uppercase text-gray-500 dark:text-gray-400">
-            <tr>
-              <th className="p-2">{t('grc.compliance.table.requirement')}</th>
-              <th className="p-2">{t('grc.compliance.table.source')}</th>
-              <th className="p-2">{t('grc.compliance.table.status')}</th>
-              <th className="p-2">{t('grc.compliance.table.lastAssessed')}</th>
-              <th className="p-2">{t('grc.compliance.table.nextDue')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requirements.map((req) => {
-              const latestAssessment = assessments
-                .filter((a) => a.requirementId === req.id)
-                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    <>
+      <AiCard title={t('grc.compliance.title')}>
+        <div className="flex justify-end mb-4">
+          <button
+            type="button"
+            onClick={openAddRequirement}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg"
+          >
+            <CirclePlus size={16} />
+            {t('grc.compliance.newRequirement')}
+          </button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="text-left text-xs uppercase text-gray-500 dark:text-gray-400">
+              <tr>
+                <th className="p-2">{t('grc.compliance.table.requirement')}</th>
+                <th className="p-2">{t('grc.compliance.table.source')}</th>
+                <th className="p-2">{t('grc.compliance.table.status')}</th>
+                <th className="p-2">{t('grc.compliance.table.lastAssessed')}</th>
+                <th className="p-2">{t('grc.compliance.table.nextDue')}</th>
+                <th className="p-2" />
+              </tr>
+            </thead>
+            <tbody>
+              {requirements.map((req) => {
+                const latestAssessment = latestAssessmentFor(req.id);
+                return (
+                  <tr key={req.id} className="border-t dark:border-slate-700 group">
+                    <td className="p-2 font-semibold max-w-sm text-foreground dark:text-dark-foreground">
+                      {req.title[language]}
+                    </td>
+                    <td className="p-2 text-foreground dark:text-dark-foreground">
+                      {req.sourceName[language]}
+                    </td>
+                    <td className="p-2">
+                      <ComplianceStatusBadge status={latestAssessment?.status ?? 'not-assessed'} />
+                    </td>
+                    <td className="p-2 text-foreground dark:text-dark-foreground">
+                      {latestAssessment ? formatDate(latestAssessment.date, language) : 'N/A'}
+                    </td>
+                    <td className="p-2 text-foreground dark:text-dark-foreground">
+                      {formatDate(req.nextDueDate, language)}
+                    </td>
+                    <td className="p-2">
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          onClick={() => setAssessingRequirement(req)}
+                          title={t('grc.compliance.logAssessment')}
+                          className="p-1.5 text-gray-400 hover:text-primary rounded"
+                        >
+                          <ClipboardCheck size={15} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => openEditRequirement(req)}
+                          title={t('grc.compliance.editRequirement')}
+                          className="p-1.5 text-gray-400 hover:text-primary rounded"
+                        >
+                          <Pencil size={15} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteRequirement(req)}
+                          title={t('grc.compliance.deleteRequirement')}
+                          className="p-1.5 text-gray-400 hover:text-red-500 rounded"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {requirements.length === 0 && (
+            <p className="text-center py-8 text-gray-500">{t('grc.compliance.noRequirements')}</p>
+          )}
+        </div>
+      </AiCard>
 
-              return (
-                <tr key={req.id} className="border-t dark:border-slate-700">
-                  <td className="p-2 font-semibold max-w-sm text-foreground dark:text-dark-foreground">
-                    {req.title[language]}
-                  </td>
-                  <td className="p-2 text-foreground dark:text-dark-foreground">
-                    {req.sourceName[language]}
-                  </td>
-                  <td className="p-2">
-                    <ComplianceStatusBadge
-                      status={latestAssessment?.status ?? 'not-assessed'}
-                    />
-                  </td>
-                  <td className="p-2 text-foreground dark:text-dark-foreground">
-                    {latestAssessment ? formatDate(latestAssessment.date, language) : 'N/A'}
-                  </td>
-                  <td className="p-2 text-foreground dark:text-dark-foreground">
-                    {formatDate(req.nextDueDate, language)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </AiCard>
+      {isRequirementModalOpen && (
+        <RequirementModal
+          requirement={editingRequirement ?? undefined}
+          onClose={() => setIsRequirementModalOpen(false)}
+          onSubmit={handleSubmitRequirement}
+        />
+      )}
+      {assessingRequirement && (
+        <AssessmentModal
+          requirement={assessingRequirement}
+          latestAssessment={latestAssessmentFor(assessingRequirement.id)}
+          onClose={() => setAssessingRequirement(null)}
+          onSubmit={handleSubmitAssessment}
+        />
+      )}
+    </>
   );
 };
 

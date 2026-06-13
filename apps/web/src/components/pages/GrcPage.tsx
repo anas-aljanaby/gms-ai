@@ -4,10 +4,11 @@ import { MOCK_GRC_DATA } from '../../data/grcData';
 import type { GrcData } from '../../types';
 import { GrcIcon } from '../icons/ModuleIcons';
 import Tabs from '../common/Tabs';
-import GrcDashboardTab from './grc/GrcDashboardTab';
+import OverviewTab from './grc/OverviewTab';
 import GovernanceTab from './grc/GovernanceTab';
 import RiskTab from './grc/RiskTab';
 import ComplianceTab from './grc/ComplianceTab';
+import ScreeningTab from './grc/ScreeningTab';
 import AuditTab from './grc/AuditTab';
 
 interface GrcPageProps {
@@ -17,20 +18,21 @@ interface GrcPageProps {
 
 const GrcPage: React.FC<GrcPageProps> = ({ grcData = MOCK_GRC_DATA }) => {
   const { t } = useLocalization(['common', 'grc', 'projects', 'sidebar']);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('overview');
 
   const tabs = [
-    { id: 'dashboard', label: t('grc.tabs.dashboard') },
+    { id: 'overview', label: t('grc.tabs.overview') },
     { id: 'governance', label: t('grc.tabs.governance') },
     { id: 'risk', label: t('grc.tabs.risk') },
     { id: 'compliance', label: t('grc.tabs.compliance') },
+    { id: 'screening', label: t('grc.tabs.screening') },
     { id: 'audit', label: t('grc.tabs.audit') },
   ];
 
   const renderActiveTab = () => {
     switch (activeTab) {
-      case 'dashboard':
-        return <GrcDashboardTab grcData={grcData} />;
+      case 'overview':
+        return <OverviewTab grcData={grcData} />;
       case 'governance':
         return <GovernanceTab policies={grcData.policies} decisions={grcData.decisions} />;
       case 'risk':
@@ -42,6 +44,8 @@ const GrcPage: React.FC<GrcPageProps> = ({ grcData = MOCK_GRC_DATA }) => {
             assessments={grcData.assessments}
           />
         );
+      case 'screening':
+        return <ScreeningTab />;
       case 'audit':
         return <AuditTab log={grcData.auditLog} />;
       default:

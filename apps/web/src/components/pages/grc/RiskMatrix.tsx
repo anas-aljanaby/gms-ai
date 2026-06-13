@@ -27,7 +27,7 @@ const RiskMatrix: React.FC<RiskMatrixProps> = ({ risks, onCellClick, activeCell 
   }, [risks]);
 
   return (
-    <div className="bg-card dark:bg-dark-card p-4 rounded-xl shadow-soft border dark:border-slate-700/50">
+    <div className="bg-card dark:bg-dark-card p-4 rounded-xl shadow-soft border dark:border-slate-700/50 max-w-md mx-auto">
       <h3 className="font-bold text-lg mb-2 text-center text-foreground dark:text-dark-foreground">
         {t('grc.dashboard.riskMatrix')}
       </h3>

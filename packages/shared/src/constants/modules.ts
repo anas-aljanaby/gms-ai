@@ -23,8 +23,28 @@ export const MODULE_KEYS = [
 
 export type ModuleKey = (typeof MODULE_KEYS)[number];
 
-/** Default sidebar order for new orgs (matches current static sidebar). */
-export const DEFAULT_MODULE_ORDER: readonly ModuleKey[] = MODULE_KEYS;
+/**
+ * Default sidebar order for orgs.
+ * Grouped as overview -> strategy -> program delivery -> fundraising/relationships
+ * -> governance -> administration.
+ */
+export const DEFAULT_MODULE_ORDER: readonly ModuleKey[] = [
+    'dashboard',
+    'bousala',
+    'projects',
+    'beneficiaries',
+    'implementing_partners',
+    'donors',
+    'institutional_donors',
+    'stakeholder_management',
+    'financials',
+    'grc',
+    'sharia_compliance',
+    'sharia_board',
+    'staff',
+    'help',
+    'settings',
+];
 
 /** System pages that cannot be disabled per org. */
 export const LOCKED_MODULE_KEYS: readonly ModuleKey[] = ['dashboard', 'settings', 'help'];
@@ -57,7 +77,6 @@ export const DEFAULT_ENABLED_MODULE_KEYS: readonly ModuleKey[] = [
     'financials',
     'implementing_partners',
     'grc',
-    'compliance',
     'sharia_compliance',
     'sharia_board',
     'staff',

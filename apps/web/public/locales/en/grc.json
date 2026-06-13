@@ -1,11 +1,16 @@
 {
   "grc": {
     "tabs": {
-      "dashboard": "Dashboard",
+      "overview": "Overview",
       "governance": "Governance",
       "risk": "Risk",
-      "compliance": "Compliance",
+      "compliance": "Regulatory Compliance",
+      "screening": "Screening",
       "audit": "Audit"
+    },
+    "overview": {
+      "upcomingDeadlines": "Upcoming Compliance Deadlines",
+      "pendingDecisions": "Pending Decisions"
     },
     "dashboard": {
       "pendingDecisions": "Pending Decisions",
@@ -67,12 +72,55 @@
       }
     },
     "compliance": {
-      "title": "Compliance Requirements",
+      "title": "Regulatory Compliance",
+      "newRequirement": "New Requirement",
+      "editRequirement": "Edit Requirement",
+      "deleteRequirement": "Delete Requirement",
+      "logAssessment": "Log Assessment",
+      "noRequirements": "No requirements yet. Add one to start tracking obligations.",
       "statuses": {
         "compliant": "Compliant",
         "partially_compliant": "Partially Compliant",
         "non_compliant": "Non-Compliant",
         "not_assessed": "Not Assessed"
+      },
+      "priorities": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "sources": {
+        "donor": "Donor",
+        "internal": "Internal",
+        "regulatory": "Regulatory"
+      },
+      "form": {
+        "code": "Code",
+        "titleEn": "Title (English)",
+        "titleAr": "Title (Arabic)",
+        "source": "Source Type",
+        "sourceNameEn": "Source Name (English)",
+        "sourceNameAr": "Source Name (Arabic)",
+        "priority": "Priority",
+        "nextDue": "Next Due Date",
+        "status": "Status",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "assessment": {
+        "title": "Log Assessment",
+        "for": "Requirement",
+        "date": "Assessment Date",
+        "status": "Compliance Status",
+        "score": "Score (0-100)",
+        "findingsEn": "Findings (English)",
+        "findingsAr": "Findings (Arabic)"
+      },
+      "toasts": {
+        "requirementAdded": "Requirement added.",
+        "requirementUpdated": "Requirement updated.",
+        "requirementDeleted": "Requirement deleted.",
+        "assessmentLogged": "Assessment logged."
       },
       "table": {
         "requirement": "Requirement",

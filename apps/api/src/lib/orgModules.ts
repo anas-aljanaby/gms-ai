@@ -11,6 +11,7 @@ import { db } from '../db';
 import * as schema from '../db/schema';
 
 const { modules } = schema;
+const SIDEBAR_ORDER_VERSION = 2;
 
 type AppDb = PostgresJsDatabase<typeof schema>;
 
@@ -27,6 +28,53 @@ export function defaultSortOrder(name: ModuleKey): number {
 
 export function defaultEnabled(name: ModuleKey): boolean {
     return (DEFAULT_ENABLED_MODULE_KEYS as readonly string[]).includes(name);
+}
+
+async function migrateSidebarOrderVersion(orgId: string, database: AppDb = db) {
+    const rows = await database
+        .select({
+            id: modules.id,
+            name: modules.name,
+            sort_order: modules.sort_order,
+            config: modules.config,
+        })
+        .from(modules)
+        .where(eq(modules.org_id, orgId));
+
+    const settingsRow = rows.find((row) => row.name === 'settings');
+    const config =
+        settingsRow?.config && typeof settingsRow.config === 'object'
+            ? (settingsRow.config as Record<string, unknown>)
+            : {};
+    const currentVersion =
+        typeof config.sidebar_order_version === 'number' ? config.sidebar_order_version : 0;
+
+    if (currentVersion >= SIDEBAR_ORDER_VERSION) return;
+
+    const now = new Date();
+
+    for (const [sort_order, name] of DEFAULT_MODULE_ORDER.entries()) {
+        const row = rows.find((item) => item.name === name);
+        if (!row || row.sort_order === sort_order) continue;
+
+        await database
+            .update(modules)
+            .set({ sort_order, updated_at: now })
+            .where(eq(modules.id, row.id));
+    }
+
+    if (settingsRow) {
+        await database
+            .update(modules)
+            .set({
+                config: {
+                    ...config,
+                    sidebar_order_version: SIDEBAR_ORDER_VERSION,
+                },
+                updated_at: now,
+            })
+            .where(eq(modules.id, settingsRow.id));
+    }
 }
 
 /** Insert the full catalog for a new org (idempotent on conflict). */
@@ -72,6 +120,8 @@ export async function ensureOrgModuleCatalog(orgId: string, database: AppDb = db
             })),
         );
     }
+
+    await migrateSidebarOrderVersion(orgId, database);
 }
 
 /** One-time normalization for orgs created before canonical keys. */

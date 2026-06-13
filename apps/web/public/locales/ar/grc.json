@@ -1,11 +1,16 @@
 {
   "grc": {
     "tabs": {
-      "dashboard": "لوحة المعلومات",
+      "overview": "نظرة عامة",
       "governance": "الحوكمة",
       "risk": "المخاطر",
-      "compliance": "الامتثال",
+      "compliance": "الالتزام التنظيمي",
+      "screening": "الفحص",
       "audit": "التدقيق"
+    },
+    "overview": {
+      "upcomingDeadlines": "المواعيد النهائية القادمة للالتزام",
+      "pendingDecisions": "القرارات المعلقة"
     },
     "dashboard": {
       "pendingDecisions": "قرارات معلقة",
@@ -67,12 +72,55 @@
       }
     },
     "compliance": {
-      "title": "متطلبات الامتثال",
+      "title": "الالتزام التنظيمي",
+      "newRequirement": "متطلب جديد",
+      "editRequirement": "تعديل المتطلب",
+      "deleteRequirement": "حذف المتطلب",
+      "logAssessment": "تسجيل تقييم",
+      "noRequirements": "لا توجد متطلبات بعد. أضف متطلباً لبدء تتبّع الالتزامات.",
       "statuses": {
         "compliant": "ممتثل",
         "partially_compliant": "ممتثل جزئياً",
         "non_compliant": "غير ممتثل",
         "not_assessed": "لم يُقيَّم"
+      },
+      "priorities": {
+        "high": "عالية",
+        "medium": "متوسطة",
+        "low": "منخفضة"
+      },
+      "sources": {
+        "donor": "مانح",
+        "internal": "داخلي",
+        "regulatory": "تنظيمي"
+      },
+      "form": {
+        "code": "الرمز",
+        "titleEn": "العنوان (إنجليزي)",
+        "titleAr": "العنوان (عربي)",
+        "source": "نوع المصدر",
+        "sourceNameEn": "اسم المصدر (إنجليزي)",
+        "sourceNameAr": "اسم المصدر (عربي)",
+        "priority": "الأولوية",
+        "nextDue": "تاريخ الاستحقاق القادم",
+        "status": "الحالة",
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "assessment": {
+        "title": "تسجيل تقييم",
+        "for": "المتطلب",
+        "date": "تاريخ التقييم",
+        "status": "حالة الالتزام",
+        "score": "الدرجة (0-100)",
+        "findingsEn": "الملاحظات (إنجليزي)",
+        "findingsAr": "الملاحظات (عربي)"
+      },
+      "toasts": {
+        "requirementAdded": "تمت إضافة المتطلب.",
+        "requirementUpdated": "تم تحديث المتطلب.",
+        "requirementDeleted": "تم حذف المتطلب.",
+        "assessmentLogged": "تم تسجيل التقييم."
       },
       "table": {
         "requirement": "المتطلب",

@@ -39,11 +39,13 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
   const [startTime, setStartTime] = useState('10:00');
   const [endTime, setEndTime] = useState('11:00');
   const [location, setLocation] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !date || !startTime || !endTime) return;
 
+    setIsSubmitting(true);
     onAddMeeting({
       title: { en: title, ar: title },
       date: new Date(date).toISOString(),
@@ -53,6 +55,7 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
     });
     setTitle('');
     setLocation('');
+    setIsSubmitting(false);
     onClose();
   };
 
@@ -80,7 +83,7 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
         <form onSubmit={handleSubmit}>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium">عنوان الاجتماع</label>
+              <label className="block text-sm font-medium">{t('sharia.board.meetings.form.title')}</label>
               <input
                 type="text"
                 value={title}
@@ -91,7 +94,7 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium">التاريخ</label>
+                <label className="block text-sm font-medium">{t('sharia.board.meetings.form.date')}</label>
                 <input
                   type="date"
                   value={date}
@@ -101,12 +104,12 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">المكان</label>
+                <label className="block text-sm font-medium">{t('sharia.board.meetings.form.location')}</label>
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="مثال: قاعة الاجتماعات 1"
+                  placeholder={t('sharia.board.meetings.form.locationPlaceholder')}
                   required
                   className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-600"
                 />
@@ -114,7 +117,7 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium">وقت البدء</label>
+                <label className="block text-sm font-medium">{t('sharia.board.meetings.form.startTime')}</label>
                 <input
                   type="time"
                   value={startTime}
@@ -124,7 +127,7 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">وقت الانتهاء</label>
+                <label className="block text-sm font-medium">{t('sharia.board.meetings.form.endTime')}</label>
                 <input
                   type="time"
                   value={endTime}
@@ -145,7 +148,8 @@ const ScheduleMeetingModal: React.FC<ScheduleMeetingModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold"
+              disabled={isSubmitting}
+              className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-semibold disabled:opacity-60"
             >
               {t('sharia.board.meetings.schedule')}
             </button>
