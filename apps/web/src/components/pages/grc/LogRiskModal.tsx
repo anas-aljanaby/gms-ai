@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import { useToast } from '../../../hooks/useToast';
-import type { GrcRisk, GrcRiskLevel } from '../../../types';
+import type { GrcRiskLevel } from '../../../types';
 
 export interface LogRiskPayload {
-  risk: string;
+  risk: { en: string; ar: string };
   category: string;
   impact: number;
   probability: number;
@@ -19,11 +19,13 @@ interface LogRiskModalProps {
   onLog: (payload: LogRiskPayload) => void;
 }
 
+const CATEGORY_OPTIONS = ['cyber', 'financial', 'compliance', 'operational', 'reputational'] as const;
+
 const LogRiskModal: React.FC<LogRiskModalProps> = ({ onClose, onLog }) => {
   const { t } = useLocalization(['common', 'grc']);
   const { showSuccess } = useToast();
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('Operations');
+  const [category, setCategory] = useState<string>('operational');
   const [impact, setImpact] = useState(3);
   const [probability, setProbability] = useState(3);
 
@@ -35,16 +37,21 @@ const LogRiskModal: React.FC<LogRiskModalProps> = ({ onClose, onLog }) => {
     else if (score >= 15) level = 'High';
     else if (score >= 8) level = 'Medium';
 
+    const localizedRisk = {
+      en: description,
+      ar: description,
+    };
+
     onLog({
-      risk: description,
+      risk: localizedRisk,
       category,
       impact,
       probability,
       score,
       level,
-      scope: 'Global',
+      scope: 'global',
     });
-    showSuccess('Risk has been logged.');
+    showSuccess(t('grc.risk.toasts.logged'));
     onClose();
   };
 
@@ -71,7 +78,7 @@ const LogRiskModal: React.FC<LogRiskModalProps> = ({ onClose, onLog }) => {
         <form onSubmit={handleSubmit}>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium">Risk Description</label>
+              <label className="block text-sm font-medium">{t('grc.risk.form.description')}</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -81,22 +88,22 @@ const LogRiskModal: React.FC<LogRiskModalProps> = ({ onClose, onLog }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium">Category</label>
+              <label className="block text-sm font-medium">{t('grc.risk.form.category')}</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full p-2 mt-1 border rounded-md dark:bg-slate-800 dark:border-slate-700"
               >
-                <option>Cyber/Technical</option>
-                <option>Financial</option>
-                <option>Compliance/Regulatory</option>
-                <option>Operations</option>
-                <option>Reputation</option>
+                {CATEGORY_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {t(`grc.risk.categoryOptions.${option}`)}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium">Impact (1-5)</label>
+                <label className="block text-sm font-medium">{t('grc.risk.form.impact')}</label>
                 <input
                   type="number"
                   min={1}
@@ -107,7 +114,7 @@ const LogRiskModal: React.FC<LogRiskModalProps> = ({ onClose, onLog }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">Probability (1-5)</label>
+                <label className="block text-sm font-medium">{t('grc.risk.form.probability')}</label>
                 <input
                   type="number"
                   min={1}
@@ -132,7 +139,7 @@ const LogRiskModal: React.FC<LogRiskModalProps> = ({ onClose, onLog }) => {
               type="submit"
               className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold"
             >
-              Log Risk
+              {t('grc.risk.logRisk')}
             </button>
           </div>
         </form>

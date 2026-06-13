@@ -1,5 +1,287 @@
 {
   "sharia": {
+    "header": {
+      "subtitle": "Control room for fatwas, Sharia reviews, zakat certification, exceptions, and the audit trail."
+    },
+    "tabs": {
+      "overview": "Overview",
+      "fatwas": "Fatwas & Rulings",
+      "reviews": "Reviews",
+      "zakat": "Zakat Oversight",
+      "exceptions": "Exceptions & Activity"
+    },
+    "common": {
+      "notSet": "Not set",
+      "statusHistory": "Status history"
+    },
+    "validation": {
+      "required": "Complete the required fields before saving."
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "sourceModules": {
+      "projects": "Projects",
+      "financials": "Financials",
+      "donors": "Donors",
+      "zakat": "Zakat",
+      "reviews": "Reviews"
+    },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun"
+    },
+    "forms": {
+      "titleEn": "Title / topic (English)",
+      "titleAr": "Title / topic (Arabic)",
+      "descriptionEn": "Description (English)",
+      "descriptionAr": "Description (Arabic)",
+      "priority": "Priority",
+      "assignedReviewer": "Assigned reviewer",
+      "relatedModule": "Related module",
+      "relatedRecord": "Related record",
+      "dueDate": "Due date",
+      "attachments": "Attachments",
+      "status": "Status"
+    },
+    "overview": {
+      "scoreTitle": "Overall Sharia Compliance",
+      "scoreExplanation": "The score is computed from backlog, review risk, zakat eligibility, and unresolved exceptions.",
+      "kpi": {
+        "pendingFatwas": "Pending Fatwas",
+        "reviewsUnderReview": "Reviews Under Review",
+        "activeExceptions": "Active Exceptions",
+        "zakatProgress": "Zakat Compliance Progress"
+      },
+      "breakdownTitle": "Score breakdown",
+      "breakdownDescription": "Operational factors that move the Sharia compliance score.",
+      "breakdown": {
+        "fatwaBacklog": "Fatwa backlog",
+        "reviewBacklog": "Review backlog",
+        "zakatExceptions": "Zakat exceptions",
+        "unresolvedExceptions": "Unresolved exceptions"
+      },
+      "boardLink": {
+        "title": "Sharia Board",
+        "description": "Reviewer roster is managed in the board module and referenced here.",
+        "members": "Board members",
+        "action": "View Sharia Board"
+      },
+      "trend": {
+        "title": "Sharia compliance trend",
+        "description": "Six-month trend based on completed reviews and resolved exceptions."
+      },
+      "priorityQueue": {
+        "title": "Priority Work Queue",
+        "description": "Top pending rulings, reviews, zakat issues, and exceptions.",
+        "types": {
+          "fatwa": "Fatwa",
+          "review": "Review",
+          "exception": "Exception"
+        }
+      },
+      "activityPreview": {
+        "title": "Recent Activity Preview",
+        "description": "Latest Sharia compliance events. The full trail is in Exceptions & Activity."
+      }
+    },
+    "fatwas": {
+      "title": "Fatwa Register",
+      "subtitle": "Track requests, reviews, issued rulings, and archive-ready opinions.",
+      "new": "Request New Fatwa",
+      "save": "Save Fatwa Request",
+      "emptyTitle": "No fatwa requests",
+      "emptyDescription": "New requests will appear here after they are submitted.",
+      "deleteTitle": "Delete fatwa request",
+      "deleteConfirm": "Delete “{{name}}” from the local register?",
+      "table": {
+        "reference": "Reference",
+        "topic": "Topic",
+        "requester": "Requester",
+        "status": "Status",
+        "priority": "Priority",
+        "reviewer": "Reviewer",
+        "dueDate": "Due date",
+        "actions": "Actions"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "underReview": "Under Review",
+        "issued": "Issued",
+        "archived": "Archived"
+      },
+      "form": {
+        "questionEn": "Question / details (English)",
+        "questionAr": "Question / details (Arabic)",
+        "requester": "Requester"
+      },
+      "detail": {
+        "question": "Question",
+        "requester": "Requester",
+        "issuedDate": "Issued date",
+        "reviewNotes": "Review notes",
+        "reviewNotesEn": "Review notes (English)",
+        "reviewNotesAr": "Review notes (Arabic)",
+        "rulingSummary": "Ruling summary",
+        "rulingSummaryEn": "Ruling summary (English)",
+        "rulingSummaryAr": "Ruling summary (Arabic)"
+      }
+    },
+    "reviews": {
+      "title": "Review Queue",
+      "subtitle": "Contracts, policies, investments, grants, procurement, and products pending Sharia review.",
+      "submit": "Submit for Sharia Review",
+      "save": "Save Review Submission",
+      "emptyTitle": "No review submissions",
+      "emptyDescription": "Submitted contracts, policies, and proposals will appear here.",
+      "deleteTitle": "Delete review submission",
+      "deleteConfirm": "Delete “{{name}}” from the local queue?",
+      "table": {
+        "item": "Item",
+        "type": "Type",
+        "source": "Source",
+        "status": "Status",
+        "risk": "Risk",
+        "reviewer": "Reviewer",
+        "dueDate": "Due date",
+        "actions": "Actions"
+      },
+      "types": {
+        "contract": "Contract",
+        "policy": "Policy",
+        "investmentProposal": "Investment Proposal",
+        "grantAgreement": "Grant Agreement",
+        "procurementContract": "Procurement Contract",
+        "financialProduct": "Financial Product"
+      },
+      "statuses": {
+        "submitted": "Submitted",
+        "underReview": "Under Review",
+        "needsClarification": "Needs Clarification",
+        "approved": "Approved",
+        "approvedWithConditions": "Approved with Conditions",
+        "rejected": "Rejected"
+      },
+      "decisions": {
+        "approved": "Approved",
+        "approvedWithConditions": "Approved with Conditions",
+        "rejected": "Rejected",
+        "needsClarification": "Needs Clarification"
+      },
+      "form": {
+        "counterparty": "Counterparty / project"
+      },
+      "detail": {
+        "decision": "Decision",
+        "conditions": "Conditions",
+        "conditionsEn": "Conditions (English)",
+        "conditionsAr": "Conditions (Arabic)",
+        "notes": "Review notes",
+        "notesEn": "Review notes (English)",
+        "notesAr": "Review notes (Arabic)"
+      }
+    },
+    "zakat": {
+      "summary": {
+        "title": "Zakat Compliance Summary",
+        "description": "Certification view for zakat allocations. Financial transactions remain read-only links.",
+        "distributed": "Distributed",
+        "target": "Target",
+        "remaining": "Remaining"
+      },
+      "rules": {
+        "title": "Policy Limits / Category Rules",
+        "description": "Static MVP-level rules used to explain warnings and certification decisions."
+      },
+      "tableTitle": "Zakat Allocation Reviews",
+      "tableDescription": "Compliance certification rows for zakat allocation reviews.",
+      "logReview": "Log Zakat Review",
+      "editReview": "Edit Zakat Review",
+      "deleteTitle": "Delete zakat review",
+      "deleteConfirm": "Delete “{{name}}” from the local zakat review table?",
+      "table": {
+        "program": "Beneficiary / program",
+        "category": "Category",
+        "amount": "Amount",
+        "date": "Date",
+        "eligibility": "Eligibility",
+        "transaction": "Financial transaction",
+        "reviewer": "Reviewer",
+        "actions": "Actions"
+      },
+      "categories": {
+        "poorNeedy": "Poor / Needy",
+        "debtRelief": "Debt Relief",
+        "education": "Education",
+        "operations": "Operations"
+      },
+      "eligibility": {
+        "eligible": "Eligible",
+        "ineligible": "Ineligible",
+        "needsReview": "Needs Review",
+        "certified": "Certified"
+      },
+      "policyStatuses": {
+        "active": "Active",
+        "review": "Under Review"
+      },
+      "form": {
+        "programEn": "Beneficiary / program (English)",
+        "programAr": "Beneficiary / program (Arabic)",
+        "notesEn": "Notes (English)",
+        "notesAr": "Notes (Arabic)"
+      }
+    },
+    "exceptions": {
+      "title": "Sharia Exceptions Queue",
+      "subtitle": "Triage alerts, owners, statuses, linked records, and resolution notes.",
+      "resolve": "Resolve Exception",
+      "saveResolution": "Save Resolution",
+      "deleteTitle": "Delete exception",
+      "deleteConfirm": "Delete “{{name}}” from the local exception queue?",
+      "table": {
+        "exception": "Exception",
+        "severity": "Severity",
+        "source": "Source",
+        "owner": "Owner",
+        "status": "Status",
+        "created": "Created",
+        "actions": "Actions"
+      },
+      "statuses": {
+        "open": "Open",
+        "inReview": "In Review",
+        "resolved": "Resolved",
+        "closed": "Closed"
+      },
+      "form": {
+        "followUpDate": "Follow-up date",
+        "resolutionEn": "Resolution notes (English)",
+        "resolutionAr": "Resolution notes (Arabic)"
+      },
+      "activity": {
+        "title": "Activity Trail",
+        "description": "Read-only audit trail generated by local actions on this page.",
+        "emptyTitle": "No activity",
+        "emptyDescription": "Compliance events will appear here."
+      }
+    },
+    "eventTypes": {
+      "fatwaIssued": "Fatwa issued",
+      "reviewUpdated": "Review updated",
+      "zakatReviewLogged": "Zakat review logged",
+      "exceptionCreated": "Exception created",
+      "fatwaRequested": "Fatwa requested",
+      "reviewSubmitted": "Review submitted"
+    },
     "kpi": {
       "overallCompliance": "Overall Sharia Compliance",
       "pendingFatwas": "Pending Fatwas",
@@ -22,7 +304,7 @@
       "title": "Quick Actions",
       "newFatwa": "Request New Fatwa",
       "submitContract": "Submit Contract for Review",
-      "logZakat": "Log Zakat Expenditure"
+      "logZakat": "Log Zakat Review"
     },
     "meetings": {
       "agenda": "Agenda",

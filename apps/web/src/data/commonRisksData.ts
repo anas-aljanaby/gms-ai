@@ -441,4 +441,4 @@ export const MOCK_COMMON_RISKS: GrcRisk[] = [
     mitigation: ['متابعة تشريعية', 'مرونة تشغيلية'],
     status: 'identified',
   },
-];
+] as unknown as GrcRisk[];

@@ -14,7 +14,7 @@ const NewPolicyModal: React.FC<NewPolicyModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess('New policy has been logged for creation.');
+    showSuccess(t('grc.governance.toasts.policyLogged'));
     onClose();
   };
 
@@ -67,7 +67,7 @@ const NewPolicyModal: React.FC<NewPolicyModalProps> = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., 1.0"
+                  placeholder={t('grc.governance.versionPlaceholder')}
                   className="mt-1 block w-full p-2 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700"
                 />
               </div>
@@ -75,7 +75,7 @@ const NewPolicyModal: React.FC<NewPolicyModalProps> = ({ isOpen, onClose }) => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Effective Date
+                  {t('grc.governance.effectiveDate')}
                 </label>
                 <input
                   type="date"

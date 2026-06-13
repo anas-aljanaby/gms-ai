@@ -20,14 +20,17 @@ interface RiskTabProps {
 }
 
 const LevelBadge: React.FC<{ level: GrcRiskLevel }> = ({ level }) => {
+  const { t } = useLocalization(['grc']);
   const { text, bg } = getRiskLevelCardStyles(level);
   return (
-    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${bg} ${text}`}>{level}</span>
+    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${bg} ${text}`}>
+      {t(`grc.risk.levels.${level}`)}
+    </span>
   );
 };
 
 const RiskTab: React.FC<RiskTabProps> = ({ risks: initialRisks }) => {
-  const { t } = useLocalization(['common', 'grc', 'projects']);
+  const { t, language } = useLocalization(['common', 'grc', 'projects']);
   const [risks, setRisks] = useState(initialRisks);
   const [registerSearch, setRegisterSearch] = useState('');
   const [selectedRisk, setSelectedRisk] = useState<GrcRisk | null>(null);
@@ -45,11 +48,14 @@ const RiskTab: React.FC<RiskTabProps> = ({ risks: initialRisks }) => {
 
   const filteredRegister = useMemo(
     () =>
-      risks.filter(
-        (risk) =>
-          registerSearch === '' ||
-          (risk.risk && risk.risk.toLowerCase().includes(registerSearch.toLowerCase())),
-      ),
+      risks.filter((risk) => {
+        if (registerSearch === '') return true;
+        const query = registerSearch.toLowerCase();
+        return (
+          risk.risk.en.toLowerCase().includes(query) ||
+          risk.risk.ar.toLowerCase().includes(query)
+        );
+      }),
     [risks, registerSearch],
   );
 
@@ -57,12 +63,15 @@ const RiskTab: React.FC<RiskTabProps> = ({ risks: initialRisks }) => {
     const newRisk: GrcRisk = {
       ...payload,
       id: `risk-${Date.now()}`,
-      mitigation: ['Newly logged mitigation plan to be defined.'],
+      mitigation: [{ en: t('grc.risk.mitigation.placeholder'), ar: t('grc.risk.mitigation.placeholder') }],
       status: 'identified',
     };
     setRisks((prev) => [newRisk, ...prev]);
     setIsLogModalOpen(false);
   };
+
+  const translateCategory = (category: string) =>
+    t(`grc.risk.categories.${category}`, category);
 
   return (
     <>
@@ -133,9 +142,9 @@ const RiskTab: React.FC<RiskTabProps> = ({ risks: initialRisks }) => {
                       className="border-t dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800/50 cursor-pointer"
                     >
                       <td className="p-3 font-semibold text-foreground dark:text-dark-foreground">
-                        {risk.risk}
+                        {risk.risk[language]}
                       </td>
-                      <td className="p-3 capitalize">{risk.category}</td>
+                      <td className="p-3">{translateCategory(risk.category)}</td>
                       <td className="p-3 text-center">
                         <div
                           className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center font-bold ${levelStyles.bg} ${levelStyles.text}`}

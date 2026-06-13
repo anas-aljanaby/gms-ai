@@ -14,7 +14,7 @@ const NewDecisionModal: React.FC<NewDecisionModalProps> = ({ isOpen, onClose }) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess('New decision has been logged for creation.');
+    showSuccess(t('grc.governance.toasts.decisionLogged'));
     onClose();
   };
 
@@ -63,12 +63,12 @@ const NewDecisionModal: React.FC<NewDecisionModalProps> = ({ isOpen, onClose }) 
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Impact
+                  {t('grc.governance.decisionImpact')}
                 </label>
                 <select className="w-full p-2 mt-1 border rounded-md bg-gray-50 dark:bg-slate-800 dark:border-slate-700">
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
+                  <option value="low">{t('grc.governance.impactLevels.low')}</option>
+                  <option value="medium">{t('grc.governance.impactLevels.medium')}</option>
+                  <option value="high">{t('grc.governance.impactLevels.high')}</option>
                 </select>
               </div>
             </div>

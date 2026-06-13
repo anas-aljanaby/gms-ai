@@ -22,7 +22,7 @@ interface RiskDetailModalProps {
 }
 
 const RiskDetailModal: React.FC<RiskDetailModalProps> = ({ risk, onClose }) => {
-  const { t } = useLocalization(['common', 'grc', 'projects']);
+  const { t, language } = useLocalization(['common', 'grc', 'projects']);
 
   if (!risk) return null;
 
@@ -38,7 +38,7 @@ const RiskDetailModal: React.FC<RiskDetailModalProps> = ({ risk, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-4 border-b dark:border-slate-700">
-          <h2 className="text-xl font-bold">{risk.risk}</h2>
+          <h2 className="text-xl font-bold">{risk.risk[language]}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -52,7 +52,7 @@ const RiskDetailModal: React.FC<RiskDetailModalProps> = ({ risk, onClose }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div className={`p-3 rounded-lg ${bg}`}>
               <p className="text-xs font-bold">{t('grc.risk.level')}</p>
-              <p className={`text-lg font-extrabold ${text}`}>{risk.level}</p>
+              <p className={`text-lg font-extrabold ${text}`}>{t(`grc.risk.levels.${risk.level}`)}</p>
             </div>
             <DetailField label={t('grc.risk.table.score')} value={risk.score} />
             <DetailField label={t('projects.risks.impact')} value={risk.impact} />
@@ -60,15 +60,21 @@ const RiskDetailModal: React.FC<RiskDetailModalProps> = ({ risk, onClose }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <DetailField label={t('projects.risks.category')} value={risk.category} />
-            <DetailField label={t('grc.risk.scope')} value={risk.scope} />
+            <DetailField
+              label={t('projects.risks.category')}
+              value={t(`grc.risk.categories.${risk.category}`, risk.category)}
+            />
+            <DetailField
+              label={t('grc.risk.scope')}
+              value={t(`grc.risk.scopes.${risk.scope}`, risk.scope)}
+            />
           </div>
 
           <div>
             <h3 className="font-bold text-lg mb-2">{t('grc.risk.mitigation.title')}</h3>
             <ul className="list-disc list-inside space-y-1 text-sm bg-gray-50 dark:bg-slate-800/50 p-4 rounded-md">
               {risk.mitigation.map((item, idx) => (
-                <li key={idx}>{item}</li>
+                <li key={idx}>{item[language]}</li>
               ))}
             </ul>
           </div>

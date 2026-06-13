@@ -1,5 +1,287 @@
 {
   "sharia": {
+    "header": {
+      "subtitle": "غرفة تحكم للفتاوى والمراجعات الشرعية واعتماد الزكاة والاستثناءات وسجل النشاط."
+    },
+    "tabs": {
+      "overview": "نظرة عامة",
+      "fatwas": "الفتاوى والأحكام",
+      "reviews": "المراجعات",
+      "zakat": "الرقابة على الزكاة",
+      "exceptions": "الاستثناءات والنشاط"
+    },
+    "common": {
+      "notSet": "غير محدد",
+      "statusHistory": "سجل الحالة"
+    },
+    "validation": {
+      "required": "أكمل الحقول المطلوبة قبل الحفظ."
+    },
+    "priority": {
+      "low": "منخفض",
+      "medium": "متوسط",
+      "high": "مرتفع",
+      "critical": "حرج"
+    },
+    "sourceModules": {
+      "projects": "المشاريع",
+      "financials": "المالية",
+      "donors": "المانحون",
+      "zakat": "الزكاة",
+      "reviews": "المراجعات"
+    },
+    "months": {
+      "jan": "يناير",
+      "feb": "فبراير",
+      "mar": "مارس",
+      "apr": "أبريل",
+      "may": "مايو",
+      "jun": "يونيو"
+    },
+    "forms": {
+      "titleEn": "العنوان / الموضوع (بالإنجليزية)",
+      "titleAr": "العنوان / الموضوع (بالعربية)",
+      "descriptionEn": "الوصف (بالإنجليزية)",
+      "descriptionAr": "الوصف (بالعربية)",
+      "priority": "الأولوية",
+      "assignedReviewer": "المراجع المكلّف",
+      "relatedModule": "الوحدة المرتبطة",
+      "relatedRecord": "السجل المرتبط",
+      "dueDate": "تاريخ الاستحقاق",
+      "attachments": "المرفقات",
+      "status": "الحالة"
+    },
+    "overview": {
+      "scoreTitle": "الامتثال الشرعي العام",
+      "scoreExplanation": "تُحسب النتيجة من التراكمات ومخاطر المراجعة وأهلية الزكاة والاستثناءات غير المحلولة.",
+      "kpi": {
+        "pendingFatwas": "فتاوى معلقة",
+        "reviewsUnderReview": "مراجعات قيد العمل",
+        "activeExceptions": "استثناءات نشطة",
+        "zakatProgress": "تقدم امتثال الزكاة"
+      },
+      "breakdownTitle": "تفصيل النتيجة",
+      "breakdownDescription": "العوامل التشغيلية التي تؤثر على نتيجة الامتثال الشرعي.",
+      "breakdown": {
+        "fatwaBacklog": "تراكم الفتاوى",
+        "reviewBacklog": "تراكم المراجعات",
+        "zakatExceptions": "استثناءات الزكاة",
+        "unresolvedExceptions": "استثناءات غير محلولة"
+      },
+      "boardLink": {
+        "title": "الهيئة الشرعية",
+        "description": "تدار قائمة المراجعين في وحدة الهيئة وتستخدم هنا كمرجع.",
+        "members": "أعضاء الهيئة",
+        "action": "عرض الهيئة الشرعية"
+      },
+      "trend": {
+        "title": "اتجاه الامتثال الشرعي",
+        "description": "اتجاه لستة أشهر بناء على المراجعات المكتملة والاستثناءات المحلولة."
+      },
+      "priorityQueue": {
+        "title": "قائمة العمل ذات الأولوية",
+        "description": "أهم الفتاوى والمراجعات وقضايا الزكاة والاستثناءات المعلقة.",
+        "types": {
+          "fatwa": "فتوى",
+          "review": "مراجعة",
+          "exception": "استثناء"
+        }
+      },
+      "activityPreview": {
+        "title": "معاينة النشاط الأخير",
+        "description": "أحدث أحداث الامتثال الشرعي. السجل الكامل في الاستثناءات والنشاط."
+      }
+    },
+    "fatwas": {
+      "title": "سجل الفتاوى",
+      "subtitle": "تتبع الطلبات والمراجعات والأحكام الصادرة والآراء الجاهزة للأرشفة.",
+      "new": "طلب فتوى جديدة",
+      "save": "حفظ طلب الفتوى",
+      "emptyTitle": "لا توجد طلبات فتوى",
+      "emptyDescription": "ستظهر الطلبات الجديدة هنا بعد تقديمها.",
+      "deleteTitle": "حذف طلب فتوى",
+      "deleteConfirm": "هل تريد حذف “{{name}}” من السجل المحلي؟",
+      "table": {
+        "reference": "المرجع",
+        "topic": "الموضوع",
+        "requester": "مقدم الطلب",
+        "status": "الحالة",
+        "priority": "الأولوية",
+        "reviewer": "المراجع",
+        "dueDate": "تاريخ الاستحقاق",
+        "actions": "الإجراءات"
+      },
+      "statuses": {
+        "draft": "مسودة",
+        "submitted": "مقدم",
+        "underReview": "قيد المراجعة",
+        "issued": "صادر",
+        "archived": "مؤرشف"
+      },
+      "form": {
+        "questionEn": "السؤال / التفاصيل (بالإنجليزية)",
+        "questionAr": "السؤال / التفاصيل (بالعربية)",
+        "requester": "مقدم الطلب"
+      },
+      "detail": {
+        "question": "السؤال",
+        "requester": "مقدم الطلب",
+        "issuedDate": "تاريخ الإصدار",
+        "reviewNotes": "ملاحظات المراجعة",
+        "reviewNotesEn": "ملاحظات المراجعة (بالإنجليزية)",
+        "reviewNotesAr": "ملاحظات المراجعة (بالعربية)",
+        "rulingSummary": "ملخص الحكم",
+        "rulingSummaryEn": "ملخص الحكم (بالإنجليزية)",
+        "rulingSummaryAr": "ملخص الحكم (بالعربية)"
+      }
+    },
+    "reviews": {
+      "title": "قائمة المراجعات",
+      "subtitle": "العقود والسياسات والاستثمارات والمنح والمشتريات والمنتجات المعلقة للمراجعة الشرعية.",
+      "submit": "تقديم للمراجعة الشرعية",
+      "save": "حفظ طلب المراجعة",
+      "emptyTitle": "لا توجد طلبات مراجعة",
+      "emptyDescription": "ستظهر العقود والسياسات والمقترحات المقدمة هنا.",
+      "deleteTitle": "حذف طلب مراجعة",
+      "deleteConfirm": "هل تريد حذف “{{name}}” من قائمة المراجعات المحلية؟",
+      "table": {
+        "item": "العنصر",
+        "type": "النوع",
+        "source": "المصدر",
+        "status": "الحالة",
+        "risk": "المخاطر",
+        "reviewer": "المراجع",
+        "dueDate": "تاريخ الاستحقاق",
+        "actions": "الإجراءات"
+      },
+      "types": {
+        "contract": "عقد",
+        "policy": "سياسة",
+        "investmentProposal": "مقترح استثماري",
+        "grantAgreement": "اتفاقية منحة",
+        "procurementContract": "عقد مشتريات",
+        "financialProduct": "منتج مالي"
+      },
+      "statuses": {
+        "submitted": "مقدم",
+        "underReview": "قيد المراجعة",
+        "needsClarification": "يحتاج إلى توضيح",
+        "approved": "معتمد",
+        "approvedWithConditions": "معتمد بشروط",
+        "rejected": "مرفوض"
+      },
+      "decisions": {
+        "approved": "معتمد",
+        "approvedWithConditions": "معتمد بشروط",
+        "rejected": "مرفوض",
+        "needsClarification": "يحتاج إلى توضيح"
+      },
+      "form": {
+        "counterparty": "الطرف المقابل / المشروع"
+      },
+      "detail": {
+        "decision": "القرار",
+        "conditions": "الشروط",
+        "conditionsEn": "الشروط (بالإنجليزية)",
+        "conditionsAr": "الشروط (بالعربية)",
+        "notes": "ملاحظات المراجعة",
+        "notesEn": "ملاحظات المراجعة (بالإنجليزية)",
+        "notesAr": "ملاحظات المراجعة (بالعربية)"
+      }
+    },
+    "zakat": {
+      "summary": {
+        "title": "ملخص امتثال الزكاة",
+        "description": "عرض اعتماد لتخصيصات الزكاة. تبقى المعاملات المالية روابط للقراءة فقط.",
+        "distributed": "الموزع",
+        "target": "الهدف",
+        "remaining": "المتبقي"
+      },
+      "rules": {
+        "title": "حدود السياسة / قواعد الفئات",
+        "description": "قواعد ثابتة على مستوى المنتج الأولي لتفسير التحذيرات وقرارات الاعتماد."
+      },
+      "tableTitle": "مراجعات تخصيص الزكاة",
+      "tableDescription": "صفوف اعتماد الامتثال لمراجعات تخصيص الزكاة.",
+      "logReview": "تسجيل مراجعة زكاة",
+      "editReview": "تعديل مراجعة الزكاة",
+      "deleteTitle": "حذف مراجعة زكاة",
+      "deleteConfirm": "هل تريد حذف “{{name}}” من جدول مراجعات الزكاة المحلي؟",
+      "table": {
+        "program": "المستفيد / البرنامج",
+        "category": "الفئة",
+        "amount": "المبلغ",
+        "date": "التاريخ",
+        "eligibility": "الأهلية",
+        "transaction": "المعاملة المالية",
+        "reviewer": "المراجع",
+        "actions": "الإجراءات"
+      },
+      "categories": {
+        "poorNeedy": "الفقراء / المحتاجون",
+        "debtRelief": "تفريج الديون",
+        "education": "التعليم",
+        "operations": "العمليات"
+      },
+      "eligibility": {
+        "eligible": "مؤهل",
+        "ineligible": "غير مؤهل",
+        "needsReview": "يحتاج مراجعة",
+        "certified": "معتمد"
+      },
+      "policyStatuses": {
+        "active": "نشط",
+        "review": "قيد المراجعة"
+      },
+      "form": {
+        "programEn": "المستفيد / البرنامج (بالإنجليزية)",
+        "programAr": "المستفيد / البرنامج (بالعربية)",
+        "notesEn": "ملاحظات (بالإنجليزية)",
+        "notesAr": "ملاحظات (بالعربية)"
+      }
+    },
+    "exceptions": {
+      "title": "قائمة الاستثناءات الشرعية",
+      "subtitle": "فرز التنبيهات والمالكين والحالات والسجلات المرتبطة وملاحظات الحل.",
+      "resolve": "حل الاستثناء",
+      "saveResolution": "حفظ الحل",
+      "deleteTitle": "حذف استثناء",
+      "deleteConfirm": "هل تريد حذف “{{name}}” من قائمة الاستثناءات المحلية؟",
+      "table": {
+        "exception": "الاستثناء",
+        "severity": "الشدة",
+        "source": "المصدر",
+        "owner": "المالك",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء",
+        "actions": "الإجراءات"
+      },
+      "statuses": {
+        "open": "مفتوح",
+        "inReview": "قيد المراجعة",
+        "resolved": "محلول",
+        "closed": "مغلق"
+      },
+      "form": {
+        "followUpDate": "تاريخ المتابعة",
+        "resolutionEn": "ملاحظات الحل (بالإنجليزية)",
+        "resolutionAr": "ملاحظات الحل (بالعربية)"
+      },
+      "activity": {
+        "title": "سجل النشاط",
+        "description": "سجل تدقيق للقراءة فقط يتم توليده من الإجراءات المحلية في هذه الصفحة.",
+        "emptyTitle": "لا يوجد نشاط",
+        "emptyDescription": "ستظهر أحداث الامتثال هنا."
+      }
+    },
+    "eventTypes": {
+      "fatwaIssued": "صدور فتوى",
+      "reviewUpdated": "تحديث مراجعة",
+      "zakatReviewLogged": "تسجيل مراجعة زكاة",
+      "exceptionCreated": "إنشاء استثناء",
+      "fatwaRequested": "طلب فتوى",
+      "reviewSubmitted": "تقديم مراجعة"
+    },
     "kpi": {
       "overallCompliance": "الامتثال الشرعي العام",
       "pendingFatwas": "فتاوى معلقة",
@@ -22,7 +304,7 @@
       "title": "إجراءات سريعة",
       "newFatwa": "طلب فتوى جديدة",
       "submitContract": "تقديم عقد للمراجعة",
-      "logZakat": "تسجيل نفقة زكاة"
+      "logZakat": "تسجيل مراجعة الزكاة"
     },
     "meetings": {
       "agenda": "جدول الأعمال",

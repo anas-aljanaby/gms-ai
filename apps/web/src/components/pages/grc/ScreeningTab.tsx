@@ -120,7 +120,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color }) => {
 };
 
 const ScreeningTab: React.FC = () => {
-  const { t, language } = useLocalization(['common', 'compliance', 'projects', 'sidebar', 'misc']);
+  const { t, language } = useLocalization(['common', 'compliance', 'projects', 'grc']);
   const toast = useToast();
 
   const [stats, setStats] = useState(getStats);
@@ -347,14 +347,14 @@ const ScreeningTab: React.FC = () => {
               <div className="text-sm font-medium mb-2">{t('compliance.level')}</div>
               <div className="text-5xl font-bold flex items-center gap-2">
                 {riskEmoji(screeningResult.risk_level)}
-                <span className="uppercase">{screeningResult.risk_level}</span>
+                <span>{t(`projects.risks.levels.${screeningResult.risk_level}`)}</span>
               </div>
             </div>
             <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg transform hover:scale-105 transition">
               <div className="text-sm font-medium mb-2 opacity-90">{t('compliance.rec')}</div>
               <div className="text-5xl font-bold flex items-center gap-2">
                 {recommendationEmoji(screeningResult.recommendation)}
-                <span className="uppercase">{screeningResult.recommendation}</span>
+                <span>{t(`compliance.recommendations.${screeningResult.recommendation}`)}</span>
               </div>
             </div>
           </div>

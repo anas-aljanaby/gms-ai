@@ -931,14 +931,14 @@ export type GrcRiskLevel = 'Critical' | 'High' | 'Medium' | 'Low';
 export type GrcRiskStatus = 'identified' | 'mitigating' | 'monitored' | 'closed';
 export interface GrcRisk {
     id: string;
-    risk: string;
+    risk: Record<Language, string>;
     category: string;
     probability: number;
     impact: number;
     score: number;
     level: GrcRiskLevel;
     scope: string;
-    mitigation: string[];
+    mitigation: Record<Language, string>[];
     status: GrcRiskStatus;
 }
 export type PolicyStatus = 'draft' | 'active' | 'archived';

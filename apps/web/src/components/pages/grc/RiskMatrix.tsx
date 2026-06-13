@@ -68,7 +68,7 @@ const RiskMatrix: React.FC<RiskMatrixProps> = ({ risks, onCellClick, activeCell 
                           isActive ? 'ring-2 ring-primary scale-110' : 'hover:scale-105'
                         }`}
                         style={{ backgroundColor: bg }}
-                        title={`${count} risks`}
+                        title={t('grc.dashboard.riskCount', { count })}
                       >
                         {count > 0 && <span className={`font-bold text-lg ${text}`}>{count}</span>}
                       </button>

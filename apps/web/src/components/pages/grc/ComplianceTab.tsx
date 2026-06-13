@@ -134,7 +134,7 @@ const ComplianceTab: React.FC<ComplianceTabProps> = ({
                       <ComplianceStatusBadge status={latestAssessment?.status ?? 'not-assessed'} />
                     </td>
                     <td className="p-2 text-foreground dark:text-dark-foreground">
-                      {latestAssessment ? formatDate(latestAssessment.date, language) : 'N/A'}
+                      {latestAssessment ? formatDate(latestAssessment.date, language) : t('common.notAvailable')}
                     </td>
                     <td className="p-2 text-foreground dark:text-dark-foreground">
                       {formatDate(req.nextDueDate, language)}

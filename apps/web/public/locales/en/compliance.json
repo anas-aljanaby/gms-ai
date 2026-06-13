@@ -1,46 +1,53 @@
 {
-  "title": "Compliance Screening",
-  "totalEntities": "Total Entities Screened",
-  "highRisk": "High Risk Entities",
-  "openAlerts": "Open Alerts",
-  "screenNew": "Screen New Entity",
-  "entityName": "Entity Name",
-  "entityType": "Entity Type",
-  "country": "Country",
-  "aiScreen": "Run Screening",
-  "recentlyScreened": "Recently Screened",
-  "results": "Screening Results",
-  "score": "Risk Score",
-  "level": "Risk Level",
-  "rec": "Recommendation",
-  "details": "Analysis Details",
-  "saveSuccess": "Entity saved and alert created if applicable.",
-  "activeAlerts": "Active Alerts",
-  "simulatedWatchlist": "Simulated International Watchlist",
-  "types": {
-    "individual": "Individual",
-    "organization": "Organization",
-    "vendor": "Vendor",
-    "partner": "Partner"
-  },
-  "headers": {
-    "name": "Name",
-    "type": "Type",
-    "riskLevel": "Risk Level",
-    "date": "Date",
-    "entity": "Entity",
-    "matchDetails": "Match Details",
-    "status": "Status"
-  },
-  "alertStatuses": {
-    "open": "Open",
-    "in_review": "In Review",
-    "closed": "Closed"
-  },
-  "toasts": {
-    "missingInfoTitle": "Missing Information",
-    "missingInfoMessage": "Please enter entity name and country.",
-    "screeningFailedTitle": "Screening Failed",
-    "screeningFailedMessage": "Unable to complete screening. Please try again."
+  "compliance": {
+    "title": "Compliance Screening",
+    "totalEntities": "Total Entities Screened",
+    "highRisk": "High Risk Entities",
+    "openAlerts": "Open Alerts",
+    "screenNew": "Screen New Entity",
+    "entityName": "Entity Name",
+    "entityType": "Entity Type",
+    "country": "Country",
+    "aiScreen": "Run Screening",
+    "recentlyScreened": "Recently Screened",
+    "results": "Screening Results",
+    "score": "Risk Score",
+    "level": "Risk Level",
+    "rec": "Recommendation",
+    "details": "Analysis Details",
+    "saveSuccess": "Entity saved and alert created if applicable.",
+    "activeAlerts": "Active Alerts",
+    "simulatedWatchlist": "Simulated International Watchlist",
+    "types": {
+      "individual": "Individual",
+      "organization": "Organization",
+      "vendor": "Vendor",
+      "partner": "Partner"
+    },
+    "headers": {
+      "name": "Name",
+      "type": "Type",
+      "riskLevel": "Risk Level",
+      "date": "Date",
+      "entity": "Entity",
+      "matchDetails": "Match Details",
+      "status": "Status"
+    },
+    "alertStatuses": {
+      "open": "Open",
+      "in_review": "In Review",
+      "closed": "Closed"
+    },
+    "recommendations": {
+      "approve": "Approve",
+      "review": "Review",
+      "reject": "Reject"
+    },
+    "toasts": {
+      "missingInfoTitle": "Missing Information",
+      "missingInfoMessage": "Please enter entity name and country.",
+      "screeningFailedTitle": "Screening Failed",
+      "screeningFailedMessage": "Unable to complete screening. Please try again."
+    }
   }
 }

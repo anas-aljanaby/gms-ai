@@ -12,11 +12,11 @@ export const MOCK_GRC_DATA: GrcData = {
         { id: 'DEC-002', title: {en: 'Selection of New Audit Firm', ar: 'اختيار شركة تدقيق جديدة'}, date: '2024-07-20', status: 'pending', impact: 'medium' },
     ],
     risks: [
-        { id: 'RSK-001', risk: 'Donation Shortfall', category: 'financial', probability: 3, impact: 4, score: 12, level: 'High', scope: 'Project', mitigation: ['Diversify funding sources'], status: 'mitigating' },
-        { id: 'RSK-002', risk: 'Key Staff Turnover', category: 'operational', probability: 2, impact: 3, score: 6, level: 'Medium', scope: 'Organization', mitigation: ['Implement retention plan'], status: 'monitored' },
-        { id: 'RSK-003', risk: 'Negative Media Coverage', category: 'reputational', probability: 2, impact: 4, score: 8, level: 'High', scope: 'Public Relations', mitigation: ['Proactive PR strategy'], status: 'identified' },
-        { id: 'RSK-004', risk: 'GDPR Data Breach', category: 'compliance', probability: 2, impact: 4, score: 8, level: 'High', scope: 'IT', mitigation: ['Enhance security measures'], status: 'mitigating' },
-        { id: 'RSK-005', risk: 'Data Security Breach', category: 'cyber', probability: 2, impact: 5, score: 10, level: 'High', scope: 'IT', mitigation: ['Encrypt sensitive data', 'Regular security audits'], status: 'identified' },
+        { id: 'RSK-001', risk: { en: 'Donation Shortfall', ar: 'نقص التبرعات' }, category: 'financial', probability: 3, impact: 4, score: 12, level: 'High', scope: 'project', mitigation: [{ en: 'Diversify funding sources', ar: 'تنويع مصادر التمويل' }], status: 'mitigating' },
+        { id: 'RSK-002', risk: { en: 'Key Staff Turnover', ar: 'دوران الموظفين الرئيسيين' }, category: 'operational', probability: 2, impact: 3, score: 6, level: 'Medium', scope: 'organization', mitigation: [{ en: 'Implement retention plan', ar: 'تنفيذ خطة الاحتفاظ بالمواهب' }], status: 'monitored' },
+        { id: 'RSK-003', risk: { en: 'Negative Media Coverage', ar: 'تغطية إعلامية سلبية' }, category: 'reputational', probability: 2, impact: 4, score: 8, level: 'High', scope: 'public_relations', mitigation: [{ en: 'Proactive PR strategy', ar: 'استراتيجية علاقات عامة استباقية' }], status: 'identified' },
+        { id: 'RSK-004', risk: { en: 'GDPR Data Breach', ar: 'خرق بيانات وفق GDPR' }, category: 'compliance', probability: 2, impact: 4, score: 8, level: 'High', scope: 'it', mitigation: [{ en: 'Enhance security measures', ar: 'تعزيز التدابير الأمنية' }], status: 'mitigating' },
+        { id: 'RSK-005', risk: { en: 'Data Security Breach', ar: 'خرق أمن البيانات' }, category: 'cyber', probability: 2, impact: 5, score: 10, level: 'High', scope: 'it', mitigation: [{ en: 'Encrypt sensitive data', ar: 'تشفير البيانات الحساسة' }, { en: 'Regular security audits', ar: 'مراجعات أمنية دورية' }], status: 'identified' },
     ],
     requirements: [
         { id: 'REQ-001', code: 'DON-USA-01', title: {en: 'USAID Grant Reporting', ar: 'تقارير منحة USAID'}, source: 'donor', sourceName: {en: 'USAID', ar: 'الوكالة الأمريكية للتنمية'}, priority: 'high', nextDueDate: '2024-09-30', status: 'active' },

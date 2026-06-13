@@ -34,10 +34,14 @@ const AuditTab: React.FC<AuditTabProps> = ({ log }) => {
                   })}
                 </td>
                 <td className="p-2">{entry.userId}</td>
-                <td className="p-2 capitalize">{entry.module}</td>
-                <td className="p-2 capitalize">{entry.action}</td>
+                <td className="p-2">
+                  {t(`grc.audit.modules.${entry.module}`, entry.module)}
+                </td>
+                <td className="p-2">
+                  {t(`grc.audit.actions.${entry.action}`, entry.action)}
+                </td>
                 <td className="p-2 font-mono text-xs">
-                  {entry.recordType}:{entry.recordId}
+                  {t(`grc.audit.recordTypes.${entry.recordType}`, entry.recordType)}:{entry.recordId}
                 </td>
               </tr>
             ))}

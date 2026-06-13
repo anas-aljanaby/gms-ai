@@ -18,13 +18,27 @@
       "highRisks": "High Risks",
       "activeRisks": "Active Risks",
       "activePolicies": "Active Policies",
-      "riskMatrix": "Risk Matrix"
+      "riskMatrix": "Risk Matrix",
+      "riskCount": "{{count}} risks"
     },
     "governance": {
       "newPolicy": "New Policy",
       "newDecision": "New Decision",
       "policies": "Policies",
       "decisions": "Decisions",
+      "effectiveDate": "Effective Date",
+      "versionPlaceholder": "e.g., 1.0",
+      "decisionImpact": "Impact",
+      "policyCategories": {
+        "compliance": "Compliance",
+        "financial": "Financial",
+        "hr": "Human Resources"
+      },
+      "impactLevels": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
       "statuses": {
         "draft": "Draft",
         "active": "Active",
@@ -44,6 +58,10 @@
         "reviewDate": "Review Date",
         "decisionTitle": "Decision Title",
         "date": "Date"
+      },
+      "toasts": {
+        "policyLogged": "New policy has been logged for creation.",
+        "decisionLogged": "New decision has been logged for creation."
       }
     },
     "risk": {
@@ -56,6 +74,39 @@
       "logRisk": "Log Risk",
       "level": "Level",
       "scope": "Scope",
+      "levels": {
+        "Critical": "Critical",
+        "High": "High",
+        "Medium": "Medium",
+        "Low": "Low"
+      },
+      "categories": {
+        "financial": "Financial",
+        "operational": "Operational",
+        "reputational": "Reputational",
+        "compliance": "Compliance",
+        "cyber": "Cyber/Technical"
+      },
+      "categoryOptions": {
+        "cyber": "Cyber/Technical",
+        "financial": "Financial",
+        "compliance": "Compliance/Regulatory",
+        "operational": "Operations",
+        "reputational": "Reputation"
+      },
+      "scopes": {
+        "project": "Project",
+        "organization": "Organization",
+        "public_relations": "Public Relations",
+        "it": "IT",
+        "global": "Global"
+      },
+      "form": {
+        "description": "Risk Description",
+        "category": "Category",
+        "impact": "Impact (1-5)",
+        "probability": "Probability (1-5)"
+      },
       "table": {
         "description": "Description",
         "score": "Score"
@@ -68,7 +119,11 @@
       },
       "mitigation": {
         "title": "Mitigation Measures",
-        "update": "Update Mitigation"
+        "update": "Update Mitigation",
+        "placeholder": "Newly logged mitigation plan to be defined."
+      },
+      "toasts": {
+        "logged": "Risk has been logged."
       }
     },
     "compliance": {
@@ -132,6 +187,21 @@
     },
     "audit": {
       "title": "Audit Log",
+      "modules": {
+        "risk": "Risk",
+        "governance": "Governance",
+        "compliance": "Compliance"
+      },
+      "actions": {
+        "create": "Create",
+        "update": "Update",
+        "delete": "Delete"
+      },
+      "recordTypes": {
+        "Risk": "Risk",
+        "Policy": "Policy",
+        "Assessment": "Assessment"
+      },
       "table": {
         "date": "Date",
         "user": "User",

@@ -17,7 +17,7 @@ interface GrcPageProps {
 }
 
 const GrcPage: React.FC<GrcPageProps> = ({ grcData = MOCK_GRC_DATA }) => {
-  const { t } = useLocalization(['common', 'grc', 'projects', 'sidebar']);
+  const { t } = useLocalization(['common', 'grc', 'projects', 'sidebar', 'compliance']);
   const [activeTab, setActiveTab] = useState('overview');
 
   const tabs = [

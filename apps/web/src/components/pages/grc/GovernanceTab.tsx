@@ -77,7 +77,9 @@ const GovernanceTab: React.FC<GovernanceTabProps> = ({ policies, decisions }) =>
                     <td className="p-2 font-semibold text-foreground dark:text-dark-foreground">
                       {policy.title[language]}
                     </td>
-                    <td className="p-2 text-foreground dark:text-dark-foreground">{policy.category}</td>
+                    <td className="p-2 text-foreground dark:text-dark-foreground">
+                      {t(`grc.governance.policyCategories.${policy.category}`, policy.category)}
+                    </td>
                     <td className="p-2 text-foreground dark:text-dark-foreground">{policy.version}</td>
                     <td className="p-2">
                       <PolicyStatusBadge status={policy.status} />

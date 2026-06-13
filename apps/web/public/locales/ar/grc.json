@@ -18,13 +18,27 @@
       "highRisks": "مخاطر عالية",
       "activeRisks": "مخاطر نشطة",
       "activePolicies": "سياسات نشطة",
-      "riskMatrix": "مصفوفة المخاطر"
+      "riskMatrix": "مصفوفة المخاطر",
+      "riskCount": "{{count}} مخاطر"
     },
     "governance": {
       "newPolicy": "سياسة جديدة",
       "newDecision": "قرار جديد",
       "policies": "السياسات",
       "decisions": "القرارات",
+      "effectiveDate": "تاريخ السريان",
+      "versionPlaceholder": "مثال: 1.0",
+      "decisionImpact": "الأثر",
+      "policyCategories": {
+        "compliance": "امتثال",
+        "financial": "مالي",
+        "hr": "موارد بشرية"
+      },
+      "impactLevels": {
+        "low": "منخفض",
+        "medium": "متوسط",
+        "high": "عالٍ"
+      },
       "statuses": {
         "draft": "مسودة",
         "active": "نشط",
@@ -44,6 +58,10 @@
         "reviewDate": "تاريخ المراجعة",
         "decisionTitle": "عنوان القرار",
         "date": "التاريخ"
+      },
+      "toasts": {
+        "policyLogged": "تم تسجيل السياسة الجديدة للإنشاء.",
+        "decisionLogged": "تم تسجيل القرار الجديد للإنشاء."
       }
     },
     "risk": {
@@ -56,6 +74,39 @@
       "logRisk": "تسجيل مخاطرة",
       "level": "المستوى",
       "scope": "النطاق",
+      "levels": {
+        "Critical": "حرج",
+        "High": "عالٍ",
+        "Medium": "متوسط",
+        "Low": "منخفض"
+      },
+      "categories": {
+        "financial": "مالي",
+        "operational": "تشغيلي",
+        "reputational": "سمعة",
+        "compliance": "امتثال",
+        "cyber": "سيبراني/تقني"
+      },
+      "categoryOptions": {
+        "cyber": "سيبراني/تقني",
+        "financial": "مالي",
+        "compliance": "امتثال/تنظيمي",
+        "operational": "عمليات",
+        "reputational": "سمعة"
+      },
+      "scopes": {
+        "project": "مشروع",
+        "organization": "منظمة",
+        "public_relations": "علاقات عامة",
+        "it": "تقنية المعلومات",
+        "global": "عالمي"
+      },
+      "form": {
+        "description": "وصف المخاطرة",
+        "category": "الفئة",
+        "impact": "الأثر (1-5)",
+        "probability": "الاحتمالية (1-5)"
+      },
       "table": {
         "description": "الوصف",
         "score": "الدرجة"
@@ -68,7 +119,11 @@
       },
       "mitigation": {
         "title": "التدابير الوقائية",
-        "update": "تحديث التدابير"
+        "update": "تحديث التدابير",
+        "placeholder": "خطة تخفيف جديدة بحاجة إلى تحديد."
+      },
+      "toasts": {
+        "logged": "تم تسجيل المخاطرة."
       }
     },
     "compliance": {
@@ -132,6 +187,21 @@
     },
     "audit": {
       "title": "سجل التدقيق",
+      "modules": {
+        "risk": "المخاطر",
+        "governance": "الحوكمة",
+        "compliance": "الامتثال"
+      },
+      "actions": {
+        "create": "إنشاء",
+        "update": "تحديث",
+        "delete": "حذف"
+      },
+      "recordTypes": {
+        "Risk": "مخاطرة",
+        "Policy": "سياسة",
+        "Assessment": "تقييم"
+      },
       "table": {
         "date": "التاريخ",
         "user": "المستخدم",
