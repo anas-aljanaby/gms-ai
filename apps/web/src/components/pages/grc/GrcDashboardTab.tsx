@@ -8,9 +8,8 @@ import {
 } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
 import type { GrcData } from '../../../types';
-import AiCard from '../ai/AiCard';
 import StatCard from './StatCard';
-import DashboardRiskMatrix from './DashboardRiskMatrix';
+import RiskMatrix from './RiskMatrix';
 
 interface GrcDashboardTabProps {
   grcData: GrcData;
@@ -57,20 +56,7 @@ const GrcDashboardTab: React.FC<GrcDashboardTabProps> = ({ grcData }) => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <AiCard title={t('grc.dashboard.recentActivity')}>
-            <div className="h-64 flex items-center justify-center text-gray-400">
-              {t('grc.dashboard.underConstruction')}
-            </div>
-          </AiCard>
-        </div>
-        <div className="lg:col-span-1">
-          <AiCard title="">
-            <DashboardRiskMatrix risks={grcData.risks} />
-          </AiCard>
-        </div>
-      </div>
+      <RiskMatrix risks={grcData.risks} onCellClick={() => {}} activeCell={null} />
     </div>
   );
 };

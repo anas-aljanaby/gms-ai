@@ -17,7 +17,7 @@ interface GrcPageProps {
 
 const GrcPage: React.FC<GrcPageProps> = ({ grcData = MOCK_GRC_DATA }) => {
   const { t } = useLocalization(['common', 'grc', 'projects', 'sidebar']);
-  const [activeTab, setActiveTab] = useState('risk');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const tabs = [
     { id: 'dashboard', label: t('grc.tabs.dashboard') },

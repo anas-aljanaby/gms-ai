@@ -4,19 +4,13 @@ import {
   BarChart3,
   Search,
   CirclePlus,
-  ThumbsDown,
-  Shield,
-  TrendingDown,
-  Gavel,
 } from 'lucide-react';
 import { useLocalization } from '../../../hooks/useLocalization';
-import { COMMON_RISKS } from '../../../data/grcCommonRisks';
 import type { GrcRisk, GrcRiskLevel } from '../../../types';
 import AiCard from '../ai/AiCard';
 import StatCard from './StatCard';
 import RiskMatrix from './RiskMatrix';
 import RiskStatusBadge from './RiskStatusBadge';
-import CommonRiskCard from './CommonRiskCard';
 import RiskDetailModal from './RiskDetailModal';
 import LogRiskModal, { type LogRiskPayload } from './LogRiskModal';
 import { getRiskLevelCardStyles } from './utils';
@@ -24,16 +18,6 @@ import { getRiskLevelCardStyles } from './utils';
 interface RiskTabProps {
   risks: GrcRisk[];
 }
-
-type CommonRiskFilter = 'all' | 'operational' | 'compliance' | 'reputation' | 'data' | 'funding';
-
-const categoryFilterMap: Record<Exclude<CommonRiskFilter, 'all'>, string[]> = {
-  funding: ['مالي'],
-  data: ['سيبراني', 'تقني'],
-  reputation: ['سمعة'],
-  compliance: ['امتثال', 'قانوني'],
-  operational: ['عمليات', 'تشغيلي'],
-};
 
 const LevelBadge: React.FC<{ level: GrcRiskLevel }> = ({ level }) => {
   const { text, bg } = getRiskLevelCardStyles(level);
@@ -48,52 +32,6 @@ const RiskTab: React.FC<RiskTabProps> = ({ risks: initialRisks }) => {
   const [registerSearch, setRegisterSearch] = useState('');
   const [selectedRisk, setSelectedRisk] = useState<GrcRisk | null>(null);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
-  const [commonSearch, setCommonSearch] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<CommonRiskFilter>('all');
-
-  const filterButtons = [
-    {
-      id: 'operational' as const,
-      label: t('grc.risk.common.operational'),
-      icon: <TriangleAlert className="w-6 h-6 text-yellow-600" />,
-      color: 'text-yellow-600',
-    },
-    {
-      id: 'compliance' as const,
-      label: t('grc.risk.common.compliance'),
-      icon: <Gavel className="w-6 h-6 text-purple-600" />,
-      color: 'text-purple-600',
-    },
-    {
-      id: 'reputation' as const,
-      label: t('grc.risk.common.reputation'),
-      icon: <ThumbsDown className="w-6 h-6 text-orange-600" />,
-      color: 'text-orange-600',
-    },
-    {
-      id: 'data' as const,
-      label: t('grc.risk.common.data'),
-      icon: <Shield className="w-6 h-6 text-blue-600" />,
-      color: 'text-blue-600',
-    },
-    {
-      id: 'funding' as const,
-      label: t('grc.risk.common.funding'),
-      icon: <TrendingDown className="w-6 h-6 text-red-600" />,
-      color: 'text-red-600',
-    },
-  ];
-
-  const filteredCommonRisks = useMemo(() => {
-    return COMMON_RISKS.filter((risk) => {
-      const matchesCategory =
-        categoryFilter === 'all' ||
-        categoryFilterMap[categoryFilter].some((token) => risk.category.includes(token));
-      const matchesSearch =
-        commonSearch === '' || risk.risk.toLowerCase().includes(commonSearch.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
-  }, [categoryFilter, commonSearch]);
 
   const stats = useMemo(
     () => ({
@@ -222,63 +160,7 @@ const RiskTab: React.FC<RiskTabProps> = ({ risks: initialRisks }) => {
           </div>
         </AiCard>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          <div className="lg:col-span-2">
-            <RiskMatrix risks={risks} onCellClick={() => {}} activeCell={null} />
-          </div>
-          <div className="lg:col-span-3">
-            <div className="bg-card dark:bg-dark-card rounded-2xl shadow-soft border dark:border-slate-700/50 h-full flex flex-col">
-              <div className="p-4 border-b dark:border-slate-700">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                  <h3 className="font-bold text-lg">{t('grc.risk.commonRisks')}</h3>
-                  <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <div className="relative flex-grow">
-                      <Search className="w-4 h-4 absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
-                      <input
-                        type="text"
-                        value={commonSearch}
-                        onChange={(e) => setCommonSearch(e.target.value)}
-                        placeholder={t('grc.risk.searchPlaceholder')}
-                        className="w-full p-2 pl-10 border rounded-lg bg-gray-50 dark:bg-slate-800 dark:border-slate-600"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-                  {filterButtons.map((btn) => (
-                    <button
-                      key={btn.id}
-                      type="button"
-                      onClick={() =>
-                        setCategoryFilter((prev) => (prev === btn.id ? 'all' : btn.id))
-                      }
-                      className={`p-2 rounded-lg text-center transition-all duration-200 border-2 ${
-                        categoryFilter === btn.id
-                          ? 'bg-primary-light/50 border-primary'
-                          : 'bg-gray-100 dark:bg-slate-800 border-transparent hover:border-gray-300'
-                      }`}
-                    >
-                      <div className="mx-auto w-10 h-10 flex items-center justify-center">
-                        {btn.icon}
-                      </div>
-                      <p className={`text-xs font-semibold mt-1 ${btn.color}`}>{btn.label}</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="p-4 flex-grow overflow-y-auto">
-                <div className="grid grid-cols-1 gap-4">
-                  {filteredCommonRisks.map((risk) => (
-                    <CommonRiskCard key={risk.id} risk={risk} />
-                  ))}
-                </div>
-                {filteredCommonRisks.length === 0 && (
-                  <p className="text-center text-gray-500 py-8">لا توجد مخاطر مطابقة.</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        <RiskMatrix risks={risks} onCellClick={() => {}} activeCell={null} />
       </div>
 
       {selectedRisk && (

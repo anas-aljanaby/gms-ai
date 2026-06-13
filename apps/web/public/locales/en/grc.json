@@ -13,8 +13,6 @@
       "highRisks": "High Risks",
       "activeRisks": "Active Risks",
       "activePolicies": "Active Policies",
-      "recentActivity": "Recent Activity",
-      "underConstruction": "Under construction",
       "riskMatrix": "Risk Matrix"
     },
     "governance": {
@@ -51,19 +49,11 @@
       "register": "Risk Register",
       "searchPlaceholder": "Search risks...",
       "logRisk": "Log Risk",
-      "commonRisks": "Common Risks Library",
       "level": "Level",
       "scope": "Scope",
       "table": {
         "description": "Description",
         "score": "Score"
-      },
-      "common": {
-        "operational": "Operational",
-        "compliance": "Compliance",
-        "reputation": "Reputation",
-        "data": "Data & Cyber",
-        "funding": "Funding"
       },
       "statuses": {
         "identified": "Identified",
